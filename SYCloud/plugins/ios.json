@@ -1,0 +1,49 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-camera": {
+            "CAMERA_USAGE_DESCRIPTION": " ",
+            "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-geolocation": {
+            "GEOLOCATION_USAGE_DESCRIPTION": " ",
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-vibration": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.sycloud.SYCloud"
+        }
+    }
+}
