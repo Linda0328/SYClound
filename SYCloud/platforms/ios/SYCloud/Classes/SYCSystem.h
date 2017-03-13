@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SYCSystem : NSObject
+extern NSString *const loadToken;
 
+@interface SYCSystem : NSObject
++(NSString*)baseURL;
++(NSString*)secondsForNow;
++(NSString*)sinagureForReq;
 @end
