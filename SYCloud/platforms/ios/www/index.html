@@ -17,33 +17,57 @@
     specific language governing permissions and limitations
     under the License.
 -->
+<!--<html>-->
+<!--    <head>-->
+<!--        <!---->
+<!--        Customize this policy to fit your own app's needs. For more guidance, see:-->
+<!--            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy-->
+<!--        Some notes:-->
+<!--            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication-->
+<!--            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly-->
+<!--            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:-->
+<!--                * Enable inline JS: add 'unsafe-inline' to default-src-->
+<!--        -->-->
+<!--        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">-->
+<!--        <meta name="format-detection" content="telephone=no">-->
+<!--        <meta name="msapplication-tap-highlight" content="no">-->
+<!--        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">-->
+<!--        <link rel="stylesheet" type="text/css" href="css/index.css">-->
+<!--        <title>Hello World</title>-->
+<!--    </head>-->
+<!--    <body>-->
+<!--        <div class="app">-->
+<!--            <h1>Apache Cordova</h1>-->
+<!--            <div id="deviceready" class="blink">-->
+<!--                <p class="event listening">Connecting to Device</p>-->
+<!--                <p class="event received">Device is Ready</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <script type="text/javascript" src="cordova.js"></script>-->
+<!--        <script type="text/javascript" src="js/index.js"></script>-->
+<!--    </body>-->
+<!--</html>-->
 <html>
     <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-    </body>
+        <meta charset="utf-8">
+            <meta name="format-detection" content="telephone=no">
+                <meta name="msapplication-tap-highlight" content="no">
+                    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+                        <!-- syapp system css -->
+                        <link rel="stylesheet" type="text/css" href="css/system.css">
+                            <!-- apache cordova javascript -->
+                            <script type="text/javascript" src="cordova.js"></script>
+                            <!-- third-party javascript -->
+                            <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+                            <script type="text/javascript" src="js/jquery.lazyload.min.js"></script>
+                            <script type="text/javascript" src="js/rsa/jsbn.js"></script>
+                            <script type="text/javascript" src="js/rsa/prng4.js"></script>
+                            <script type="text/javascript" src="js/rsa/rng.js"></script>
+                            <script type="text/javascript" src="js/rsa/rsa.js"></script>
+                            <script type="text/javascript" src="js/rsa/base64.js"></script>
+                            <script type="text/javascript" src="js/template-native.js"></script>
+                            <!-- shengyuan app javascript -->
+                            <script type="text/javascript" src="js/common.js"></script>
+                            </head>
+    <body><div class="load-center"></div></body>
 </html>
