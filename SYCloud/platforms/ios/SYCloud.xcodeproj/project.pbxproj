@@ -34,6 +34,8 @@
 		D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = A884C9C097864323869DE722 /* Toast+UIView.m */; };
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
+		EE8438071E76330D00102DED /* SYCHttpReqTool.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8438061E76330D00102DED /* SYCHttpReqTool.m */; };
+		EE84380A1E7633F800102DED /* SYCShareVersionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8438091E7633F800102DED /* SYCShareVersionInfo.m */; };
 		EE9E682C1E73F96000723A2C /* SYCSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E682B1E73F96000723A2C /* SYCSystem.m */; };
 		F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCD32EA3D984DFDBCA99FE2 /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -108,6 +110,10 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		EE8438051E76330D00102DED /* SYCHttpReqTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCHttpReqTool.h; sourceTree = "<group>"; };
+		EE8438061E76330D00102DED /* SYCHttpReqTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCHttpReqTool.m; sourceTree = "<group>"; };
+		EE8438081E7633F800102DED /* SYCShareVersionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCShareVersionInfo.h; sourceTree = "<group>"; };
+		EE8438091E7633F800102DED /* SYCShareVersionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCShareVersionInfo.m; sourceTree = "<group>"; };
 		EE9E682A1E73F96000723A2C /* SYCSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSystem.h; sourceTree = "<group>"; };
 		EE9E682B1E73F96000723A2C /* SYCSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSystem.m; sourceTree = "<group>"; };
 		F4EE1BD21CB1415CB4C2AD40 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = "cordova-plugin-file/CDVLocalFilesystem.h"; sourceTree = "<group>"; };
@@ -279,6 +285,10 @@
 			children = (
 				EE9E682A1E73F96000723A2C /* SYCSystem.h */,
 				EE9E682B1E73F96000723A2C /* SYCSystem.m */,
+				EE8438051E76330D00102DED /* SYCHttpReqTool.h */,
+				EE8438061E76330D00102DED /* SYCHttpReqTool.m */,
+				EE8438081E7633F800102DED /* SYCShareVersionInfo.h */,
+				EE8438091E7633F800102DED /* SYCShareVersionInfo.m */,
 			);
 			name = SYClasses;
 			path = SYCloud/Classes;
@@ -383,9 +393,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE8438071E76330D00102DED /* SYCHttpReqTool.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
+				EE84380A1E7633F800102DED /* SYCShareVersionInfo.m in Sources */,
 				094541D977614FD69CA43E61 /* CDVDevice.m in Sources */,
 				83DD878B14E1419EA30544A6 /* UIImage+CropScaleOrientation.m in Sources */,
 				CA6AB10D4F5E4D02ADD7E86F /* CDVCamera.m in Sources */,
