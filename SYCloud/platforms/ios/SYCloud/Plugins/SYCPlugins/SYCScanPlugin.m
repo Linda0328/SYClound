@@ -17,7 +17,7 @@
     [self.commandDelegate runInBackground:^{
         //        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:[SYShareVersionInfo sharedVersion].scanResult];
         //        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-        [SYCShareVersionInfo sharedVersion].scanPluginID = command.callbackId;
+//        [SYCShareVersionInfo sharedVersion].scanPluginID = command.callbackId;
     }];
 }
 
