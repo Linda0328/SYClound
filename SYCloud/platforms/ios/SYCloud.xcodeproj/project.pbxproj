@@ -34,9 +34,24 @@
 		D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = A884C9C097864323869DE722 /* Toast+UIView.m */; };
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
-		EE8438071E76330D00102DED /* SYCHttpReqTool.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8438061E76330D00102DED /* SYCHttpReqTool.m */; };
-		EE84380A1E7633F800102DED /* SYCShareVersionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8438091E7633F800102DED /* SYCShareVersionInfo.m */; };
-		EE9E682C1E73F96000723A2C /* SYCSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9E682B1E73F96000723A2C /* SYCSystem.m */; };
+		EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */; };
+		EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */; };
+		EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */; };
+		EE95FF701E7F7DAB00C35C2A /* SYCLoactionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF621E7F7DAB00C35C2A /* SYCLoactionPlugin.m */; };
+		EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF641E7F7DAB00C35C2A /* SYCLoadingPlugin.m */; };
+		EE95FF721E7F7DAB00C35C2A /* SYCPaymentPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF661E7F7DAB00C35C2A /* SYCPaymentPlugin.m */; };
+		EE95FF731E7F7DAB00C35C2A /* SYCScanPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF681E7F7DAB00C35C2A /* SYCScanPlugin.m */; };
+		EE95FF741E7F7DAB00C35C2A /* SYCSecurePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF6A1E7F7DAB00C35C2A /* SYCSecurePlugin.m */; };
+		EE95FF751E7F7DAB00C35C2A /* SYCVersionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF6C1E7F7DAB00C35C2A /* SYCVersionPlugin.m */; };
+		EE95FF7E1E7F7EC600C35C2A /* SYCHttpReqTool.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF791E7F7EC600C35C2A /* SYCHttpReqTool.m */; };
+		EE95FF7F1E7F7EC600C35C2A /* SYCShareVersionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */; };
+		EE95FF801E7F7EC600C35C2A /* SYCSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF7D1E7F7EC600C35C2A /* SYCSystem.m */; };
+		EE95FF8E1E7F7ECD00C35C2A /* SYCEventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF831E7F7ECD00C35C2A /* SYCEventModel.m */; };
+		EE95FF8F1E7F7ECD00C35C2A /* SYCMainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF851E7F7ECD00C35C2A /* SYCMainModel.m */; };
+		EE95FF901E7F7ECD00C35C2A /* SYCMainPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF871E7F7ECD00C35C2A /* SYCMainPageModel.m */; };
+		EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF891E7F7ECD00C35C2A /* SYCNavigationBarModel.m */; };
+		EE95FF921E7F7ECD00C35C2A /* SYCNavTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF8B1E7F7ECD00C35C2A /* SYCNavTitleModel.m */; };
+		EE95FF931E7F7ECD00C35C2A /* SYCTabBarItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF8D1E7F7ECD00C35C2A /* SYCTabBarItemModel.m */; };
 		F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCD32EA3D984DFDBCA99FE2 /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -110,12 +125,42 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		EE8438051E76330D00102DED /* SYCHttpReqTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCHttpReqTool.h; sourceTree = "<group>"; };
-		EE8438061E76330D00102DED /* SYCHttpReqTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCHttpReqTool.m; sourceTree = "<group>"; };
-		EE8438081E7633F800102DED /* SYCShareVersionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCShareVersionInfo.h; sourceTree = "<group>"; };
-		EE8438091E7633F800102DED /* SYCShareVersionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCShareVersionInfo.m; sourceTree = "<group>"; };
-		EE9E682A1E73F96000723A2C /* SYCSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSystem.h; sourceTree = "<group>"; };
-		EE9E682B1E73F96000723A2C /* SYCSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSystem.m; sourceTree = "<group>"; };
+		EE95FF5B1E7F7DAB00C35C2A /* SYCCachePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCCachePlugin.h; sourceTree = "<group>"; };
+		EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCachePlugin.m; sourceTree = "<group>"; };
+		EE95FF5D1E7F7DAB00C35C2A /* SYCEventPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCEventPlugin.h; sourceTree = "<group>"; };
+		EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCEventPlugin.m; sourceTree = "<group>"; };
+		EE95FF5F1E7F7DAB00C35C2A /* SYCIntentPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCIntentPlugin.h; sourceTree = "<group>"; };
+		EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCIntentPlugin.m; sourceTree = "<group>"; };
+		EE95FF611E7F7DAB00C35C2A /* SYCLoactionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCLoactionPlugin.h; sourceTree = "<group>"; };
+		EE95FF621E7F7DAB00C35C2A /* SYCLoactionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCLoactionPlugin.m; sourceTree = "<group>"; };
+		EE95FF631E7F7DAB00C35C2A /* SYCLoadingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCLoadingPlugin.h; sourceTree = "<group>"; };
+		EE95FF641E7F7DAB00C35C2A /* SYCLoadingPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCLoadingPlugin.m; sourceTree = "<group>"; };
+		EE95FF651E7F7DAB00C35C2A /* SYCPaymentPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentPlugin.h; sourceTree = "<group>"; };
+		EE95FF661E7F7DAB00C35C2A /* SYCPaymentPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentPlugin.m; sourceTree = "<group>"; };
+		EE95FF671E7F7DAB00C35C2A /* SYCScanPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCScanPlugin.h; sourceTree = "<group>"; };
+		EE95FF681E7F7DAB00C35C2A /* SYCScanPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCScanPlugin.m; sourceTree = "<group>"; };
+		EE95FF691E7F7DAB00C35C2A /* SYCSecurePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSecurePlugin.h; sourceTree = "<group>"; };
+		EE95FF6A1E7F7DAB00C35C2A /* SYCSecurePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSecurePlugin.m; sourceTree = "<group>"; };
+		EE95FF6B1E7F7DAB00C35C2A /* SYCVersionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCVersionPlugin.h; sourceTree = "<group>"; };
+		EE95FF6C1E7F7DAB00C35C2A /* SYCVersionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCVersionPlugin.m; sourceTree = "<group>"; };
+		EE95FF781E7F7EC600C35C2A /* SYCHttpReqTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCHttpReqTool.h; sourceTree = "<group>"; };
+		EE95FF791E7F7EC600C35C2A /* SYCHttpReqTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCHttpReqTool.m; sourceTree = "<group>"; };
+		EE95FF7A1E7F7EC600C35C2A /* SYCShareVersionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCShareVersionInfo.h; sourceTree = "<group>"; };
+		EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCShareVersionInfo.m; sourceTree = "<group>"; };
+		EE95FF7C1E7F7EC600C35C2A /* SYCSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSystem.h; sourceTree = "<group>"; };
+		EE95FF7D1E7F7EC600C35C2A /* SYCSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSystem.m; sourceTree = "<group>"; };
+		EE95FF821E7F7ECD00C35C2A /* SYCEventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCEventModel.h; sourceTree = "<group>"; };
+		EE95FF831E7F7ECD00C35C2A /* SYCEventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCEventModel.m; sourceTree = "<group>"; };
+		EE95FF841E7F7ECD00C35C2A /* SYCMainModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCMainModel.h; sourceTree = "<group>"; };
+		EE95FF851E7F7ECD00C35C2A /* SYCMainModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCMainModel.m; sourceTree = "<group>"; };
+		EE95FF861E7F7ECD00C35C2A /* SYCMainPageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCMainPageModel.h; sourceTree = "<group>"; };
+		EE95FF871E7F7ECD00C35C2A /* SYCMainPageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCMainPageModel.m; sourceTree = "<group>"; };
+		EE95FF881E7F7ECD00C35C2A /* SYCNavigationBarModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCNavigationBarModel.h; sourceTree = "<group>"; };
+		EE95FF891E7F7ECD00C35C2A /* SYCNavigationBarModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCNavigationBarModel.m; sourceTree = "<group>"; };
+		EE95FF8A1E7F7ECD00C35C2A /* SYCNavTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCNavTitleModel.h; sourceTree = "<group>"; };
+		EE95FF8B1E7F7ECD00C35C2A /* SYCNavTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCNavTitleModel.m; sourceTree = "<group>"; };
+		EE95FF8C1E7F7ECD00C35C2A /* SYCTabBarItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCTabBarItemModel.h; sourceTree = "<group>"; };
+		EE95FF8D1E7F7ECD00C35C2A /* SYCTabBarItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCTabBarItemModel.m; sourceTree = "<group>"; };
 		F4EE1BD21CB1415CB4C2AD40 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = "cordova-plugin-file/CDVLocalFilesystem.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = SYCloud/config.xml; sourceTree = "<group>"; };
 		FA4F6BAE3BE9494DBBB7AEA1 /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocalFilesystem.m; path = "cordova-plugin-file/CDVLocalFilesystem.m"; sourceTree = "<group>"; };
@@ -237,6 +282,7 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				EE95FF5A1E7F7DAB00C35C2A /* SYCPlugins */,
 				1DDEB41D6810463196B7E60B /* CDVDevice.m */,
 				B480182A4A58439B811B161A /* CDVDevice.h */,
 				048E3A39F69741F0A5C54167 /* UIImage+CropScaleOrientation.m */,
@@ -280,15 +326,68 @@
 			name = Staging;
 			sourceTree = "<group>";
 		};
+		EE95FF5A1E7F7DAB00C35C2A /* SYCPlugins */ = {
+			isa = PBXGroup;
+			children = (
+				EE95FF5B1E7F7DAB00C35C2A /* SYCCachePlugin.h */,
+				EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */,
+				EE95FF5D1E7F7DAB00C35C2A /* SYCEventPlugin.h */,
+				EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */,
+				EE95FF5F1E7F7DAB00C35C2A /* SYCIntentPlugin.h */,
+				EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */,
+				EE95FF611E7F7DAB00C35C2A /* SYCLoactionPlugin.h */,
+				EE95FF621E7F7DAB00C35C2A /* SYCLoactionPlugin.m */,
+				EE95FF631E7F7DAB00C35C2A /* SYCLoadingPlugin.h */,
+				EE95FF641E7F7DAB00C35C2A /* SYCLoadingPlugin.m */,
+				EE95FF651E7F7DAB00C35C2A /* SYCPaymentPlugin.h */,
+				EE95FF661E7F7DAB00C35C2A /* SYCPaymentPlugin.m */,
+				EE95FF671E7F7DAB00C35C2A /* SYCScanPlugin.h */,
+				EE95FF681E7F7DAB00C35C2A /* SYCScanPlugin.m */,
+				EE95FF691E7F7DAB00C35C2A /* SYCSecurePlugin.h */,
+				EE95FF6A1E7F7DAB00C35C2A /* SYCSecurePlugin.m */,
+				EE95FF6B1E7F7DAB00C35C2A /* SYCVersionPlugin.h */,
+				EE95FF6C1E7F7DAB00C35C2A /* SYCVersionPlugin.m */,
+			);
+			path = SYCPlugins;
+			sourceTree = "<group>";
+		};
+		EE95FF771E7F7EC600C35C2A /* SYCGlobleTools */ = {
+			isa = PBXGroup;
+			children = (
+				EE95FF781E7F7EC600C35C2A /* SYCHttpReqTool.h */,
+				EE95FF791E7F7EC600C35C2A /* SYCHttpReqTool.m */,
+				EE95FF7A1E7F7EC600C35C2A /* SYCShareVersionInfo.h */,
+				EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */,
+				EE95FF7C1E7F7EC600C35C2A /* SYCSystem.h */,
+				EE95FF7D1E7F7EC600C35C2A /* SYCSystem.m */,
+			);
+			path = SYCGlobleTools;
+			sourceTree = "<group>";
+		};
+		EE95FF811E7F7ECD00C35C2A /* SYCModel */ = {
+			isa = PBXGroup;
+			children = (
+				EE95FF821E7F7ECD00C35C2A /* SYCEventModel.h */,
+				EE95FF831E7F7ECD00C35C2A /* SYCEventModel.m */,
+				EE95FF841E7F7ECD00C35C2A /* SYCMainModel.h */,
+				EE95FF851E7F7ECD00C35C2A /* SYCMainModel.m */,
+				EE95FF861E7F7ECD00C35C2A /* SYCMainPageModel.h */,
+				EE95FF871E7F7ECD00C35C2A /* SYCMainPageModel.m */,
+				EE95FF881E7F7ECD00C35C2A /* SYCNavigationBarModel.h */,
+				EE95FF891E7F7ECD00C35C2A /* SYCNavigationBarModel.m */,
+				EE95FF8A1E7F7ECD00C35C2A /* SYCNavTitleModel.h */,
+				EE95FF8B1E7F7ECD00C35C2A /* SYCNavTitleModel.m */,
+				EE95FF8C1E7F7ECD00C35C2A /* SYCTabBarItemModel.h */,
+				EE95FF8D1E7F7ECD00C35C2A /* SYCTabBarItemModel.m */,
+			);
+			path = SYCModel;
+			sourceTree = "<group>";
+		};
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
-				EE9E682A1E73F96000723A2C /* SYCSystem.h */,
-				EE9E682B1E73F96000723A2C /* SYCSystem.m */,
-				EE8438051E76330D00102DED /* SYCHttpReqTool.h */,
-				EE8438061E76330D00102DED /* SYCHttpReqTool.m */,
-				EE8438081E7633F800102DED /* SYCShareVersionInfo.h */,
-				EE8438091E7633F800102DED /* SYCShareVersionInfo.m */,
+				EE95FF811E7F7ECD00C35C2A /* SYCModel */,
+				EE95FF771E7F7EC600C35C2A /* SYCGlobleTools */,
 			);
 			name = SYClasses;
 			path = SYCloud/Classes;
@@ -398,26 +497,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EE8438071E76330D00102DED /* SYCHttpReqTool.m in Sources */,
+				EE95FF8E1E7F7ECD00C35C2A /* SYCEventModel.m in Sources */,
+				EE95FF7F1E7F7EC600C35C2A /* SYCShareVersionInfo.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
+				EE95FF921E7F7ECD00C35C2A /* SYCNavTitleModel.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				EE84380A1E7633F800102DED /* SYCShareVersionInfo.m in Sources */,
+				EE95FF701E7F7DAB00C35C2A /* SYCLoactionPlugin.m in Sources */,
 				094541D977614FD69CA43E61 /* CDVDevice.m in Sources */,
+				EE95FF8F1E7F7ECD00C35C2A /* SYCMainModel.m in Sources */,
+				EE95FF751E7F7DAB00C35C2A /* SYCVersionPlugin.m in Sources */,
 				83DD878B14E1419EA30544A6 /* UIImage+CropScaleOrientation.m in Sources */,
 				CA6AB10D4F5E4D02ADD7E86F /* CDVCamera.m in Sources */,
+				EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */,
+				EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */,
 				7708061828794CCA9387ED00 /* CDVJpegHeaderWriter.m in Sources */,
 				E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */,
 				C83F01A0ECF3438DB6144049 /* CDVFile.m in Sources */,
+				EE95FF901E7F7ECD00C35C2A /* SYCMainPageModel.m in Sources */,
+				EE95FF741E7F7DAB00C35C2A /* SYCSecurePlugin.m in Sources */,
+				EE95FF731E7F7DAB00C35C2A /* SYCScanPlugin.m in Sources */,
+				EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */,
 				C18824F19B5E455885AB351C /* CDVLocalFilesystem.m in Sources */,
+				EE95FF7E1E7F7EC600C35C2A /* SYCHttpReqTool.m in Sources */,
 				DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */,
 				07A8B9A1F8B647C3AAE0EDF8 /* CDVFileTransfer.m in Sources */,
 				BA9275EC41D34D44B45741AF /* CDVLocation.m in Sources */,
 				C3C575E09E47446381BCDEEF /* CDVStatusBar.m in Sources */,
-				EE9E682C1E73F96000723A2C /* SYCSystem.m in Sources */,
+				EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */,
 				2A8071774CB64E038B1C7366 /* CDVVibration.m in Sources */,
+				EE95FF931E7F7ECD00C35C2A /* SYCTabBarItemModel.m in Sources */,
+				EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */,
 				D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */,
 				66922D104FC949A8A6B1AF42 /* Toast.m in Sources */,
+				EE95FF721E7F7DAB00C35C2A /* SYCPaymentPlugin.m in Sources */,
+				EE95FF801E7F7EC600C35C2A /* SYCSystem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
