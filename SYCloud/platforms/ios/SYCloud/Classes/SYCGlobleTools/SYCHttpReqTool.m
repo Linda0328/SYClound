@@ -10,7 +10,7 @@
 #import "SYCSystem.h"
 #import "SYCShareVersionInfo.h"
 static NSString * const SYVersionParam = @"/app_resources/app/version.json?_";
-static NSString * const SYMainParam = @"/app_resources/app/main.json?_";
+static NSString * const SYMainParam = @"/app_resources/app/index.json?_";
 @implementation SYCHttpReqTool
 +(NSDictionary*)VersionInfo{
     NSString *baseURL = [SYCSystem baseURL];

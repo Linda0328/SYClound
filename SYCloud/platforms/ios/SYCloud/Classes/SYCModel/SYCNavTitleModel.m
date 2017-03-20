@@ -7,7 +7,11 @@
 //
 
 #import "SYCNavTitleModel.h"
-
+NSString *const noneType = @"none";
+NSString *const titleType = @"title";
+NSString *const imageType = @"image";
+NSString *const searchType = @"search";
+NSString *const optionType = @"option";
 @implementation SYCNavTitleModel
 
 @end

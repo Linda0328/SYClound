@@ -27,13 +27,49 @@
 
 #import "AppDelegate.h"
 #import "MainViewController.h"
-
+#import "SYCHttpReqTool.h"
+#import "SYCMainModel.h"
+#import "MJExtension.h"
+#import "SYCEventModel.h"
+#import "SYCNavTitleModel.h"
+#import "SYCTabBarItemModel.h"
+#import "SYCNavigationBarModel.h"
+#import "SYCMainPageModel.h"
+#import "SYCTabViewController.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
-    self.viewController = [[MainViewController alloc] init];
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+    self.window = [[UIWindow alloc] initWithFrame:screenBounds];
+    self.window.autoresizesSubviews = YES;
+    [self setRootViewController];
+//    self.viewController = [[MainViewController alloc] init];
     return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+-(void)setRootViewController{
+    [SYCHttpReqTool VersionInfo];
+    NSDictionary *dic = [SYCHttpReqTool MainData];
+    
+    [SYCNavTitleModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"ID":@"id"};
+    }];
+    [SYCTabBarItemModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
+        return @{@"ID":@"id"};
+    }];
+    [SYCMainPageModel mj_setupObjectClassInArray:^NSDictionary *{
+        return @{@"leftBtns":@"SYCEventModel",
+                 @"rightBtns":@"SYCEventModel",
+                 @"bottomBtns":@"SYCTabBarItemModel",};
+    }];
+    [SYCMainModel mj_setupObjectClassInArray:^NSDictionary *{
+        return @{@"bottomBarConfig":@"SYCNavigationBarModel"};
+    }];
+    SYCMainModel *mainModel = [SYCMainModel mj_objectWithKeyValues:dic];
+    SYCMainPageModel *mainPageModel = [SYCMainPageModel mj_objectWithKeyValues:mainModel.titleBarConfig];
+    SYCTabViewController *tabVC = [[SYCTabViewController alloc]init];
+    [tabVC InitTabBarWithtabbarItems:mainPageModel.bottomBtns navigationBars:mainModel.bottomBarConfig];
+    self.window.rootViewController = tabVC;
 }
 
 @end

@@ -30,7 +30,12 @@
 #import <Cordova/CDVCommandQueue.h>
 
 @interface MainViewController : CDVViewController
+//当前main的上级视图
+@property (nonatomic,strong)MainViewController *lastViewController;
+@property (nonatomic,assign)BOOL isRoot;
+@property (nonatomic,assign)BOOL isChild;
 
+-(void)LoadURL:(NSString*)url;
 @end
 
 @interface MainCommandDelegate : CDVCommandDelegateImpl

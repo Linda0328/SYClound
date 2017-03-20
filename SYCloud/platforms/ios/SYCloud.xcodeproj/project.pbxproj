@@ -103,6 +103,13 @@
 		EE95006F1E7F804A00C35C2A /* LICENCE.txt in Resources */ = {isa = PBXBuildFile; fileRef = EE9500291E7F804A00C35C2A /* LICENCE.txt */; };
 		EE9500701E7F804A00C35C2A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95002B1E7F804A00C35C2A /* Reachability.m */; };
 		EE9500711E7F804A00C35C2A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = EE95002C1E7F804A00C35C2A /* README.md */; };
+		EE9500771E7FBF3E00C35C2A /* SYCTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500761E7FBF3E00C35C2A /* SYCTabViewController.m */; };
+		EE95007A1E7FBFB700C35C2A /* SYCContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500791E7FBFB700C35C2A /* SYCContentViewController.m */; };
+		EE95007E1E7FC21100C35C2A /* HexColor.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95007D1E7FC21100C35C2A /* HexColor.m */; };
+		EE9500811E7FD09500C35C2A /* SYCOptionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500801E7FD09500C35C2A /* SYCOptionModel.m */; };
+		EE9500841E7FD18D00C35C2A /* SYCEventButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500831E7FD18D00C35C2A /* SYCEventButton.m */; };
+		EE9500871E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */; };
+		EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */; };
 		EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */; };
 		EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */; };
 		EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */; };
@@ -233,6 +240,20 @@
 		EE95002A1E7F804A00C35C2A /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		EE95002B1E7F804A00C35C2A /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		EE95002C1E7F804A00C35C2A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		EE9500751E7FBF3E00C35C2A /* SYCTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCTabViewController.h; sourceTree = "<group>"; };
+		EE9500761E7FBF3E00C35C2A /* SYCTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCTabViewController.m; sourceTree = "<group>"; };
+		EE9500781E7FBFB700C35C2A /* SYCContentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCContentViewController.h; sourceTree = "<group>"; };
+		EE9500791E7FBFB700C35C2A /* SYCContentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCContentViewController.m; sourceTree = "<group>"; };
+		EE95007C1E7FC21100C35C2A /* HexColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColor.h; sourceTree = "<group>"; };
+		EE95007D1E7FC21100C35C2A /* HexColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColor.m; sourceTree = "<group>"; };
+		EE95007F1E7FD09500C35C2A /* SYCOptionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCOptionModel.h; sourceTree = "<group>"; };
+		EE9500801E7FD09500C35C2A /* SYCOptionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCOptionModel.m; sourceTree = "<group>"; };
+		EE9500821E7FD18D00C35C2A /* SYCEventButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCEventButton.h; sourceTree = "<group>"; };
+		EE9500831E7FD18D00C35C2A /* SYCEventButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCEventButton.m; sourceTree = "<group>"; };
+		EE9500851E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+SYCNavigationTitle.h"; sourceTree = "<group>"; };
+		EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+SYCNavigationTitle.m"; sourceTree = "<group>"; };
+		EE9500891E7FDCAC00C35C2A /* SYCSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSearchModel.h; sourceTree = "<group>"; };
+		EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSearchModel.m; sourceTree = "<group>"; };
 		EE95FF5B1E7F7DAB00C35C2A /* SYCCachePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCCachePlugin.h; sourceTree = "<group>"; };
 		EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCachePlugin.m; sourceTree = "<group>"; };
 		EE95FF5D1E7F7DAB00C35C2A /* SYCEventPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCEventPlugin.h; sourceTree = "<group>"; };
@@ -397,6 +418,10 @@
 				302D95F014D2391D003F00A1 /* MainViewController.xib */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
+				EE9500751E7FBF3E00C35C2A /* SYCTabViewController.h */,
+				EE9500761E7FBF3E00C35C2A /* SYCTabViewController.m */,
+				EE9500781E7FBFB700C35C2A /* SYCContentViewController.h */,
+				EE9500791E7FBFB700C35C2A /* SYCContentViewController.m */,
 			);
 			name = Classes;
 			path = SYCloud/Classes;
@@ -599,6 +624,15 @@
 			path = Reachability;
 			sourceTree = "<group>";
 		};
+		EE95007B1E7FC1FC00C35C2A /* HexColor */ = {
+			isa = PBXGroup;
+			children = (
+				EE95007C1E7FC21100C35C2A /* HexColor.h */,
+				EE95007D1E7FC21100C35C2A /* HexColor.m */,
+			);
+			path = HexColor;
+			sourceTree = "<group>";
+		};
 		EE95FF5A1E7F7DAB00C35C2A /* SYCPlugins */ = {
 			isa = PBXGroup;
 			children = (
@@ -633,6 +667,10 @@
 				EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */,
 				EE95FF7C1E7F7EC600C35C2A /* SYCSystem.h */,
 				EE95FF7D1E7F7EC600C35C2A /* SYCSystem.m */,
+				EE9500821E7FD18D00C35C2A /* SYCEventButton.h */,
+				EE9500831E7FD18D00C35C2A /* SYCEventButton.m */,
+				EE9500851E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.h */,
+				EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */,
 			);
 			path = SYCGlobleTools;
 			sourceTree = "<group>";
@@ -652,6 +690,10 @@
 				EE95FF8B1E7F7ECD00C35C2A /* SYCNavTitleModel.m */,
 				EE95FF8C1E7F7ECD00C35C2A /* SYCTabBarItemModel.h */,
 				EE95FF8D1E7F7ECD00C35C2A /* SYCTabBarItemModel.m */,
+				EE95007F1E7FD09500C35C2A /* SYCOptionModel.h */,
+				EE9500801E7FD09500C35C2A /* SYCOptionModel.m */,
+				EE9500891E7FDCAC00C35C2A /* SYCSearchModel.h */,
+				EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */,
 			);
 			path = SYCModel;
 			sourceTree = "<group>";
@@ -659,6 +701,7 @@
 		EE95FF941E7F804A00C35C2A /* LIbs */ = {
 			isa = PBXGroup;
 			children = (
+				EE95007B1E7FC1FC00C35C2A /* HexColor */,
 				EE95FF951E7F804A00C35C2A /* AFNetworking */,
 				EE95FFBB1E7F804A00C35C2A /* Masonry */,
 				EE95FFD81E7F804A00C35C2A /* MBProgressHUD */,
@@ -989,12 +1032,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE95FF8E1E7F7ECD00C35C2A /* SYCEventModel.m in Sources */,
+				EE9500811E7FD09500C35C2A /* SYCOptionModel.m in Sources */,
 				EE95004E1E7F804A00C35C2A /* MJExtensionConst.m in Sources */,
 				EE95FF7F1E7F7EC600C35C2A /* SYCShareVersionInfo.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				EE9500441E7F804A00C35C2A /* MASViewConstraint.m in Sources */,
+				EE95007E1E7FC21100C35C2A /* HexColor.m in Sources */,
 				EE9500501E7F804A00C35C2A /* MJProperty.m in Sources */,
 				EE9500571E7F804A00C35C2A /* NSString+MJExtension.m in Sources */,
+				EE9500871E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m in Sources */,
 				EE9500621E7F804A00C35C2A /* MJRefreshBackGifFooter.m in Sources */,
 				EE9500491E7F804A00C35C2A /* README.md in Sources */,
 				EE95005C1E7F804A00C35C2A /* MJRefreshComponent.m in Sources */,
@@ -1003,6 +1049,7 @@
 				EE9500711E7F804A00C35C2A /* README.md in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				EE9500461E7F804A00C35C2A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				EE95007A1E7FBFB700C35C2A /* SYCContentViewController.m in Sources */,
 				EE9500691E7F804A00C35C2A /* MJRefreshConst.m in Sources */,
 				EE95006A1E7F804A00C35C2A /* NSBundle+MJRefresh.m in Sources */,
 				EE9500641E7F804A00C35C2A /* MJRefreshBackStateFooter.m in Sources */,
@@ -1033,7 +1080,9 @@
 				EE9500311E7F804A00C35C2A /* AFURLResponseSerialization.m in Sources */,
 				CA6AB10D4F5E4D02ADD7E86F /* CDVCamera.m in Sources */,
 				EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */,
+				EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */,
 				EE9500381E7F804A00C35C2A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				EE9500771E7FBF3E00C35C2A /* SYCTabViewController.m in Sources */,
 				EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */,
 				EE9500631E7F804A00C35C2A /* MJRefreshBackNormalFooter.m in Sources */,
 				EE9500531E7F804A00C35C2A /* NSObject+MJClass.m in Sources */,
@@ -1046,6 +1095,7 @@
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,
 				EE9500391E7F804A00C35C2A /* UIButton+AFNetworking.m in Sources */,
 				EE95006D1E7F804A00C35C2A /* UIView+MJExtension.m in Sources */,
+				EE9500841E7FD18D00C35C2A /* SYCEventButton.m in Sources */,
 				EE9500551E7F804A00C35C2A /* NSObject+MJKeyValue.m in Sources */,
 				EE9500701E7F804A00C35C2A /* Reachability.m in Sources */,
 				EE9500431E7F804A00C35C2A /* MASViewAttribute.m in Sources */,

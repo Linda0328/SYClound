@@ -26,7 +26,7 @@
 //
 
 #import "MainViewController.h"
-
+#import "SYCSystem.h"
 @implementation MainViewController
 
 - (id)initWithNibName:(NSString*)nibNameOrNil bundle:(NSBundle*)nibBundleOrNil
@@ -75,6 +75,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+}
+-(void)LoadURL:(NSString*)url{
+    
+    self.wwwFolderName = @"www";
+    if ([SYCSystem judgeNSString:url]) {
+        self.startPage = url;
+    }
+    NSURL *appURL = [SYCSystem appUrl:self];
+    NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+    [self.webViewEngine loadRequest:appReq];
 }
 
 - (void)viewDidUnload
