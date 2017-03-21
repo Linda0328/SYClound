@@ -30,8 +30,8 @@
     [verDic setObject:shareVerInfo.remoteUrl forKey:@"remoteUrl"];
     [verDic setObject:shareVerInfo.imageUrl forKey:@"imageUrl"];
 //    [verDic setObject:[SYGlobleConst judgeNSString:shareVerInfo.token]?shareVerInfo.token:@"" forKey:@"token"];
-    [verDic setObject:shareVerInfo.lastAppVersion forKey:@"lastAppVersion"];
-    [verDic setObject:shareVerInfo.lastVersionName forKey:@"lastVersionName"];
+//    [verDic setObject:shareVerInfo.lastAppVersion forKey:@"lastAppVersion"];
+//    [verDic setObject:shareVerInfo.lastVersionName forKey:@"lastVersionName"];
     [verDic setObject:@(shareVerInfo.needUpdate) forKey:@"needUpdate"];
     [verDic setObject:@(shareVerInfo.needPush) forKey:@"needPush"];
     [verDic setObject:shareVerInfo.systemType forKey:@"systemType"];

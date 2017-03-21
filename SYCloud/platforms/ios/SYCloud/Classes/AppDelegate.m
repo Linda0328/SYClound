@@ -36,20 +36,38 @@
 #import "SYCNavigationBarModel.h"
 #import "SYCMainPageModel.h"
 #import "SYCTabViewController.h"
+#import "SYCShareVersionInfo.h"
+#import "NSString+Helper.h"
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+    //    self.viewController = [[MainViewController alloc] init];
+    //    return [super application:application didFinishLaunchingWithOptions:launchOptions];
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
     [self setRootViewController];
-//    self.viewController = [[MainViewController alloc] init];
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+    [self.window makeKeyAndVisible];
+    return YES;
 }
 -(void)setRootViewController{
     [SYCHttpReqTool VersionInfo];
-    NSDictionary *dic = [SYCHttpReqTool MainData];
+    NSDictionary *dic = nil;
+    NSUserDefaults *userdef = [NSUserDefaults standardUserDefaults];
+    NSString *indexV = [userdef objectForKey:SYCIndexVersion];
+    if ([indexV isEqualToString:[SYCShareVersionInfo sharedVersion].indexVersion]) {
+//        // 读取本地缓存首页数据
+//        NSString *jsonPath = [NSString appendJsonFilePathToDocument:SYCIndexJson];
+//        // Json数据
+//        NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
+//        dic = [NSJSONSerialization JSONObjectWithData:[indexData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+        dic = [userdef objectForKey:SYCIndexJson];
+    }else{
+        [userdef setObject:[SYCShareVersionInfo sharedVersion].indexVersion forKey:SYCIndexVersion];
+        dic = [SYCHttpReqTool MainData];
+    }
+    
     
     [SYCNavTitleModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"ID":@"id"};

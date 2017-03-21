@@ -25,10 +25,10 @@
 
 //verison 接口获取数据
 @property (nonatomic,copy)NSString *pageVersion;
-@property (nonatomic,copy)NSString *lastAppVersion;
-@property (nonatomic,copy)NSString *lastVersionName;
+@property (nonatomic,copy)NSString *indexVersion;
 
-@property (nonatomic,copy)NSString *listenPluginID;
+
+@property (nonatomic,copy)NSString *scanPluginID;
 @property (nonatomic,copy)NSString *scanResult;
 
 + (instancetype)sharedVersion;

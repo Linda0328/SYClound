@@ -34,6 +34,7 @@
 		D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = A884C9C097864323869DE722 /* Toast+UIView.m */; };
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
+		EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */; };
 		EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF981E7F804A00C35C2A /* AFHTTPSessionManager.m */; };
 		EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9B1E7F804A00C35C2A /* AFNetworkReachabilityManager.m */; };
 		EE95002F1E7F804A00C35C2A /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9D1E7F804A00C35C2A /* AFSecurityPolicy.m */; };
@@ -201,6 +202,8 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		EE7BE6FC1E80C85B0080D625 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
+		EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helper.m"; sourceTree = "<group>"; };
 		EE9500001E7F804A00C35C2A /* MJRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooter.h; sourceTree = "<group>"; };
 		EE9500011E7F804A00C35C2A /* MJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooter.m; sourceTree = "<group>"; };
 		EE9500021E7F804A00C35C2A /* MJRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeader.h; sourceTree = "<group>"; };
@@ -671,6 +674,8 @@
 				EE9500831E7FD18D00C35C2A /* SYCEventButton.m */,
 				EE9500851E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.h */,
 				EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */,
+				EE7BE6FC1E80C85B0080D625 /* NSString+Helper.h */,
+				EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */,
 			);
 			path = SYCGlobleTools;
 			sourceTree = "<group>";
@@ -1051,6 +1056,7 @@
 				EE9500461E7F804A00C35C2A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				EE95007A1E7FBFB700C35C2A /* SYCContentViewController.m in Sources */,
 				EE9500691E7F804A00C35C2A /* MJRefreshConst.m in Sources */,
+				EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */,
 				EE95006A1E7F804A00C35C2A /* NSBundle+MJRefresh.m in Sources */,
 				EE9500641E7F804A00C35C2A /* MJRefreshBackStateFooter.m in Sources */,
 				EE9500581E7F804A00C35C2A /* README.md in Sources */,

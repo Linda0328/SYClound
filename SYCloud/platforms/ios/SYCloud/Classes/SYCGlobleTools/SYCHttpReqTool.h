@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+extern NSString * const SYCIndexJson;
+extern NSString * const SYCIndexVersion;
 @interface SYCHttpReqTool : NSObject
 +(NSDictionary*)VersionInfo;
 +(NSDictionary*)MainData;

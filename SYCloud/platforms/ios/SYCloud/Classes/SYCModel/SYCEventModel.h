@@ -11,6 +11,7 @@
 @interface SYCEventModel : NSObject
 @property (nonatomic,copy)NSString *ID;
 @property (nonatomic,copy)NSString *ico;
+@property (nonatomic,copy)NSString *name;
 @property (nonatomic,copy)NSString *type;
 @property (nonatomic,strong)NSDictionary *group;
 @end
