@@ -26,6 +26,7 @@
         MainViewController *mainViewC = [[MainViewController alloc]init];
         mainViewC.isRoot = YES;
         mainViewC.startPage = navBarModel.url;
+        mainViewC.isHiddenNavBar = viewC.isHiddenNavigationBar;
         mainViewC.view.frame = rect;
         [viewC.view addSubview:mainViewC.view];
         [viewC addChildViewController:mainViewC];
@@ -33,8 +34,13 @@
         viewC.CurrentChildVC = mainViewC;
         mainViewC.isChild = YES;
         UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:viewC];
-        navC.navigationBar.translucent = NO;
-        navC.navigationBar.hidden = NO;
+        if (viewC.isHiddenNavigationBar) {
+            navC.navigationBar.translucent = YES;
+            navC.navigationBar.hidden = YES;
+        }else{
+            navC.navigationBar.translucent = NO;
+            navC.navigationBar.hidden = NO;
+        }
         UITabBarItem *tabItem = [self tabBarItemWithModle:tabModel titleColor:nil];
         navC.tabBarItem = tabItem;
         [controllers addObject:navC];

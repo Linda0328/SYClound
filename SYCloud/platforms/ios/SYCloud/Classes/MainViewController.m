@@ -76,6 +76,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
 }
+-(void)viewWillLayoutSubviews{
+    if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
+    {
+        CGFloat height = [UIScreen mainScreen].bounds.size.height;
+        CGRect rect = [UIScreen mainScreen].bounds;
+        
+        if (_isRoot) {
+            if (_isHiddenNavBar) {
+                rect.size.height = height - 49;
+            }else{
+               rect.size.height = height -113;
+            }
+        }else{
+            rect.size.height = height - 64;
+        }
+        self.view.frame = rect;
+        self.webView.frame = rect;
+    }
+    
+}
 -(void)LoadURL:(NSString*)url{
     
     self.wwwFolderName = @"www";

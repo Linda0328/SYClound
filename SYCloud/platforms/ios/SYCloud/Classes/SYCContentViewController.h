@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
 #import "SYCNavigationBarModel.h"
+typedef void(^pushViewControllerBlock)(NSString *contentUrl,BOOL isBackToLast,SYCNavigationBarModel *navModel);
 @interface SYCContentViewController : UIViewController
+@property (nonatomic,copy)pushViewControllerBlock pushBlock;
 @property (nonatomic,strong)MainViewController *CurrentChildVC;
-
+@property (nonatomic,assign)BOOL isHiddenNavigationBar;
+@property (nonatomic,assign)BOOL isBackToLast;
 -(void)setNavigationBar:(SYCNavigationBarModel *)navBarModel;
 @end

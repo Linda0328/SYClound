@@ -35,6 +35,8 @@
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
 		EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */; };
+		EE7BE7021E8125D50080D625 /* SYScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7011E8125D50080D625 /* SYScanViewController.m */; };
+		EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */; };
 		EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF981E7F804A00C35C2A /* AFHTTPSessionManager.m */; };
 		EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9B1E7F804A00C35C2A /* AFNetworkReachabilityManager.m */; };
 		EE95002F1E7F804A00C35C2A /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9D1E7F804A00C35C2A /* AFSecurityPolicy.m */; };
@@ -204,6 +206,10 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		EE7BE6FC1E80C85B0080D625 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
 		EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helper.m"; sourceTree = "<group>"; };
+		EE7BE7001E8125D50080D625 /* SYScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYScanViewController.h; sourceTree = "<group>"; };
+		EE7BE7011E8125D50080D625 /* SYScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYScanViewController.m; sourceTree = "<group>"; };
+		EE7BE7031E812DFE0080D625 /* UIImage+SYColorExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SYColorExtension.h"; sourceTree = "<group>"; };
+		EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SYColorExtension.m"; sourceTree = "<group>"; };
 		EE9500001E7F804A00C35C2A /* MJRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooter.h; sourceTree = "<group>"; };
 		EE9500011E7F804A00C35C2A /* MJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooter.m; sourceTree = "<group>"; };
 		EE9500021E7F804A00C35C2A /* MJRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeader.h; sourceTree = "<group>"; };
@@ -425,6 +431,8 @@
 				EE9500761E7FBF3E00C35C2A /* SYCTabViewController.m */,
 				EE9500781E7FBFB700C35C2A /* SYCContentViewController.h */,
 				EE9500791E7FBFB700C35C2A /* SYCContentViewController.m */,
+				EE7BE7001E8125D50080D625 /* SYScanViewController.h */,
+				EE7BE7011E8125D50080D625 /* SYScanViewController.m */,
 			);
 			name = Classes;
 			path = SYCloud/Classes;
@@ -676,6 +684,8 @@
 				EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */,
 				EE7BE6FC1E80C85B0080D625 /* NSString+Helper.h */,
 				EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */,
+				EE7BE7031E812DFE0080D625 /* UIImage+SYColorExtension.h */,
+				EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */,
 			);
 			path = SYCGlobleTools;
 			sourceTree = "<group>";
@@ -1049,6 +1059,7 @@
 				EE9500621E7F804A00C35C2A /* MJRefreshBackGifFooter.m in Sources */,
 				EE9500491E7F804A00C35C2A /* README.md in Sources */,
 				EE95005C1E7F804A00C35C2A /* MJRefreshComponent.m in Sources */,
+				EE7BE7021E8125D50080D625 /* SYScanViewController.m in Sources */,
 				EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */,
 				EE95003F1E7F804A00C35C2A /* MASCompositeConstraint.m in Sources */,
 				EE9500711E7F804A00C35C2A /* README.md in Sources */,
@@ -1070,6 +1081,7 @@
 				EE95004C1E7F804A00C35C2A /* README.mdown in Sources */,
 				EE95004B1E7F804A00C35C2A /* MBProgressHUD.m in Sources */,
 				EE95003B1E7F804A00C35C2A /* UIProgressView+AFNetworking.m in Sources */,
+				EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */,
 				EE9500301E7F804A00C35C2A /* AFURLRequestSerialization.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				EE95FF701E7F7DAB00C35C2A /* SYCLoactionPlugin.m in Sources */,

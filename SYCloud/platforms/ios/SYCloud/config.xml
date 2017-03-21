@@ -22,10 +22,15 @@
     <author email="dev@cordova.apache.org" href="http://cordova.io">
         Apache Cordova Team
     </author>
-    <content src="index.html" />
+    <content src="main.html?pg=home" />
     <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
+    <!--添加这个就可以打开URL的HTML，即加载远程的URL网址-->
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <!--在Cordova中加载同一个域的URL是在App打开，跳转到其他却是用Safari打开，屏蔽一下两句，即会一直在app中进行跳转
+     <allow-intent href="http://*/*" />
+     <allow-intent href="https://*/*" />
+     -->
     <allow-intent href="tel:*" />
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />

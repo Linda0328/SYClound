@@ -192,7 +192,7 @@
         self.startPage = delegate.startPage;
     }
     if (self.startPage == nil) {
-        self.startPage = @"index.html";
+        self.startPage = @"main.html";
     }
 
     // Initialize the plugin objects dict.

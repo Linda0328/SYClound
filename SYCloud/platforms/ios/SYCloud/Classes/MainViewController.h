@@ -34,7 +34,8 @@
 @property (nonatomic,strong)MainViewController *lastViewController;
 @property (nonatomic,assign)BOOL isRoot;
 @property (nonatomic,assign)BOOL isChild;
-
+@property (nonatomic,assign)BOOL isHiddenNavBar;
+@property (nonatomic,copy)NSString *scanResult;
 -(void)LoadURL:(NSString*)url;
 @end
 

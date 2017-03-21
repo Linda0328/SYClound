@@ -9,11 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVViewController.h>
 extern NSString *const loadToken;
-
+extern NSString *const popNotify;
+extern NSString *const scanNotify;
+extern NSString * const bundleID;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)secondsForNow;
-+(NSString*)sinagureForReq;
+//+(NSString*)sinagureForReq;
 +(BOOL)judgeNSString:(NSString*)str;
 +(NSURL*)appUrl:(CDVViewController*)CDV;
 @end
