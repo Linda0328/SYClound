@@ -25,7 +25,7 @@
     
     SYCShareVersionInfo *shareVerInfo = [SYCShareVersionInfo sharedVersion];
     
-    NSMutableDictionary *verDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:shareVerInfo.pageVersion,@"pageVersion",shareVerInfo.appVersion,@"appVersion",shareVerInfo.appVersionName,@"appVersionName",nil];
+    NSMutableDictionary *verDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:shareVerInfo.pageVersion,@"pageVersion",nil];
     
     [verDic setObject:shareVerInfo.remoteUrl forKey:@"remoteUrl"];
     [verDic setObject:shareVerInfo.imageUrl forKey:@"imageUrl"];

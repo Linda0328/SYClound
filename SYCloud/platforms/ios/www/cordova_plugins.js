@@ -1,11 +1,11 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
 module.exports = [
     {
-        "id": "cordova-plugin-device.device",
-        "file": "plugins/cordova-plugin-device/www/device.js",
-        "pluginId": "cordova-plugin-device",
+        "id": "shengyuan-plugin-module.Version",
+        "file": "plugins/shengyuan-plugin-module/www/Version.js",
+        "pluginId": "shengyuan-plugin-module",
         "clobbers": [
-            "device"
+            "syapp.version"
         ]
     },
     {
@@ -313,7 +313,8 @@ module.exports.metadata =
     "cordova-plugin-geolocation": "2.4.2",
     "cordova-plugin-statusbar": "2.2.2",
     "cordova-plugin-vibration": "2.1.4",
-    "cordova-plugin-x-toast": "2.6.0"
+    "cordova-plugin-x-toast": "2.6.0",
+    "shengyuan-plugin-module":"1.0.1"
 };
 // BOTTOM OF METADATA
 });

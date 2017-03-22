@@ -2,6 +2,7 @@ Sy = {
 	version : '1.0'
 };
 Sy.ns = function() {
+   
 	var a = arguments,
 		o = null,
 		i,
@@ -21,6 +22,7 @@ Sy.ns = function() {
 
 Sy.ns('app.error');
 (function(error) {
+ 
 	var error_ftl = '<div class="cz-bat">' +
 		'<div class="bat-img"><img src="img/nanguo.png"></div>' +
 		'<p class="bat-txt">出错了，<%=msg%>，点击重试。</p>' +
@@ -43,6 +45,7 @@ Sy.ns('app.error');
 })(app.error);
 
 jQuery.cachedScript = function(url, callback, cache) {
+    alert('lllll');
 	$.ajax({
 		type : 'GET',
 		url : url,

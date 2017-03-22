@@ -82,4 +82,31 @@
     <feature name="Toast">
         <param name="ios-package" value="Toast" />
     </feature>
+    <feature name="VersionPlugin">
+        <param name="ios-package" value="SYCVersionPlugin" />
+    </feature>
+    <feature name="SecurePlugin">
+        <param name="ios-package" value="SYCSecurePlugin" />
+    </feature>
+    <feature name="ScanPlugin">
+        <param name="ios-package" value="SYCScanPlugin" />
+    </feature>
+    <feature name="PaymentPlugin">
+        <param name="ios-package" value="SYCPaymentPlugin" />
+    </feature>
+    <feature name="LoadingPlugin">
+        <param name="ios-package" value="SYCLoadingPlugin" />
+    </feature>
+    <feature name="LocationPlugin">
+        <param name="ios-package" value="SYCLocationPlugin" />
+    </feature>
+    <feature name="IntentPlugin">
+        <param name="ios-package" value="SYCIntentPlugin" />
+    </feature>
+    <feature name="EventPlugin">
+        <param name="ios-package" value="SYCEventPlugin" />
+    </feature>
+    <feature name="CachePlugin">
+        <param name="ios-package" value="SYCCachePlugin" />
+    </feature>
 </widget>
