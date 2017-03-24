@@ -18,20 +18,22 @@ NSString * const bundleID = @"com.sycloud.SYCloud";
 NSString *const loadToken = @"LoadToken";
 NSString *const popNotify = @"PushVCandReload";
 NSString *const scanNotify = @"PushScanVC";
-
+NSString *const updateNotify = @"updateOrNot";
+NSString *const hideNotify = @"hideNotice";
+NSString *const loadAppNotify = @"LoadApp";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
     if (DEBUG) {
-//         baseURL = SYCloudLocalBaseURLTH;
+//    baseURL = SYCloudLocalBaseURLTH;
       baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
     }else{
       baseURL = SYCloudFormalBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = YES;
     }
+    [SYCShareVersionInfo sharedVersion].remoteUrl = baseURL;
     return baseURL;
-    return SYCloudTestBaseURL;
 }
 +(NSString*)imagLoadURL{
     NSString *imagLoadURL = nil;
@@ -40,6 +42,7 @@ NSString *const scanNotify = @"PushScanVC";
     //    }else{
     imagLoadURL = SYCloudImageLoadBaseURL;
     //    }
+    [SYCShareVersionInfo sharedVersion].imageUrl = imagLoadURL;
     return imagLoadURL;
 }
 +(NSString*)secondsForNow{

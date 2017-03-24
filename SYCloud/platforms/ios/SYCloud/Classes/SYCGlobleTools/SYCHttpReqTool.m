@@ -17,6 +17,7 @@ NSString * const SYCIndexVersion = @"IndexVersion";
 @implementation SYCHttpReqTool
 +(NSDictionary*)VersionInfo{
     NSString *baseURL = [SYCSystem baseURL];
+    [SYCSystem imagLoadURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@",SYVersionParam,[SYCSystem secondsForNow]];
     NSURL *url = [NSURL URLWithString:reqUrl];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];

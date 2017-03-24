@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "SYCEventModel.h"
+
 @interface SYCEventButton : UIButton
 @property (nonatomic,copy)NSString *event;
 @property (nonatomic,strong)SYCEventModel *model;

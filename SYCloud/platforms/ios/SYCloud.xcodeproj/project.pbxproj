@@ -116,7 +116,7 @@
 		EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */; };
 		EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */; };
 		EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */; };
-		EE95FF701E7F7DAB00C35C2A /* SYCLoactionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF621E7F7DAB00C35C2A /* SYCLoactionPlugin.m */; };
+		EE95FF701E7F7DAB00C35C2A /* SYCLocationPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF621E7F7DAB00C35C2A /* SYCLocationPlugin.m */; };
 		EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF641E7F7DAB00C35C2A /* SYCLoadingPlugin.m */; };
 		EE95FF721E7F7DAB00C35C2A /* SYCPaymentPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF661E7F7DAB00C35C2A /* SYCPaymentPlugin.m */; };
 		EE95FF731E7F7DAB00C35C2A /* SYCScanPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF681E7F7DAB00C35C2A /* SYCScanPlugin.m */; };
@@ -269,8 +269,8 @@
 		EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCEventPlugin.m; sourceTree = "<group>"; };
 		EE95FF5F1E7F7DAB00C35C2A /* SYCIntentPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCIntentPlugin.h; sourceTree = "<group>"; };
 		EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCIntentPlugin.m; sourceTree = "<group>"; };
-		EE95FF611E7F7DAB00C35C2A /* SYCLoactionPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCLoactionPlugin.h; sourceTree = "<group>"; };
-		EE95FF621E7F7DAB00C35C2A /* SYCLoactionPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCLoactionPlugin.m; sourceTree = "<group>"; };
+		EE95FF611E7F7DAB00C35C2A /* SYCLocationPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCLocationPlugin.h; sourceTree = "<group>"; };
+		EE95FF621E7F7DAB00C35C2A /* SYCLocationPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCLocationPlugin.m; sourceTree = "<group>"; };
 		EE95FF631E7F7DAB00C35C2A /* SYCLoadingPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCLoadingPlugin.h; sourceTree = "<group>"; };
 		EE95FF641E7F7DAB00C35C2A /* SYCLoadingPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCLoadingPlugin.m; sourceTree = "<group>"; };
 		EE95FF651E7F7DAB00C35C2A /* SYCPaymentPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentPlugin.h; sourceTree = "<group>"; };
@@ -653,8 +653,8 @@
 				EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */,
 				EE95FF5F1E7F7DAB00C35C2A /* SYCIntentPlugin.h */,
 				EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */,
-				EE95FF611E7F7DAB00C35C2A /* SYCLoactionPlugin.h */,
-				EE95FF621E7F7DAB00C35C2A /* SYCLoactionPlugin.m */,
+				EE95FF611E7F7DAB00C35C2A /* SYCLocationPlugin.h */,
+				EE95FF621E7F7DAB00C35C2A /* SYCLocationPlugin.m */,
 				EE95FF631E7F7DAB00C35C2A /* SYCLoadingPlugin.h */,
 				EE95FF641E7F7DAB00C35C2A /* SYCLoadingPlugin.m */,
 				EE95FF651E7F7DAB00C35C2A /* SYCPaymentPlugin.h */,
@@ -1084,7 +1084,7 @@
 				EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */,
 				EE9500301E7F804A00C35C2A /* AFURLRequestSerialization.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
-				EE95FF701E7F7DAB00C35C2A /* SYCLoactionPlugin.m in Sources */,
+				EE95FF701E7F7DAB00C35C2A /* SYCLocationPlugin.m in Sources */,
 				EE9500521E7F804A00C35C2A /* MJPropertyType.m in Sources */,
 				EE95006E1E7F804A00C35C2A /* README.md in Sources */,
 				EE95002F1E7F804A00C35C2A /* AFSecurityPolicy.m in Sources */,

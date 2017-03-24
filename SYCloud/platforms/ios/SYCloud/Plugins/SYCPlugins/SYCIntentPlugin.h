@@ -10,5 +10,6 @@
 #import <Cordova/CDVPlugin.h>
 
 @interface SYCIntentPlugin : CDVPlugin
-
+-(void)open:(CDVInvokedUrlCommand *)command;
+-(void)start:(CDVInvokedUrlCommand *)command;
 @end

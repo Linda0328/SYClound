@@ -9,6 +9,78 @@ module.exports = [
         ]
     },
     {
+       "id": "shengyuan-plugin-module.CachePlugin",
+       "file": "plugins/shengyuan-plugin-module/www/CachePlugin.js",
+       "pluginId": "shengyuan-plugin-module",
+       "clobbers": [
+            "syapp.cache"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.EventPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/EventPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.event"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.IntentPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/IntentPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.intent"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.LoadingPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/LoadingPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+             "syapp.loading"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.LocationPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/LocationPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+             "syapp.location"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.PaymentPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/PaymentPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+             "syapp.payment"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.ResultPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/ResultPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.result"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.ScanPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/ScanPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.scan"
+        ]
+    },
+    {
+      "id": "shengyuan-plugin-module.SecurePlugin",
+      "file": "plugins/shengyuan-plugin-module/www/SecurePlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.secure"
+        ]
+    },
+    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",

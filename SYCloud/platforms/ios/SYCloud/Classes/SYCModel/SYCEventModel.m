@@ -7,7 +7,8 @@
 //
 
 #import "SYCEventModel.h"
-
+NSString *const backType = @"back";
+NSString *const groupType = @"group";
 @implementation SYCEventModel
 
 @end

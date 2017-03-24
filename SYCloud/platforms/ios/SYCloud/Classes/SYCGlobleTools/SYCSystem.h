@@ -12,6 +12,9 @@ extern NSString *const loadToken;
 extern NSString *const popNotify;
 extern NSString *const scanNotify;
 extern NSString * const bundleID;
+extern NSString *const updateNotify;
+extern NSString *const hideNotify;
+extern NSString *const loadAppNotify;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

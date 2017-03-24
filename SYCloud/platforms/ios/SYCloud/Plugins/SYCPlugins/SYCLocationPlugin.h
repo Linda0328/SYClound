@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <Cordova/CDVPlugin.h>
 
-@interface SYCLoactionPlugin : CDVPlugin
+@interface SYCLocationPlugin : CDVPlugin
 -(void)position:(CDVInvokedUrlCommand *)command;
 @end

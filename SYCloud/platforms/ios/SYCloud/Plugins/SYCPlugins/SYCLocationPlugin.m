@@ -6,9 +6,9 @@
 //
 //
 
-#import "SYCLoactionPlugin.h"
+#import "SYCLocationPlugin.h"
 
-@implementation SYCLoactionPlugin
+@implementation SYCLocationPlugin
 -(void)position:(CDVInvokedUrlCommand *)command{
  
 }

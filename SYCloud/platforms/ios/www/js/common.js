@@ -45,7 +45,7 @@ Sy.ns('app.error');
 })(app.error);
 
 jQuery.cachedScript = function(url, callback, cache) {
-    alert('lllll');
+
 	$.ajax({
 		type : 'GET',
 		url : url,

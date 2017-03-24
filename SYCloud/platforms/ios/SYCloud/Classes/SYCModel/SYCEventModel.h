@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+extern NSString *const backType;
+extern NSString *const groupType;
 @interface SYCEventModel : NSObject
 @property (nonatomic,copy)NSString *ID;
 @property (nonatomic,copy)NSString *event;

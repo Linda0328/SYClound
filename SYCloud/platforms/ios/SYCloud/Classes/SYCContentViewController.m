@@ -196,7 +196,7 @@
     [self.CurrentChildVC LoadURL:selectedUrl];
 }
 -(void)EventAction:(SYCEventButton*)eventB{
-    if ([eventB.model.type isEqualToString:@"back"]) {
+    if ([eventB.model.type isEqualToString:backType]) {
         if (_isBackToLast) {
             [self.navigationController popViewControllerAnimated:YES];
         }else{
@@ -210,6 +210,10 @@
         }
         return;
     }
+    if ([eventB.model.type isEqualToString:groupType]) {
+        return;
+    }
+    
     
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     NSString *event = [userDef objectForKey:eventB.model.ID];
@@ -232,6 +236,7 @@
 }
 -(BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
+    return YES;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

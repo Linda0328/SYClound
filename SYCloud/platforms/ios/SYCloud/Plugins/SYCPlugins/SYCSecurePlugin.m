@@ -9,5 +9,7 @@
 #import "SYCSecurePlugin.h"
 
 @implementation SYCSecurePlugin
+-(void)sign:(CDVInvokedUrlCommand *)command{
 
+}
 @end

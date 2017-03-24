@@ -38,7 +38,7 @@
     <allow-intent href="itms:*" />
     <allow-intent href="itms-apps:*" />
     <preference name="AllowInlineMediaPlayback" value="false" />
-    <preference name="BackupWebStorage" value="cloud" />
+    <preference name="BackupWebStorage" value="local" />
     <preference name="DisallowOverscroll" value="false" />
     <preference name="EnableViewportScale" value="false" />
     <preference name="KeyboardDisplayRequiresUserAction" value="true" />
@@ -85,6 +85,9 @@
     <feature name="VersionPlugin">
         <param name="ios-package" value="SYCVersionPlugin" />
     </feature>
+    <feature name="CachePlugin">
+        <param name="ios-package" value="SYCCachePlugin" />
+    </feature>
     <feature name="SecurePlugin">
         <param name="ios-package" value="SYCSecurePlugin" />
     </feature>
@@ -106,7 +109,5 @@
     <feature name="EventPlugin">
         <param name="ios-package" value="SYCEventPlugin" />
     </feature>
-    <feature name="CachePlugin">
-        <param name="ios-package" value="SYCCachePlugin" />
-    </feature>
+    
 </widget>

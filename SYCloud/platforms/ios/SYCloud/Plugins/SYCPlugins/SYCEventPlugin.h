@@ -10,5 +10,5 @@
 #import <Cordova/CDVPlugin.h>
 
 @interface SYCEventPlugin : CDVPlugin
-
+-(void)bind:(CDVInvokedUrlCommand *)command;
 @end
