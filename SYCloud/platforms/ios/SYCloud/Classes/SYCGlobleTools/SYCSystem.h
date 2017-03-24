@@ -14,6 +14,7 @@ extern NSString *const scanNotify;
 extern NSString * const bundleID;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
++(NSString*)imagLoadURL;
 +(NSString*)secondsForNow;
 //+(NSString*)sinagureForReq;
 +(BOOL)judgeNSString:(NSString*)str;

@@ -42,6 +42,7 @@ NSString * const SYCIndexVersion = @"IndexVersion";
         NSLog(@"----解析结果--- : %@",dic);
     }
     [SYCShareVersionInfo sharedVersion].pageVersion = [dic objectForKey:@"pageVersion"];
+    [SYCShareVersionInfo sharedVersion].needUpdate = [dic objectForKey:@"needUpdate"];
     [SYCShareVersionInfo sharedVersion].indexVersion = [dic objectForKey:@"indexVersion"];
     NSUserDefaults *userf = [NSUserDefaults standardUserDefaults];
     NSString *indexV = [userf objectForKey:SYCIndexVersion];

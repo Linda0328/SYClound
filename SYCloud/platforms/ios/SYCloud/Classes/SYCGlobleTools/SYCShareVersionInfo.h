@@ -16,6 +16,8 @@
 //获取app本地版本信息
 @property (nonatomic,copy)NSString *appVersion;
 @property (nonatomic,copy)NSString *appVersionName;
+@property (nonatomic,copy)NSString *lastAppVersion;
+@property (nonatomic,copy)NSString *lastAppVersionName;
 
 @property (nonatomic,copy)NSString *token;
 @property (nonatomic,assign)BOOL needUpdate;
@@ -28,6 +30,7 @@
 @property (nonatomic,copy)NSString *indexVersion;
 
 
+//扫描
 @property (nonatomic,copy)NSString *scanPluginID;
 @property (nonatomic,copy)NSString *scanResult;
 

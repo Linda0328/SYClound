@@ -25,17 +25,17 @@
     
     SYCShareVersionInfo *shareVerInfo = [SYCShareVersionInfo sharedVersion];
     
-    NSMutableDictionary *verDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:shareVerInfo.pageVersion,@"pageVersion",nil];
-    
+    NSMutableDictionary *verDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:shareVerInfo.pageVersion,@"pageVersion",shareVerInfo.appVersion,@"appVersion",shareVerInfo.appVersionName,@"appVersionName",nil];
     [verDic setObject:shareVerInfo.remoteUrl forKey:@"remoteUrl"];
     [verDic setObject:shareVerInfo.imageUrl forKey:@"imageUrl"];
-//    [verDic setObject:[SYGlobleConst judgeNSString:shareVerInfo.token]?shareVerInfo.token:@"" forKey:@"token"];
-//    [verDic setObject:shareVerInfo.lastAppVersion forKey:@"lastAppVersion"];
-//    [verDic setObject:shareVerInfo.lastVersionName forKey:@"lastVersionName"];
+    [verDic setObject:[SYCSystem judgeNSString:shareVerInfo.token]?shareVerInfo.token:@"" forKey:@"token"];
+    [verDic setObject:shareVerInfo.lastAppVersion forKey:@"lastAppVersion"];
+    [verDic setObject:shareVerInfo.lastAppVersionName forKey:@"lastVersionName"];
     [verDic setObject:@(shareVerInfo.needUpdate) forKey:@"needUpdate"];
     [verDic setObject:@(shareVerInfo.needPush) forKey:@"needPush"];
     [verDic setObject:shareVerInfo.systemType forKey:@"systemType"];
     [verDic setObject:shareVerInfo.regId forKey:@"regId"];
+    [verDic setObject:@(shareVerInfo.formal) forKey:@"formal"];
     return verDic;
 }
 -(void)setToken:(CDVInvokedUrlCommand*)command{

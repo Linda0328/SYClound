@@ -13,7 +13,7 @@ static NSString * const SYCloudTestBaseURL = @"http://yun.test.shengyuan.cn:7360
 static NSString * const SYCloudLocalBaseURLJW = @"http://172.16.0.143:7360"; //本地服务器
 static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
 static NSString * const SYCloudFormalBaseURL = @"http://yun.shengyuan.cn"; //正式服务器
-
+static NSString * const SYCloudImageLoadBaseURL = @"http://storage.shengyuan.cn"; //正式服务器
 NSString * const bundleID = @"com.sycloud.SYCloud";
 NSString *const loadToken = @"LoadToken";
 NSString *const popNotify = @"PushVCandReload";
@@ -22,15 +22,25 @@ NSString *const scanNotify = @"PushScanVC";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
-        if (DEBUG) {
+    if (DEBUG) {
 //         baseURL = SYCloudLocalBaseURLTH;
-          baseURL = SYCloudTestBaseURL;
-          [SYCShareVersionInfo sharedVersion].formal = NO;
-        }else{
-          baseURL = SYCloudFormalBaseURL;
-          [SYCShareVersionInfo sharedVersion].formal = YES;
-        }
+      baseURL = SYCloudTestBaseURL;
+      [SYCShareVersionInfo sharedVersion].formal = NO;
+    }else{
+      baseURL = SYCloudFormalBaseURL;
+      [SYCShareVersionInfo sharedVersion].formal = YES;
+    }
     return baseURL;
+    return SYCloudTestBaseURL;
+}
++(NSString*)imagLoadURL{
+    NSString *imagLoadURL = nil;
+    //    if (DEBUG) {
+    //        imagLoadURL = SYSGIMGloadTestBaseURL;
+    //    }else{
+    imagLoadURL = SYCloudImageLoadBaseURL;
+    //    }
+    return imagLoadURL;
 }
 +(NSString*)secondsForNow{
     NSDate *nowDate = [NSDate date];

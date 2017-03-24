@@ -1176,8 +1176,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yaqi Zhang (3LB2289635)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yaqi Zhang (3LB2289635)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1205,8 +1205,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yaqi Zhang (3LB2289635)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yaqi Zhang (3LB2289635)";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1235,8 +1235,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yaqi Zhang (3LB2289635)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yaqi Zhang (3LB2289635)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
@@ -1264,8 +1264,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: yaqi Zhang (3LB2289635)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: yaqi Zhang (3LB2289635)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";

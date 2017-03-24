@@ -16,10 +16,16 @@
         shareVersion = [[SYCShareVersionInfo alloc]init];
         shareVersion.systemType = @"1";
         shareVersion.regId = @"";
+        shareVersion.imageUrl = [SYCSystem imagLoadURL];
+        shareVersion.remoteUrl = [SYCSystem baseURL];
         NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
+        UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+        shareVersion.needPush = (settings.types!=UIUserNotificationTypeNone)?YES:NO;
         //        shareVersion.appVersionName = [infoDic objectForKey:@"CFBundleDisplayName"];
         shareVersion.appVersionName = [infoDic objectForKey:@"CFBundleShortVersionString"];
         shareVersion.appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+        shareVersion.lastAppVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
+        shareVersion.lastAppVersionName = [infoDic objectForKey:@"CFBundleShortVersionString"];
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
         shareVersion.token = [def objectForKey:loadToken];
     });
