@@ -124,7 +124,7 @@
 		EE95FF751E7F7DAB00C35C2A /* SYCVersionPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF6C1E7F7DAB00C35C2A /* SYCVersionPlugin.m */; };
 		EE95FF7E1E7F7EC600C35C2A /* SYCHttpReqTool.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF791E7F7EC600C35C2A /* SYCHttpReqTool.m */; };
 		EE95FF7F1E7F7EC600C35C2A /* SYCShareVersionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */; };
-		EE95FF801E7F7EC600C35C2A /* SYCSystem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF7D1E7F7EC600C35C2A /* SYCSystem.m */; };
+		EE95FF801E7F7EC600C35C2A /* SYCSystem.mm in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF7D1E7F7EC600C35C2A /* SYCSystem.mm */; };
 		EE95FF8E1E7F7ECD00C35C2A /* SYCEventModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF831E7F7ECD00C35C2A /* SYCEventModel.m */; };
 		EE95FF8F1E7F7ECD00C35C2A /* SYCMainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF851E7F7ECD00C35C2A /* SYCMainModel.m */; };
 		EE95FF901E7F7ECD00C35C2A /* SYCMainPageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF871E7F7ECD00C35C2A /* SYCMainPageModel.m */; };
@@ -286,7 +286,7 @@
 		EE95FF7A1E7F7EC600C35C2A /* SYCShareVersionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCShareVersionInfo.h; sourceTree = "<group>"; };
 		EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCShareVersionInfo.m; sourceTree = "<group>"; };
 		EE95FF7C1E7F7EC600C35C2A /* SYCSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSystem.h; sourceTree = "<group>"; };
-		EE95FF7D1E7F7EC600C35C2A /* SYCSystem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSystem.m; sourceTree = "<group>"; };
+		EE95FF7D1E7F7EC600C35C2A /* SYCSystem.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SYCSystem.mm; sourceTree = "<group>"; };
 		EE95FF821E7F7ECD00C35C2A /* SYCEventModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCEventModel.h; sourceTree = "<group>"; };
 		EE95FF831E7F7ECD00C35C2A /* SYCEventModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCEventModel.m; sourceTree = "<group>"; };
 		EE95FF841E7F7ECD00C35C2A /* SYCMainModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCMainModel.h; sourceTree = "<group>"; };
@@ -677,7 +677,7 @@
 				EE95FF7A1E7F7EC600C35C2A /* SYCShareVersionInfo.h */,
 				EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */,
 				EE95FF7C1E7F7EC600C35C2A /* SYCSystem.h */,
-				EE95FF7D1E7F7EC600C35C2A /* SYCSystem.m */,
+				EE95FF7D1E7F7EC600C35C2A /* SYCSystem.mm */,
 				EE9500821E7FD18D00C35C2A /* SYCEventButton.h */,
 				EE9500831E7FD18D00C35C2A /* SYCEventButton.m */,
 				EE9500851E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.h */,
@@ -1149,7 +1149,7 @@
 				EE95FF721E7F7DAB00C35C2A /* SYCPaymentPlugin.m in Sources */,
 				EE95005D1E7F804A00C35C2A /* MJRefreshFooter.m in Sources */,
 				EE95005E1E7F804A00C35C2A /* MJRefreshHeader.m in Sources */,
-				EE95FF801E7F7EC600C35C2A /* SYCSystem.m in Sources */,
+				EE95FF801E7F7EC600C35C2A /* SYCSystem.mm in Sources */,
 				EE9500361E7F804A00C35C2A /* AFImageDownloader.m in Sources */,
 				EE9500401E7F804A00C35C2A /* MASConstraint.m in Sources */,
 				EE9500371E7F804A00C35C2A /* AFNetworkActivityIndicatorManager.m in Sources */,

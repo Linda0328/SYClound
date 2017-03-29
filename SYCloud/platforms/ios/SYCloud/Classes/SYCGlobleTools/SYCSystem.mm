@@ -15,6 +15,7 @@ static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
 static NSString * const SYCloudFormalBaseURL = @"http://yun.shengyuan.cn"; //正式服务器
 static NSString * const SYCloudImageLoadBaseURL = @"http://storage.shengyuan.cn"; //正式服务器
 NSString * const bundleID = @"com.sycloud.SYCloud";
+NSString * const BDAppKay = @"ixLnp9iaDmKMD49N1OVmAsEMpQznxZST";
 NSString *const loadToken = @"LoadToken";
 NSString *const popNotify = @"PushVCandReload";
 NSString *const scanNotify = @"PushScanVC";
