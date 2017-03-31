@@ -23,7 +23,7 @@
 @property (nonatomic,assign)BOOL needUpdate;
 @property (nonatomic,assign)BOOL needPush;
 @property (nonatomic,assign)BOOL formal;
-
+@property (nonatomic,copy)NSString *localPath;
 
 //verison 接口获取数据
 @property (nonatomic,copy)NSString *pageVersion;

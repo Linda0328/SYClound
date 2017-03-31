@@ -20,7 +20,10 @@ extern NSString *const loadAppNotify;
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;
 +(NSString*)secondsForNow;
-//+(NSString*)sinagureForReq;
++(NSString*)sinagureForReq:(NSDictionary*)params;
++(NSString*)md5:(NSString*)input;
 +(BOOL)judgeNSString:(NSString*)str;
 +(NSURL*)appUrl:(CDVViewController*)CDV;
++(NSString *)loaclResourcePath;
+
 @end

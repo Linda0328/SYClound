@@ -36,6 +36,7 @@
     [verDic setObject:shareVerInfo.systemType forKey:@"systemType"];
     [verDic setObject:shareVerInfo.regId forKey:@"regId"];
     [verDic setObject:@(shareVerInfo.formal) forKey:@"formal"];
+    [verDic setObject:shareVerInfo.localPath forKey:@"localPath"];
     return verDic;
 }
 -(void)setToken:(CDVInvokedUrlCommand*)command{

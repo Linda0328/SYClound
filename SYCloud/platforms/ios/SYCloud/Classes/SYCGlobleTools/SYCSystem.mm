@@ -8,7 +8,7 @@
 
 #import "SYCSystem.h"
 #import "SYCShareVersionInfo.h"
-
+#import <CommonCrypto/CommonDigest.h>
 static NSString * const SYCloudTestBaseURL = @"http://yun.test.shengyuan.cn:7360"; //测试服务器
 static NSString * const SYCloudLocalBaseURLJW = @"http://172.16.0.143:7360"; //本地服务器
 static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
@@ -22,12 +22,14 @@ NSString *const scanNotify = @"PushScanVC";
 NSString *const updateNotify = @"updateOrNot";
 NSString *const hideNotify = @"hideNotice";
 NSString *const loadAppNotify = @"LoadApp";
+NSString *const SecureSecrit = @"Sy-CloudPay-Android";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
     if (DEBUG) {
+      baseURL = SYCloudLocalBaseURLJW;
 //    baseURL = SYCloudLocalBaseURLTH;
-      baseURL = SYCloudTestBaseURL;
+//      baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
     }else{
       baseURL = SYCloudFormalBaseURL;
@@ -52,6 +54,46 @@ NSString *const loadAppNotify = @"LoadApp";
     NSString *time = [NSString stringWithFormat:@"%f",seconds];
     return time;
 }
++(NSString*)sinagureForReq:(NSDictionary*)params{
+    NSMutableDictionary *paramWithRandomNo = nil;
+    NSString *paramStr = nil;
+    if (params) {
+        paramWithRandomNo = [NSMutableDictionary dictionaryWithDictionary:params];
+        NSArray *allKey = [paramWithRandomNo allKeys];
+        //数组升序排列
+        allKey = [allKey sortedArrayUsingSelector:@selector(compare:)];
+        for (NSInteger i = 0; i < [allKey count]; i++) {
+            
+            if (i == 0) {
+                paramStr = [NSString stringWithFormat:@"%@%@",allKey[i],[paramWithRandomNo objectForKey:allKey[i]]];
+            }else{
+                paramStr = [paramStr stringByAppendingFormat:@"%@%@",allKey[i],[paramWithRandomNo objectForKey:allKey[i]]];
+            }
+            
+        }
+        
+    }
+    paramStr = [paramStr stringByAppendingString:SecureSecrit];
+    //防止中文乱码
+    //    paramStr = [paramStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"------------parameter----------%@",paramStr);
+    NSString *signature = [SYCSystem md5:paramStr];
+    return signature;
+}
++(NSString*)md5:(NSString*)input{
+    if (![SYCSystem judgeNSString:input ]) {
+        return nil;
+    }
+    const char *cStr = [input UTF8String];
+    unsigned char digest[CC_MD5_DIGEST_LENGTH];
+    CC_MD5(cStr, (CC_LONG)strlen(cStr), digest);
+    NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH*2];
+    for (NSInteger i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
+        [output appendFormat:@"%02x",digest[i]];
+    }
+    return output;
+}
+
 +(BOOL)judgeNSString:(NSString*)str{
     if (![str isKindOfClass:[NSString class]]) {
         str = [NSString stringWithFormat:@"%@",str];
@@ -114,5 +156,13 @@ NSString *const loadAppNotify = @"LoadApp";
     
     return appURL;
 }
-
++(NSString *)loaclResourcePath{
+    NSBundle *mainBundle = [NSBundle mainBundle];
+    NSString *resPath = [mainBundle resourcePath];
+//    NSString *jsPath = [resPath stringByAppendingString:docName];
+    NSString *hasFex = @"file://";
+    NSString *jsPath = [hasFex stringByAppendingString:resPath];
+    NSLog(@"jspath----------%@",jsPath);
+    return  jsPath;
+}
 @end

@@ -51,6 +51,7 @@ jQuery.cachedScript = function(url, callback, cache) {
 		url : url,
 		success : callback,
 		error : function() {
+           
 			app.error.show('资源文件加载异常');
 		},
 		dataType : 'script',

@@ -49,6 +49,7 @@
     self.window.autoresizesSubviews = YES;
     [self setRootViewController];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 -(void)setRootViewController{

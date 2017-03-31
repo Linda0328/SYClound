@@ -8,6 +8,7 @@
 
 #import "SYCShareVersionInfo.h"
 #import "SYCSystem.h"
+
 @implementation SYCShareVersionInfo
 + (instancetype)sharedVersion{
     static SYCShareVersionInfo *shareVersion = nil;
@@ -24,6 +25,7 @@
         shareVersion.appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
         shareVersion.lastAppVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
         shareVersion.lastAppVersionName = [infoDic objectForKey:@"CFBundleShortVersionString"];
+        shareVersion.localPath = [SYCSystem loaclResourcePath];
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
         shareVersion.token = [def objectForKey:loadToken];
     });
