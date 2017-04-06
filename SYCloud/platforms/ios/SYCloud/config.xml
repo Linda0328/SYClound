@@ -109,5 +109,7 @@
     <feature name="EventPlugin">
         <param name="ios-package" value="SYCEventPlugin" />
     </feature>
-    
+    <feature name="ResultPlugin">
+        <param name="ios-package" value="SYCResultPlugin" />
+    </feature>
 </widget>

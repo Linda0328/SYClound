@@ -10,9 +10,8 @@
 
 @implementation SYCCachePlugin
 -(void)set:(CDVInvokedUrlCommand*)command{
-    NSArray *eventArr = [command.arguments firstObject];
-    NSString *key = [eventArr firstObject];
-    NSDictionary *val = [eventArr objectAtIndex:1];
+    NSString *key = [command.arguments firstObject];
+    NSString *val = [command.arguments objectAtIndex:1];
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [self.commandDelegate runInBackground:^{
         [userDef setObject:val forKey:key];
@@ -23,12 +22,11 @@
 
 }
 -(void)get:(CDVInvokedUrlCommand*)command{
-    NSArray *eventArr = [command.arguments firstObject];
-    NSString *key = [eventArr firstObject];
+    NSString *key = [command.arguments firstObject];
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
     [self.commandDelegate runInBackground:^{
-        NSDictionary *val = [userDef objectForKey:key];
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:val];
+        NSString *val = [userDef objectForKey:key];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:val];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 

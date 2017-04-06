@@ -36,6 +36,7 @@
 #import "SYIntroduceWLANView.h"
 #import "AppDelegate.h"
 #import "Reachability.h"
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
 @interface MainViewController()<UIAlertViewDelegate>
 @property (nonatomic,strong)MBProgressHUD *HUD;
 

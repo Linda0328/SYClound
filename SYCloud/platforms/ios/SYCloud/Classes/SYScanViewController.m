@@ -11,6 +11,7 @@
 #import "HexColor.h"
 #import "UILabel+SYCNavigationTitle.h"
 #import "SYCShareVersionInfo.h"
+#import "UIImage+SYColorExtension.h"
 @interface SYScanViewController ()<AVCaptureMetadataOutputObjectsDelegate>
 @property (strong,nonatomic)AVCaptureDevice *device;
 @property (strong,nonatomic)AVCaptureDeviceInput *input;
@@ -25,11 +26,16 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
-    
-    UILabel *titleLab = [UILabel navTitle:@"扫一扫" TitleColor:[UIColor colorWithHexString:@"333333"] titleFont:[UIFont systemFontOfSize:20]];
+    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
+    UINavigationBar *bar = [UINavigationBar appearance];
+    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
+    UIImage *imageBG = [imageOrigin image:imageOrigin withColor:color];
+    [bar setBackgroundImage:imageBG forBarMetrics:UIBarMetricsDefault];
+    [bar setShadowImage:[[UIImage alloc]init]];
+    UILabel *titleLab = [UILabel navTitle:@"扫一扫" TitleColor:[UIColor colorWithHexString:@"ffffff"] titleFont:[UIFont systemFontOfSize:20]];
     self.navigationItem.titleView = titleLab;
     
-    UIImage *image = [UIImage imageNamed:@"btn_back"];
+    UIImage *image = [UIImage imageNamed:@"head_back"];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(backToLast) forControlEvents:UIControlEventTouchUpInside];

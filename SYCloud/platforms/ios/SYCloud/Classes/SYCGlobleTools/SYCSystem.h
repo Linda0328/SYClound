@@ -11,7 +11,7 @@
 extern NSString *const loadToken;
 extern NSString *const popNotify;
 extern NSString *const scanNotify;
-extern NSString * const bundleID;
+extern NSString *const bundleID;
 extern NSString * const BDAppKay;
 extern NSString *const updateNotify;
 extern NSString *const hideNotify;

@@ -96,8 +96,6 @@ static NSString *const searchBarSubmit = @"submit";
 -(void)PushScanVC:(NSNotification*)notify{
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus ==AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
-        //        UIAlertView *alertV = [[UIAlertView alloc]initWithTitle:@"提示" message:@"您未允许app访问相机，无法进进入扫一扫，前往打开权限？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"前往", nil];
-        //        [alertV show];
         UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"您未允许app访问相机，无法进入扫一扫，前往设置-隐私-相机" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"前往" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -115,11 +113,9 @@ static NSString *const searchBarSubmit = @"submit";
                     }];
                 }
             }
-            
-            //            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Privacy&path=CAMERA"]];
+        
         }];
         
-        //        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"知道啦" style:UIAlertActionStyleDefault handler:nil];
         [alertC addAction:cancelAction];
         [alertC addAction:confirmAction];
         [self presentViewController:alertC animated:YES completion:nil];
@@ -133,6 +129,8 @@ static NSString *const searchBarSubmit = @"submit";
     SYScanViewController *scan = [[SYScanViewController alloc]init];
     scan.lastMain = _CurrentChildVC;
     self.hidesBottomBarWhenPushed = YES;
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.hidden = NO;
     [self.navigationController pushViewController:scan animated:YES];
     self.hidesBottomBarWhenPushed = NO;
 }

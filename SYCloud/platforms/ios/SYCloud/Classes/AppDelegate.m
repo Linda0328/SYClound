@@ -44,7 +44,10 @@
 #import "SYCSystem.h"
 #import "SYReachableNotViewController.h"
 #import "MBProgressHUD.h"
-@interface AppDelegate()
+#import <BaiduMapAPI_Base/BMKMapManager.h>
+@interface AppDelegate(){
+    BMKMapManager *_mapManager;
+}
 @property (nonatomic,strong)Reachability *hostReach;
 
 @end
@@ -52,6 +55,12 @@
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+    //使用百度地图必须先启动BaiduManager
+    _mapManager = [[BMKMapManager alloc]init];
+    BOOL ret = [_mapManager start:BDAppKay generalDelegate:nil];
+    if (!ret) {
+        NSLog(@"BaiduMap manager start failed");
+    }
     //    self.viewController = [[MainViewController alloc] init];
     //    return [super application:application didFinishLaunchingWithOptions:launchOptions];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
@@ -119,6 +128,7 @@
         }
 
     }
+    
     [self.window makeKeyAndVisible];
     
     return YES;

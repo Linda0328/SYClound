@@ -32,6 +32,7 @@
 
 //扫描
 @property (nonatomic,copy)NSString *scanPluginID;
+@property (nonatomic,copy)NSString *listenPluginID;
 @property (nonatomic,copy)NSString *scanResult;
 
 + (instancetype)sharedVersion;
