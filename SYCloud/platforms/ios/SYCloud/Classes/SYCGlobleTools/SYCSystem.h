@@ -25,5 +25,6 @@ extern NSString *const loadAppNotify;
 +(BOOL)judgeNSString:(NSString*)str;
 +(NSURL*)appUrl:(CDVViewController*)CDV;
 +(NSString *)loaclResourcePath;
-
++(NSMutableArray*)guiderImageS;
++(BOOL)connectedToNetwork;
 @end

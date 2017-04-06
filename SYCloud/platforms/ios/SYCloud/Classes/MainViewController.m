@@ -33,11 +33,15 @@
 #import "SYScanViewController.h"
 #import "SYCEventButton.h"
 #import "SYCNavTitleModel.h"
+#import "SYIntroduceWLANView.h"
+#import "AppDelegate.h"
+#import "Reachability.h"
 @interface MainViewController()<UIAlertViewDelegate>
 @property (nonatomic,strong)MBProgressHUD *HUD;
 
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
-@property (nonatomic,strong)NSMutableArray *optionURLArr;
+//@property (nonatomic,strong)NSMutableArray *optionURLArr;
+@property(nonatomic,strong)SYIntroduceWLANView *introductV;
 @end
 @implementation MainViewController
 
@@ -87,13 +91,17 @@
         [SYCShareVersionInfo sharedVersion].scanResult = nil;
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
-
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+//    if (![SYCSystem connectedToNetwork]) {
+//        [self reachabilityChanged:nil];
+//    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -209,13 +217,45 @@
     }
     
 }
-
+////网络变化
+//-(void)reachabilityChanged:(NSNotification*)notify{
+//    
+//    AppDelegate *appD = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+//    if (!appD.isReachable) {
+//        
+//        if ([[self.view subviews]containsObject:_introductV]) {
+//            _introductV.hidden = NO;
+//        }else{
+//            _introductV = [[[NSBundle mainBundle]loadNibNamed:NSStringFromClass([SYIntroduceWLANView class]) owner:nil options:nil] firstObject];
+//            //            CGRect introRect = CGRectMake(0, CGRectGetMaxY(_navBarBackgroundView.frame), CGRectGetWidth(self.view.frame), 48);
+//            CGRect rect = _introductV.frame;
+//            rect.origin.y = 64;
+//            rect.size.width = CGRectGetWidth(self.view.frame);
+//            _introductV.frame = rect;
+//            _introductV.userInteractionEnabled = YES;
+//            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showOpenWLAN:)];
+//            [_introductV addGestureRecognizer:tap];
+//            [self.view addSubview:_introductV];
+//        }
+//        
+//    }else{
+//        _introductV.hidden = YES;
+//    }
+//    
+//}
+//-(void)showOpenWLAN:(UITapGestureRecognizer*)tap{
+//    
+//    if (_unReachableB) {
+//        _unReachableB();
+//    }    
+//}
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     if (self.hidesBottomBarWhenPushed) {
         self.hidesBottomBarWhenPushed = YES;
     }
 }
+
 -(void)onloadNotification:(NSNotification*)notify{
     NSLog(@"-------开始等加载啦-----");
 }

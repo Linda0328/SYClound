@@ -21,4 +21,7 @@
 +(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize;
 //画虚线
 +(UIImage*)drawLineByImageView:(UIImageView*)imageView;
+
+//color 转换 image
++(UIImage*) createImageWithColor: (UIColor*) color rect:(CGRect)rect;
 @end

@@ -9,6 +9,9 @@
 #import "SYCSystem.h"
 #import "SYCShareVersionInfo.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "sys/utsname.h"
+#import <netinet/in.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 static NSString * const SYCloudTestBaseURL = @"http://yun.test.shengyuan.cn:7360"; //测试服务器
 static NSString * const SYCloudLocalBaseURLJW = @"http://172.16.0.143:7360"; //本地服务器
 static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
@@ -164,5 +167,50 @@ NSString *const SecureSecrit = @"Sy-CloudPay-Android";
     NSString *jsPath = [hasFex stringByAppendingString:resPath];
     NSLog(@"jspath----------%@",jsPath);
     return  jsPath;
+}
++(CGFloat)deviceWidth{
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds);
+    return width;
+}
++(CGFloat)deviceHeigth{
+    CGFloat height = CGRectGetHeight([UIScreen mainScreen].bounds);
+    return height;
+}
++(NSMutableArray*)guiderImageS{
+    NSMutableArray *arr = [NSMutableArray array];
+    //    NSString *wh = [NSString stringWithFormat:@"%.0fx%.0f-",2*[SYGlobleConst deviceWidth],2*[SYGlobleConst deviceHeigth]];
+    NSString *wh = @"640x960-";
+    if ([SYCSystem deviceWidth]>375) {
+        wh = @"1080x1920-";
+    }else if ([SYCSystem deviceWidth]>320) {
+        wh = @"750x1334-";
+    }else{
+        if ([SYCSystem deviceHeigth]>480) {
+            wh = @"640x1136-";
+        }
+        
+    }
+    for (NSInteger i = 1 ; i<4; i++) {
+        NSString *newWH = [wh stringByAppendingFormat:@"%zd.png",i];
+        [arr addObject:newWH];
+    }
+    return arr;
+}
++(BOOL)connectedToNetwork{
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));
+    zeroAddress.sin_len = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+    
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+    SCNetworkReachabilityFlags flags;
+    BOOL didRetrieverFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+    CFRelease(defaultRouteReachability);
+    if (!didRetrieverFlags) {
+        return NO;
+    }
+    BOOL isReachable = flags & kSCNetworkFlagsReachable;
+    BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
+    return (isReachable && !needsConnection) ? YES : NO;
 }
 @end

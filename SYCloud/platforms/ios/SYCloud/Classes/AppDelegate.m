@@ -38,16 +38,87 @@
 #import "SYCTabViewController.h"
 #import "SYCShareVersionInfo.h"
 #import "NSString+Helper.h"
+#import "Reachability.h"
+#import <SystemConfiguration/SystemConfiguration.h>
+#import "XZMCoreNewFeatureVC.h"
+#import "SYCSystem.h"
+#import "SYReachableNotViewController.h"
+#import "MBProgressHUD.h"
+@interface AppDelegate()
+@property (nonatomic,strong)Reachability *hostReach;
+
+@end
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
     //    self.viewController = [[MainViewController alloc] init];
     //    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    __weak __typeof(self)weakSelf = self;
+    self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
+    [self.hostReach startNotifier];
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
-    [self setRootViewController];
+    
+    
+    BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
+    //    BOOL guiderShow = [[NSUserDefaults standardUserDefaults] boolForKey:GuiderShow];
+    if(canShow){ // 初始化新特性界面
+        self.window.rootViewController = [XZMCoreNewFeatureVC newFeatureVCWithImageNames:[SYCSystem guiderImageS] enterBlock:^{
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if (strongSelf.isReachable) {
+                [strongSelf setRootViewController];
+            }else{
+                SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
+                rec.refreshB = ^(){
+                    __strong __typeof(weakSelf)strongSelf = weakSelf;
+                    if (strongSelf.isReachable) {
+                        [strongSelf setRootViewController];
+                    }else{
+                        MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+                        [self.window addSubview:HUD];
+                        HUD.label.text = @"无网络连接，无法加载数据";
+                        [HUD showAnimated:YES ];
+                        [HUD hideAnimated:YES afterDelay:1.5f];
+                    }
+                };
+                UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
+                strongSelf.window.rootViewController = navC;
+            }
+        } configuration:^(UIButton *enterButton) { // 配置进入按钮
+            [enterButton setTitle:@"立即进入" forState:UIControlStateNormal];
+            [enterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            enterButton.layer.masksToBounds = YES;
+            enterButton.layer.cornerRadius = 10;
+            enterButton.layer.borderWidth = 1;
+            enterButton.layer.borderColor = [UIColor whiteColor].CGColor;
+            enterButton.bounds = CGRectMake(0, 0, 100, 40);
+            enterButton.center = CGPointMake(KScreenW * 0.8, KScreenH* 0.08);
+        }];
+    }else{
+        if ([SYCSystem connectedToNetwork]) {
+            [self setRootViewController];
+        }else{
+            SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
+            rec.refreshB = ^(){
+                __strong __typeof(weakSelf)strongSelf = weakSelf;
+                if (strongSelf.isReachable) {
+                    [strongSelf setRootViewController];
+                }else{
+                    MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+                    [self.window addSubview:HUD];
+                    HUD.label.text = @"无网络连接，无法加载数据";
+                    [HUD showAnimated:YES ];
+                    [HUD hideAnimated:YES afterDelay:1.5f];
+                }
+            };
+            UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
+            self.window.rootViewController = navC;
+        }
+
+    }
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -89,6 +160,25 @@
     SYCTabViewController *tabVC = [[SYCTabViewController alloc]init];
     [tabVC InitTabBarWithtabbarItems:mainPageModel.bottomBtns navigationBars:mainModel.bottomBarConfig];
     self.window.rootViewController = tabVC;
+}
+//网络变化
+-(void)reachabilityChanged:(NSNotification*)notify{
+    
+    Reachability *currentReach = [notify object];
+    //    NSParameterAssert([currentReach isKindOfClass:[Reachability class]]);
+    NetworkStatus status = [currentReach currentReachabilityStatus];
+    self.isReachable = YES;
+    
+    if (status == NotReachable) {
+        self.isReachable = NO;
+        return;
+    }
+    if (status == ReachableViaWiFi||status == ReachableViaWWAN) {
+        self.isReachable = YES;
+        
+    }
+    
+    
 }
 
 @end

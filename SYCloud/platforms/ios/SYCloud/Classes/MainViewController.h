@@ -29,16 +29,18 @@
 #import <Cordova/CDVCommandDelegateImpl.h>
 #import <Cordova/CDVCommandQueue.h>
 #import "SYCNavigationBarModel.h"
-typedef void (^reloadBlock)(NSString *url);
 
+typedef void (^reloadBlock)(NSString *url);
 typedef void(^showProgressBlock)(NSString *msg,double time);
 typedef void(^execBlock)(NSString *function,NSDictionary *data);
 typedef void(^pushViewControllerBlock)(NSString *contentUrl,BOOL isBackToLast,SYCNavigationBarModel *navModel);
+typedef void (^pushUnrechableBlock)();
 @interface MainViewController : CDVViewController
 
 @property (nonatomic,copy)reloadBlock reloadB;
 @property (nonatomic,copy)showProgressBlock showB;
 @property (nonatomic,copy)execBlock execB;
+@property (nonatomic,copy)pushUnrechableBlock unReachableB;
 
 //当前main的上级视图
 @property (nonatomic,strong)MainViewController *lastViewController;

@@ -34,6 +34,19 @@
 		D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = A884C9C097864323869DE722 /* Toast+UIView.m */; };
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
+		EE629ED51E95EA5500832C36 /* 750x1334-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */; };
+		EE629ED61E95EA5500832C36 /* 750x1334-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */; };
+		EE629ED71E95EA5500832C36 /* 750x1334-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */; };
+		EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8011E8F53D700BCEB5F /* libc++.tbd */; };
+		EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */; };
+		EE7AD8061E8F53F900BCEB5F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */; };
+		EE7AD8081E8F540600BCEB5F /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8071E8F540600BCEB5F /* CoreText.framework */; };
+		EE7AD80A1E8F541400BCEB5F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8091E8F541400BCEB5F /* CoreGraphics.framework */; };
+		EE7AD80C1E8F541E00BCEB5F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD80B1E8F541E00BCEB5F /* UIKit.framework */; };
+		EE7AD80E1E8F542D00BCEB5F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD80D1E8F542D00BCEB5F /* Foundation.framework */; };
+		EE7AD8101E8F543500BCEB5F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD80F1E8F543500BCEB5F /* CFNetwork.framework */; };
+		EE7AD8121E8F543D00BCEB5F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8111E8F543D00BCEB5F /* CoreMotion.framework */; };
+		EE7AD8161E8F91BD00BCEB5F /* SYCGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7AD8151E8F91BD00BCEB5F /* SYCGroupModel.m */; };
 		EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */; };
 		EE7BE7021E8125D50080D625 /* SYScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7011E8125D50080D625 /* SYScanViewController.m */; };
 		EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */; };
@@ -131,6 +144,21 @@
 		EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF891E7F7ECD00C35C2A /* SYCNavigationBarModel.m */; };
 		EE95FF921E7F7ECD00C35C2A /* SYCNavTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF8B1E7F7ECD00C35C2A /* SYCNavTitleModel.m */; };
 		EE95FF931E7F7ECD00C35C2A /* SYCTabBarItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF8D1E7F7ECD00C35C2A /* SYCTabBarItemModel.m */; };
+		EED6FB5B1E94D9070061B6AC /* CALayer+Transition.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB581E94D9070061B6AC /* CALayer+Transition.m */; };
+		EED6FB5C1E94D9070061B6AC /* XZMCoreNewFeatureVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB5A1E94D9070061B6AC /* XZMCoreNewFeatureVC.m */; };
+		EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB5F1E94DCA70061B6AC /* SYReachableNotViewController.m */; };
+		EED6FB631E94DCCD0061B6AC /* SYOpenWLANTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB621E94DCCD0061B6AC /* SYOpenWLANTableViewController.m */; };
+		EED6FB671E94DCF60061B6AC /* SYIntroduceWLANView.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB651E94DCF60061B6AC /* SYIntroduceWLANView.m */; };
+		EED6FB681E94DCF60061B6AC /* SYIntroduceWLANView.xib in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB661E94DCF60061B6AC /* SYIntroduceWLANView.xib */; };
+		EED6FB731E94E2430061B6AC /* 1080x1920-1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6A1E94E2430061B6AC /* 1080x1920-1@3x.png */; };
+		EED6FB741E94E2430061B6AC /* 1080x1920-2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6B1E94E2430061B6AC /* 1080x1920-2@3x.png */; };
+		EED6FB751E94E2430061B6AC /* 1080x1920-3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6C1E94E2430061B6AC /* 1080x1920-3@3x.png */; };
+		EED6FB761E94E2430061B6AC /* 2-640x1136-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6D1E94E2430061B6AC /* 2-640x1136-1@2x.png */; };
+		EED6FB771E94E2430061B6AC /* 2-640x1136-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6E1E94E2430061B6AC /* 2-640x1136-2@2x.png */; };
+		EED6FB781E94E2430061B6AC /* 2-640x1136-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6F1E94E2430061B6AC /* 2-640x1136-3@2x.png */; };
+		EED6FB791E94E2430061B6AC /* 3-640x960-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB701E94E2430061B6AC /* 3-640x960-1.png */; };
+		EED6FB7A1E94E2430061B6AC /* 3-640x960-2.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB711E94E2430061B6AC /* 3-640x960-2.png */; };
+		EED6FB7B1E94E2430061B6AC /* 3-640x960-3.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB721E94E2430061B6AC /* 3-640x960-3.png */; };
 		F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCD32EA3D984DFDBCA99FE2 /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -204,6 +232,20 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-1@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-1@2x.png"; sourceTree = "<group>"; };
+		EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-2@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-2@2x.png"; sourceTree = "<group>"; };
+		EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-3@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-3@2x.png"; sourceTree = "<group>"; };
+		EE7AD8011E8F53D700BCEB5F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		EE7AD8071E8F540600BCEB5F /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		EE7AD8091E8F541400BCEB5F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EE7AD80B1E8F541E00BCEB5F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EE7AD80D1E8F542D00BCEB5F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EE7AD80F1E8F543500BCEB5F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		EE7AD8111E8F543D00BCEB5F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		EE7AD8141E8F91BD00BCEB5F /* SYCGroupModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCGroupModel.h; sourceTree = "<group>"; };
+		EE7AD8151E8F91BD00BCEB5F /* SYCGroupModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCGroupModel.m; sourceTree = "<group>"; };
 		EE7BE6FC1E80C85B0080D625 /* NSString+Helper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Helper.h"; sourceTree = "<group>"; };
 		EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Helper.m"; sourceTree = "<group>"; };
 		EE7BE7001E8125D50080D625 /* SYScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYScanViewController.h; sourceTree = "<group>"; };
@@ -395,6 +437,26 @@
 		EE95FFFD1E7F804A00C35C2A /* MJRefreshBackFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBackFooter.m; sourceTree = "<group>"; };
 		EE95FFFE1E7F804A00C35C2A /* MJRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshComponent.h; sourceTree = "<group>"; };
 		EE95FFFF1E7F804A00C35C2A /* MJRefreshComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshComponent.m; sourceTree = "<group>"; };
+		EED6FB571E94D9070061B6AC /* CALayer+Transition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+Transition.h"; sourceTree = "<group>"; };
+		EED6FB581E94D9070061B6AC /* CALayer+Transition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+Transition.m"; sourceTree = "<group>"; };
+		EED6FB591E94D9070061B6AC /* XZMCoreNewFeatureVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZMCoreNewFeatureVC.h; sourceTree = "<group>"; };
+		EED6FB5A1E94D9070061B6AC /* XZMCoreNewFeatureVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XZMCoreNewFeatureVC.m; sourceTree = "<group>"; };
+		EED6FB5E1E94DCA70061B6AC /* SYReachableNotViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SYReachableNotViewController.h; path = ../../../../../../SYMerchantsApp/SYMerchants/platforms/ios/SYMerchantsApp/Classes/SYReachableNotViewController.h; sourceTree = "<group>"; };
+		EED6FB5F1E94DCA70061B6AC /* SYReachableNotViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SYReachableNotViewController.m; path = ../../../../../../SYMerchantsApp/SYMerchants/platforms/ios/SYMerchantsApp/Classes/SYReachableNotViewController.m; sourceTree = "<group>"; };
+		EED6FB611E94DCCD0061B6AC /* SYOpenWLANTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SYOpenWLANTableViewController.h; path = ../../../../../../SYMerchantsApp/SYMerchants/platforms/ios/SYMerchantsApp/Classes/SYOpenWLANTableViewController.h; sourceTree = "<group>"; };
+		EED6FB621E94DCCD0061B6AC /* SYOpenWLANTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SYOpenWLANTableViewController.m; path = ../../../../../../SYMerchantsApp/SYMerchants/platforms/ios/SYMerchantsApp/Classes/SYOpenWLANTableViewController.m; sourceTree = "<group>"; };
+		EED6FB641E94DCF60061B6AC /* SYIntroduceWLANView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SYIntroduceWLANView.h; path = ../../../../../../SYMerchantsApp/SYMerchants/platforms/ios/SYMerchantsApp/Classes/SYIntroduceWLANView.h; sourceTree = "<group>"; };
+		EED6FB651E94DCF60061B6AC /* SYIntroduceWLANView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SYIntroduceWLANView.m; path = ../../../../../../SYMerchantsApp/SYMerchants/platforms/ios/SYMerchantsApp/Classes/SYIntroduceWLANView.m; sourceTree = "<group>"; };
+		EED6FB661E94DCF60061B6AC /* SYIntroduceWLANView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SYIntroduceWLANView.xib; path = ../../../../../../SYMerchantsApp/SYMerchants/platforms/ios/SYMerchantsApp/Classes/SYIntroduceWLANView.xib; sourceTree = "<group>"; };
+		EED6FB6A1E94E2430061B6AC /* 1080x1920-1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1080x1920-1@3x.png"; sourceTree = "<group>"; };
+		EED6FB6B1E94E2430061B6AC /* 1080x1920-2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1080x1920-2@3x.png"; sourceTree = "<group>"; };
+		EED6FB6C1E94E2430061B6AC /* 1080x1920-3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1080x1920-3@3x.png"; sourceTree = "<group>"; };
+		EED6FB6D1E94E2430061B6AC /* 2-640x1136-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2-640x1136-1@2x.png"; sourceTree = "<group>"; };
+		EED6FB6E1E94E2430061B6AC /* 2-640x1136-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2-640x1136-2@2x.png"; sourceTree = "<group>"; };
+		EED6FB6F1E94E2430061B6AC /* 2-640x1136-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2-640x1136-3@2x.png"; sourceTree = "<group>"; };
+		EED6FB701E94E2430061B6AC /* 3-640x960-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-640x960-1.png"; sourceTree = "<group>"; };
+		EED6FB711E94E2430061B6AC /* 3-640x960-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-640x960-2.png"; sourceTree = "<group>"; };
+		EED6FB721E94E2430061B6AC /* 3-640x960-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-640x960-3.png"; sourceTree = "<group>"; };
 		F4EE1BD21CB1415CB4C2AD40 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = "cordova-plugin-file/CDVLocalFilesystem.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = SYCloud/config.xml; sourceTree = "<group>"; };
 		FA4F6BAE3BE9494DBBB7AEA1 /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocalFilesystem.m; path = "cordova-plugin-file/CDVLocalFilesystem.m"; sourceTree = "<group>"; };
@@ -406,13 +468,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
+				EE7AD8121E8F543D00BCEB5F /* CoreMotion.framework in Frameworks */,
+				EE7AD8101E8F543500BCEB5F /* CFNetwork.framework in Frameworks */,
+				EE7AD80E1E8F542D00BCEB5F /* Foundation.framework in Frameworks */,
+				EE7AD80C1E8F541E00BCEB5F /* UIKit.framework in Frameworks */,
+				EE7AD80A1E8F541400BCEB5F /* CoreGraphics.framework in Frameworks */,
+				EE7AD8081E8F540600BCEB5F /* CoreText.framework in Frameworks */,
+				A09E00A5EF174F9780492CC3 /* QuartzCore.framework in Frameworks */,
+				EE7AD8061E8F53F900BCEB5F /* CoreTelephony.framework in Frameworks */,
+				EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */,
 				3C298EA9EF234BBBB20AC683 /* libz.tbd in Frameworks */,
+				EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */,
+				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */,
 				641E5B79DBB84C4AAFB24975 /* CoreLocation.framework in Frameworks */,
 				CB7792794FF549449FE6E2A3 /* AVFoundation.framework in Frameworks */,
 				AD4BC4C29EF848E0B8A6BC3F /* AudioToolbox.framework in Frameworks */,
-				A09E00A5EF174F9780492CC3 /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,6 +504,13 @@
 				EE9500791E7FBFB700C35C2A /* SYCContentViewController.m */,
 				EE7BE7001E8125D50080D625 /* SYScanViewController.h */,
 				EE7BE7011E8125D50080D625 /* SYScanViewController.m */,
+				EED6FB5E1E94DCA70061B6AC /* SYReachableNotViewController.h */,
+				EED6FB5F1E94DCA70061B6AC /* SYReachableNotViewController.m */,
+				EED6FB611E94DCCD0061B6AC /* SYOpenWLANTableViewController.h */,
+				EED6FB621E94DCCD0061B6AC /* SYOpenWLANTableViewController.m */,
+				EED6FB641E94DCF60061B6AC /* SYIntroduceWLANView.h */,
+				EED6FB651E94DCF60061B6AC /* SYIntroduceWLANView.m */,
+				EED6FB661E94DCF60061B6AC /* SYIntroduceWLANView.xib */,
 			);
 			name = Classes;
 			path = SYCloud/Classes;
@@ -479,6 +557,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EED6FB691E94E2430061B6AC /* launchpadImage */,
 				0207DA571B56EA530066E2B4 /* Images.xcassets */,
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* SYCloud-Info.plist */,
@@ -492,6 +571,15 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE7AD8111E8F543D00BCEB5F /* CoreMotion.framework */,
+				EE7AD80F1E8F543500BCEB5F /* CFNetwork.framework */,
+				EE7AD80D1E8F542D00BCEB5F /* Foundation.framework */,
+				EE7AD80B1E8F541E00BCEB5F /* UIKit.framework */,
+				EE7AD8091E8F541400BCEB5F /* CoreGraphics.framework */,
+				EE7AD8071E8F540600BCEB5F /* CoreText.framework */,
+				EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */,
+				EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */,
+				EE7AD8011E8F53D700BCEB5F /* libc++.tbd */,
 				8AF36B93D5054D38BE5B3619 /* libz.tbd */,
 				7CCD32EA3D984DFDBCA99FE2 /* ImageIO.framework */,
 				B2CC21873A23427CA5A2E856 /* CoreLocation.framework */,
@@ -709,6 +797,8 @@
 				EE9500801E7FD09500C35C2A /* SYCOptionModel.m */,
 				EE9500891E7FDCAC00C35C2A /* SYCSearchModel.h */,
 				EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */,
+				EE7AD8141E8F91BD00BCEB5F /* SYCGroupModel.h */,
+				EE7AD8151E8F91BD00BCEB5F /* SYCGroupModel.m */,
 			);
 			path = SYCModel;
 			sourceTree = "<group>";
@@ -716,6 +806,7 @@
 		EE95FF941E7F804A00C35C2A /* LIbs */ = {
 			isa = PBXGroup;
 			children = (
+				EED6FB551E94D9070061B6AC /* XZMCoreNewFeatureVC */,
 				EE95007B1E7FC1FC00C35C2A /* HexColor */,
 				EE95FF951E7F804A00C35C2A /* AFNetworking */,
 				EE95FFBB1E7F804A00C35C2A /* Masonry */,
@@ -935,6 +1026,44 @@
 			path = SYCloud/Classes;
 			sourceTree = "<group>";
 		};
+		EED6FB551E94D9070061B6AC /* XZMCoreNewFeatureVC */ = {
+			isa = PBXGroup;
+			children = (
+				EED6FB561E94D9070061B6AC /* Category */,
+				EED6FB591E94D9070061B6AC /* XZMCoreNewFeatureVC.h */,
+				EED6FB5A1E94D9070061B6AC /* XZMCoreNewFeatureVC.m */,
+			);
+			path = XZMCoreNewFeatureVC;
+			sourceTree = "<group>";
+		};
+		EED6FB561E94D9070061B6AC /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				EED6FB571E94D9070061B6AC /* CALayer+Transition.h */,
+				EED6FB581E94D9070061B6AC /* CALayer+Transition.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		EED6FB691E94E2430061B6AC /* launchpadImage */ = {
+			isa = PBXGroup;
+			children = (
+				EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */,
+				EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */,
+				EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */,
+				EED6FB6A1E94E2430061B6AC /* 1080x1920-1@3x.png */,
+				EED6FB6B1E94E2430061B6AC /* 1080x1920-2@3x.png */,
+				EED6FB6C1E94E2430061B6AC /* 1080x1920-3@3x.png */,
+				EED6FB6D1E94E2430061B6AC /* 2-640x1136-1@2x.png */,
+				EED6FB6E1E94E2430061B6AC /* 2-640x1136-2@2x.png */,
+				EED6FB6F1E94E2430061B6AC /* 2-640x1136-3@2x.png */,
+				EED6FB701E94E2430061B6AC /* 3-640x960-1.png */,
+				EED6FB711E94E2430061B6AC /* 3-640x960-2.png */,
+				EED6FB721E94E2430061B6AC /* 3-640x960-3.png */,
+			);
+			path = launchpadImage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1008,15 +1137,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE95003E1E7F804A00C35C2A /* LICENSE in Resources */,
+				EE629ED61E95EA5500832C36 /* 750x1334-2@2x.png in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
+				EED6FB771E94E2430061B6AC /* 2-640x1136-2@2x.png in Resources */,
 				EE95004D1E7F804A00C35C2A /* LICENSE in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				EE95004A1E7F804A00C35C2A /* LICENSE in Resources */,
+				EED6FB7B1E94E2430061B6AC /* 3-640x960-3.png in Resources */,
+				EED6FB731E94E2430061B6AC /* 1080x1920-1@3x.png in Resources */,
 				6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */,
+				EED6FB7A1E94E2430061B6AC /* 3-640x960-2.png in Resources */,
+				EED6FB781E94E2430061B6AC /* 2-640x1136-3@2x.png in Resources */,
 				EE9500591E7F804A00C35C2A /* LICENSE in Resources */,
 				EE95006F1E7F804A00C35C2A /* LICENCE.txt in Resources */,
+				EE629ED51E95EA5500832C36 /* 750x1334-1@2x.png in Resources */,
 				4E7F4FE61C534CB280912E6C /* CDVNotification.bundle in Resources */,
+				EED6FB761E94E2430061B6AC /* 2-640x1136-1@2x.png in Resources */,
+				EED6FB741E94E2430061B6AC /* 1080x1920-2@3x.png in Resources */,
+				EED6FB751E94E2430061B6AC /* 1080x1920-3@3x.png in Resources */,
 				EE9500681E7F804A00C35C2A /* MJRefresh.bundle in Resources */,
+				EED6FB681E94DCF60061B6AC /* SYIntroduceWLANView.xib in Resources */,
+				EE629ED71E95EA5500832C36 /* 750x1334-3@2x.png in Resources */,
+				EED6FB791E94E2430061B6AC /* 3-640x960-1.png in Resources */,
 				EE9500331E7F804A00C35C2A /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1063,6 +1205,7 @@
 				EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */,
 				EE95003F1E7F804A00C35C2A /* MASCompositeConstraint.m in Sources */,
 				EE9500711E7F804A00C35C2A /* README.md in Sources */,
+				EED6FB671E94DCF60061B6AC /* SYIntroduceWLANView.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				EE9500461E7F804A00C35C2A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				EE95007A1E7FBFB700C35C2A /* SYCContentViewController.m in Sources */,
@@ -1072,6 +1215,7 @@
 				EE9500641E7F804A00C35C2A /* MJRefreshBackStateFooter.m in Sources */,
 				EE9500581E7F804A00C35C2A /* README.md in Sources */,
 				EE9500471E7F804A00C35C2A /* View+MASAdditions.m in Sources */,
+				EED6FB5B1E94D9070061B6AC /* CALayer+Transition.m in Sources */,
 				EE95005B1E7F804A00C35C2A /* MJRefreshBackFooter.m in Sources */,
 				EE9500661E7F804A00C35C2A /* MJRefreshNormalHeader.m in Sources */,
 				EE95FF921E7F7ECD00C35C2A /* SYCNavTitleModel.m in Sources */,
@@ -1084,6 +1228,7 @@
 				EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */,
 				EE9500301E7F804A00C35C2A /* AFURLRequestSerialization.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
+				EED6FB5C1E94D9070061B6AC /* XZMCoreNewFeatureVC.m in Sources */,
 				EE95FF701E7F7DAB00C35C2A /* SYCLocationPlugin.m in Sources */,
 				EE9500521E7F804A00C35C2A /* MJPropertyType.m in Sources */,
 				EE95006E1E7F804A00C35C2A /* README.md in Sources */,
@@ -1093,6 +1238,7 @@
 				EE95005F1E7F804A00C35C2A /* MJRefreshAutoGifFooter.m in Sources */,
 				EE9500511E7F804A00C35C2A /* MJPropertyKey.m in Sources */,
 				EE95FF8F1E7F7ECD00C35C2A /* SYCMainModel.m in Sources */,
+				EED6FB631E94DCCD0061B6AC /* SYOpenWLANTableViewController.m in Sources */,
 				EE95FF751E7F7DAB00C35C2A /* SYCVersionPlugin.m in Sources */,
 				83DD878B14E1419EA30544A6 /* UIImage+CropScaleOrientation.m in Sources */,
 				EE9500311E7F804A00C35C2A /* AFURLResponseSerialization.m in Sources */,
@@ -1110,6 +1256,7 @@
 				E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */,
 				C83F01A0ECF3438DB6144049 /* CDVFile.m in Sources */,
 				EE95FF901E7F7ECD00C35C2A /* SYCMainPageModel.m in Sources */,
+				EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */,
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,
 				EE9500391E7F804A00C35C2A /* UIButton+AFNetworking.m in Sources */,
 				EE95006D1E7F804A00C35C2A /* UIView+MJExtension.m in Sources */,
@@ -1145,6 +1292,7 @@
 				D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */,
 				EE95003D1E7F804A00C35C2A /* UIWebView+AFNetworking.m in Sources */,
 				66922D104FC949A8A6B1AF42 /* Toast.m in Sources */,
+				EE7AD8161E8F91BD00BCEB5F /* SYCGroupModel.m in Sources */,
 				EE95003A1E7F804A00C35C2A /* UIImageView+AFNetworking.m in Sources */,
 				EE95FF721E7F7DAB00C35C2A /* SYCPaymentPlugin.m in Sources */,
 				EE95005D1E7F804A00C35C2A /* MJRefreshFooter.m in Sources */,
