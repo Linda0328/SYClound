@@ -1,0 +1,39 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "F6EF19E565974F4061C564845C9921170165223A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "9a68cf92-454f-9e4d-b84b-4a9ec5c85352++2473" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "9a68cf92-454f-9e4d-b84b-4a9ec5c85352++2473" : 9223372036854775807,
+    "6C3CE24B628D77EFB9B52874CC5FF98F35C09E5A" : 9223372036854775807,
+    "F6EF19E565974F4061C564845C9921170165223A" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "D9BB62AC-4F31-456D-B4D8-BB0892EB593C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "9a68cf92-454f-9e4d-b84b-4a9ec5c85352++2473" : "ios%E4%BA%91%E7%94%9F%E6%BA%90\/",
+    "6C3CE24B628D77EFB9B52874CC5FF98F35C09E5A" : "SYMerchantsApp\/",
+    "F6EF19E565974F4061C564845C9921170165223A" : "SYCloud\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "SYCloud",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "SYCloud\/platforms\/ios\/SYCloud.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Linda0328\/SYMerchantsApp.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "6C3CE24B628D77EFB9B52874CC5FF98F35C09E5A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/172.31.30.41\/svn\/shengyuanb2c",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9a68cf92-454f-9e4d-b84b-4a9ec5c85352++2473"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:Linda0328\/SYClound.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "F6EF19E565974F4061C564845C9921170165223A"
+    }
+  ]
+}
