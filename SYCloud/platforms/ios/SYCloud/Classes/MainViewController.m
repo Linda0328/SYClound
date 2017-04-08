@@ -37,7 +37,10 @@
 #import "AppDelegate.h"
 #import "Reachability.h"
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
-@interface MainViewController()<UIAlertViewDelegate>
+#import <BaiduMapAPI_Location/BMKLocationService.h>
+@interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate>{
+    BMKLocationService *_locationService;
+}
 @property (nonatomic,strong)MBProgressHUD *HUD;
 
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
@@ -106,6 +109,10 @@
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = YES;
+    _locationService = [[BMKLocationService alloc]init];
+    _locationService.delegate = self;
+    //启动locationService
+    [_locationService startUserLocationService];
     __weak __typeof(self)weakSelf = self;
     
     MJRefreshGifHeader *gifHeader = [MJRefreshGifHeader headerWithRefreshingBlock:^{
@@ -218,6 +225,26 @@
     }
     
 }
+#pragma mark --- 百度地图定位坐标更新
+-(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
+    CLLocation *location = userLocation.location;
+//    CLLocationCoordinate2D coordiante = userLocation.location.coordinate;
+    NSLog(@"user location lat = %f,long = %f",location.coordinate.latitude,location.coordinate.latitude);
+    //保留小数点后六位
+    NSString *mLatitude = [NSString stringWithFormat:@"%.6f",location.coordinate.latitude];
+    NSString *mLongtitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
+    [SYCShareVersionInfo sharedVersion].mLatitude = mLatitude;
+    [SYCShareVersionInfo sharedVersion].mLongtitude = mLongtitude;
+//    [_locationService stopUserLocationService];
+}
+- (void)didFailToLocateUserWithError:(NSError *)error{
+    if (error) {
+        NSLog(@"baiduMap located failed for error = %@",[error description]);
+        [SYCShareVersionInfo sharedVersion].locationError = [error description];;
+    }
+}
+
+
 ////网络变化
 //-(void)reachabilityChanged:(NSNotification*)notify{
 //    

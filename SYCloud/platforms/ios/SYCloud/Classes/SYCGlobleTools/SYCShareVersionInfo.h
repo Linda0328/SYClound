@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <CoreLocation/CoreLocation.h>
 @interface SYCShareVersionInfo : NSObject
 @property (nonatomic,copy)NSString *remoteUrl;
 @property (nonatomic,copy)NSString *imageUrl;
@@ -34,6 +34,12 @@
 @property (nonatomic,copy)NSString *scanPluginID;
 @property (nonatomic,copy)NSString *listenPluginID;
 @property (nonatomic,copy)NSString *scanResult;
+
+//定位坐标
+
+@property (nonatomic,copy)NSString *mLatitude;
+@property (nonatomic,copy)NSString *mLongtitude;
+@property (nonatomic,copy)NSString *locationError;
 
 + (instancetype)sharedVersion;
 

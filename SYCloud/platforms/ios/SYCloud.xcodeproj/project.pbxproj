@@ -54,6 +54,7 @@
 		EE629F071E962E6600832C36 /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629F011E962E6600832C36 /* BaiduMapAPI_Search.framework */; };
 		EE629F081E962E6600832C36 /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629F021E962E6600832C36 /* BaiduMapAPI_Utils.framework */; };
 		EE629F0B1E963AF600832C36 /* SYCResultPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE629F0A1E963AF600832C36 /* SYCResultPlugin.m */; };
+		EE7191CD1E976A1800DE5012 /* NSObject+JsonExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7191CC1E976A1800DE5012 /* NSObject+JsonExchange.m */; };
 		EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8011E8F53D700BCEB5F /* libc++.tbd */; };
 		EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */; };
 		EE7AD8061E8F53F900BCEB5F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */; };
@@ -270,6 +271,8 @@
 		EE629F021E962E6600832C36 /* BaiduMapAPI_Utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Utils.framework; sourceTree = "<group>"; };
 		EE629F091E963AF600832C36 /* SYCResultPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCResultPlugin.h; sourceTree = "<group>"; };
 		EE629F0A1E963AF600832C36 /* SYCResultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCResultPlugin.m; sourceTree = "<group>"; };
+		EE7191CB1E976A1800DE5012 /* NSObject+JsonExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsonExchange.h"; sourceTree = "<group>"; };
+		EE7191CC1E976A1800DE5012 /* NSObject+JsonExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsonExchange.m"; sourceTree = "<group>"; };
 		EE7AD8011E8F53D700BCEB5F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -848,6 +851,8 @@
 				EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */,
 				EE7BE7031E812DFE0080D625 /* UIImage+SYColorExtension.h */,
 				EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */,
+				EE7191CB1E976A1800DE5012 /* NSObject+JsonExchange.h */,
+				EE7191CC1E976A1800DE5012 /* NSObject+JsonExchange.m */,
 			);
 			path = SYCGlobleTools;
 			sourceTree = "<group>";
@@ -1171,6 +1176,11 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 8YHY633A9W;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -1328,6 +1338,7 @@
 				EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */,
 				EE9500631E7F804A00C35C2A /* MJRefreshBackNormalFooter.m in Sources */,
 				EE9500531E7F804A00C35C2A /* NSObject+MJClass.m in Sources */,
+				EE7191CD1E976A1800DE5012 /* NSObject+JsonExchange.m in Sources */,
 				7708061828794CCA9387ED00 /* CDVJpegHeaderWriter.m in Sources */,
 				EE9500561E7F804A00C35C2A /* NSObject+MJProperty.m in Sources */,
 				EE95003C1E7F804A00C35C2A /* UIRefreshControl+AFNetworking.m in Sources */,

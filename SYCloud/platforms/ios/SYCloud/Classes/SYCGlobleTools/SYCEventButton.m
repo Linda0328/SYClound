@@ -29,7 +29,7 @@ static CGFloat font = 17.0f;
         self.titleLabel.font = [UIFont systemFontOfSize:font];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self setTitle:model.name forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor colorWithHexString:@"666666"] forState:UIControlStateNormal];
+        [self setTitleColor:[UIColor colorWithHexString:@"ffffff"] forState:UIControlStateNormal];
     }
     if (![SYCSystem judgeNSString:model.name]&&[SYCSystem judgeNSString:model.ico]) {
         UIImage *image = [UIImage imageNamed:model.ico];

@@ -51,6 +51,11 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>App需要您的允许，才能访问照片</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>location</string>
+	</array>
 	<key>UIRequiresFullScreen</key>
 	<true/>
 	<key>UISupportedInterfaceOrientations</key>
