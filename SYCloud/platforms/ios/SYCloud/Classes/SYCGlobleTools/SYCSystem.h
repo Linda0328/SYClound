@@ -12,10 +12,15 @@ extern NSString *const loadToken;
 extern NSString *const popNotify;
 extern NSString *const scanNotify;
 extern NSString *const bundleID;
-extern NSString * const BDAppKay;
+extern NSString *const BDAppKay;
 extern NSString *const updateNotify;
 extern NSString *const hideNotify;
 extern NSString *const loadAppNotify;
+
+extern NSString *const AliPay;
+extern NSString *const AliPayScheme;
+extern NSString *const AliPaySuccess;
+extern NSString *const AliPayFail;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

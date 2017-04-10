@@ -9,8 +9,6 @@ cordova.define("shengyuan-plugin-module.PaymentPlugin", function(require, export
 		wxpay : function(data, success, fail) {
 			exec(success, fail, "PaymentPlugin", "wxpay", [ data ]);
 		},
-		sypay : function(data, success, fail) {
-			exec(success, fail, "PaymentPlugin", "sypay", [ data ]);
-		}
+
 	};
 });

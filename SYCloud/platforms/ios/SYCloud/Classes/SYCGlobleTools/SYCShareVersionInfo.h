@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
+#import "SYCAliPayModel.h"
 @interface SYCShareVersionInfo : NSObject
 @property (nonatomic,copy)NSString *remoteUrl;
 @property (nonatomic,copy)NSString *imageUrl;
@@ -37,9 +38,16 @@
 
 //定位坐标
 
-@property (nonatomic,copy)NSString *mLatitude;
-@property (nonatomic,copy)NSString *mLongtitude;
+@property (nonatomic,copy)NSString *mLatitude;//纬度
+@property (nonatomic,copy)NSString *mLongtitude;//经度
+@property (nonatomic,copy)NSString *mCity;//城市
+@property (nonatomic,copy)NSString *mDistrict;//地区
+@property (nonatomic,copy)NSString *mStreet;//街道
+@property (nonatomic,copy)NSString *mAddrStr;//地址信息
 @property (nonatomic,copy)NSString *locationError;
+
+@property (nonatomic,copy)NSString *aliPayPluginID;
+@property (nonatomic,strong)SYCAliPayModel *aliPayModel;
 
 + (instancetype)sharedVersion;
 

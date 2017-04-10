@@ -222,10 +222,10 @@ p, h6 {line-height: 1.41;text-align: justify;word-break: break-all;}
 /*加载*/
 .load{ text-align:center;color:#999; font-size:0.4rem;line-height:1.2rem;  }
 .load-span{ display:inline-block;}
-.load i{ display:block; width:.78rem; height:1.2rem;color:#999; background:url(../images/loading2.gif) no-repeat; background-size:0.5rem; 
+.load i{ display:block; width:.78rem; height:1.2rem;color:#999; background:url(../img/loading2.gif) no-repeat; background-size:0.5rem;
 background-position:center center;float:left;padding:10px; margin-right:0px; }
 
-.load-center{background-image:url(../images/loading.gif); width:3rem;height:1.7rem;background-position:center center; background-repeat:no-repeat;display:block;background-size:contain;
+.load-center{background-image:url(../img/loading.gif); width:3rem;height:1.7rem;background-position:center center; background-repeat:no-repeat;display:block;background-size:contain;
 position:absolute;top: 50%; left:50%;
 -webkit-transform: translate(-50%,-50%);
 -ms-transform: translate(-50%,-50%);

@@ -38,6 +38,8 @@
 #import "Reachability.h"
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
 #import <BaiduMapAPI_Location/BMKLocationService.h>
+#import <AlipaySDK/AlipaySDK.h>
+#import "NSObject+JsonExchange.h"
 @interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate>{
     BMKLocationService *_locationService;
 }
@@ -99,6 +101,8 @@
 //    if (![SYCSystem connectedToNetwork]) {
 //        [self reachabilityChanged:nil];
 //    }
+    
+    
 }
 
 - (void)viewDidLoad
@@ -114,15 +118,15 @@
     //启动locationService
     [_locationService startUserLocationService];
     __weak __typeof(self)weakSelf = self;
-    
-    MJRefreshGifHeader *gifHeader = [MJRefreshGifHeader headerWithRefreshingBlock:^{
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        [strongSelf LoadURL:strongSelf.startPage];
-        [strongSelf.webView.scrollView.mj_header endRefreshing];
-    }];
-    gifHeader.stateLabel.text = @"正在刷新...";
-    self.webView.scrollView.mj_header = gifHeader;
-    
+    if (!_isChild || _enableReload) {
+        MJRefreshGifHeader *gifHeader = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf LoadURL:strongSelf.startPage];
+            [strongSelf.webView.scrollView.mj_header endRefreshing];
+        }];
+        gifHeader.stateLabel.text = @"正在刷新...";
+        self.webView.scrollView.mj_header = gifHeader;
+    }
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:_HUD];
     
@@ -153,8 +157,10 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(hideProgress:) name:hideNotify object:nil];
     [center addObserver:self selector:@selector(updateApp:) name:updateNotify object:nil];
-    
     [center addObserver:self selector:@selector(ReloadAppState:) name:loadAppNotify object:nil];
+    [center addObserver:self selector:@selector(updateApp:) name:updateNotify object:nil];
+    
+    [center addObserver:self selector:@selector(AlyPay:) name:AliPay object:nil];
     
     //开始加载
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
@@ -218,6 +224,27 @@
     }
     [self LoadURL:self.startPage];
 }
+-(void)AlyPay:(NSNotification*)notify{
+    NSLog(@"-----requestparmas-----%@",[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams);
+    [[AlipaySDK defaultService] payOrder:[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams fromScheme:AliPayScheme callback:^(NSDictionary *resultDic) {
+        NSLog(@"----result---%@",resultDic);
+        NSLog(@"-----memo---%@",resultDic[@"memo"]);
+        NSString *resultContent = resultDic[@"memo"];
+        NSString *resultStatus = resultDic[@"resultStatus"];
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setObject:AliPaySuccess forKey:@"resultCode"];
+        if (![resultStatus isEqualToString:@"9000"]) {
+            [dic setObject:AliPayFail forKey:@"resultCode"];
+        }
+        [dic setObject:resultContent forKey:resultContent];
+        NSString *jsonS = [dic JSONString];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].aliPayPluginID];
+        [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
+        [SYCShareVersionInfo sharedVersion].aliPayPluginID = nil;
+    }];
+}
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         //        NSString *url = [NSString stringWithFormat:@"https://itunes.apple.com/cn/app/"];
@@ -235,6 +262,25 @@
     NSString *mLongtitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
     [SYCShareVersionInfo sharedVersion].mLatitude = mLatitude;
     [SYCShareVersionInfo sharedVersion].mLongtitude = mLongtitude;
+    CLGeocoder *geoCoder = [[CLGeocoder alloc]init];
+    [geoCoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        if (placemarks.count>0) {
+            CLPlacemark *placeMark = [placemarks firstObject];
+            NSString *city = placeMark.locality;
+            if ([SYCSystem judgeNSString:city]) {
+                city = @"无法定位当前城市";
+            }
+            [SYCShareVersionInfo sharedVersion].mCity = city;//城市
+            [SYCShareVersionInfo sharedVersion].mDistrict = placeMark.subLocality;//地区
+            [SYCShareVersionInfo sharedVersion].mStreet = placeMark.thoroughfare;//街道
+            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.subThoroughfare;//地址信息
+//            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.name;
+        }else if (!error&&placemarks.count == 0){
+            NSLog(@"No location and error return");
+        }else{
+            NSLog(@"location error :%@",error);
+        }
+    }];
 //    [_locationService stopUserLocationService];
 }
 - (void)didFailToLocateUserWithError:(NSError *)error{

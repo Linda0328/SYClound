@@ -12,5 +12,5 @@
 @interface SYCPaymentPlugin : CDVPlugin
 -(void)alipay:(CDVInvokedUrlCommand *)command;
 -(void)wxpay:(CDVInvokedUrlCommand *)command;
--(void)sypay:(CDVInvokedUrlCommand *)command;
+
 @end

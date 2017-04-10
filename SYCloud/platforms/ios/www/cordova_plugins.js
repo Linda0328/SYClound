@@ -81,6 +81,14 @@ module.exports = [
         ]
     },
     {
+      "id": "shengyuan-plugin-module.PaymentCloudPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/PaymentCloudPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.cloud"
+         ]
+    },
+    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",

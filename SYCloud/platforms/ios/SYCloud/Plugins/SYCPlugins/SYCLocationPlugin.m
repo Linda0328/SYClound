@@ -17,6 +17,10 @@
 //    NSString *fail = [command.arguments objectAtIndex:1];
     NSDictionary *locationDic = @{@"mLatitute":[SYCShareVersionInfo sharedVersion].mLatitude,
                                   @"mLongtitude":[SYCShareVersionInfo sharedVersion].mLongtitude};
+//                                  @"mCity":[SYCShareVersionInfo sharedVersion].mCity,
+//                                  @"mmDistrict":[SYCShareVersionInfo sharedVersion].mDistrict,
+//                                  @"mStreet":[SYCShareVersionInfo sharedVersion].mStreet,
+//                                  @"mAddrStr":[SYCShareVersionInfo sharedVersion].mAddrStr};
     NSString *jsonStr = [locationDic JSONString];
     [self.commandDelegate runInBackground:^{
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].locationError]) {

@@ -51,7 +51,7 @@ static NSString *const searchBarSubmit = @"submit";
     
     _optionURLArr = [NSMutableArray arrayWithCapacity:20];
     __weak __typeof(self)weakSelf = self;
-    self.pushBlock = ^(NSString *contentUrl,BOOL isBackToLast,SYCNavigationBarModel *navModel){
+    self.pushBlock = ^(NSString *contentUrl,BOOL isBackToLast,BOOL reload,SYCNavigationBarModel *navModel){
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         SYCContentViewController *viewC =[[SYCContentViewController alloc]init];
         [viewC setNavigationBar:navModel];
@@ -61,13 +61,14 @@ static NSString *const searchBarSubmit = @"submit";
         MainViewController *pushM = [[MainViewController alloc]init];
         pushM.startPage = navModel.url;
         viewC.CurrentChildVC = pushM;
+        pushM.enableReload = reload;
+        pushM.isChild = YES;
+        pushM.isRoot = NO;
+        pushM.lastViewController = strongSelf.CurrentChildVC;
         pushM.view.frame = rect;
         [viewC addChildViewController:pushM];
         [viewC.view addSubview:pushM.view];
         [pushM didMoveToParentViewController:viewC];
-        pushM.isChild = YES;
-        pushM.isRoot = NO;
-        pushM.lastViewController = strongSelf.CurrentChildVC;
         strongSelf.hidesBottomBarWhenPushed = YES;
         strongSelf.navigationController.navigationBar.translucent = NO;
         strongSelf.navigationController.navigationBar.hidden = NO;

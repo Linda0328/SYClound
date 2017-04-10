@@ -30,15 +30,18 @@
 -(void)start:(CDVInvokedUrlCommand *)command{
     NSString *url = [command.arguments firstObject];
     BOOL isfinish = [[command.arguments objectAtIndex:1] boolValue];
-    NSDictionary *titleBar = [command.arguments objectAtIndex:2];
+    BOOL reload = [[command.arguments objectAtIndex:2] boolValue];
+    NSDictionary *titleBar = [command.arguments objectAtIndex:3];
+    
     //    NSDictionary *titleBarDic = [NSJSONSerialization JSONObjectWithData:[titleBar dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:nil];
     SYCNavigationBarModel *model = [SYCNavigationBarModel mj_objectWithKeyValues:titleBar];
     model.url = url;
     MainViewController *mainVC = (MainViewController*)self.viewController;
+   
     if (mainVC.isChild) {
         SYCContentViewController *navVC = (SYCContentViewController *)mainVC.parentViewController;
         if (navVC.pushBlock) {
-            navVC.pushBlock(url,!isfinish,model);
+            navVC.pushBlock(url,!isfinish,reload,model);
         }
         
     }

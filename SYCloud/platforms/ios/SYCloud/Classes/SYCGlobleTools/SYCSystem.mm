@@ -26,6 +26,11 @@ NSString *const updateNotify = @"updateOrNot";
 NSString *const hideNotify = @"hideNotice";
 NSString *const loadAppNotify = @"LoadApp";
 NSString *const SecureSecrit = @"Sy-CloudPay-Android";
+
+NSString *const AliPay = @"AliPay";
+NSString *const AliPayScheme = @"shengyuan";
+NSString *const AliPaySuccess = @"0000";
+NSString *const AliPayFail = @"7000";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

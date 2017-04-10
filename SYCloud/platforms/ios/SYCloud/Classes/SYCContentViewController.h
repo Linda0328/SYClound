@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
 #import "SYCNavigationBarModel.h"
-typedef void(^pushViewControllerBlock)(NSString *contentUrl,BOOL isBackToLast,SYCNavigationBarModel *navModel);
+typedef void(^pushViewControllerBlock)(NSString *contentUrl,BOOL isBackToLast,BOOL Reload,SYCNavigationBarModel *navModel);
 @interface SYCContentViewController : UIViewController
 @property (nonatomic,copy)pushViewControllerBlock pushBlock;
 @property (nonatomic,strong)MainViewController *CurrentChildVC;
