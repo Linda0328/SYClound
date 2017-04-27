@@ -26,18 +26,26 @@ NSString *const updateNotify = @"updateOrNot";
 NSString *const hideNotify = @"hideNotice";
 NSString *const loadAppNotify = @"LoadApp";
 NSString *const SecureSecrit = @"Sy-CloudPay-Android";
+NSString *const passwordNotify = @"passwordNotify";
 
 NSString *const AliPay = @"AliPay";
 NSString *const AliPayScheme = @"shengyuan";
 NSString *const AliPaySuccess = @"0000";
 NSString *const AliPayFail = @"7000";
+
+//pay password
+NSString *const PayPsw = @"passwordForPay";
+NSString *const PaypswSet = @"passwordForPaySetOrNot";
+NSString *const mainKey = @"mainVC";
+
+static CGFloat heightForSixSeries = 568;
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
     if (DEBUG) {
-      baseURL = SYCloudLocalBaseURLJW;
+//      baseURL = SYCloudLocalBaseURLJW;
 //    baseURL = SYCloudLocalBaseURLTH;
-//      baseURL = SYCloudTestBaseURL;
+      baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
     }else{
       baseURL = SYCloudFormalBaseURL;
@@ -217,5 +225,45 @@ NSString *const AliPayFail = @"7000";
     BOOL isReachable = flags & kSCNetworkFlagsReachable;
     BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
     return (isReachable && !needsConnection) ? YES : NO;
+}
++(NSString*)getNetworkType{
+    NSString *networkType = nil;
+    
+    UIApplication *app = [UIApplication sharedApplication];
+    NSArray *children = [[[app valueForKeyPath:@"statusBar"] valueForKeyPath:@"foregroundView"] subviews];
+    
+    int type = 0;
+    for (id child in children) {
+        if ([child isKindOfClass:NSClassFromString(@"UIStatusBarDataNetworkItemView")]) {
+            type = [[child valueForKeyPath:@"dataNetworkType"] intValue];
+        }
+    }
+    switch (type) {
+        case 0:
+            networkType = @"无网络";
+            break;
+        case 1:
+            networkType = @"2G";
+            break;
+        case 2:
+            networkType = @"3G";
+            break;
+        case 3:
+            networkType = @"4G";
+            break;
+        case 5:
+            networkType = @"WIFI";
+            break;
+        default:
+            networkType = @"检测不到网络";
+            break;
+    }
+    return networkType;
+}
++(CGFloat)PointCoefficient{
+    if ([[self class]deviceHeigth]>heightForSixSeries) {
+        return 1.104;
+    }
+    return 1.0;
 }
 @end

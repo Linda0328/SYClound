@@ -89,6 +89,14 @@ module.exports = [
          ]
     },
     {
+      "id": "shengyuan-plugin-module.",
+      "file": "plugins/shengyuan-plugin-module/www/RequestPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.request"
+         ]
+    },
+    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",

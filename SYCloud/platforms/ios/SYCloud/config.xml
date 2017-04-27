@@ -115,4 +115,7 @@
     <feature name="PaymentCloudPlugin">
         <param name="ios-package" value="SYCPaymentCloudPlugin" />
     </feature>
+    <feature name="RequestPlugin">
+        <param name="ios-package" value="SYCRequestPlugin" />
+    </feature>
 </widget>

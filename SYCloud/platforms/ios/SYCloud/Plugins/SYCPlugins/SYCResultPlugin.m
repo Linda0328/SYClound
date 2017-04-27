@@ -50,5 +50,18 @@
         //        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
-
+-(void)refresh:(CDVInvokedUrlCommand *)command{
+    BOOL isfinish = [[command.arguments firstObject] boolValue];
+    MainViewController *main = (MainViewController*)self.viewController;
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:loadAppNotify object:main];
+    if(isfinish){
+        [center postNotificationName:popNotify object:main];
+    }
+    [self.commandDelegate runInBackground:^{
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"refresh"];
+        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+        
+    }];
+}
 @end

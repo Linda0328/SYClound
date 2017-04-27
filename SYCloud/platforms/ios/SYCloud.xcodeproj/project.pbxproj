@@ -34,6 +34,8 @@
 		D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = A884C9C097864323869DE722 /* Toast+UIView.m */; };
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
+		EE62103F1EAB31D200F71DF7 /* SYCPassWordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62103E1EAB31D200F71DF7 /* SYCPassWordModel.m */; };
+		EE6210421EAB4E5500F71DF7 /* SYCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6210411EAB4E5500F71DF7 /* SYCUUID.m */; };
 		EE629ED51E95EA5500832C36 /* 750x1334-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */; };
 		EE629ED61E95EA5500832C36 /* 750x1334-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */; };
 		EE629ED71E95EA5500832C36 /* 750x1334-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */; };
@@ -55,6 +57,11 @@
 		EE629F081E962E6600832C36 /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629F021E962E6600832C36 /* BaiduMapAPI_Utils.framework */; };
 		EE629F0B1E963AF600832C36 /* SYCResultPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE629F0A1E963AF600832C36 /* SYCResultPlugin.m */; };
 		EE7191CD1E976A1800DE5012 /* NSObject+JsonExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7191CC1E976A1800DE5012 /* NSObject+JsonExchange.m */; };
+		EE72D2EA1EA9D7FE00AFBD9E /* SYCPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2E91EA9D7FE00AFBD9E /* SYCPresentationController.m */; };
+		EE72D2ED1EA9DF9300AFBD9E /* SYCPresentedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2EC1EA9DF9300AFBD9E /* SYCPresentedViewController.m */; };
+		EE72D2F01EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2EF1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m */; };
+		EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */; };
+		EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */; };
 		EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8011E8F53D700BCEB5F /* libc++.tbd */; };
 		EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */; };
 		EE7AD8061E8F53F900BCEB5F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */; };
@@ -68,6 +75,9 @@
 		EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */; };
 		EE7BE7021E8125D50080D625 /* SYScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7011E8125D50080D625 /* SYScanViewController.m */; };
 		EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */; };
+		EE8156DA1EB1C72B00C13482 /* SYCPaymentLoadingHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156D91EB1C72B00C13482 /* SYCPaymentLoadingHUD.m */; };
+		EE8156DE1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156DD1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m */; };
+		EE8156E11EB1CA2D00C13482 /* SYCPaymentFailHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */; };
 		EE91600D1E98BADC00B3D014 /* SYCAliPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */; };
 		EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF981E7F804A00C35C2A /* AFHTTPSessionManager.m */; };
 		EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9B1E7F804A00C35C2A /* AFNetworkReachabilityManager.m */; };
@@ -172,12 +182,12 @@
 		EED6FB731E94E2430061B6AC /* 1080x1920-1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6A1E94E2430061B6AC /* 1080x1920-1@3x.png */; };
 		EED6FB741E94E2430061B6AC /* 1080x1920-2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6B1E94E2430061B6AC /* 1080x1920-2@3x.png */; };
 		EED6FB751E94E2430061B6AC /* 1080x1920-3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6C1E94E2430061B6AC /* 1080x1920-3@3x.png */; };
-		EED6FB761E94E2430061B6AC /* 2-640x1136-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6D1E94E2430061B6AC /* 2-640x1136-1@2x.png */; };
-		EED6FB771E94E2430061B6AC /* 2-640x1136-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6E1E94E2430061B6AC /* 2-640x1136-2@2x.png */; };
-		EED6FB781E94E2430061B6AC /* 2-640x1136-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6F1E94E2430061B6AC /* 2-640x1136-3@2x.png */; };
-		EED6FB791E94E2430061B6AC /* 3-640x960-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB701E94E2430061B6AC /* 3-640x960-1.png */; };
-		EED6FB7A1E94E2430061B6AC /* 3-640x960-2.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB711E94E2430061B6AC /* 3-640x960-2.png */; };
-		EED6FB7B1E94E2430061B6AC /* 3-640x960-3.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB721E94E2430061B6AC /* 3-640x960-3.png */; };
+		EED6FB761E94E2430061B6AC /* 640x1136-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6D1E94E2430061B6AC /* 640x1136-1@2x.png */; };
+		EED6FB771E94E2430061B6AC /* 640x1136-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6E1E94E2430061B6AC /* 640x1136-2@2x.png */; };
+		EED6FB781E94E2430061B6AC /* 640x1136-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB6F1E94E2430061B6AC /* 640x1136-3@2x.png */; };
+		EED6FB791E94E2430061B6AC /* 640x960-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB701E94E2430061B6AC /* 640x960-1.png */; };
+		EED6FB7A1E94E2430061B6AC /* 640x960-2.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB711E94E2430061B6AC /* 640x960-2.png */; };
+		EED6FB7B1E94E2430061B6AC /* 640x960-3.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB721E94E2430061B6AC /* 640x960-3.png */; };
 		EEEAC04D1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEAC04C1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m */; };
 		F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCD32EA3D984DFDBCA99FE2 /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -252,6 +262,10 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		EE62103D1EAB31D200F71DF7 /* SYCPassWordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPassWordModel.h; sourceTree = "<group>"; };
+		EE62103E1EAB31D200F71DF7 /* SYCPassWordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPassWordModel.m; sourceTree = "<group>"; };
+		EE6210401EAB4E5500F71DF7 /* SYCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCUUID.h; sourceTree = "<group>"; };
+		EE6210411EAB4E5500F71DF7 /* SYCUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCUUID.m; sourceTree = "<group>"; };
 		EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-1@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-1@2x.png"; sourceTree = "<group>"; };
 		EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-2@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-2@2x.png"; sourceTree = "<group>"; };
 		EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-3@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-3@2x.png"; sourceTree = "<group>"; };
@@ -275,6 +289,16 @@
 		EE629F0A1E963AF600832C36 /* SYCResultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCResultPlugin.m; sourceTree = "<group>"; };
 		EE7191CB1E976A1800DE5012 /* NSObject+JsonExchange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JsonExchange.h"; sourceTree = "<group>"; };
 		EE7191CC1E976A1800DE5012 /* NSObject+JsonExchange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JsonExchange.m"; sourceTree = "<group>"; };
+		EE72D2E81EA9D7FE00AFBD9E /* SYCPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPresentationController.h; sourceTree = "<group>"; };
+		EE72D2E91EA9D7FE00AFBD9E /* SYCPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPresentationController.m; sourceTree = "<group>"; };
+		EE72D2EB1EA9DF9300AFBD9E /* SYCPresentedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPresentedViewController.h; sourceTree = "<group>"; };
+		EE72D2EC1EA9DF9300AFBD9E /* SYCPresentedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPresentedViewController.m; sourceTree = "<group>"; };
+		EE72D2EE1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCBlurEffectSdapter.h; sourceTree = "<group>"; };
+		EE72D2EF1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCBlurEffectSdapter.m; sourceTree = "<group>"; };
+		EE72D2F11EA9F35100AFBD9E /* SYCPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPasswordViewController.h; sourceTree = "<group>"; };
+		EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPasswordViewController.m; sourceTree = "<group>"; };
+		EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestPlugin.h; sourceTree = "<group>"; };
+		EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestPlugin.m; sourceTree = "<group>"; };
 		EE7AD8011E8F53D700BCEB5F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -292,6 +316,12 @@
 		EE7BE7011E8125D50080D625 /* SYScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYScanViewController.m; sourceTree = "<group>"; };
 		EE7BE7031E812DFE0080D625 /* UIImage+SYColorExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SYColorExtension.h"; sourceTree = "<group>"; };
 		EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SYColorExtension.m"; sourceTree = "<group>"; };
+		EE8156D81EB1C72B00C13482 /* SYCPaymentLoadingHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentLoadingHUD.h; sourceTree = "<group>"; };
+		EE8156D91EB1C72B00C13482 /* SYCPaymentLoadingHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentLoadingHUD.m; sourceTree = "<group>"; };
+		EE8156DC1EB1C85C00C13482 /* SYCPaymentSuccessHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentSuccessHUD.h; sourceTree = "<group>"; };
+		EE8156DD1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentSuccessHUD.m; sourceTree = "<group>"; };
+		EE8156DF1EB1CA2D00C13482 /* SYCPaymentFailHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentFailHUD.h; sourceTree = "<group>"; };
+		EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentFailHUD.m; sourceTree = "<group>"; };
 		EE91600B1E98BADC00B3D014 /* SYCAliPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCAliPayModel.h; sourceTree = "<group>"; };
 		EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCAliPayModel.m; sourceTree = "<group>"; };
 		EE9500001E7F804A00C35C2A /* MJRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooter.h; sourceTree = "<group>"; };
@@ -493,12 +523,12 @@
 		EED6FB6A1E94E2430061B6AC /* 1080x1920-1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1080x1920-1@3x.png"; sourceTree = "<group>"; };
 		EED6FB6B1E94E2430061B6AC /* 1080x1920-2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1080x1920-2@3x.png"; sourceTree = "<group>"; };
 		EED6FB6C1E94E2430061B6AC /* 1080x1920-3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "1080x1920-3@3x.png"; sourceTree = "<group>"; };
-		EED6FB6D1E94E2430061B6AC /* 2-640x1136-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2-640x1136-1@2x.png"; sourceTree = "<group>"; };
-		EED6FB6E1E94E2430061B6AC /* 2-640x1136-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2-640x1136-2@2x.png"; sourceTree = "<group>"; };
-		EED6FB6F1E94E2430061B6AC /* 2-640x1136-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2-640x1136-3@2x.png"; sourceTree = "<group>"; };
-		EED6FB701E94E2430061B6AC /* 3-640x960-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-640x960-1.png"; sourceTree = "<group>"; };
-		EED6FB711E94E2430061B6AC /* 3-640x960-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-640x960-2.png"; sourceTree = "<group>"; };
-		EED6FB721E94E2430061B6AC /* 3-640x960-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "3-640x960-3.png"; sourceTree = "<group>"; };
+		EED6FB6D1E94E2430061B6AC /* 640x1136-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x1136-1@2x.png"; sourceTree = "<group>"; };
+		EED6FB6E1E94E2430061B6AC /* 640x1136-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x1136-2@2x.png"; sourceTree = "<group>"; };
+		EED6FB6F1E94E2430061B6AC /* 640x1136-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x1136-3@2x.png"; sourceTree = "<group>"; };
+		EED6FB701E94E2430061B6AC /* 640x960-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x960-1.png"; sourceTree = "<group>"; };
+		EED6FB711E94E2430061B6AC /* 640x960-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x960-2.png"; sourceTree = "<group>"; };
+		EED6FB721E94E2430061B6AC /* 640x960-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x960-3.png"; sourceTree = "<group>"; };
 		EEEAC04B1E9B358D00AB7183 /* SYCPaymentCloudPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentCloudPlugin.h; sourceTree = "<group>"; };
 		EEEAC04C1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentCloudPlugin.m; sourceTree = "<group>"; };
 		F4EE1BD21CB1415CB4C2AD40 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = "cordova-plugin-file/CDVLocalFilesystem.h"; sourceTree = "<group>"; };
@@ -736,6 +766,34 @@
 			path = thirdlibs;
 			sourceTree = SOURCE_ROOT;
 		};
+		EE72D2E71EA9D7A000AFBD9E /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				EE72D2E81EA9D7FE00AFBD9E /* SYCPresentationController.h */,
+				EE72D2E91EA9D7FE00AFBD9E /* SYCPresentationController.m */,
+				EE72D2EB1EA9DF9300AFBD9E /* SYCPresentedViewController.h */,
+				EE72D2EC1EA9DF9300AFBD9E /* SYCPresentedViewController.m */,
+				EE72D2EE1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.h */,
+				EE72D2EF1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m */,
+				EE72D2F11EA9F35100AFBD9E /* SYCPasswordViewController.h */,
+				EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */,
+			);
+			name = Presentation;
+			sourceTree = "<group>";
+		};
+		EE8156DB1EB1C77600C13482 /* PaymentAnimation */ = {
+			isa = PBXGroup;
+			children = (
+				EE8156D81EB1C72B00C13482 /* SYCPaymentLoadingHUD.h */,
+				EE8156D91EB1C72B00C13482 /* SYCPaymentLoadingHUD.m */,
+				EE8156DC1EB1C85C00C13482 /* SYCPaymentSuccessHUD.h */,
+				EE8156DD1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m */,
+				EE8156DF1EB1CA2D00C13482 /* SYCPaymentFailHUD.h */,
+				EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */,
+			);
+			name = PaymentAnimation;
+			sourceTree = "<group>";
+		};
 		EE9500041E7F804A00C35C2A /* Custom */ = {
 			isa = PBXGroup;
 			children = (
@@ -838,6 +896,8 @@
 				EE629F0A1E963AF600832C36 /* SYCResultPlugin.m */,
 				EEEAC04B1E9B358D00AB7183 /* SYCPaymentCloudPlugin.h */,
 				EEEAC04C1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m */,
+				EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */,
+				EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */,
 			);
 			path = SYCPlugins;
 			sourceTree = "<group>";
@@ -851,6 +911,8 @@
 				EE95FF7B1E7F7EC600C35C2A /* SYCShareVersionInfo.m */,
 				EE95FF7C1E7F7EC600C35C2A /* SYCSystem.h */,
 				EE95FF7D1E7F7EC600C35C2A /* SYCSystem.mm */,
+				EE6210401EAB4E5500F71DF7 /* SYCUUID.h */,
+				EE6210411EAB4E5500F71DF7 /* SYCUUID.m */,
 				EE9500821E7FD18D00C35C2A /* SYCEventButton.h */,
 				EE9500831E7FD18D00C35C2A /* SYCEventButton.m */,
 				EE9500851E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.h */,
@@ -888,6 +950,8 @@
 				EE7AD8151E8F91BD00BCEB5F /* SYCGroupModel.m */,
 				EE91600B1E98BADC00B3D014 /* SYCAliPayModel.h */,
 				EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */,
+				EE62103D1EAB31D200F71DF7 /* SYCPassWordModel.h */,
+				EE62103E1EAB31D200F71DF7 /* SYCPassWordModel.m */,
 			);
 			path = SYCModel;
 			sourceTree = "<group>";
@@ -1109,6 +1173,8 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EE8156DB1EB1C77600C13482 /* PaymentAnimation */,
+				EE72D2E71EA9D7A000AFBD9E /* Presentation */,
 				EE95FF811E7F7ECD00C35C2A /* SYCModel */,
 				EE95FF771E7F7EC600C35C2A /* SYCGlobleTools */,
 			);
@@ -1144,12 +1210,12 @@
 				EED6FB6A1E94E2430061B6AC /* 1080x1920-1@3x.png */,
 				EED6FB6B1E94E2430061B6AC /* 1080x1920-2@3x.png */,
 				EED6FB6C1E94E2430061B6AC /* 1080x1920-3@3x.png */,
-				EED6FB6D1E94E2430061B6AC /* 2-640x1136-1@2x.png */,
-				EED6FB6E1E94E2430061B6AC /* 2-640x1136-2@2x.png */,
-				EED6FB6F1E94E2430061B6AC /* 2-640x1136-3@2x.png */,
-				EED6FB701E94E2430061B6AC /* 3-640x960-1.png */,
-				EED6FB711E94E2430061B6AC /* 3-640x960-2.png */,
-				EED6FB721E94E2430061B6AC /* 3-640x960-3.png */,
+				EED6FB6D1E94E2430061B6AC /* 640x1136-1@2x.png */,
+				EED6FB6E1E94E2430061B6AC /* 640x1136-2@2x.png */,
+				EED6FB6F1E94E2430061B6AC /* 640x1136-3@2x.png */,
+				EED6FB701E94E2430061B6AC /* 640x960-1.png */,
+				EED6FB711E94E2430061B6AC /* 640x960-2.png */,
+				EED6FB721E94E2430061B6AC /* 640x960-3.png */,
 			);
 			path = launchpadImage;
 			sourceTree = "<group>";
@@ -1234,28 +1300,28 @@
 				EE95003E1E7F804A00C35C2A /* LICENSE in Resources */,
 				EE629ED61E95EA5500832C36 /* 750x1334-2@2x.png in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
-				EED6FB771E94E2430061B6AC /* 2-640x1136-2@2x.png in Resources */,
+				EED6FB771E94E2430061B6AC /* 640x1136-2@2x.png in Resources */,
 				EE95004D1E7F804A00C35C2A /* LICENSE in Resources */,
 				EE629EDC1E9624CA00832C36 /* AlipaySDK.bundle in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				EE95004A1E7F804A00C35C2A /* LICENSE in Resources */,
-				EED6FB7B1E94E2430061B6AC /* 3-640x960-3.png in Resources */,
+				EED6FB7B1E94E2430061B6AC /* 640x960-3.png in Resources */,
 				EED6FB731E94E2430061B6AC /* 1080x1920-1@3x.png in Resources */,
 				6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */,
-				EED6FB7A1E94E2430061B6AC /* 3-640x960-2.png in Resources */,
-				EED6FB781E94E2430061B6AC /* 2-640x1136-3@2x.png in Resources */,
+				EED6FB7A1E94E2430061B6AC /* 640x960-2.png in Resources */,
+				EED6FB781E94E2430061B6AC /* 640x1136-3@2x.png in Resources */,
 				EE9500591E7F804A00C35C2A /* LICENSE in Resources */,
 				EE95006F1E7F804A00C35C2A /* LICENCE.txt in Resources */,
 				EE629EF21E962A8100832C36 /* mapapi.bundle in Resources */,
 				EE629ED51E95EA5500832C36 /* 750x1334-1@2x.png in Resources */,
 				4E7F4FE61C534CB280912E6C /* CDVNotification.bundle in Resources */,
-				EED6FB761E94E2430061B6AC /* 2-640x1136-1@2x.png in Resources */,
+				EED6FB761E94E2430061B6AC /* 640x1136-1@2x.png in Resources */,
 				EED6FB741E94E2430061B6AC /* 1080x1920-2@3x.png in Resources */,
 				EED6FB751E94E2430061B6AC /* 1080x1920-3@3x.png in Resources */,
 				EE9500681E7F804A00C35C2A /* MJRefresh.bundle in Resources */,
 				EED6FB681E94DCF60061B6AC /* SYIntroduceWLANView.xib in Resources */,
 				EE629ED71E95EA5500832C36 /* 750x1334-3@2x.png in Resources */,
-				EED6FB791E94E2430061B6AC /* 3-640x960-1.png in Resources */,
+				EED6FB791E94E2430061B6AC /* 640x960-1.png in Resources */,
 				EE9500331E7F804A00C35C2A /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1293,6 +1359,7 @@
 				EE9500441E7F804A00C35C2A /* MASViewConstraint.m in Sources */,
 				EE95007E1E7FC21100C35C2A /* HexColor.m in Sources */,
 				EE9500501E7F804A00C35C2A /* MJProperty.m in Sources */,
+				EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */,
 				EE9500571E7F804A00C35C2A /* NSString+MJExtension.m in Sources */,
 				EE9500871E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m in Sources */,
 				EE9500621E7F804A00C35C2A /* MJRefreshBackGifFooter.m in Sources */,
@@ -1309,6 +1376,7 @@
 				EE9500691E7F804A00C35C2A /* MJRefreshConst.m in Sources */,
 				EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */,
 				EE95006A1E7F804A00C35C2A /* NSBundle+MJRefresh.m in Sources */,
+				EE62103F1EAB31D200F71DF7 /* SYCPassWordModel.m in Sources */,
 				EEEAC04D1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m in Sources */,
 				EE9500641E7F804A00C35C2A /* MJRefreshBackStateFooter.m in Sources */,
 				EE9500581E7F804A00C35C2A /* README.md in Sources */,
@@ -1348,19 +1416,24 @@
 				EE9500771E7FBF3E00C35C2A /* SYCTabViewController.m in Sources */,
 				EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */,
 				EE9500631E7F804A00C35C2A /* MJRefreshBackNormalFooter.m in Sources */,
+				EE72D2EA1EA9D7FE00AFBD9E /* SYCPresentationController.m in Sources */,
 				EE9500531E7F804A00C35C2A /* NSObject+MJClass.m in Sources */,
 				EE7191CD1E976A1800DE5012 /* NSObject+JsonExchange.m in Sources */,
 				7708061828794CCA9387ED00 /* CDVJpegHeaderWriter.m in Sources */,
 				EE9500561E7F804A00C35C2A /* NSObject+MJProperty.m in Sources */,
 				EE95003C1E7F804A00C35C2A /* UIRefreshControl+AFNetworking.m in Sources */,
+				EE72D2F01EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m in Sources */,
+				EE72D2ED1EA9DF9300AFBD9E /* SYCPresentedViewController.m in Sources */,
 				E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */,
 				C83F01A0ECF3438DB6144049 /* CDVFile.m in Sources */,
 				EE95FF901E7F7ECD00C35C2A /* SYCMainPageModel.m in Sources */,
 				EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */,
+				EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */,
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,
 				EE9500391E7F804A00C35C2A /* UIButton+AFNetworking.m in Sources */,
 				EE95006D1E7F804A00C35C2A /* UIView+MJExtension.m in Sources */,
 				EE9500841E7FD18D00C35C2A /* SYCEventButton.m in Sources */,
+				EE8156DE1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m in Sources */,
 				EE9500551E7F804A00C35C2A /* NSObject+MJKeyValue.m in Sources */,
 				EE9500701E7F804A00C35C2A /* Reachability.m in Sources */,
 				EE9500431E7F804A00C35C2A /* MASViewAttribute.m in Sources */,
@@ -1370,6 +1443,7 @@
 				EE9500341E7F804A00C35C2A /* README.md in Sources */,
 				EE95FF731E7F7DAB00C35C2A /* SYCScanPlugin.m in Sources */,
 				EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */,
+				EE6210421EAB4E5500F71DF7 /* SYCUUID.m in Sources */,
 				C18824F19B5E455885AB351C /* CDVLocalFilesystem.m in Sources */,
 				EE9500671E7F804A00C35C2A /* MJRefreshStateHeader.m in Sources */,
 				EE9500451E7F804A00C35C2A /* NSArray+MASAdditions.m in Sources */,
@@ -1388,6 +1462,8 @@
 				EE95006B1E7F804A00C35C2A /* UIScrollView+MJExtension.m in Sources */,
 				EE9500411E7F804A00C35C2A /* MASConstraintMaker.m in Sources */,
 				EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */,
+				EE8156DA1EB1C72B00C13482 /* SYCPaymentLoadingHUD.m in Sources */,
+				EE8156E11EB1CA2D00C13482 /* SYCPaymentFailHUD.m in Sources */,
 				EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */,
 				EE9500351E7F804A00C35C2A /* AFAutoPurgingImageCache.m in Sources */,
 				D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */,

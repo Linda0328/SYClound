@@ -49,6 +49,8 @@ typedef void (^pushUnrechableBlock)();
 @property (nonatomic,assign)BOOL isHiddenNavBar;
 @property (nonatomic,assign)BOOL enableReload;
 @property (nonatomic,copy)NSString *scanResult;
+
+
 -(void)LoadURL:(NSString*)url;
 @end
 

@@ -45,6 +45,7 @@
 #import "SYReachableNotViewController.h"
 #import "MBProgressHUD.h"
 #import <BaiduMapAPI_Base/BMKMapManager.h>
+#import "SYCUUID.h"
 @interface AppDelegate(){
     BMKMapManager *_mapManager;
 }
@@ -71,9 +72,8 @@
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
     
-    
+   
     BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
-    //    BOOL guiderShow = [[NSUserDefaults standardUserDefaults] boolForKey:GuiderShow];
     if(canShow){ // 初始化新特性界面
         self.window.rootViewController = [XZMCoreNewFeatureVC newFeatureVCWithImageNames:[SYCSystem guiderImageS] enterBlock:^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -127,6 +127,10 @@
             self.window.rootViewController = navC;
         }
 
+    }
+    if([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]){
+        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+        [def setBool:[SYCHttpReqTool PswSetOrNot] forKey:PaypswSet];
     }
     
     [self.window makeKeyAndVisible];
@@ -187,7 +191,6 @@
         self.isReachable = YES;
         
     }
-    
     
 }
 

@@ -21,13 +21,15 @@
 #import "SYCGroupModel.h"
 #import "SYOpenWLANTableViewController.h"
 #import "UIImage+SYColorExtension.h"
+#import "SYCPasswordViewController.h"
+#import "SYCPresentationController.h"
 static float const cellHeight = 32.0f;
 static float const cellNum = 3;
 static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
 static NSString *const searchBarSubmit = @"submit";
-@interface SYCContentViewController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface SYCContentViewController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 @property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property (nonatomic,strong)NSMutableArray *groupArr;
@@ -88,6 +90,8 @@ static NSString *const searchBarSubmit = @"submit";
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
+    
+    [center addObserver:self selector:@selector(passwordSetting:) name:passwordNotify object:nil];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     if (!_groupTable.hidden) {
@@ -143,7 +147,28 @@ static NSString *const searchBarSubmit = @"submit";
     }
     [self.navigationController popViewControllerAnimated:YES];
 }
-
+-(void)passwordSetting:(NSNotification*)notify{
+    SYCPassWordModel *payModel = (SYCPassWordModel*)notify.object;
+    MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
+    passwVC.pswModel = payModel;
+    passwVC.modalPresentationStyle = UIModalPresentationCustom;
+    passwVC.transitioningDelegate = self;
+    [self presentViewController:passwVC animated:YES completion:nil];
+}
+-(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
+    SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];
+    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+//    presentation.blurEffectStyle = UIBlurEffectStyleLight;
+//    presentation.shouldApplyBackgroundBlurEffect = YES;
+    presentation.backgroundColor = [UIColor colorWithHexString:@"000000"];
+    presentation.backgroundAlpha = 0.5;
+    presentation.contentViewRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
+    return presentation;
+}
 -(void)setNavigationBar:(SYCNavigationBarModel *)navBarModel{
     _isHiddenNavigationBar = NO;
     UIColor *color = [UIColor colorWithHexString:@"458DEF"];
