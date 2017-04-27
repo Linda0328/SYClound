@@ -97,11 +97,18 @@
         [SYCShareVersionInfo sharedVersion].scanResult = nil;
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
+    
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentID]) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].paymentResult];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentID];
+        [SYCShareVersionInfo sharedVersion].paymentResult = nil;
+        [SYCShareVersionInfo sharedVersion].paymentID = nil;
+    }
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 //    if (![SYCSystem connectedToNetwork]) {
 //        [self reachabilityChanged:nil];
 //    }
-    
+     
     
 }
 

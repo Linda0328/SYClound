@@ -49,6 +49,9 @@
 @property (nonatomic,copy)NSString *aliPayPluginID;
 @property (nonatomic,strong)SYCAliPayModel *aliPayModel;
 
+@property (nonatomic,copy)NSString *paymentID;
+@property (nonatomic,strong)NSDictionary *paymentResult;
+
 + (instancetype)sharedVersion;
 
 @end
