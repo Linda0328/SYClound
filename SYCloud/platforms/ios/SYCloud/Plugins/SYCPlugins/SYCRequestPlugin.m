@@ -71,8 +71,8 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     NSString *Code = NETWORK_ERROR_MSG;
     NSString *Msg = NETWORK_ERROR_MSG;
     NSString *url= [command.arguments firstObject];
-    NSString *type = [command.arguments objectAtIndex:0];
-    NSMutableDictionary *params = [command.arguments objectAtIndex:1];
+    NSString *type = [command.arguments objectAtIndex:1];
+    NSMutableDictionary *params = [command.arguments objectAtIndex:2];
     if (![SYCSystem judgeNSString:url] || ![SYCSystem judgeNSString:type]) {
         Code = PARSE_ERROR_CODE;
         Msg = PARSE_ERROR_MSG;
@@ -82,7 +82,7 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     }
     NSDictionary *successDic = nil;
     if([SYCSystem connectedToNetwork]){
-        NSDictionary *requestDic = [SYCHttpReqTool ajaxResponseUrl:url requestType:type isSignature:NO parmaDic:params];
+        NSDictionary *requestDic = [SYCHttpReqTool ajaxResponseUrl:url requestType:type isSignature:YES parmaDic:params];
         if ([requestDic objectForKey:resultRequestError]) {
             connect = NO;
             Code = REQUEST_FAILURE_ERROR_CODE;

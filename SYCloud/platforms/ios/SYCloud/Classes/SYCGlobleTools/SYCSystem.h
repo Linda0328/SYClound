@@ -26,6 +26,12 @@ extern NSString *const AliPayFail;
 extern NSString *const PayPsw;
 extern NSString *const PaypswSet;
 extern NSString *const mainKey;
+extern NSString *const PreOrderPay;
+extern NSString *const paySuccessNotify;
+extern NSString *const PayImmedateNotify;
+extern NSString *const payAndShowNotify;
+extern NSString *const dismissPswNotify;
+extern NSString *const selectPaymentNotify;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

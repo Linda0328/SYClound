@@ -23,17 +23,17 @@
 #import "UIImage+SYColorExtension.h"
 #import "SYCPasswordViewController.h"
 #import "SYCPresentationController.h"
-static float const cellHeight = 32.0f;
-static float const cellNum = 3;
+#import "SYCPayOrderInfoViewController.h"
+#import "SYCPopoverGroupViewController.h"
 static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
 static NSString *const searchBarSubmit = @"submit";
-@interface SYCContentViewController ()<UISearchBarDelegate,UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>
+static void *eventBarItem = @"eventBarItem";
+@interface SYCContentViewController ()<UISearchBarDelegate,UIViewControllerTransitioningDelegate,UIAdaptivePresentationControllerDelegate,UIPopoverPresentationControllerDelegate>
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 @property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property (nonatomic,strong)NSMutableArray *groupArr;
-@property (nonatomic,strong)UITableView *groupTable;
 @end
 
 @implementation SYCContentViewController
@@ -61,7 +61,9 @@ static NSString *const searchBarSubmit = @"submit";
         viewC.view.frame = rect;
         viewC.isBackToLast = isBackToLast;
         MainViewController *pushM = [[MainViewController alloc]init];
-        pushM.startPage = navModel.url;
+        //处理中文字符
+        NSString *url=[navModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        pushM.startPage = url;
         viewC.CurrentChildVC = pushM;
         pushM.enableReload = reload;
         pushM.isChild = YES;
@@ -90,14 +92,11 @@ static NSString *const searchBarSubmit = @"submit";
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
-    
     [center addObserver:self selector:@selector(passwordSetting:) name:passwordNotify object:nil];
+    [center addObserver:self selector:@selector(PayImmedately:) name:PayImmedateNotify object:nil];
+    
 }
--(void)viewWillDisappear:(BOOL)animated{
-    if (!_groupTable.hidden) {
-        _groupTable.hidden = YES;
-    }
-}
+
 -(void)PushScanVC:(NSNotification*)notify{
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if (authStatus ==AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied) {
@@ -155,9 +154,26 @@ static NSString *const searchBarSubmit = @"submit";
     }
     SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
     passwVC.pswModel = payModel;
+    passwVC.showAmount = YES;
+    passwVC.presentingMainVC = _CurrentChildVC;
     passwVC.modalPresentationStyle = UIModalPresentationCustom;
     passwVC.transitioningDelegate = self;
     [self presentViewController:passwVC animated:YES completion:nil];
+}
+
+-(void)PayImmedately:(NSNotification*)notify{
+    SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
+    MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
+    payOrderVC.payInfoModel = payModel;
+    payOrderVC.presentingMainVC = _CurrentChildVC;
+    payOrderVC.isPreOrderPay = [[notify.userInfo objectForKey:PreOrderPay] boolValue];
+    payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
+    payOrderVC.transitioningDelegate = self;
+    [self presentViewController:payOrderVC animated:YES completion:nil];
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];
@@ -269,19 +285,13 @@ static NSString *const searchBarSubmit = @"submit";
             SYCGroupModel *model = [SYCGroupModel mj_objectWithKeyValues:dic];
             [_groupArr addObject:model];
         }
-        [self createTable];
     }
     [eventB addTarget:self action:@selector(EventAction:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:eventB];
+    objc_setAssociatedObject(eventB,eventBarItem,item,OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     return item;
 }
--(void)createTable{
-    
-    _groupTable = [[UITableView alloc]initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width-tableWidth, 64, tableWidth, cellNum*cellHeight)];
-    _groupTable.delegate = self;
-    _groupTable.dataSource = self;
-    _groupTable.hidden = YES;
-}
+
 #pragma mark --- segment
 -(void)clickedSegmented:(UISegmentedControl*)segment{
     //segment的item 对应ID为控件ID后缀+1 根据ID绑定时间进行响应
@@ -322,15 +332,25 @@ static NSString *const searchBarSubmit = @"submit";
         return;
     }
     if ([eventB.model.type isEqualToString:groupType]) {
-        if (_groupTable.hidden) {
-            _groupTable.hidden = NO;
-            UIWindow *window = [[UIApplication sharedApplication]keyWindow];
-            [window addSubview:_groupTable];
-        }else{
-            _groupTable.hidden = YES;
-        }
-       
-        return;
+//        if (_groupTable.hidden) {
+//            _groupTable.hidden = NO;
+//            UIWindow *window = [[UIApplication sharedApplication]keyWindow];
+//            [window addSubview:_groupTable];
+//        }else{
+//            _groupTable.hidden = YES;
+//        }
+       UIBarButtonItem *item = objc_getAssociatedObject(eventB, eventBarItem);
+       SYCPopoverGroupViewController *popOverVC = [[SYCPopoverGroupViewController alloc]init];
+       popOverVC.groupArr = _groupArr;
+       popOverVC.modalPresentationStyle = UIModalPresentationPopover;
+       UIPopoverPresentationController *popoverC = [popOverVC popoverPresentationController];
+       popoverC.barButtonItem = item;
+       popoverC.delegate = self;
+       popOverVC.preferredContentSize = CGSizeMake(100*[SYCSystem PointCoefficient], [_groupArr count]*cellHeight*[SYCSystem PointCoefficient]);
+       [self presentViewController:popOverVC animated:YES
+                         completion:nil];
+
+       return;
     }
     
     
@@ -352,6 +372,13 @@ static NSString *const searchBarSubmit = @"submit";
     }else{
         [self.CurrentChildVC LoadURL:eventB.event];
     }
+}
+-(UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller{
+    //默认是UIModalPresentationFullScreen，导致popover时候黑屏
+    return UIModalPresentationNone;
+}
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
+    return YES;   //no点击蒙版popover不消失， 默认yes,点击蒙层dismiss
 }
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     NSString *selectedID =[NSString stringWithFormat:@"%ld",searchBar.tag];
@@ -406,29 +433,6 @@ static NSString *const searchBarSubmit = @"submit";
 
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return cellHeight;
-}
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [_groupArr count];
-}
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"identifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    SYCGroupModel *model = _groupArr[indexPath.row];
-    [cell.imageView setImage:[UIImage imageNamed:model.ico]];
-    cell.textLabel.text = model.name;
-    cell.textLabel.textColor = [UIColor colorWithHexString:@"999999"];
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
-}
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    
-//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -21,10 +21,7 @@ Sy.ns = function() {
 
 Sy.ns('app.error');
 (function(error) {
-	var error_ftl = '<div class="cz-bat">' +
-		'<div class="bat-img"><img src="img/nanguo.png"></div>' +
-		'<p class="bat-txt">出错了，<%=msg%>，点击重试。</p>' +
-		'</div>';
+	var error_ftl = '<div class="cz-bat"><div class="bat-img"><img src="img/nanguo.png"></div><p class="bat-txt"><%=msg%>，请点击重试。</p></div>';
 	error.show = function(msg, func) {
 		var _msg = (msg || '');
 		var render = template.compile(error_ftl);
@@ -33,9 +30,9 @@ Sy.ns('app.error');
 		});
 		$("body").html(error_html);
 		if (func && typeof func == 'function') {
-			$("body").click(func);
+			$("body").tap(func);
 		} else {
-			$("body").click(function() {
+			$("body").tap(function() {
 				location.reload();
 			});
 		}
@@ -43,17 +40,21 @@ Sy.ns('app.error');
 })(app.error);
 
 jQuery.cachedScript = function(url, callback, cache) {
-	$.ajax({
-		type : 'GET',
-		url : url,
-		success : callback,
-		error : function() {
-			app.error.show('资源文件加载异常');
-		},
-		dataType : 'script',
-		ifModified : true,
-		cache : cache
-	});
+	try {
+		$.ajax({
+			type : 'GET',
+			url : url,
+			success : callback,
+			error : function() {
+				app.request.loadTimeout("数据加载失败");
+			},
+			dataType : 'script',
+			ifModified : true,
+			cache : cache
+		});
+	} catch (e) {
+		app.request.loadTimeout("数据加载异常");
+	}
 };
 
 jQuery.cachedStyle = function(url, callback, cache) {
@@ -77,13 +78,21 @@ Sy.ns('app.request');
 (function(request) {
 	var req = {};
 	var loadeds = 0;
+	var resLoadTime = 0;
 
 	function loadedCallback() {
 		loadeds = loadeds + 1;
 		if (loadeds == 3) {
+			clearTimeout(resLoadTime);
 			eval('app.page.' + (req['pg'] ? req['pg'] + "." : "") + req['act'] + '.init(req)');
 		}
 	}
+
+	request.loadTimeout = function(msg) {
+		loadeds = 99;
+		clearTimeout(resLoadTime);
+		app.error.show(msg);
+	};
 
 	request.initHead = function() {
 		// check url has package
@@ -94,7 +103,9 @@ Sy.ns('app.request');
 
 		// init loadeds to 0
 		loadeds = 0;
-
+		// load timeout handle
+		resLoadTime = setTimeout("app.request.loadTimeout('网络不给力')", 10000);
+		
 		// load remote base css
 		$.cachedStyle(app.version.remoteUrl + "/app_resources/style/base.css?v=" + app.version.pageVersion, function() {
 			loadedCallback();
@@ -112,6 +123,7 @@ Sy.ns('app.request');
 	};
 
 	request.loadResource = function() {
+		// load version plugin
 		syapp.version.getInfo(function(info) {
 			app.version = info;
 			request.initHead();

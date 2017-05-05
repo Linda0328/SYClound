@@ -104,11 +104,11 @@ static CGFloat checkDuration = 0.2f;
     CGFloat a = _animationLayer.bounds.size.width;
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(a*1.5/10,a*8.5/10)];
-    [path addLineToPoint:CGPointMake(a*8.5/10,a*1.5/10)];
+    [path moveToPoint:CGPointMake(a*2.5/10,a*7.5/10)];
+    [path addLineToPoint:CGPointMake(a*7.5/10,a*2.5/10)];
     
-    [path moveToPoint:CGPointMake(a*1.5/10,a*1.5/10)];
-    [path addLineToPoint:CGPointMake(a*8.5/10,a*8.5/10)];
+    [path moveToPoint:CGPointMake(a*2.5/10,a*2.5/10)];
+    [path addLineToPoint:CGPointMake(a*7.5/10,a*7.5/10)];
     
     CAShapeLayer *checkLayer = [CAShapeLayer layer];
     checkLayer.path = path.CGPath;

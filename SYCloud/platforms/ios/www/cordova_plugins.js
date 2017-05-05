@@ -89,7 +89,7 @@ module.exports = [
          ]
     },
     {
-      "id": "shengyuan-plugin-module.",
+      "id": "shengyuan-plugin-module.RequestPlugin",
       "file": "plugins/shengyuan-plugin-module/www/RequestPlugin.js",
       "pluginId": "shengyuan-plugin-module",
       "clobbers": [

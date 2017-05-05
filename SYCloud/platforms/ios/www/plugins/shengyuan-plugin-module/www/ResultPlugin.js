@@ -6,6 +6,9 @@ cordova.define("shengyuan-plugin-module.ResultPlugin", function(require, exports
 		reload : function() {
 			exec(null, null, "ResultPlugin", "reload", []);
 		},
+		refresh : function(isFinish) {
+			exec(null, null, "ResultPlugin", "refresh", [ isFinish ]);
+		},
 		finish : function() {
 			exec(null, null, "ResultPlugin", "finish", []);
 		},

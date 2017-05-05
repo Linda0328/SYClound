@@ -37,8 +37,14 @@ NSString *const AliPayFail = @"7000";
 NSString *const PayPsw = @"passwordForPay";
 NSString *const PaypswSet = @"passwordForPaySetOrNot";
 NSString *const mainKey = @"mainVC";
+NSString *const PreOrderPay = @"prePayOrder";
+NSString *const paySuccessNotify = @"paySuccess";
 
+NSString *const PayImmedateNotify = @"PayImmedateNotify";
 static CGFloat heightForSixSeries = 568;
+NSString *const payAndShowNotify = @"showPayResult";
+NSString *const dismissPswNotify = @"dismissPsw";
+NSString *const selectPaymentNotify = @"selectPaymentNotify";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

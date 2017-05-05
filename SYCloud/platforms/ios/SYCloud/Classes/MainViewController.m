@@ -98,13 +98,7 @@
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
     
-    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentID]) {
-        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].paymentResult];
-        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentID];
-        [SYCShareVersionInfo sharedVersion].paymentResult = nil;
-        [SYCShareVersionInfo sharedVersion].paymentID = nil;
-    }
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
+    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 //    if (![SYCSystem connectedToNetwork]) {
 //        [self reachabilityChanged:nil];
 //    }
@@ -165,15 +159,16 @@
     [center addObserver:self selector:@selector(hideProgress:) name:hideNotify object:nil];
     [center addObserver:self selector:@selector(updateApp:) name:updateNotify object:nil];
     [center addObserver:self selector:@selector(ReloadAppState:) name:loadAppNotify object:nil];
-    [center addObserver:self selector:@selector(updateApp:) name:updateNotify object:nil];
     
+    [center addObserver:self selector:@selector(paySuccess:) name:paySuccessNotify object:nil];
+    [center addObserver:self selector:@selector(paymentImmedatelyReback:) name:payAndShowNotify object:nil];
     [center addObserver:self selector:@selector(AlyPay:) name:AliPay object:nil];
     
     //开始加载
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
     //加载完成
     [center addObserver:self selector:@selector(loadedNotification:) name:CDVPageDidLoadNotification object:nil];
-
+   
 }
 -(void)viewWillLayoutSubviews{
     if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
@@ -196,7 +191,8 @@
     
 }
 -(void)LoadURL:(NSString*)url{
-    
+    //处理url中出现中文等特殊字符
+    url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.wwwFolderName = @"www";
     if ([SYCSystem judgeNSString:url]) {
         self.startPage = url;
@@ -230,6 +226,36 @@
         return;
     }
     [self LoadURL:self.startPage];
+}
+-(void)paySuccess:(NSNotification*)notify{
+    NSDictionary *payResult = notify.userInfo;
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:self]) {
+        return;
+    }
+    NSString *jsonStr = [payResult JSONString];
+    NSLog(@"---------payplugin------%@",[SYCShareVersionInfo sharedVersion].paymentID);
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentID]) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentID];
+        [SYCShareVersionInfo sharedVersion].paymentID = nil;
+    }
+
+}
+-(void)paymentImmedatelyReback:(NSNotification*)notify{
+    NSDictionary *payResult = notify.userInfo;
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:self]) {
+        return;
+    }
+    NSString *jsonStr = [payResult JSONString];
+    NSLog(@"---------payImmedatelyplugin------%@",[SYCShareVersionInfo sharedVersion].paymentImmedatelyID);
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID]) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID];
+        [SYCShareVersionInfo sharedVersion].paymentImmedatelyID = nil;
+    }
+    
 }
 -(void)AlyPay:(NSNotification*)notify{
     NSLog(@"-----requestparmas-----%@",[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams);

@@ -50,7 +50,11 @@
 @property (nonatomic,strong)SYCAliPayModel *aliPayModel;
 
 @property (nonatomic,copy)NSString *paymentID;
-@property (nonatomic,strong)NSDictionary *paymentResult;
+
+@property (nonatomic,copy)NSString *paymentImmedatelyID;
+@property (nonatomic,copy)NSString *paymentScanID;
+@property (nonatomic,copy)NSString *paymentCodeID;
+
 
 + (instancetype)sharedVersion;
 

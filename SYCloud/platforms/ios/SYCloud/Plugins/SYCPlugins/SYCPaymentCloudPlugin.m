@@ -13,18 +13,51 @@
 #import "SYCPassWordModel.h"
 #import "MainViewController.h"
 #import "SYCShareVersionInfo.h"
+#import "SYCPayOrderInfoViewController.h"
+#import "SYCPayInfoModel.h"
+
 @implementation SYCPaymentCloudPlugin
 //付款码支付
 -(void)paymentCode:(CDVInvokedUrlCommand *)command{
-   
+    NSLog(@"----------%@",command.arguments);
+    MainViewController *main = (MainViewController*)self.viewController;
+    SYCPayInfoModel *payModel = [[SYCPayInfoModel alloc]init];
+    payModel.merchantID = [command.arguments firstObject];
+    payModel.amount = [command.arguments objectAtIndex:1];
+    payModel.desc = [command.arguments objectAtIndex:2];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:@(YES)}];
+    [self.commandDelegate runInBackground:^{
+        [SYCShareVersionInfo sharedVersion].paymentCodeID = command.callbackId;
+    }];
 }
 //扫码支付
 -(void)paymentScan:(CDVInvokedUrlCommand *)command{
-    
+    NSLog(@"----------%@",command.arguments);
+    MainViewController *main = (MainViewController*)self.viewController;
+    SYCPayInfoModel *payModel = [[SYCPayInfoModel alloc]init];
+    payModel.merchantID = [command.arguments firstObject];
+    payModel.amount = [command.arguments objectAtIndex:1];
+    payModel.desc = [command.arguments objectAtIndex:2];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:@(YES)}];
+    [self.commandDelegate runInBackground:^{
+        [SYCShareVersionInfo sharedVersion].paymentScanID = command.callbackId;
+    }];
 }
 //面对面支付
 -(void)paymentImmed:(CDVInvokedUrlCommand *)command{
-   
+    NSLog(@"----------%@",command.arguments);
+    MainViewController *main = (MainViewController*)self.viewController;
+    SYCPayInfoModel *payModel = [[SYCPayInfoModel alloc]init];
+    payModel.merchantID = [command.arguments firstObject];
+    payModel.amount = [command.arguments objectAtIndex:1];
+    payModel.desc = [command.arguments objectAtIndex:2];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:@(NO)}];
+    [self.commandDelegate runInBackground:^{
+        [SYCShareVersionInfo sharedVersion].paymentImmedatelyID = command.callbackId;
+    }];
 }
 //设置密码
 -(void)paymentPwd:(CDVInvokedUrlCommand *)command{
@@ -38,8 +71,6 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:passwordNotify object:payModel userInfo:@{mainKey:main}];
     [self.commandDelegate runInBackground:^{
-//        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"password"];
-//        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
         [SYCShareVersionInfo sharedVersion].paymentID = command.callbackId;
     }];
 }
