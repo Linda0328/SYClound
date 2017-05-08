@@ -46,8 +46,6 @@
     }
     [self.commandDelegate runInBackground:^{
         [SYCShareVersionInfo sharedVersion].listenPluginID = command.callbackId;
-        //        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"exec"];
-        //        [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];
 }
 -(void)refresh:(CDVInvokedUrlCommand *)command{

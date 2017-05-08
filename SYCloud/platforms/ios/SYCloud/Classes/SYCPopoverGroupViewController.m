@@ -49,9 +49,12 @@ static float const cellNum = 3;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SYCGroupModel *model = _groupArr[indexPath.row];
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    NSString *event = [userDef objectForKey:model.ID];
-    NSLog(@"----event---%@",event);
+    __weak __typeof(self)weakSelf = self;
+    NSMutableDictionary *groupActionDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_actionEvent,groupEventKey,model.ID, groupItemIDKey,nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [[NSNotificationCenter defaultCenter] postNotificationName:groupRefreshNotify object:strongSelf.PresentingVC userInfo:groupActionDic];
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

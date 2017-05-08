@@ -3,10 +3,10 @@ cordova.define("shengyuan-plugin-module.PaymentCloudPlugin", function(require, e
 	var platform = require('cordova/platform');
 
 	module.exports = {
-		paymentCode : function(success) {
+		paymentCode : function(paycode,success) {
 			exec(success, function(err) {
 				alert(err);
-			}, "PaymentCloudPlugin", "paymentCode", []);
+			}, "PaymentCloudPlugin", "paymentCode", [paycode]);
 		},
 		paymentScan : function(qrcode, success) {
 			exec(success, function(err) {

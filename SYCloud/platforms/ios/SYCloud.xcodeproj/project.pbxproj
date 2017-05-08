@@ -66,6 +66,7 @@
 		EE72D2ED1EA9DF9300AFBD9E /* SYCPresentedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2EC1EA9DF9300AFBD9E /* SYCPresentedViewController.m */; };
 		EE72D2F01EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2EF1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m */; };
 		EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */; };
+		EE7329261EC0560B00FB85E1 /* SYCRequestLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */; };
 		EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */; };
 		EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8011E8F53D700BCEB5F /* libc++.tbd */; };
 		EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */; };
@@ -315,6 +316,8 @@
 		EE72D2EF1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCBlurEffectSdapter.m; sourceTree = "<group>"; };
 		EE72D2F11EA9F35100AFBD9E /* SYCPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPasswordViewController.h; sourceTree = "<group>"; };
 		EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPasswordViewController.m; sourceTree = "<group>"; };
+		EE7329241EC0560B00FB85E1 /* SYCRequestLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestLoadingViewController.h; sourceTree = "<group>"; };
+		EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestLoadingViewController.m; sourceTree = "<group>"; };
 		EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestPlugin.h; sourceTree = "<group>"; };
 		EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestPlugin.m; sourceTree = "<group>"; };
 		EE7AD8011E8F53D700BCEB5F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -809,6 +812,8 @@
 				EE6DF1961EBC59CE00AF15E4 /* SYCBlindYTKViewController.m */,
 				EE6DF1981EBC622700AF15E4 /* SYCPopoverGroupViewController.h */,
 				EE6DF1991EBC622700AF15E4 /* SYCPopoverGroupViewController.m */,
+				EE7329241EC0560B00FB85E1 /* SYCRequestLoadingViewController.h */,
+				EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */,
 			);
 			name = Presentation;
 			sourceTree = "<group>";
@@ -1490,6 +1495,7 @@
 				EE95005A1E7F804A00C35C2A /* MJRefreshAutoFooter.m in Sources */,
 				EE9500341E7F804A00C35C2A /* README.md in Sources */,
 				EE95FF731E7F7DAB00C35C2A /* SYCScanPlugin.m in Sources */,
+				EE7329261EC0560B00FB85E1 /* SYCRequestLoadingViewController.m in Sources */,
 				EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */,
 				EE6210421EAB4E5500F71DF7 /* SYCUUID.m in Sources */,
 				C18824F19B5E455885AB351C /* CDVLocalFilesystem.m in Sources */,

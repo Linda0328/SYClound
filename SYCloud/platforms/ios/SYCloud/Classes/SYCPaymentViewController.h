@@ -12,7 +12,10 @@ typedef NS_ENUM(NSInteger,SYCAssetType){
     SYCAssetTypeFinance,
     SYCAssetTypeYKT,
 };
+extern NSString *const selectIndex;
 @interface SYCPaymentViewController : UIViewController
-@property (nonatomic,strong)NSArray *EnnalepaymentArr;
-@property (nonatomic,strong)NSArray *unEnnalepaymentArr;
+@property (nonatomic,strong)NSMutableArray *EnnalepaymentArr;
+@property (nonatomic,strong)NSMutableArray *unEnnalepaymentArr;
+@property (nonatomic,strong)NSIndexPath *selectedCellIndex;
+@property (nonatomic,copy)NSString *payAmount;
 @end

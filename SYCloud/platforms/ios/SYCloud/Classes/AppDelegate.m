@@ -128,11 +128,6 @@
         }
 
     }
-    if([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]){
-        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-        [def setBool:[SYCHttpReqTool PswSetOrNot] forKey:PaypswSet];
-    }
-    
     [self.window makeKeyAndVisible];
     
     return YES;
@@ -151,7 +146,8 @@
         dic = [userdef objectForKey:SYCIndexJson];
     }else{
         [userdef setObject:[SYCShareVersionInfo sharedVersion].indexVersion forKey:SYCIndexVersion];
-        dic = [SYCHttpReqTool MainData];
+        NSDictionary *result = [SYCHttpReqTool MainData];
+        dic = result[resultSuccessKey];
     }
     
     

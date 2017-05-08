@@ -159,6 +159,7 @@
     [center addObserver:self selector:@selector(hideProgress:) name:hideNotify object:nil];
     [center addObserver:self selector:@selector(updateApp:) name:updateNotify object:nil];
     [center addObserver:self selector:@selector(ReloadAppState:) name:loadAppNotify object:nil];
+    [center addObserver:self selector:@selector(GroupRefresh:) name:groupRefreshNotify object:nil];
     
     [center addObserver:self selector:@selector(paySuccess:) name:paySuccessNotify object:nil];
     [center addObserver:self selector:@selector(paymentImmedatelyReback:) name:payAndShowNotify object:nil];
@@ -227,6 +228,19 @@
     }
     [self LoadURL:self.startPage];
 }
+-(void)GroupRefresh:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:self]) {
+        return;
+    }
+    NSString *event = notify.userInfo[groupEventKey];
+    NSString *itemID = notify.userInfo[groupItemIDKey];
+    if ([event hasPrefix:@"javascript:"]) {
+        NSString *newEvent = [event stringByReplacingOccurrencesOfString:@"javascript:" withString:@""];
+        NSString *js = [newEvent stringByAppendingFormat:@"('%@')",itemID];
+        [self.commandDelegate evalJs:js];
+    }
+}
 -(void)paySuccess:(NSNotification*)notify{
     NSDictionary *payResult = notify.userInfo;
     MainViewController *main = (MainViewController*)notify.object;
@@ -248,14 +262,27 @@
     if (![main isEqual:self]) {
         return;
     }
-    NSString *jsonStr = [payResult JSONString];
+    NSString *jsonStr = [payResult[PayResultCallback] JSONString];
+    NSString *type = payResult[PreOrderPay];
     NSLog(@"---------payImmedatelyplugin------%@",[SYCShareVersionInfo sharedVersion].paymentImmedatelyID);
-    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID]) {
+    NSLog(@"---------payscanplugin------%@",[SYCShareVersionInfo sharedVersion].paymentScanID);
+    NSLog(@"---------paycodeplugin------%@",[SYCShareVersionInfo sharedVersion].paymentCodeID);
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID]&&[type isEqualToString:payMentTypeImme]) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID];
         [SYCShareVersionInfo sharedVersion].paymentImmedatelyID = nil;
     }
-    
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentScanID]&&[type isEqualToString:payMentTypeScan]) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentScanID];
+        [SYCShareVersionInfo sharedVersion].paymentScanID = nil;
+    }
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentCodeID]&&[type isEqualToString:payMentTypeCode]) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentCodeID];
+        [SYCShareVersionInfo sharedVersion].paymentCodeID = nil;
+    }
+
 }
 -(void)AlyPay:(NSNotification*)notify{
     NSLog(@"-----requestparmas-----%@",[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams);

@@ -83,18 +83,18 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     NSDictionary *successDic = nil;
     if([SYCSystem connectedToNetwork]){
         NSDictionary *requestDic = [SYCHttpReqTool ajaxResponseUrl:url requestType:type isSignature:YES parmaDic:params];
-        if ([requestDic objectForKey:resultRequestError]) {
+        if ([requestDic objectForKey:resultRequestErrorKey]) {
             connect = NO;
             Code = REQUEST_FAILURE_ERROR_CODE;
             Msg = REQUEST_FAILURE_ERROR_MSG;
         }
-        if ([requestDic objectForKey:resultJsonError]) {
+        if ([requestDic objectForKey:resultJsonErrorKey]) {
             connect = NO;
             Code = OTHER_ERROR_CODE;
             Msg = OTHER_ERROR_MSG;
         }
-        if ([requestDic objectForKey:resultSuccess]) {
-            successDic = [requestDic objectForKey:resultSuccess];
+        if ([requestDic objectForKey:resultSuccessKey]) {
+            successDic = [requestDic objectForKey:resultSuccessKey];
         }
     }else{
         connect = NO;

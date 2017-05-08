@@ -16,4 +16,6 @@
 @property (nonatomic,strong)MainViewController *presentingMainVC;
 @property (nonatomic,strong)SYCPayOrderConfirmModel *confirmPayModel;
 @property (nonatomic,assign)BOOL isPreOrderPay;
+@property (nonatomic,copy)NSString *paymentType;
+@property (nonatomic,assign)BOOL needSetPassword;
 @end

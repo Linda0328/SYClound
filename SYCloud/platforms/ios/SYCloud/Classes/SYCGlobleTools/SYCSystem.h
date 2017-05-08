@@ -17,6 +17,9 @@ extern NSString *const updateNotify;
 extern NSString *const hideNotify;
 extern NSString *const loadAppNotify;
 extern NSString *const passwordNotify;
+extern NSString *const groupRefreshNotify;
+extern NSString *const groupEventKey;
+extern NSString *const groupItemIDKey;
 
 extern NSString *const AliPay;
 extern NSString *const AliPayScheme;
@@ -27,11 +30,23 @@ extern NSString *const PayPsw;
 extern NSString *const PaypswSet;
 extern NSString *const mainKey;
 extern NSString *const PreOrderPay;
+extern NSString *const PayResultCallback;
+extern NSString *const payMentTypeCode;
+extern NSString *const payMentTypeScan;
+extern NSString *const payMentTypeImme;
+
 extern NSString *const paySuccessNotify;
 extern NSString *const PayImmedateNotify;
 extern NSString *const payAndShowNotify;
 extern NSString *const dismissPswNotify;
 extern NSString *const selectPaymentNotify;
+
+extern NSString *const payment_SuccessCode;
+extern NSString *const payment_SuccessMessage;
+extern NSString *const payment_FailCode;
+extern NSString *const payment_FailMessage;
+extern NSString *const payment_CancelCode;
+extern NSString *const payment_CancelMessage;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

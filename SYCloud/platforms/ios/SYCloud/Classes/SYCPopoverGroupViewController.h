@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MainViewController.h"
 extern float const cellHeight;
 @interface SYCPopoverGroupViewController : UIViewController
 @property (nonatomic,strong)NSMutableArray *groupArr;
+@property (nonatomic,copy)NSString *actionEvent;
+@property (nonatomic,strong)MainViewController *PresentingVC;
 @end

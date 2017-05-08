@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+extern NSString *const refreshPaymentNotify;
 @interface SYCBlindYTKViewController : UIViewController
 
 @end

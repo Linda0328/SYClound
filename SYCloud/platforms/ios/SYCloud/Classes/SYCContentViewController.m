@@ -25,7 +25,9 @@
 #import "SYCPresentationController.h"
 #import "SYCPayOrderInfoViewController.h"
 #import "SYCPopoverGroupViewController.h"
-static float const tableWidth = 130.0f;
+#import "SYCHttpReqTool.h"
+#import "SYCRequestLoadingViewController.h"
+//static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
 static NSString *const searchBarSubmit = @"submit";
@@ -147,6 +149,8 @@ static void *eventBarItem = @"eventBarItem";
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)passwordSetting:(NSNotification*)notify{
+    
+    BOOL reset = [SYCHttpReqTool PswSetOrNot];
     SYCPassWordModel *payModel = (SYCPassWordModel*)notify.object;
     MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
     if (![main isEqual:_CurrentChildVC]) {
@@ -155,6 +159,7 @@ static void *eventBarItem = @"eventBarItem";
     SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
     passwVC.pswModel = payModel;
     passwVC.showAmount = YES;
+    passwVC.needSetPassword = reset;
     passwVC.presentingMainVC = _CurrentChildVC;
     passwVC.modalPresentationStyle = UIModalPresentationCustom;
     passwVC.transitioningDelegate = self;
@@ -162,18 +167,46 @@ static void *eventBarItem = @"eventBarItem";
 }
 
 -(void)PayImmedately:(NSNotification*)notify{
-    SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
+    
     MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
+    SYCRequestLoadingViewController *laoding = [[SYCRequestLoadingViewController alloc]init];
+    [self presentViewController:laoding animated:YES completion:nil];
+    
+    NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
     SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
-    payOrderVC.payInfoModel = payModel;
-    payOrderVC.presentingMainVC = _CurrentChildVC;
-    payOrderVC.isPreOrderPay = [[notify.userInfo objectForKey:PreOrderPay] boolValue];
-    payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
-    payOrderVC.transitioningDelegate = self;
-    [self presentViewController:payOrderVC animated:YES completion:nil];
+    NSDictionary *result = nil;
+    if ([payMentType isEqualToString:payMentTypeImme]) {
+        SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
+        payOrderVC.payInfoModel = payModel;
+        result = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount];
+    }else if([payMentType isEqualToString:payMentTypeScan]){
+        NSString *qrcode = (NSString*)notify.object;
+        payOrderVC.qrcode = qrcode;
+        result = [SYCHttpReqTool payScanInfoWithQrcode:qrcode];
+    }else if([payMentType isEqualToString:payMentTypeCode]){
+        NSString *paycode = (NSString*)notify.object;
+        payOrderVC.payCode = paycode;
+        result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
+    }
+    if (result) {
+        __block SYCContentViewController *weakSelf = self;
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0* NSEC_PER_SEC));
+        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+            payOrderVC.presentingMainVC = _CurrentChildVC;
+            payOrderVC.payMentType = payMentType;
+            payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
+            payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
+            payOrderVC.transitioningDelegate = self;
+            [weakSelf presentViewController:payOrderVC animated:YES completion:nil];
+        });
+        [[NSNotificationCenter defaultCenter] postNotificationName:requestResultSuccessNotify object:nil];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:requestResultErrorNotify object:@"获取支付订单信息失败"];
+    }
+    
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];
@@ -237,9 +270,8 @@ static void *eventBarItem = @"eventBarItem";
         }
         UISegmentedControl *segMent = [[UISegmentedControl alloc]initWithItems:titleArr];
         segMent.selectedSegmentIndex = select;
-        CGRect frame = segMent.frame;
-        frame = CGRectMake(0, 0,self.view.bounds.size.width/2, 30);
-        segMent.frame = frame;
+        CGRect frameBase = CGRectMake(0, 0,self.view.bounds.size.width/2, 30);
+        segMent.frame = frameBase;
         [segMent addTarget:self action:@selector(clickedSegmented:) forControlEvents:UIControlEventValueChanged];
         segMent.tag = [_titleModel.ID integerValue];
         self.navigationItem.titleView = segMent;
@@ -342,6 +374,10 @@ static void *eventBarItem = @"eventBarItem";
        UIBarButtonItem *item = objc_getAssociatedObject(eventB, eventBarItem);
        SYCPopoverGroupViewController *popOverVC = [[SYCPopoverGroupViewController alloc]init];
        popOverVC.groupArr = _groupArr;
+        popOverVC.PresentingVC = self.CurrentChildVC;
+       NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+       NSString *event = [userDef objectForKey:eventB.model.ID];
+       popOverVC.actionEvent = event;
        popOverVC.modalPresentationStyle = UIModalPresentationPopover;
        UIPopoverPresentationController *popoverC = [popOverVC popoverPresentationController];
        popoverC.barButtonItem = item;

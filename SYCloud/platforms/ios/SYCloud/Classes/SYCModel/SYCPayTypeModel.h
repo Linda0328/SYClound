@@ -10,7 +10,7 @@
 
 @interface SYCPayTypeModel : NSObject
 @property (nonatomic,copy) NSString *assetName;
-@property (nonatomic,copy) NSString *asserNo;
+@property (nonatomic,copy) NSString *assetNo;
 @property (nonatomic,assign) NSInteger assetType;
 @property (nonatomic,assign) BOOL defaultPay;
 @property (nonatomic,assign) BOOL isEnabled;

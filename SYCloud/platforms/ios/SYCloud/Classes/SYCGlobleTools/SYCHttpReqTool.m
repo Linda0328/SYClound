@@ -16,19 +16,30 @@ static NSString * const SYMainParam = @"/app_resources/app/index.json?_";
 static NSString * const SYCPswSetOrNot = @"/app/payment/member_pay_password.jhtml?";
 static NSString * const SYCPswSet = @"/app/payment/init_pay_password.jhtml?";
 static NSString * const SYCPayImmediately = @"/app/payment/member_pay_type.jhtml?";
+static NSString * const SYCPayScan = @"/app/payment/qr_pay_info.jhtml?";
+static NSString * const SYCPayCode = @"/app/payment/member_pay_info.jhtml?";
 static NSString * const SYCPayConfirm= @"/app/payment/confirm_payment.jhtml?";
+static NSString * const SYCCaptchaForYKT= @"/app//card/remoteCaptcha.jhtml?";
+static NSString * const SYCBlindYKT= @"/app/card/bindCard.jhtml?";
 NSString * const SYCIndexJson = @"Index.json";
 NSString * const SYCIndexVersion = @"IndexVersion";
 NSString * const SYCChannel = @"02";
 NSString * const GETRequest = @"GET";
 NSString * const POSTRequest = @"POST";
 
-NSString * const resultRequestError = @"RequestError";
-NSString * const resultJsonError = @"JsonError";
-NSString * const resultSuccess = @"RequestSucsess";
+NSString * const resultRequestErrorKey = @"RequestError";
+NSString * const resultJsonErrorKey = @"JsonError";
+NSString * const resultSuccessKey = @"RequestSucsess";
+
+NSString * const resultCodeKey = @"RequestCode";
+NSString * const resultCodeRequestError = @"RequestErrorCode";
+NSString * const resultCodeJsonError = @"JsonErrorCode";
+NSString * const resultCodeSuccess = @"SucsessCode";
 
 @implementation SYCHttpReqTool
 +(NSDictionary*)VersionInfo{
+    NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
+    NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
     [SYCSystem imagLoadURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@",SYVersionParam,[SYCSystem secondsForNow]];
@@ -39,8 +50,9 @@ NSString * const resultSuccess = @"RequestSucsess";
     NSError *error = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) {
+        [result setObject:[error description] forKey:resultRequestErrorKey];
+        resultCode = resultCodeRequestError;
         NSLog(@"---版本信息请求出错---%@",[error description]);
-        return nil;
     }
     NSError *err = nil;
     NSLog(@"responseMain : %@",response);
@@ -51,17 +63,24 @@ NSString * const resultSuccess = @"RequestSucsess";
     NSLog(@"backDataMain : %@",backData);
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
     if (err) {
+        [result setObject:[err description] forKey:resultJsonErrorKey];
+        resultCode = resultCodeJsonError;
         NSLog(@"---数据解析出错---%@",[err description]);
     }else{
+        [SYCShareVersionInfo sharedVersion].pageVersion = [dic objectForKey:@"pageVersion"];
+        [SYCShareVersionInfo sharedVersion].needUpdate = [dic objectForKey:@"needUpdate"];
+        [SYCShareVersionInfo sharedVersion].indexVersion = [dic objectForKey:@"indexVersion"];
+        [result setObject:dic forKey:resultSuccessKey];
         NSLog(@"----解析结果--- : %@",dic);
     }
-    [SYCShareVersionInfo sharedVersion].pageVersion = [dic objectForKey:@"pageVersion"];
-    [SYCShareVersionInfo sharedVersion].needUpdate = [dic objectForKey:@"needUpdate"];
-    [SYCShareVersionInfo sharedVersion].indexVersion = [dic objectForKey:@"indexVersion"];
-    return dic;
+    [result setObject:resultCode forKey:resultCodeKey];
+    
+    return result;
     
 }
 +(NSDictionary*)MainData{
+    NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
+    NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@",SYMainParam,[SYCSystem secondsForNow]];
 //    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYMainParam];
@@ -71,8 +90,9 @@ NSString * const resultSuccess = @"RequestSucsess";
     NSError *error = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) {
+        [result setObject:[error description] forKey:resultRequestErrorKey];
+        resultCode = resultCodeRequestError;
         NSLog(@"---maindata请求出错---%@",[error description]);
-        return nil;
     }
     NSError *err = nil;
     NSLog(@"responseMain : %@",response);
@@ -85,6 +105,8 @@ NSString * const resultSuccess = @"RequestSucsess";
 
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
     if (err) {
+        [result setObject:[err description] forKey:resultJsonErrorKey];
+        resultCode = resultCodeJsonError;
         NSLog(@"---maindata数据解析出错---%@",[err description]);
     }else{
         NSString *indexJson = [NSString appendJsonFilePathToDocument:SYCIndexJson];
@@ -95,9 +117,10 @@ NSString * const resultSuccess = @"RequestSucsess";
             [userf setObject:[SYCShareVersionInfo sharedVersion].indexVersion forKey:SYCIndexVersion];
             [userf synchronize];
         }
-
+        [result setObject:dic forKey:resultSuccessKey];
         NSLog(@"----解析结果--- : %@",dic);
     }
+    [result setObject:resultCode forKey:resultCodeKey];
     NSUserDefaults *userf = [NSUserDefaults standardUserDefaults];
     [userf setObject:dic forKey:SYCIndexJson];
     [userf synchronize];
@@ -293,7 +316,7 @@ NSString * const resultSuccess = @"RequestSucsess";
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) {
         NSLog(@"---a确出错---%@",[error description]);
-        [result setObject:[error description] forKey:resultRequestError];
+        [result setObject:[error description] forKey:resultRequestErrorKey];
         return nil;
     }
     NSError *err = nil;
@@ -307,10 +330,10 @@ NSString * const resultSuccess = @"RequestSucsess";
     
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
     if (err) {
-        [result setObject:[err description] forKey:resultJsonError];
+        [result setObject:[err description] forKey:resultJsonErrorKey];
         NSLog(@"---数据解析出错---%@",[err description]);
     }else{
-         [result setObject:dic forKey:resultSuccess];
+         [result setObject:dic forKey:resultSuccessKey];
         NSLog(@"----解析结果--- : %@",dic);
     }
     
@@ -318,12 +341,12 @@ NSString * const resultSuccess = @"RequestSucsess";
 
 }
 
-+(NSDictionary*)payImmediatelyInfo:(NSString*)token payAmount:(NSString*)amount{
++(NSDictionary*)payImmediatelyInfoWithpayAmount:(NSString*)amount{
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPayImmediately];
     NSString *param = [[NSString alloc]init];
     NSMutableDictionary *paramDic = [[self class] commonParam];
-    [paramDic setObject:token forKey:@"token"];
+    
     [paramDic setObject:amount forKey:@"payAmount"];
     NSString *signature = [SYCSystem sinagureForReq:paramDic];
     [paramDic setObject:signature forKey:@"_signdata"];
@@ -365,6 +388,99 @@ NSString * const resultSuccess = @"RequestSucsess";
     }
     return dic;
 }
++(NSDictionary*)payScanInfoWithQrcode:(NSString*)qrcode{
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPayScan];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:qrcode forKey:@"qrCode"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+        
+    }
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (error) {
+        NSLog(@"---扫码支付请求出错---%@",[error description]);
+        return nil;
+    }
+    NSError *err = nil;
+    NSLog(@"responseMain : %@",response);
+    
+    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    NSLog(@"backDataMain : %@",backData);
+    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+    if (err) {
+        NSLog(@"---数据解析出错---%@",[err description]);
+    }else{
+        
+        NSLog(@"----解析结果--- : %@",dic);
+    }
+    return dic;
+
+}
++(NSDictionary*)payScanInfoWithPaycode:(NSString*)payCode{
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPayCode];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:payCode forKey:@"payBarcode"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+        
+    }
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (error) {
+        NSLog(@"---付款码支付请求出错---%@",[error description]);
+        return nil;
+    }
+    NSError *err = nil;
+    NSLog(@"responseMain : %@",response);
+    
+    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    NSLog(@"backDataMain : %@",backData);
+    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+    if (err) {
+        NSLog(@"---数据解析出错---%@",[err description]);
+    }else{
+        
+        NSLog(@"----解析结果--- : %@",dic);
+    }
+    return dic;
+}
 +(NSDictionary*)payImmediatelyConfirm:(SYCPayOrderConfirmModel*)payConfirm prePayOrder:(BOOL)isPreOrder{
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPayConfirm];
@@ -373,7 +489,7 @@ NSString * const resultSuccess = @"RequestSucsess";
     [paramDic setObject:payConfirm.assetType forKey:@"assetType"];
     [paramDic setObject:payConfirm.assetNo forKey:@"assetNo"];
     [paramDic setObject:payConfirm.payPassword forKey:@"payPassword"];
-    [paramDic setObject:payConfirm.token forKey:@"token"];
+    
     if (isPreOrder) {
         [paramDic setObject:payConfirm.partner forKey:@"partner"];
         [paramDic setObject:payConfirm.prepayId forKey:@"prepayId"];
@@ -421,5 +537,139 @@ NSString * const resultSuccess = @"RequestSucsess";
         NSLog(@"----解析结果--- : %@",dic);
     }
     return dic;
+}
++(NSDictionary*)getCaptchaforblindYKTwithCardNo:(NSString*)cardNo{
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCCaptchaForYKT];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:cardNo forKey:@"cardNo"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    NSLog(@"------绑定一卡通获取验证码--------%@",paramDic);
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+        
+    }
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (error) {
+        NSLog(@"---获取一卡通验证码请求出错---%@",[error description]);
+        return nil;
+    }
+    NSError *err = nil;
+    NSLog(@"responseMain : %@",response);
+    
+    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    NSLog(@"backDataMain : %@",backData);
+    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+    if (err) {
+        NSLog(@"---数据解析出错---%@",[err description]);
+    }else{
+        
+        NSLog(@"----解析结果--- : %@",dic);
+    }
+    return dic;
+
+}
++(NSDictionary*)blindYKTwithCardNo:(NSString*)cardNo captcha:(NSString*)captcha{
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCBlindYKT];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:cardNo forKey:@"cardNo"];
+    [paramDic setObject:captcha forKey:@"captcha"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+        
+    }
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (error) {
+        NSLog(@"---绑定一卡通请求出错---%@",[error description]);
+        return nil;
+    }
+    NSError *err = nil;
+    NSLog(@"responseMain : %@",response);
+    
+    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    NSLog(@"backDataMain : %@",backData);
+    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+    if (err) {
+        NSLog(@"---数据解析出错---%@",[err description]);
+    }else{
+        
+        NSLog(@"----解析结果--- : %@",dic);
+    }
+    return dic;
+}
+-(NSDictionary*)postRequestUrl:(NSString*)requestUrl withParam:(NSString*)param{
+    NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
+    NSString *resultCode = resultCodeSuccess;
+    NSURL *url = [NSURL URLWithString:requestUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLResponse *response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    if (error) {
+        NSLog(@"---a确出错---%@",[error description]);
+        [result setObject:[error description] forKey:resultRequestErrorKey];
+        resultCode = resultCodeRequestError;
+        return nil;
+    }
+    NSError *err = nil;
+    NSLog(@"responseMain : %@",response);
+    
+    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+    NSLog(@"backDataMain : %@",backData);
+    
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+    if (err) {
+        [result setObject:[err description] forKey:resultJsonErrorKey];
+        NSLog(@"---数据解析出错---%@",[err description]);
+        resultCode = resultCodeJsonError;
+    }else{
+        [result setObject:dic forKey:resultSuccessKey];
+        NSLog(@"----解析结果--- : %@",dic);
+    }
+    [result setObject:resultCode forKey:resultCodeKey];
+    return result;
+
 }
 @end

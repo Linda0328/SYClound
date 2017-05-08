@@ -15,8 +15,8 @@
 static NSString * const SYCloudTestBaseURL = @"http://yun.test.shengyuan.cn:7360"; //测试服务器
 static NSString * const SYCloudLocalBaseURLJW = @"http://172.16.0.143:7360"; //本地服务器
 static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
-static NSString * const SYCloudFormalBaseURL = @"http://yun.shengyuan.cn"; //正式服务器
-static NSString * const SYCloudImageLoadBaseURL = @"http://storage.shengyuan.cn"; //正式服务器
+static NSString * const SYCloudFormalBaseURL = @"http://yun.shengyuan.cn:7360"; //正式服务器
+static NSString * const SYCloudImageLoadBaseURL = @"http://yun.img.shengyuan.cn"; //正式服务器
 NSString * const bundleID = @"com.sycloud.SYCloud";
 NSString * const BDAppKay = @"ixLnp9iaDmKMD49N1OVmAsEMpQznxZST";
 NSString *const loadToken = @"LoadToken";
@@ -28,6 +28,10 @@ NSString *const loadAppNotify = @"LoadApp";
 NSString *const SecureSecrit = @"Sy-CloudPay-Android";
 NSString *const passwordNotify = @"passwordNotify";
 
+NSString *const groupRefreshNotify = @"groupRefresh";
+NSString *const groupEventKey = @"groupEvent";
+NSString *const groupItemIDKey = @"groupItemID";
+
 NSString *const AliPay = @"AliPay";
 NSString *const AliPayScheme = @"shengyuan";
 NSString *const AliPaySuccess = @"0000";
@@ -37,7 +41,12 @@ NSString *const AliPayFail = @"7000";
 NSString *const PayPsw = @"passwordForPay";
 NSString *const PaypswSet = @"passwordForPaySetOrNot";
 NSString *const mainKey = @"mainVC";
-NSString *const PreOrderPay = @"prePayOrder";
+NSString *const PreOrderPay = @"PayType";
+NSString *const PayResultCallback = @"ResultCallback";
+NSString *const payMentTypeCode = @"code";
+NSString *const payMentTypeScan = @"scan";
+NSString *const payMentTypeImme = @"immediately";
+
 NSString *const paySuccessNotify = @"paySuccess";
 
 NSString *const PayImmedateNotify = @"PayImmedateNotify";
@@ -45,18 +54,24 @@ static CGFloat heightForSixSeries = 568;
 NSString *const payAndShowNotify = @"showPayResult";
 NSString *const dismissPswNotify = @"dismissPsw";
 NSString *const selectPaymentNotify = @"selectPaymentNotify";
+NSString *const payment_SuccessCode = @"0000";
+NSString *const payment_SuccessMessage = @"支付成功";
+NSString *const payment_FailCode = @"1000";
+NSString *const payment_FailMessage = @"支付失败";
+NSString *const payment_CancelCode = @"2000";
+NSString *const payment_CancelMessage = @"支付取消";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
-    if (DEBUG) {
+//    if (DEBUG) {
 //      baseURL = SYCloudLocalBaseURLJW;
 //    baseURL = SYCloudLocalBaseURLTH;
       baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
-    }else{
-      baseURL = SYCloudFormalBaseURL;
-      [SYCShareVersionInfo sharedVersion].formal = YES;
-    }
+//    }else{
+//      baseURL = SYCloudFormalBaseURL;
+//      [SYCShareVersionInfo sharedVersion].formal = YES;
+//    }
     [SYCShareVersionInfo sharedVersion].remoteUrl = baseURL;
     return baseURL;
 }
