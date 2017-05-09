@@ -224,7 +224,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     }
     return NO;
 }
-+(NSDictionary*)PayPswResponseUrl:(NSString*)url pswParam:(NSString*)pswParam parmaDic:(NSDictionary*)paramDic{
++(NSDictionary*)PayPswResponseUrl:(NSString*)url pswParam:(NSString*)pswParam password:(NSString*)password parmaDic:(NSDictionary*)paramDic{
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",url];
     
@@ -233,8 +233,8 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     for (NSString *key in [paramDic allKeys]) {
         [paramD setObject:[paramDic objectForKey:key] forKey:key];
     }
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    [paramD setObject:[def objectForKey:PayPsw] forKey:pswParam];
+    
+    [paramD setObject:password forKey:pswParam];
     NSString *signature = [SYCSystem sinagureForReq:paramD];
     [paramD setObject:signature forKey:@"_signdata"];
     for (NSString *key in [paramD allKeys]) {

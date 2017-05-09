@@ -26,6 +26,9 @@
     }];
 }
 -(void)wxpay:(CDVInvokedUrlCommand *)command{
+    MainViewController *mainVC = (MainViewController*)self.viewController;
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:WeixiPay object:mainVC];
 }
 
 @end

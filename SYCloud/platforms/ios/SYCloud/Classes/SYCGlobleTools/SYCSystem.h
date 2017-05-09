@@ -22,6 +22,7 @@ extern NSString *const groupEventKey;
 extern NSString *const groupItemIDKey;
 
 extern NSString *const AliPay;
+extern NSString *const WeixiPay;
 extern NSString *const AliPayScheme;
 extern NSString *const AliPaySuccess;
 extern NSString *const AliPayFail;

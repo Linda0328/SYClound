@@ -22,7 +22,7 @@ extern NSString * const resultCodeJsonError;
 +(NSMutableDictionary*)commonParam;
 +(BOOL)PswSetOrNot;
 +(BOOL)PswSet;
-+(NSDictionary*)PayPswResponseUrl:(NSString*)url pswParam:(NSString*)pswParam parmaDic:(NSDictionary*)paramDic;
++(NSDictionary*)PayPswResponseUrl:(NSString*)url pswParam:(NSString*)pswParam password:(NSString*)password parmaDic:(NSDictionary*)paramDic;
 +(NSDictionary*)ajaxResponseUrl:(NSString*)url requestType:(NSString*)type isSignature:(BOOL)ISsignature parmaDic:(NSMutableDictionary*)params;
 //面对面支付请求用户支付方式
 +(NSDictionary*)payImmediatelyInfoWithpayAmount:(NSString*)amount;

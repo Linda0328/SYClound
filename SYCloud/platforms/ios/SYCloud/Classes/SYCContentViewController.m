@@ -197,6 +197,7 @@ static void *eventBarItem = @"eventBarItem";
         dispatch_after(delayTime, dispatch_get_main_queue(), ^{
             payOrderVC.presentingMainVC = _CurrentChildVC;
             payOrderVC.payMentType = payMentType;
+            payOrderVC.rquestResultDic = result;
             payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
             payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
             payOrderVC.transitioningDelegate = self;

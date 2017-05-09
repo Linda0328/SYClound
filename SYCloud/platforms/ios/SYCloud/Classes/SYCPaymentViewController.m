@@ -115,6 +115,9 @@ NSString *const selectIndex = @"selectedIndex";
             }else{
                 cell.accessoryView.hidden = YES;
             }
+            if (!model.isEnabled) {
+                cell.contentView.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+            }
             cell.textLabel.text = model.assetName;
         }else{
             if (indexPath.row == [_EnnalepaymentArr count]+1) {
@@ -132,6 +135,9 @@ NSString *const selectIndex = @"selectedIndex";
                     }else if (model.assetType == 2){
                         imageStr = @"YKTimg";
                     }
+                    if (!model.isEnabled) {
+                        cell.contentView.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+                    }
                     cell.textLabel.text = model.assetName;
                 }
                
@@ -145,6 +151,10 @@ NSString *const selectIndex = @"selectedIndex";
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row <= [_EnnalepaymentArr count]) {
+        SYCPayTypeModel *model = [_EnnalepaymentArr objectAtIndex:indexPath.row -1];
+        if (!model.isEnabled) {
+            return;
+        }
         __weak __typeof(self)weakSelf = self;
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         cell.accessoryView.hidden = NO;
@@ -152,7 +162,7 @@ NSString *const selectIndex = @"selectedIndex";
         selectedCell.accessoryView.hidden = YES;
         [self dismissViewControllerAnimated:YES completion:^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:[_EnnalepaymentArr objectAtIndex:indexPath.row -1] userInfo:@{selectIndex : strongSelf.selectedCellIndex}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:model userInfo:@{selectIndex : strongSelf.selectedCellIndex}];
         }];
         _selectedCellIndex = indexPath;
     }else if (indexPath.row == [_EnnalepaymentArr count]+1){

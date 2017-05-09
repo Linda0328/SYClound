@@ -149,10 +149,9 @@ static const NSInteger passWNum = 6;
     if (_isSetTwice) {
         if ([_firstPsw isEqualToString:textField.text]) {
             NSString *md5Psw = [SYCSystem md5:textField.text];
-            [[NSUserDefaults standardUserDefaults] setObject:md5Psw forKey:PayPsw];
             if ([SYCHttpReqTool PswSet]) {
                 [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PaypswSet];
-                [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw parmaDic:_pswModel.param];
+                [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param];
             }else{
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.presentationController.containerView animated:YES];
                 hud.label.text = @"支付密码设置失败";
@@ -254,9 +253,9 @@ static const NSInteger passWNum = 6;
     });
 }
 -(void)readyToPay:(UITextField*)textF{
-
+    NSString *md5Psw = [SYCSystem md5:textF.text];
     _titleLable.text = @"支付结果";
-    _payResultDic = [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw parmaDic:_pswModel.param];
+    _payResultDic = [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param];
     if ([[_payResultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
         [SYCPaymentLoadingHUD hideIn:self.view];
         _resultMSGL.hidden = NO;

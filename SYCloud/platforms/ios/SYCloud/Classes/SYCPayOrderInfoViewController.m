@@ -160,8 +160,8 @@ static NSInteger infoCellNum = 2;
         confirmPayModel.prepayId = _payOrderInfo.orderNo;
     }else{
         confirmPayModel.merchantId = _payInfoModel.merchantID;
-        confirmPayModel.payAmount =  _payOrderInfo.payAmount;
-        confirmPayModel.orderSubject = _payInfoModel.desc;
+        confirmPayModel.payAmount =  _amount;
+        confirmPayModel.orderSubject = _desc;
     }
     passwVC.confirmPayModel = confirmPayModel;
     passwVC.isPreOrderPay = _isPreOrderPay;

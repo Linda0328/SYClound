@@ -33,6 +33,7 @@ NSString *const groupEventKey = @"groupEvent";
 NSString *const groupItemIDKey = @"groupItemID";
 
 NSString *const AliPay = @"AliPay";
+NSString *const WeixiPay = @"WeixinPay";
 NSString *const AliPayScheme = @"shengyuan";
 NSString *const AliPaySuccess = @"0000";
 NSString *const AliPayFail = @"7000";

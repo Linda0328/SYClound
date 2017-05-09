@@ -164,6 +164,7 @@
     [center addObserver:self selector:@selector(paySuccess:) name:paySuccessNotify object:nil];
     [center addObserver:self selector:@selector(paymentImmedatelyReback:) name:payAndShowNotify object:nil];
     [center addObserver:self selector:@selector(AlyPay:) name:AliPay object:nil];
+    [center addObserver:self selector:@selector(WeixiPay:) name:WeixiPay object:nil];
     
     //开始加载
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
@@ -285,6 +286,10 @@
 
 }
 -(void)AlyPay:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:self]) {
+        return;
+    }
     NSLog(@"-----requestparmas-----%@",[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams);
     [[AlipaySDK defaultService] payOrder:[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams fromScheme:AliPayScheme callback:^(NSDictionary *resultDic) {
         NSLog(@"----result---%@",resultDic);
@@ -304,6 +309,15 @@
         [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
         [SYCShareVersionInfo sharedVersion].aliPayPluginID = nil;
     }];
+}
+-(void)WeixiPay:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:self]) {
+        return;
+    }
+    self.HUD.label.text = @"微信支付暂未开通~敬请期待";
+    [self.HUD showAnimated:YES];
+    [self.HUD hideAnimated:YES afterDelay:1.5f];
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
