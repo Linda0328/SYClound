@@ -15,12 +15,13 @@
 -(void)position:(CDVInvokedUrlCommand *)command{
 //    NSString *success = [command.arguments firstObject];
 //    NSString *fail = [command.arguments objectAtIndex:1];
-    NSDictionary *locationDic = @{@"mLatitute":[SYCShareVersionInfo sharedVersion].mLatitude,
-                                  @"mLongtitude":[SYCShareVersionInfo sharedVersion].mLongtitude};
-//                                  @"mCity":[SYCShareVersionInfo sharedVersion].mCity,
-//                                  @"mmDistrict":[SYCShareVersionInfo sharedVersion].mDistrict,
-//                                  @"mStreet":[SYCShareVersionInfo sharedVersion].mStreet,
-//                                  @"mAddrStr":[SYCShareVersionInfo sharedVersion].mAddrStr};
+    NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",[SYCShareVersionInfo sharedVersion].mCity,[SYCShareVersionInfo sharedVersion].mDistrict,[SYCShareVersionInfo sharedVersion].mStreet,[SYCShareVersionInfo sharedVersion].mAddrStr);
+    NSDictionary *locationDic = @{@"mLatitude":[SYCShareVersionInfo sharedVersion].mLatitude,
+                                  @"mLongitude":[SYCShareVersionInfo sharedVersion].mLongitude,
+                                  @"mCity":[SYCShareVersionInfo sharedVersion].mCity,
+                                  @"mmDistrict":[SYCShareVersionInfo sharedVersion].mDistrict,
+                                  @"mStreet":[SYCShareVersionInfo sharedVersion].mStreet,
+                                  @"mAddrStr":[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].mAddrStr]?[SYCShareVersionInfo sharedVersion].mAddrStr:@"无"};
     NSString *jsonStr = [locationDic JSONString];
     [self.commandDelegate runInBackground:^{
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].locationError]) {

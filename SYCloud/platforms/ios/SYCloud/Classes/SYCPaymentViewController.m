@@ -104,11 +104,11 @@ NSString *const selectIndex = @"selectedIndex";
             cell.accessoryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"paymentselected"]];
             SYCPayTypeModel *model = [_EnnalepaymentArr objectAtIndex:indexPath.row-1];
             if (model.assetType == 0) {
-                imageStr = @"consumeImg";
+                imageStr = model.isEnabled?@"consumeImg":@"consumeImgDisable";
             }else if (model.assetType == 1) {
-                imageStr = @"LCTImg";
+                imageStr = model.isEnabled?@"LCTImg":@"LCTImgDisable";
             }else if (model.assetType == 2){
-                imageStr = @"YKTimg";
+                imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
             }
             if (indexPath.row == _selectedCellIndex.row) {
                 cell.accessoryView.hidden = NO;
@@ -129,11 +129,11 @@ NSString *const selectIndex = @"selectedIndex";
                     NSInteger cout = indexPath.row - [_EnnalepaymentArr count] - 2;
                     SYCPayTypeModel *model = [_unEnnalepaymentArr objectAtIndex:cout];
                     if (model.assetType == 0) {
-                        imageStr = @"consumeImg";
+                        imageStr = model.isEnabled?@"consumeImg":@"consumeImgDisable";
                     }else if (model.assetType == 1) {
-                        imageStr = @"LCTImg";
+                        imageStr = model.isEnabled?@"LCTImg":@"LCTImgDisable";
                     }else if (model.assetType == 2){
-                        imageStr = @"YKTimg";
+                        imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
                     }
                     if (!model.isEnabled) {
                         cell.contentView.backgroundColor = [UIColor colorWithHexString:@"dddddd"];

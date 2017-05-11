@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef void (^pushPayOrderBlock)();
 extern NSString *const requestResultErrorNotify;
 extern NSString *const requestResultSuccessNotify;
 @interface SYCRequestLoadingViewController : UIViewController
-
+@property (nonatomic,copy)pushPayOrderBlock pushBlock;
 @end

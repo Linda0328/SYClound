@@ -46,6 +46,7 @@
 #import "MBProgressHUD.h"
 #import <BaiduMapAPI_Base/BMKMapManager.h>
 #import "SYCUUID.h"
+#import <AlipaySDK/AlipaySDK.h>
 @interface AppDelegate(){
     BMKMapManager *_mapManager;
 }
@@ -190,4 +191,38 @@
     
 }
 
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
+    
+    //跳转支付宝钱包进行支付，处理支付结果
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+         NSLog(@"----result---%@",resultDic);
+        NSString *resultContent = resultDic[@"memo"];
+        NSString *resultStatus = resultDic[@"resultStatus"];
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setObject:AliPaySuccess forKey:@"resultCode"];
+        if (![resultStatus isEqualToString:@"9000"]) {
+            [dic setObject:AliPayFail forKey:@"resultCode"];
+        }
+        [dic setObject:resultContent forKey:resultContent];
+        [[NSNotificationCenter defaultCenter]postNotificationName:AliPayResult object:dic];
+
+    }];
+    
+
+    
+    return YES;
+}
+//ios9之后废弃该方法
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    
+    //跳转支付宝钱包进行支付，处理支付结果
+    [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        
+    }];
+    
+    //短信
+    
+    return YES;
+}
 @end

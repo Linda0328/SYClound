@@ -28,8 +28,8 @@ NSString *const requestResultSuccessNotify = @"requestResultSuccess";
     _noticeL.textColor = [UIColor whiteColor];
     _noticeL.text = @"支付中...";
     [self.view addSubview:_noticeL];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showResponseError:) name:requestResultErrorNotify object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showResponseSuccess:) name:requestResultSuccessNotify object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showResponseError:) name:requestResultErrorNotify object:nil];
 }
 -(void)showResponseError:(NSNotification*)notify{
     NSString *notice = (NSString*)notify.object;
@@ -41,7 +41,12 @@ NSString *const requestResultSuccessNotify = @"requestResultSuccess";
     });
 }
 -(void)showResponseSuccess:(NSNotification*)notify{
-   [self dismissViewControllerAnimated:YES completion:nil];
+    __block SYCRequestLoadingViewController *weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (weakSelf.pushBlock) {
+            weakSelf.pushBlock();
+        }
+    }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

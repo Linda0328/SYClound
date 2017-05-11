@@ -44,7 +44,7 @@
     BMKLocationService *_locationService;
 }
 @property (nonatomic,strong)MBProgressHUD *HUD;
-
+@property (nonatomic,assign)BOOL isAliPay;
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 //@property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property(nonatomic,strong)SYIntroduceWLANView *introductV;
@@ -164,6 +164,7 @@
     [center addObserver:self selector:@selector(paySuccess:) name:paySuccessNotify object:nil];
     [center addObserver:self selector:@selector(paymentImmedatelyReback:) name:payAndShowNotify object:nil];
     [center addObserver:self selector:@selector(AlyPay:) name:AliPay object:nil];
+    [center addObserver:self selector:@selector(AlyPayResult:) name:AliPayResult object:nil];
     [center addObserver:self selector:@selector(WeixiPay:) name:WeixiPay object:nil];
     
     //开始加载
@@ -289,9 +290,13 @@
     MainViewController *main = (MainViewController*)notify.object;
     if (![main isEqual:self]) {
         return;
+    }else{
+        _isAliPay = YES;
     }
     NSLog(@"-----requestparmas-----%@",[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams);
     [[AlipaySDK defaultService] payOrder:[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams fromScheme:AliPayScheme callback:^(NSDictionary *resultDic) {
+        [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"alipay:"]];
+        
         NSLog(@"----result---%@",resultDic);
         NSLog(@"-----memo---%@",resultDic[@"memo"]);
         NSString *resultContent = resultDic[@"memo"];
@@ -309,6 +314,21 @@
         [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
         [SYCShareVersionInfo sharedVersion].aliPayPluginID = nil;
     }];
+}
+-(void)AlyPayResult:(NSNotification*)notify{
+    if (!_isAliPay) {
+        return;
+    }
+    NSMutableDictionary *dic = (NSMutableDictionary*)notify.object;
+    [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderDesc forKey:@"orderDesc"];
+    [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderSn forKey:@"orderSn"];
+    [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderAmount forKey:@"orderAmount"];
+    NSString *jsonS = [dic JSONString];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
+    [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].aliPayPluginID];
+    [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
+    [SYCShareVersionInfo sharedVersion].aliPayPluginID = nil;
+    _isAliPay = NO;
 }
 -(void)WeixiPay:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
@@ -333,21 +353,22 @@
     NSLog(@"user location lat = %f,long = %f",location.coordinate.latitude,location.coordinate.latitude);
     //保留小数点后六位
     NSString *mLatitude = [NSString stringWithFormat:@"%.6f",location.coordinate.latitude];
-    NSString *mLongtitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
+    NSString *mLongitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
     [SYCShareVersionInfo sharedVersion].mLatitude = mLatitude;
-    [SYCShareVersionInfo sharedVersion].mLongtitude = mLongtitude;
+    [SYCShareVersionInfo sharedVersion].mLongitude = mLongitude;
     CLGeocoder *geoCoder = [[CLGeocoder alloc]init];
     [geoCoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         if (placemarks.count>0) {
             CLPlacemark *placeMark = [placemarks firstObject];
             NSString *city = placeMark.locality;
-            if ([SYCSystem judgeNSString:city]) {
+            if (![SYCSystem judgeNSString:city]) {
                 city = @"无法定位当前城市";
             }
             [SYCShareVersionInfo sharedVersion].mCity = city;//城市
             [SYCShareVersionInfo sharedVersion].mDistrict = placeMark.subLocality;//地区
             [SYCShareVersionInfo sharedVersion].mStreet = placeMark.thoroughfare;//街道
             [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.subThoroughfare;//地址信息
+            NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",city,placeMark.subLocality,placeMark.thoroughfare,placeMark.subThoroughfare);
 //            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.name;
         }else if (!error&&placemarks.count == 0){
             NSLog(@"No location and error return");

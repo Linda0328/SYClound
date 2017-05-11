@@ -39,7 +39,7 @@
 //定位坐标
 
 @property (nonatomic,copy)NSString *mLatitude;//纬度
-@property (nonatomic,copy)NSString *mLongtitude;//经度
+@property (nonatomic,copy)NSString *mLongitude;//经度
 @property (nonatomic,copy)NSString *mCity;//城市
 @property (nonatomic,copy)NSString *mDistrict;//地区
 @property (nonatomic,copy)NSString *mStreet;//街道
