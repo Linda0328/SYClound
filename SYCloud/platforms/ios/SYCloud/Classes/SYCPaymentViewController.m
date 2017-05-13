@@ -79,23 +79,23 @@ NSString *const selectIndex = @"selectedIndex";
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     if (indexPath.row == 0) {
-        if (!_isRefresh) {
-            self.view.backgroundColor = [UIColor whiteColor];
-            UIButton *backBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 45*[SYCSystem PointCoefficient])];
-            [backBut setImage:[UIImage imageNamed:@"pay_back"] forState:UIControlStateNormal];
-            [backBut addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
-            [cell.contentView addSubview:backBut];
-            UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 240*[SYCSystem PointCoefficient], 17.0*[SYCSystem PointCoefficient])];
-            titleLable.numberOfLines = 1;
-            titleLable.font = [UIFont systemFontOfSize:17.0*[SYCSystem PointCoefficient]];
-            titleLable.textColor = [UIColor colorWithHexString:@"444444"];
-            titleLable.center = CGPointMake(cell.contentView.center.x, cell.contentView.center.y);
-            titleLable.text = @"选择支付方式";
-            titleLable.textAlignment = NSTextAlignmentCenter;
-            [cell.contentView addSubview:titleLable];
-        }else{
-            _isRefresh = NO;
+        for (UIView *subviews in [cell.contentView subviews]) {
+            [subviews removeFromSuperview];
         }
+        self.view.backgroundColor = [UIColor whiteColor];
+        UIButton *backBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 45*[SYCSystem PointCoefficient])];
+        [backBut setImage:[UIImage imageNamed:@"pay_back"] forState:UIControlStateNormal];
+        [backBut addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.contentView addSubview:backBut];
+        UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 240*[SYCSystem PointCoefficient], 17.0*[SYCSystem PointCoefficient])];
+        titleLable.numberOfLines = 1;
+        titleLable.font = [UIFont systemFontOfSize:17.0*[SYCSystem PointCoefficient]];
+        titleLable.textColor = [UIColor colorWithHexString:@"444444"];
+        titleLable.center = CGPointMake(cell.contentView.center.x, cell.contentView.center.y);
+        titleLable.text = @"选择支付方式";
+        titleLable.textAlignment = NSTextAlignmentCenter;
+        [cell.contentView addSubview:titleLable];
+        
     }else{
         cell.textLabel.font = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
         cell.textLabel.textColor = [UIColor colorWithHexString:@"444444"];

@@ -65,25 +65,20 @@ NSString *const payment_CancelMessage = @"支付取消";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
-//    if (DEBUG) {
-//      baseURL = SYCloudLocalBaseURLJW;
+    #ifdef DEBUG
+//    baseURL = SYCloudLocalBaseURLJW;
 //    baseURL = SYCloudLocalBaseURLTH;
       baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
-//    }else{
-//      baseURL = SYCloudFormalBaseURL;
-//      [SYCShareVersionInfo sharedVersion].formal = YES;
-//    }
+    #else
+      baseURL = SYCloudFormalBaseURL;
+      [SYCShareVersionInfo sharedVersion].formal = YES;
+    #endif
     [SYCShareVersionInfo sharedVersion].remoteUrl = baseURL;
     return baseURL;
 }
 +(NSString*)imagLoadURL{
-    NSString *imagLoadURL = nil;
-    //    if (DEBUG) {
-    //        imagLoadURL = SYSGIMGloadTestBaseURL;
-    //    }else{
-    imagLoadURL = SYCloudImageLoadBaseURL;
-    //    }
+    NSString *imagLoadURL = SYCloudImageLoadBaseURL;
     [SYCShareVersionInfo sharedVersion].imageUrl = imagLoadURL;
     return imagLoadURL;
 }
@@ -102,11 +97,11 @@ NSString *const payment_CancelMessage = @"支付取消";
         //数组升序排列
         allKey = [allKey sortedArrayUsingSelector:@selector(compare:)];
         for (NSInteger i = 0; i < [allKey count]; i++) {
-            
+            NSString *parm = [NSString stringWithFormat:@"%@",[paramWithRandomNo objectForKey:allKey[i]]];
             if (i == 0) {
-                paramStr = [NSString stringWithFormat:@"%@%@",allKey[i],[paramWithRandomNo objectForKey:allKey[i]]];
+                paramStr = [NSString stringWithFormat:@"%@%@",allKey[i],parm];
             }else{
-                paramStr = [paramStr stringByAppendingFormat:@"%@%@",allKey[i],[paramWithRandomNo objectForKey:allKey[i]]];
+                paramStr = [paramStr stringByAppendingFormat:@"%@%@",allKey[i],parm];
             }
             
         }
@@ -114,7 +109,7 @@ NSString *const payment_CancelMessage = @"支付取消";
     }
     paramStr = [paramStr stringByAppendingString:SecureSecrit];
     //防止中文乱码
-    //    paramStr = [paramStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    paramStr = [paramStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"------------parameter----------%@",paramStr);
     NSString *signature = [SYCSystem md5:paramStr];
     return signature;

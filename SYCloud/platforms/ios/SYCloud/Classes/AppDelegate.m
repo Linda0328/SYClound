@@ -136,20 +136,20 @@
 -(void)setRootViewController{
     [SYCHttpReqTool VersionInfo];
     NSDictionary *dic = nil;
-    NSUserDefaults *userdef = [NSUserDefaults standardUserDefaults];
-    NSString *indexV = [userdef objectForKey:SYCIndexVersion];
-    if ([indexV isEqualToString:[SYCShareVersionInfo sharedVersion].indexVersion]) {
-//        // 读取本地缓存首页数据
-//        NSString *jsonPath = [NSString appendJsonFilePathToDocument:SYCIndexJson];
-//        // Json数据
-//        NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
-//        dic = [NSJSONSerialization JSONObjectWithData:[indexData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-        dic = [userdef objectForKey:SYCIndexJson];
-    }else{
-        [userdef setObject:[SYCShareVersionInfo sharedVersion].indexVersion forKey:SYCIndexVersion];
+//    NSUserDefaults *userdef = [NSUserDefaults standardUserDefaults];
+//    NSString *indexV = [userdef objectForKey:SYCIndexVersion];
+//    if ([indexV isEqualToString:[SYCShareVersionInfo sharedVersion].indexVersion]) {
+////        // 读取本地缓存首页数据
+////        NSString *jsonPath = [NSString appendJsonFilePathToDocument:SYCIndexJson];
+////        // Json数据
+////        NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
+////        dic = [NSJSONSerialization JSONObjectWithData:[indexData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+//        dic = [userdef objectForKey:SYCIndexJson];
+//    }else{
+//        [userdef setObject:[SYCShareVersionInfo sharedVersion].indexVersion forKey:SYCIndexVersion];
         NSDictionary *result = [SYCHttpReqTool MainData];
         dic = result[resultSuccessKey];
-    }
+//    }
     
     
     [SYCNavTitleModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{

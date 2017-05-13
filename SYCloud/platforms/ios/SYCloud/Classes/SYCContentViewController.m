@@ -27,6 +27,7 @@
 #import "SYCPopoverGroupViewController.h"
 #import "SYCHttpReqTool.h"
 #import "SYCRequestLoadingViewController.h"
+
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -173,42 +174,78 @@ static void *eventBarItem = @"eventBarItem";
         return;
     }
     __weak __typeof(self)weakSelf = self;
-    SYCRequestLoadingViewController *laoding = [[SYCRequestLoadingViewController alloc]init];
-    [self presentViewController:laoding animated:YES completion:^{
-         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
-        SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
-        NSDictionary *result = nil;
-        if ([payMentType isEqualToString:payMentTypeImme]) {
-            SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
-            payOrderVC.payInfoModel = payModel;
-            result = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount];
-        }else if([payMentType isEqualToString:payMentTypeScan]){
-            NSString *qrcode = (NSString*)notify.object;
-            payOrderVC.qrcode = qrcode;
-            result = [SYCHttpReqTool payScanInfoWithQrcode:qrcode];
-        }else if([payMentType isEqualToString:payMentTypeCode]){
-            NSString *paycode = (NSString*)notify.object;
-            payOrderVC.payCode = paycode;
-            result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
-        }
-        if (result) {
-            laoding.pushBlock = ^(){
-                payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
-                payOrderVC.payMentType = payMentType;
-                payOrderVC.rquestResultDic = result;
-                payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
-                payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
-                payOrderVC.transitioningDelegate = self;
-                [strongSelf presentViewController:payOrderVC animated:YES completion:nil];
-            };
-            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultSuccessNotify object:nil];
+    UIView *payloadingView = [self payLoading];
+//    SYCRequestLoadingViewController *laoding = [[SYCRequestLoadingViewController alloc]init];
+//    [self presentViewController:laoding animated:YES completion:^{
+//         __strong __typeof(weakSelf)strongSelf = weakSelf;
+//        NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
+//        SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
+//        NSDictionary *result = nil;
+//        if ([payMentType isEqualToString:payMentTypeImme]) {
+//            SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
+//            payOrderVC.payInfoModel = payModel;
+//            result = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount];
+//        }else if([payMentType isEqualToString:payMentTypeScan]){
+//            NSString *qrcode = (NSString*)notify.object;
+//            payOrderVC.qrcode = qrcode;
+//            result = [SYCHttpReqTool payScanInfoWithQrcode:qrcode];
+//        }else if([payMentType isEqualToString:payMentTypeCode]){
+//            NSString *paycode = (NSString*)notify.object;
+//            payOrderVC.payCode = paycode;
+//            result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
+//        }
+//        if (result) {
+//            laoding.pushBlock = ^(){
+//                payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
+//                payOrderVC.payMentType = payMentType;
+//                payOrderVC.rquestResultDic = result;
+//                payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
+//                payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
+//                payOrderVC.transitioningDelegate = self;
+//                [strongSelf presentViewController:payOrderVC animated:YES completion:nil];
+//            };
+//            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultSuccessNotify object:nil];
+//        
+//        }else{
+//            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultErrorNotify object:@"获取支付订单信息失败"];
+//        }
+//
+//    }];
+    
+    NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
+    SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
+    NSDictionary *result = nil;
+    if ([payMentType isEqualToString:payMentTypeImme]) {
+        SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
+        payOrderVC.payInfoModel = payModel;
+        result = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount];
+    }else if([payMentType isEqualToString:payMentTypeScan]){
+        NSString *qrcode = (NSString*)notify.object;
+        payOrderVC.qrcode = qrcode;
+        result = [SYCHttpReqTool payScanInfoWithQrcode:qrcode];
+    }else if([payMentType isEqualToString:payMentTypeCode]){
+        NSString *paycode = (NSString*)notify.object;
+        payOrderVC.payCode = paycode;
+        result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
+    }
+    if (result) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            //2秒以后移除view
+            [payloadingView removeFromSuperview];
+            strongSelf.view.userInteractionEnabled = YES;
+            payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
+            payOrderVC.payMentType = payMentType;
+            payOrderVC.rquestResultDic = result;
+            payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
+            payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
+            payOrderVC.transitioningDelegate = strongSelf;
+            [strongSelf presentViewController:payOrderVC animated:YES completion:nil];
+            
+        });
         
-        }else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultErrorNotify object:@"获取支付订单信息失败"];
-        }
-
-    }];
+       
+    }
     
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
@@ -221,6 +258,7 @@ static void *eventBarItem = @"eventBarItem";
     presentation.contentViewRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
     return presentation;
 }
+
 -(void)setNavigationBar:(SYCNavigationBarModel *)navBarModel{
     _isHiddenNavigationBar = NO;
     UIColor *color = [UIColor colorWithHexString:@"458DEF"];
@@ -479,7 +517,25 @@ static void *eventBarItem = @"eventBarItem";
     }
 
 }
-
+-(UIView*)payLoading{
+    UIWindow *windows = [UIApplication sharedApplication].keyWindow;
+    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, windows.frame.size.width/3, windows.frame.size.width/3)];
+    loadingV.center = windows.center;
+    loadingV.backgroundColor = [UIColor colorWithHexString:@"000000"];
+    loadingV.alpha = 0.8;
+    loadingV.layer.masksToBounds = YES;
+    loadingV.layer.cornerRadius = 10.0;
+    UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, loadingV.bounds.size.width, 17*[SYCSystem PointCoefficient])];
+    lable.font = [UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]];
+    lable.textAlignment = NSTextAlignmentCenter;
+    lable.textColor = [UIColor whiteColor];
+    lable.text = @"支付中";
+    
+    [loadingV addSubview:lable];
+    self.view.userInteractionEnabled = NO;
+    [windows addSubview:loadingV];
+    return loadingV;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

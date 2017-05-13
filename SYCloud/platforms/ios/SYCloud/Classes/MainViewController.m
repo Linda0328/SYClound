@@ -48,6 +48,7 @@
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 //@property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property(nonatomic,strong)SYIntroduceWLANView *introductV;
+@property(nonatomic,assign)NSInteger locationTime;
 @end
 @implementation MainViewController
 
@@ -110,7 +111,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
+    _locationTime = 0;
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.extendedLayoutIncludesOpaqueBars = YES;
@@ -119,7 +120,7 @@
     //启动locationService
     [_locationService startUserLocationService];
     __weak __typeof(self)weakSelf = self;
-    if (!_isChild || _enableReload) {
+    if (_enableReload) {
         MJRefreshGifHeader *gifHeader = [MJRefreshGifHeader headerWithRefreshingBlock:^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf LoadURL:strongSelf.startPage];
@@ -139,6 +140,9 @@
     self.showB = ^(NSString *msg,double time){
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         strongSelf.HUD.label.text = msg;
+        if (time == 0) {
+            time = 10.0f;
+        }
         [strongSelf.HUD showAnimated:YES];
         [strongSelf.HUD hideAnimated:YES afterDelay:time];
     };
@@ -351,39 +355,57 @@
     CLLocation *location = userLocation.location;
 //    CLLocationCoordinate2D coordiante = userLocation.location.coordinate;
     NSLog(@"user location lat = %f,long = %f",location.coordinate.latitude,location.coordinate.latitude);
-    //保留小数点后六位
-    NSString *mLatitude = [NSString stringWithFormat:@"%.6f",location.coordinate.latitude];
-    NSString *mLongitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
-    [SYCShareVersionInfo sharedVersion].mLatitude = mLatitude;
-    [SYCShareVersionInfo sharedVersion].mLongitude = mLongitude;
-    CLGeocoder *geoCoder = [[CLGeocoder alloc]init];
-    [geoCoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        if (placemarks.count>0) {
-            CLPlacemark *placeMark = [placemarks firstObject];
-            NSString *city = placeMark.locality;
-            if (![SYCSystem judgeNSString:city]) {
-                city = @"无法定位当前城市";
-            }
-            [SYCShareVersionInfo sharedVersion].mCity = city;//城市
-            [SYCShareVersionInfo sharedVersion].mDistrict = placeMark.subLocality;//地区
-            [SYCShareVersionInfo sharedVersion].mStreet = placeMark.thoroughfare;//街道
-            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.subThoroughfare;//地址信息
-            NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",city,placeMark.subLocality,placeMark.thoroughfare,placeMark.subThoroughfare);
-//            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.name;
-        }else if (!error&&placemarks.count == 0){
-            NSLog(@"No location and error return");
-        }else{
-            NSLog(@"location error :%@",error);
-        }
-    }];
-//    [_locationService stopUserLocationService];
-}
-- (void)didFailToLocateUserWithError:(NSError *)error{
-    if (error) {
-        NSLog(@"baiduMap located failed for error = %@",[error description]);
-        [SYCShareVersionInfo sharedVersion].locationError = [error description];;
+    NSTimeInterval time = 0.0;
+    if (_locationTime > 0){
+        time = 60.0;
     }
+    
+    if (_locationTime%60 == 0) {
+        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time* NSEC_PER_SEC));
+        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+            NSLog(@"location error :%ld",_locationTime);
+            //保留小数点后六位
+            NSString *mLatitude = [NSString stringWithFormat:@"%.6f",location.coordinate.latitude];
+            NSString *mLongitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
+            [SYCShareVersionInfo sharedVersion].mLatitude = mLatitude;
+            [SYCShareVersionInfo sharedVersion].mLongitude = mLongitude;
+            CLGeocoder *geoCoder = [[CLGeocoder alloc]init];
+            [geoCoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+                if (placemarks.count>0) {
+                    CLPlacemark *placeMark = [placemarks firstObject];
+                    NSString *city = placeMark.locality;
+                    if (![SYCSystem judgeNSString:city]) {
+                        city = @"无法定位当前城市";
+                    }
+                    [SYCShareVersionInfo sharedVersion].mCity = city;//城市
+                    [SYCShareVersionInfo sharedVersion].mDistrict = placeMark.subLocality;//地区
+                    [SYCShareVersionInfo sharedVersion].mStreet = placeMark.thoroughfare;//街道
+                    [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.subThoroughfare;//地址信息
+                    NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",city,placeMark.subLocality,placeMark.thoroughfare,placeMark.subThoroughfare);
+                    //            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.name;
+                }else if (!error&&placemarks.count == 0){
+                    NSLog(@"No location and error return");
+                }else{
+                    NSLog(@"location error :%@",error);
+                }
+                
+            }];
+            
+        });
+
+    }
+    _locationTime++;
+        //    [_locationService stopUserLocationService];
 }
+//- (void)didFailToLocateUserWithError:(NSError *)error{
+//    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0* NSEC_PER_SEC));
+//    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+//        if (error) {
+//            NSLog(@"baiduMap located failed for error = %@",[error description]);
+//            [SYCShareVersionInfo sharedVersion].locationError = [error description];
+//        }
+//    });
+//}
 
 
 ////网络变化

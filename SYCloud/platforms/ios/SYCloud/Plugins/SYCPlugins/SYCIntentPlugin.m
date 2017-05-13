@@ -43,7 +43,6 @@
         if (navVC.pushBlock) {
             navVC.pushBlock(url,!isfinish,reload,model);
         }
-        
     }
     [self.commandDelegate runInBackground:^{
         

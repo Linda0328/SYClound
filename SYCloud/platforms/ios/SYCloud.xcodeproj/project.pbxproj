@@ -85,6 +85,7 @@
 		EE8156DE1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156DD1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m */; };
 		EE8156E11EB1CA2D00C13482 /* SYCPaymentFailHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */; };
 		EE8327D21EB32D4700B496A5 /* SYCPayOrderInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8327D11EB32D4700B496A5 /* SYCPayOrderInfoViewController.m */; };
+		EE839F211EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = EE839F201EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m */; };
 		EE91600D1E98BADC00B3D014 /* SYCAliPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */; };
 		EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF981E7F804A00C35C2A /* AFHTTPSessionManager.m */; };
 		EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9B1E7F804A00C35C2A /* AFNetworkReachabilityManager.m */; };
@@ -345,6 +346,8 @@
 		EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentFailHUD.m; sourceTree = "<group>"; };
 		EE8327D01EB32D4700B496A5 /* SYCPayOrderInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderInfoViewController.h; sourceTree = "<group>"; };
 		EE8327D11EB32D4700B496A5 /* SYCPayOrderInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPayOrderInfoViewController.m; sourceTree = "<group>"; };
+		EE839F1F1EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPresentionAnimatedTransitioning.h; sourceTree = "<group>"; };
+		EE839F201EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPresentionAnimatedTransitioning.m; sourceTree = "<group>"; };
 		EE91600B1E98BADC00B3D014 /* SYCAliPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCAliPayModel.h; sourceTree = "<group>"; };
 		EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCAliPayModel.m; sourceTree = "<group>"; };
 		EE9500001E7F804A00C35C2A /* MJRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooter.h; sourceTree = "<group>"; };
@@ -814,6 +817,8 @@
 				EE6DF1991EBC622700AF15E4 /* SYCPopoverGroupViewController.m */,
 				EE7329241EC0560B00FB85E1 /* SYCRequestLoadingViewController.h */,
 				EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */,
+				EE839F1F1EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.h */,
+				EE839F201EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m */,
 			);
 			name = Presentation;
 			sourceTree = "<group>";
@@ -1503,6 +1508,7 @@
 				EE9500451E7F804A00C35C2A /* NSArray+MASAdditions.m in Sources */,
 				EE95006C1E7F804A00C35C2A /* UIScrollView+MJRefresh.m in Sources */,
 				EE95FF7E1E7F7EC600C35C2A /* SYCHttpReqTool.m in Sources */,
+				EE839F211EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m in Sources */,
 				DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */,
 				EE95004F1E7F804A00C35C2A /* MJFoundation.m in Sources */,
 				07A8B9A1F8B647C3AAE0EDF8 /* CDVFileTransfer.m in Sources */,

@@ -1,3 +1,4 @@
+
 //
 //  SYCLoactionPlugin.m
 //  SYCloud
@@ -24,14 +25,13 @@
                                   @"mAddrStr":[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].mAddrStr]?[SYCShareVersionInfo sharedVersion].mAddrStr:@"无"};
     NSString *jsonStr = [locationDic JSONString];
     [self.commandDelegate runInBackground:^{
-        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].locationError]) {
-            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[SYCShareVersionInfo sharedVersion].locationError];
-            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-        }else{
+//        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].locationError]) {
+//            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[SYCShareVersionInfo sharedVersion].locationError];
+//            [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+//        }else{
             CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
             [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-
-        }
+//        }
         
     }];
 }

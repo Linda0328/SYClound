@@ -44,6 +44,8 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     [SYCSystem imagLoadURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@",SYVersionParam,[SYCSystem secondsForNow]];
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
    
     NSURLResponse *response = nil;
@@ -85,6 +87,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@",SYMainParam,[SYCSystem secondsForNow]];
 //    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYMainParam];
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
     NSURLResponse *response = nil;
     NSError *error = nil;
@@ -124,7 +127,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSUserDefaults *userf = [NSUserDefaults standardUserDefaults];
     [userf setObject:dic forKey:SYCIndexJson];
     [userf synchronize];
-    return dic;
+    return result;
 }
 +(BOOL)PswSetOrNot{
     NSString *baseURL = [SYCSystem baseURL];
@@ -142,6 +145,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -191,6 +195,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -246,6 +251,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *requrl = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requrl];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -305,6 +311,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     if ([type isEqualToString:GETRequest]) {
         reqUrl = [reqUrl stringByAppendingFormat:@"%@%@",@"?",paramStr];
     }
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:reqUrl]];
     request.HTTPMethod = type;
     request.timeoutInterval = 10.0f;
@@ -359,6 +366,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -391,6 +399,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
 +(NSDictionary*)payScanInfoWithQrcode:(NSString*)qrcode{
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPayScan];
+   
     NSString *param = [[NSString alloc]init];
     NSMutableDictionary *paramDic = [[self class] commonParam];
     [paramDic setObject:qrcode forKey:@"qrCode"];
@@ -405,6 +414,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -452,6 +462,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -509,6 +520,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -556,6 +568,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -604,6 +617,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         
     }
     NSURL *url = [NSURL URLWithString:reqUrl];
+    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
@@ -636,7 +650,9 @@ NSString * const resultCodeSuccess = @"SucsessCode";
 -(NSDictionary*)postRequestUrl:(NSString*)requestUrl withParam:(NSString*)param{
     NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
     NSString *resultCode = resultCodeSuccess;
+    
     NSURL *url = [NSURL URLWithString:requestUrl];
+    requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;

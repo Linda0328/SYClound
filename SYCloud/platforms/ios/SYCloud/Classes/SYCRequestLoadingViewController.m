@@ -20,7 +20,7 @@ NSString *const requestResultSuccessNotify = @"requestResultSuccess";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithHexString:@"000000"];
-    self.view.alpha = 0.3;
+    self.view.alpha = 0.03;
     _noticeL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
     _noticeL.center = self.view.center;
     _noticeL.textAlignment = NSTextAlignmentCenter;

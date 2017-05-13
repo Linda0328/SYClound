@@ -177,7 +177,8 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
     if (![SYCSystem judgeNSString:_YKTtextF.text]){
         isRight = NO;
         _HUD.label.text = @"请输入一卡通卡号";
-    }else if(![SYCSystem judgeNSString:_YKTtextF.text]){
+    }
+    if(![SYCSystem judgeNSString:_YKTtextF.text]){
         isRight = NO;
         _HUD.label.text = @"请输入验证码";
     }

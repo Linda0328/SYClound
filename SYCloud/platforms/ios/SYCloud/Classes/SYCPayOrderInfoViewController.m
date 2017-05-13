@@ -17,6 +17,7 @@
 #import "SYCPasswordViewController.h"
 #import "SYCPresentationController.h"
 #import "SYCPaymentViewController.h"
+#import "SYCPresentionAnimatedTransitioning.h"
 static CGFloat infoCellHeight = 43;
 static NSInteger infoCellNum = 2;
 @interface SYCPayOrderInfoViewController ()<UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>
@@ -83,9 +84,9 @@ static NSInteger infoCellNum = 2;
     _infoTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [self.view addSubview:_infoTable];
    
-    UIView *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(16, CGRectGetMaxY(_infoTable.frame)+6, width, 0.5)];
-    lineView1.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
-    [self.view addSubview:lineView1];
+//    UIView *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(16, CGRectGetMaxY(_infoTable.frame)+6, width, 0.5)];
+//    lineView1.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+//    [self.view addSubview:lineView1];
     
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
     UIButton *confirmBut = [[UIButton alloc]initWithFrame:CGRectMake(16*[SYCSystem PointCoefficient], 3*screenSize.height/5-16*[SYCSystem PointCoefficient]-50*[SYCSystem PointCoefficient], self.view.frame.size.width-32*[SYCSystem PointCoefficient], 50*[SYCSystem PointCoefficient])];
@@ -258,7 +259,25 @@ static NSInteger infoCellNum = 2;
     presentation.contentViewRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
     return presentation;
 }
-
+///*
+// * 由返回的对象控制Presented时的动画；
+// */
+//- (id <UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source
+//{
+//    SYCPresentionAnimatedTransitioning *anim = [[SYCPresentionAnimatedTransitioning alloc] init];
+//    anim.presented = YES;
+//    return anim;
+//}
+//
+///*
+// * 由返回的控制器控制dismissed时的动画；
+// */
+//- (id <UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed
+//{
+//    SYCPresentionAnimatedTransitioning *anim = [[SYCPresentionAnimatedTransitioning alloc] init];
+//    anim.presented = NO;
+//    return anim;
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -24,7 +24,9 @@
         CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-113);
         viewC.view.frame =rect;
         MainViewController *mainViewC = [[MainViewController alloc]init];
+        mainViewC.isChild = YES;
         mainViewC.isRoot = YES;
+        mainViewC.enableReload = YES;
         mainViewC.startPage = navBarModel.url;
         mainViewC.isHiddenNavBar = viewC.isHiddenNavigationBar;
         mainViewC.view.frame = rect;
@@ -32,7 +34,6 @@
         [viewC addChildViewController:mainViewC];
         [mainViewC didMoveToParentViewController:viewC];
         viewC.CurrentChildVC = mainViewC;
-        mainViewC.isChild = YES;
         UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:viewC];
         if (viewC.isHiddenNavigationBar) {
             navC.navigationBar.translucent = YES;
