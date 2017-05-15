@@ -32,6 +32,7 @@ static NSInteger infoCellNum = 2;
 @property (nonatomic,strong)NSMutableArray *unEnablePayment;
 @property (nonatomic,strong)NSIndexPath *selectedIndex;
 @property (nonatomic,copy)NSString *amount;
+@property (nonatomic,strong)UIButton *confirmBut;
 @end
 
 @implementation SYCPayOrderInfoViewController
@@ -73,7 +74,7 @@ static NSInteger infoCellNum = 2;
     _moneyAmountLablel.font = [UIFont systemFontOfSize:27.5*[SYCSystem PointCoefficient]];
     _moneyAmountLablel.textColor = [UIColor colorWithHexString:@"3B7BCB"];
     _moneyAmountLablel.center = CGPointMake(self.view.center.x, lineView.center.y+42.5*[SYCSystem PointCoefficient]);
-    _moneyAmountLablel.text = [NSString stringWithFormat:@"%.2f",[_amount floatValue]];
+    _moneyAmountLablel.text = [NSString stringWithFormat:@"¥%.2f",[_amount floatValue]];
     _moneyAmountLablel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_moneyAmountLablel];
     
@@ -89,12 +90,20 @@ static NSInteger infoCellNum = 2;
 //    [self.view addSubview:lineView1];
     
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
-    UIButton *confirmBut = [[UIButton alloc]initWithFrame:CGRectMake(16*[SYCSystem PointCoefficient], 3*screenSize.height/5-16*[SYCSystem PointCoefficient]-50*[SYCSystem PointCoefficient], self.view.frame.size.width-32*[SYCSystem PointCoefficient], 50*[SYCSystem PointCoefficient])];
-    confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
-    [confirmBut setTitle:@"立即付款" forState:UIControlStateNormal];
-    [confirmBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [confirmBut addTarget:self action:@selector(PayImmedately:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:confirmBut];
+    _confirmBut = [[UIButton alloc]initWithFrame:CGRectMake(16*[SYCSystem PointCoefficient], 3*screenSize.height/5-16*[SYCSystem PointCoefficient]-50*[SYCSystem PointCoefficient], self.view.frame.size.width-32*[SYCSystem PointCoefficient], 50*[SYCSystem PointCoefficient])];
+    _confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+    [_confirmBut setTitle:@"立即付款" forState:UIControlStateNormal];
+    [_confirmBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_confirmBut addTarget:self action:@selector(PayImmedately:) forControlEvents:UIControlEventTouchUpInside];
+    if ([SYCSystem judgeNSString:_defaultPayType]) {
+        _confirmBut.enabled = YES;
+    }else{
+        _confirmBut.enabled = NO;
+        _confirmBut.backgroundColor = [UIColor colorWithHexString:@"999999"];
+    }
+    _confirmBut.layer.masksToBounds = YES;
+    _confirmBut.layer.cornerRadius = 10.0f;
+    [self.view addSubview:_confirmBut];
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(pswPayResult:) name:dismissPswNotify object:nil];
@@ -167,6 +176,7 @@ static NSInteger infoCellNum = 2;
     passwVC.confirmPayModel = confirmPayModel;
     passwVC.isPreOrderPay = _isPreOrderPay;
     passwVC.paymentType = _payMentType;
+    passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
     [self presentViewController:passwVC animated:YES completion:nil];
 }
 
@@ -178,8 +188,11 @@ static NSInteger infoCellNum = 2;
     if ([SYCSystem judgeNSString:_assetNo]) {
         [payCallback setObject:_assetNo forKey:@"asserNo"];
     }
+    NSDictionary *resultDic = @{PayResultCallback:payCallback,
+                                PreOrderPay:_payMentType
+                                };
     [self dismissViewControllerAnimated:YES completion:^{
-         [[NSNotificationCenter defaultCenter]postNotificationName:payAndShowNotify object:_presentingMainVC userInfo:payCallback];
+         [[NSNotificationCenter defaultCenter]postNotificationName:payAndShowNotify object:_presentingMainVC userInfo:resultDic];
     }];
 }
 -(void)pswPayResult:(NSNotification*)notify{
@@ -194,6 +207,11 @@ static NSInteger infoCellNum = 2;
     _assetType = model.assetType;
     _defaultPayType = model.assetName;
     _selectedIndex = [notify.userInfo objectForKey:selectIndex];
+    if (!_confirmBut.enabled) {
+        _confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+        _confirmBut.enabled = YES;
+    }
+    
     [_infoTable reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -209,7 +227,7 @@ static NSInteger infoCellNum = 2;
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     cell.textLabel.font = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
-    cell.textLabel.textColor = [UIColor colorWithHexString:@"444444"];
+    cell.textLabel.textColor = [UIColor colorWithHexString:@"999999"];
 //    cell.detailTextLabel.font = [UIFont systemFontOfSize:19*[SYCSystem PointCoefficient]];
 //    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"999999"];
     if (indexPath.row == 0) {
@@ -217,22 +235,20 @@ static NSInteger infoCellNum = 2;
         if ([SYCSystem judgeNSString:_desc]) {
             cell.textLabel.text = [text stringByAppendingString:_desc];
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-            [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"999999"]} range:[cell.textLabel.text rangeOfString:_desc]];
+            [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"444444"]} range:[cell.textLabel.text rangeOfString:_desc]];
             cell.textLabel.attributedText = str;
         }else{
             cell.textLabel.text = text;
         }
     }else if (indexPath.row == 1){
         NSString *text =@"付款方式：";
-        if ([SYCSystem judgeNSString:_defaultPayType]) {
-            cell.textLabel.text = [text stringByAppendingString:_defaultPayType];
-            NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-            [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"999999"]} range:[cell.textLabel.text rangeOfString:_defaultPayType]];
-            cell.textLabel.attributedText = str;
-
-        }else{
-            cell.textLabel.text = text;
+        if (![SYCSystem judgeNSString:_defaultPayType]) {
+           _defaultPayType = @"选择支付方式";
         }
+        cell.textLabel.text = [text stringByAppendingString:_defaultPayType];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"444444"]} range:[cell.textLabel.text rangeOfString:_defaultPayType]];
+        cell.textLabel.attributedText = str;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     cell.separatorInset = UIEdgeInsetsMake(0, 16*[SYCSystem PointCoefficient], 0, 0);

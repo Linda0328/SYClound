@@ -15,5 +15,4 @@
 @property (nonatomic,assign) BOOL defaultPay;
 @property (nonatomic,assign) BOOL isEnabled;
 @property (nonatomic,copy) NSString *tips;
-
 @end

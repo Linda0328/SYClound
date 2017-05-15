@@ -108,6 +108,14 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)getYZM:(id)sender{
+    
+    if (![SYCSystem judgeNSString:_YKTtextF.text]){
+        _HUD.label.text = @"请输入一卡通卡号";
+        [_HUD showAnimated:YES];
+        [_HUD hideAnimated:YES afterDelay:2.0f];
+        return;
+    }
+    
     UIButton *butt = (UIButton*)sender;
     __block int timeout = 120; //倒计时时间
     
@@ -173,24 +181,27 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
    
 }
 -(void)BlindConfirm:(id)sender{
-    BOOL isRight = YES;
     if (![SYCSystem judgeNSString:_YKTtextF.text]){
-        isRight = NO;
         _HUD.label.text = @"请输入一卡通卡号";
+        [_HUD showAnimated:YES];
+        [_HUD hideAnimated:YES afterDelay:2.0f];
+        return;
     }
     if(![SYCSystem judgeNSString:_YKTtextF.text]){
-        isRight = NO;
         _HUD.label.text = @"请输入验证码";
+        [_HUD showAnimated:YES];
+        [_HUD hideAnimated:YES afterDelay:2.0f];
+        return;
     }
-    if (isRight) {
-        NSDictionary *blindResulrDic = [SYCHttpReqTool blindYKTwithCardNo:_YKTtextF.text captcha:_YZMtextF.text];
-        NSLog(@"------%@--",blindResulrDic);
-        if ([blindResulrDic[@"code"] isEqualToString:@"000000"] ) {
-            _HUD.label.text = @"绑定成功！";
-        }else{
-            _HUD.label.text = blindResulrDic[@"msg"];
-        }
+    
+    NSDictionary *blindResulrDic = [SYCHttpReqTool blindYKTwithCardNo:_YKTtextF.text captcha:_YZMtextF.text];
+    NSLog(@"------%@--",blindResulrDic);
+    if ([blindResulrDic[@"code"] isEqualToString:@"000000"] ) {
+        _HUD.label.text = @"绑定成功！";
+    }else{
+        _HUD.label.text = blindResulrDic[@"msg"];
     }
+    
     [_HUD showAnimated:YES];
     [_HUD hideAnimated:YES afterDelay:2.0f];
     [self dismissViewControllerAnimated:YES completion:^{

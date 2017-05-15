@@ -27,7 +27,7 @@
 #import "SYCPopoverGroupViewController.h"
 #import "SYCHttpReqTool.h"
 #import "SYCRequestLoadingViewController.h"
-
+#import "MBProgressHUD.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -37,6 +37,7 @@ static void *eventBarItem = @"eventBarItem";
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 @property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property (nonatomic,strong)NSMutableArray *groupArr;
+@property (nonatomic,strong)dispatch_source_t timer;
 @end
 
 @implementation SYCContentViewController
@@ -174,7 +175,7 @@ static void *eventBarItem = @"eventBarItem";
         return;
     }
     __weak __typeof(self)weakSelf = self;
-    UIView *payloadingView = [self payLoading];
+
 //    SYCRequestLoadingViewController *laoding = [[SYCRequestLoadingViewController alloc]init];
 //    [self presentViewController:laoding animated:YES completion:^{
 //         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -211,7 +212,7 @@ static void *eventBarItem = @"eventBarItem";
 //        }
 //
 //    }];
-    
+    UIView *payloadingView = [self payLoading];
     NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
     SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
     NSDictionary *result = nil;
@@ -228,11 +229,13 @@ static void *eventBarItem = @"eventBarItem";
         payOrderVC.payCode = paycode;
         result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
     }
-    if (result) {
+    if (result&&[result[@"code"] isEqualToString:@"000000"]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             //2秒以后移除view
             [payloadingView removeFromSuperview];
+            //停止动画
+            dispatch_source_cancel(strongSelf.timer);
             strongSelf.view.userInteractionEnabled = YES;
             payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
             payOrderVC.payMentType = payMentType;
@@ -243,8 +246,30 @@ static void *eventBarItem = @"eventBarItem";
             [strongSelf presentViewController:payOrderVC animated:YES completion:nil];
             
         });
-        
-       
+    }
+    if (result&&![result[@"code"] isEqualToString:@"000000"]) {
+        //2秒以后移除view
+        [payloadingView removeFromSuperview];
+        //停止动画
+        dispatch_source_cancel(_timer);
+        self.view.userInteractionEnabled = YES;
+        MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
+        [self.view addSubview:HUD];
+        HUD.label.text = result[@"msg"];
+        [HUD showAnimated:YES];
+        [HUD hideAnimated:YES afterDelay:1.5f];
+    }
+    if (!result) {
+        //2秒以后移除view
+        [payloadingView removeFromSuperview];
+        //停止动画
+        dispatch_source_cancel(_timer);
+        self.view.userInteractionEnabled = YES;
+        MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
+        [self.view addSubview:HUD];
+        HUD.label.text = @"请求失败，请检查网络";
+        [HUD showAnimated:YES];
+        [HUD hideAnimated:YES afterDelay:1.5f];
     }
     
 }
@@ -418,7 +443,7 @@ static void *eventBarItem = @"eventBarItem";
        UIBarButtonItem *item = objc_getAssociatedObject(eventB, eventBarItem);
        SYCPopoverGroupViewController *popOverVC = [[SYCPopoverGroupViewController alloc]init];
        popOverVC.groupArr = _groupArr;
-        popOverVC.PresentingVC = self.CurrentChildVC;
+       popOverVC.PresentingVC = self.CurrentChildVC;
        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
        NSString *event = [userDef objectForKey:eventB.model.ID];
        popOverVC.actionEvent = event;
@@ -519,22 +544,97 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(UIView*)payLoading{
     UIWindow *windows = [UIApplication sharedApplication].keyWindow;
-    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, windows.frame.size.width/3, windows.frame.size.width/3)];
+    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 2*windows.frame.size.width/5, 2*windows.frame.size.width/5)];
     loadingV.center = windows.center;
     loadingV.backgroundColor = [UIColor colorWithHexString:@"000000"];
     loadingV.alpha = 0.8;
     loadingV.layer.masksToBounds = YES;
     loadingV.layer.cornerRadius = 10.0;
-    UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, 20, loadingV.bounds.size.width, 17*[SYCSystem PointCoefficient])];
-    lable.font = [UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]];
+    
+    UIImage *pay_loading = [UIImage imageNamed:@"pay_loading"];
+    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, windows.frame.size.width/10, pay_loading.size.width, pay_loading.size.height)];
+    [imageV setImage:pay_loading];
+    [loadingV addSubview:imageV];
+    
+    UILabel *lable = [[UILabel alloc]initWithFrame:CGRectMake(0, windows.frame.size.width/5, loadingV.bounds.size.width, 20*[SYCSystem PointCoefficient])];
+    lable.font = [UIFont systemFontOfSize:20*[SYCSystem PointCoefficient]];
     lable.textAlignment = NSTextAlignmentCenter;
     lable.textColor = [UIColor whiteColor];
-    lable.text = @"支付中";
-    
+    lable.text = @"生源支付";
     [loadingV addSubview:lable];
+    lable.hidden = YES;
     self.view.userInteractionEnabled = NO;
+    NSMutableArray *viewArr = [NSMutableArray array];
+    for (NSInteger i = 0; i < 3; i++) {
+        CGFloat gap = pay_loading.size.width/2;
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(gap*i+CGRectGetMinX(imageV.frame)-gap/2, CGRectGetMaxY(lable.frame), 8*[SYCSystem PointCoefficient], 8*[SYCSystem PointCoefficient])];
+        [loadingV addSubview:view];
+        view.tag = 1000+i;
+        view.layer.masksToBounds = YES;
+        view.layer.cornerRadius = 4.0*[SYCSystem PointCoefficient];
+        view.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+        [loadingV addSubview:view];
+        [viewArr addObject:view];
+    }
+    __block UIView *view = [loadingV viewWithTag:1000];
+    view.backgroundColor = [UIColor whiteColor];
+    __block NSInteger i = 0;
+    //定时器开始执行的延时时间
+    NSTimeInterval delayTime = 0.0f;
+    //定时器间隔时间
+    NSTimeInterval timeInterval = 0.3f;
+    //创建子线程队列
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    //使用之前创建的队列来创建计时器
+    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    //设置延时执行时间，delayTime为要延时的秒数
+    dispatch_time_t startDelayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayTime * NSEC_PER_SEC));
+    //设置计时器
+    dispatch_source_set_timer(_timer, startDelayTime, timeInterval * NSEC_PER_SEC, 0.3 * NSEC_PER_SEC);
+    dispatch_source_set_event_handler(_timer, ^{
+        i ++;
+        i = i%3;
+        view = [loadingV viewWithTag:1000+i];
+        //执行事件
+        dispatch_async(dispatch_get_main_queue(), ^{
+            for (UIView *view in viewArr) {
+                if ([view.backgroundColor isEqual:[UIColor whiteColor]]) {
+                    view.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+                }
+            }
+            view.backgroundColor = [UIColor whiteColor];
+        });
+    });
+    // 启动计时器
+    dispatch_resume(_timer);
     [windows addSubview:loadingV];
     return loadingV;
+}
+-(CALayer*)LayerAnimation{
+    UIWindow *windows = [UIApplication sharedApplication].keyWindow;
+    CAReplicatorLayer *replicatorLayer = [CAReplicatorLayer layer];
+    replicatorLayer.bounds          = CGRectMake(0, 0,  self.view.frame.size.width/3, self.view.frame.size.width/3);
+    replicatorLayer.cornerRadius    = 10.0;
+    replicatorLayer.position        = windows.center;
+    replicatorLayer.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.2].CGColor;
+    [self.view.layer addSublayer:replicatorLayer];
+    CALayer *dotLayer        = [CALayer layer];
+    dotLayer.bounds          = CGRectMake(0, 0, 15, 15);
+    dotLayer.position        = CGPointMake(15, replicatorLayer.frame.size.height/2 );
+    dotLayer.backgroundColor = [UIColor colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.6].CGColor;
+    dotLayer.cornerRadius    = 7.5;
+    replicatorLayer.instanceCount = 3;
+    replicatorLayer.instanceTransform = CATransform3DMakeTranslation(replicatorLayer.frame.size.width/3, 0, 0);
+    [replicatorLayer addSublayer:dotLayer];
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animation.duration    = 1.0;
+    animation.fromValue   = @1;
+    animation.toValue     = @0;
+    animation.repeatCount = MAXFLOAT;
+    [dotLayer addAnimation:animation forKey:nil];
+    replicatorLayer.instanceDelay = 1.0/3;
+    dotLayer.transform = CATransform3DMakeScale(0, 0, 0);
+    return replicatorLayer;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -166,7 +166,7 @@ static NSString* toBase64(NSData* data) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wtautological-pointer-compare"
                 NSString* settingsButton = (&UIApplicationOpenSettingsURLString != NULL)
-                    ? NSLocalizedString(@"Settings", nil)
+                    ? @"设置"/*NSLocalizedString(@"Settings", nil)*/
                     : nil;
 #pragma clang diagnostic pop
 
@@ -174,9 +174,9 @@ static NSString* toBase64(NSData* data) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[[UIAlertView alloc] initWithTitle:[[NSBundle mainBundle]
                                                          objectForInfoDictionaryKey:@"CFBundleDisplayName"]
-                                                message:NSLocalizedString(@"Access to the camera has been prohibited; please enable it in the Settings app to continue.", nil)
+                                                message:@"无法访问您的相机，请您在设置中打开访问权限"/*NSLocalizedString(@"Access to the camera has been prohibited; please enable it in the Settings app to continue.", nil)*/
                                                delegate:weakSelf
-                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                      cancelButtonTitle:@"好的"/*NSLocalizedString(@"OK", nil)*/
                                       otherButtonTitles:settingsButton, nil] show];
                 });
             }
@@ -293,7 +293,7 @@ static NSString* toBase64(NSData* data) {
         UIImagePickerController* cameraPicker = (UIImagePickerController*)navigationController;
         
         if(![cameraPicker.mediaTypes containsObject:(NSString*)kUTTypeImage]){
-            [viewController.navigationItem setTitle:NSLocalizedString(@"Videos", nil)];
+            [viewController.navigationItem setTitle:@"视频"/*NSLocalizedString(@"Videos", nil)*/];
         }
     }
 }

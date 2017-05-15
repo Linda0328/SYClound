@@ -76,7 +76,7 @@ NSString *const selectIndex = @"selectedIndex";
     static NSString *identifier = @"cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
     if (indexPath.row == 0) {
         for (UIView *subviews in [cell.contentView subviews]) {
@@ -116,7 +116,9 @@ NSString *const selectIndex = @"selectedIndex";
                 cell.accessoryView.hidden = YES;
             }
             if (!model.isEnabled) {
-                cell.contentView.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+                cell.textLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+                cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+                cell.detailTextLabel.text = model.tips;
             }
             cell.textLabel.text = model.assetName;
         }else{
@@ -136,7 +138,9 @@ NSString *const selectIndex = @"selectedIndex";
                         imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
                     }
                     if (!model.isEnabled) {
-                        cell.contentView.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+                        cell.textLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+                        cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+                        cell.detailTextLabel.text = model.tips;
                     }
                     cell.textLabel.text = model.assetName;
                 }
