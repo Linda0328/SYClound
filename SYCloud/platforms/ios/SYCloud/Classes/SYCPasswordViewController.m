@@ -117,7 +117,6 @@ static const NSInteger passWNum = 6;
         NSLog(@"输入的字符个数大于6，忽略输入");
         return NO;
     } else {
-       
         return YES;
     }
 }
@@ -152,9 +151,12 @@ static const NSInteger passWNum = 6;
     if (_isSetTwice) {
         if ([_firstPsw isEqualToString:textField.text]) {
             NSString *md5Psw = [SYCSystem md5:textField.text];
-            if ([SYCHttpReqTool PswSet]) {
-                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:PaypswSet];
-                [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param];
+            if ([SYCHttpReqTool PswSet:md5Psw]) {
+                if (_isTranslate) {
+                    [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param];
+                }else{
+                    [self completePay:textField];
+                }
             }else{
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.presentationController.containerView animated:YES];
                 hud.label.text = @"支付密码设置失败";
@@ -164,13 +166,19 @@ static const NSInteger passWNum = 6;
         }else{
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.presentationController.containerView animated:YES];
             hud.label.text = @"两次输入密码不一致";
+            textField.text = nil;
+            for (UIView *dotView in self.dotArr) {
+                dotView.hidden = YES;
+            }
+            [textField becomeFirstResponder];
             [hud showAnimated:YES];
-            [hud hideAnimated:YES afterDelay:3.0];
+            [hud hideAnimated:YES afterDelay:2.0];
         }
     }
     if (_needSetPassword&&!_isSetTwice) {
         _firstPsw = textField.text;
         _isSetTwice = YES;
+        [textField becomeFirstResponder];
         _titleLable.text = @"请再次输入您的支付密码";
         for (int i = 0; i < textField.text.length; i++) {
             ((UIView *)[self.dotArr objectAtIndex:i]).hidden = YES;
@@ -178,21 +186,22 @@ static const NSInteger passWNum = 6;
         textField.text = nil;
     }
     if (!_needSetPassword) {
-        
-        textField.hidden = YES;
-        for (UIView *dotView in self.dotArr) {
-            dotView.hidden = YES;
-        }
-        for (UIView *dotView in self.lineArr) {
-            dotView.hidden = YES;
-        }
-        if (_showAmount) {
-            [self readyToPay:textField];
-        }else{
-            _confirmPayModel.payPassword = [SYCSystem md5:textField.text];
-            [self readyToConfirmPay:textField];
-        }
-        
+        [self completePay:textField];
+    }
+}
+-(void)completePay:(UITextField*)textField{
+    textField.hidden = YES;
+    for (UIView *dotView in self.dotArr) {
+        dotView.hidden = YES;
+    }
+    for (UIView *dotView in self.lineArr) {
+        dotView.hidden = YES;
+    }
+    if (_showAmount) {
+        [self readyToPay:textField];
+    }else{
+        _confirmPayModel.payPassword = [SYCSystem md5:textField.text];
+        [self readyToConfirmPay:textField];
     }
 
 }
@@ -242,6 +251,7 @@ static const NSInteger passWNum = 6;
     _payResultDic = [SYCHttpReqTool payImmediatelyConfirm:_confirmPayModel prePayOrder:_isPreOrderPay];
     if ([[_payResultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
         [SYCPaymentLoadingHUD hideIn:self.view];
+        _resultMSGL.text = @"支付成功！";
         _resultMSGL.hidden = NO;
         [SYCPaymentSuccessHUD showIn:self.view];
         __block SYCPasswordViewController *weakSelf = self;
@@ -268,6 +278,7 @@ static const NSInteger passWNum = 6;
     _payResultDic = [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param];
     if ([[_payResultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
         [SYCPaymentLoadingHUD hideIn:self.view];
+        _resultMSGL.text = @"支付成功！";
         _resultMSGL.hidden = NO;
         [SYCPaymentSuccessHUD showIn:self.view];
         __block SYCPasswordViewController *weakSelf = self;
@@ -300,6 +311,7 @@ static const NSInteger passWNum = 6;
     for (UIView *dotView in self.lineArr) {
         dotView.hidden = NO;
     }
+    [textF becomeFirstResponder];
     _resultMSGL.hidden = YES;
     _titleLable.text = @"请输入支付密码";
 }

@@ -176,14 +176,14 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     BOOL need_reset = [[[dic objectForKey:@"result"] objectForKey:@"need_reset"] boolValue];
     return need_reset;
 }
-+(BOOL)PswSet{
++(BOOL)PswSet:(NSString*)psw{
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPswSet];
     
     NSString *param = [[NSString alloc]init];
     NSMutableDictionary *paramDic = [[self class] commonParam];
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    [paramDic setObject:[def objectForKey:PayPsw] forKey:@"payPassword"];
+   
+    [paramDic setObject:psw forKey:@"payPassword"];
     NSString *signature = [SYCSystem sinagureForReq:paramDic];
     [paramDic setObject:signature forKey:@"_signdata"];
     for (NSString *key in [paramDic allKeys]) {

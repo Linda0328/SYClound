@@ -18,4 +18,5 @@
 @property (nonatomic,assign)BOOL isPreOrderPay;
 @property (nonatomic,copy)NSString *paymentType;
 @property (nonatomic,assign)BOOL needSetPassword;
+@property (nonatomic,assign)BOOL isTranslate;
 @end

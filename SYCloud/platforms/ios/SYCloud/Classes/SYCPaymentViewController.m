@@ -20,6 +20,7 @@ NSString *const selectIndex = @"selectedIndex";
 @interface SYCPaymentViewController ()<UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>
 @property (nonatomic,strong)UITableView *paymentTable;
 @property (nonatomic,assign)BOOL isRefresh;
+@property (nonatomic,strong)SYCPayTypeModel *model;
 @end
 
 @implementation SYCPaymentViewController
@@ -78,6 +79,7 @@ NSString *const selectIndex = @"selectedIndex";
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
+    
     if (indexPath.row == 0) {
         for (UIView *subviews in [cell.contentView subviews]) {
             [subviews removeFromSuperview];
@@ -97,6 +99,7 @@ NSString *const selectIndex = @"selectedIndex";
         [cell.contentView addSubview:titleLable];
         
     }else{
+        cell.detailTextLabel.text = nil;
         cell.textLabel.font = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
         cell.textLabel.textColor = [UIColor colorWithHexString:@"444444"];
         NSString *imageStr = nil;
@@ -112,6 +115,7 @@ NSString *const selectIndex = @"selectedIndex";
             }
             if (indexPath.row == _selectedCellIndex.row) {
                 cell.accessoryView.hidden = NO;
+                _model = model;
             }else{
                 cell.accessoryView.hidden = YES;
             }
@@ -169,6 +173,7 @@ NSString *const selectIndex = @"selectedIndex";
             [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:model userInfo:@{selectIndex : strongSelf.selectedCellIndex}];
         }];
         _selectedCellIndex = indexPath;
+        _model = model;
     }else if (indexPath.row == [_EnnalepaymentArr count]+1){
         SYCBlindYTKViewController *SYCBlind = [[SYCBlindYTKViewController alloc]init];
         SYCBlind.modalPresentationStyle = UIModalPresentationCustom;
@@ -177,7 +182,13 @@ NSString *const selectIndex = @"selectedIndex";
     }
 }
 -(void)dismiss:(id)sender{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    __weak __typeof(self)weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:strongSelf.model userInfo:@{selectIndex : strongSelf.selectedCellIndex}];
+    }];
+    
+    
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];

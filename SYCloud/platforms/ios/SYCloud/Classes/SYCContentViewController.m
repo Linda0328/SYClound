@@ -161,6 +161,7 @@ static void *eventBarItem = @"eventBarItem";
     SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
     passwVC.pswModel = payModel;
     passwVC.showAmount = YES;
+    passwVC.isTranslate = YES;
     passwVC.needSetPassword = reset;
     passwVC.presentingMainVC = _CurrentChildVC;
     passwVC.modalPresentationStyle = UIModalPresentationCustom;
@@ -544,7 +545,7 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(UIView*)payLoading{
     UIWindow *windows = [UIApplication sharedApplication].keyWindow;
-    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 2*windows.frame.size.width/5, 2*windows.frame.size.width/5)];
+    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, windows.frame.size.width/3, windows.frame.size.width/3)];
     loadingV.center = windows.center;
     loadingV.backgroundColor = [UIColor colorWithHexString:@"000000"];
     loadingV.alpha = 0.8;
@@ -552,7 +553,7 @@ static void *eventBarItem = @"eventBarItem";
     loadingV.layer.cornerRadius = 10.0;
     
     UIImage *pay_loading = [UIImage imageNamed:@"pay_loading"];
-    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, windows.frame.size.width/10, pay_loading.size.width, pay_loading.size.height)];
+    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, windows.frame.size.width*0.05, pay_loading.size.width, pay_loading.size.height)];
     [imageV setImage:pay_loading];
     [loadingV addSubview:imageV];
     
@@ -566,8 +567,8 @@ static void *eventBarItem = @"eventBarItem";
     self.view.userInteractionEnabled = NO;
     NSMutableArray *viewArr = [NSMutableArray array];
     for (NSInteger i = 0; i < 3; i++) {
-        CGFloat gap = pay_loading.size.width/2;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(gap*i+CGRectGetMinX(imageV.frame)-gap/2, CGRectGetMaxY(lable.frame), 8*[SYCSystem PointCoefficient], 8*[SYCSystem PointCoefficient])];
+        CGFloat gap = CGRectGetWidth(loadingV.frame)/4;
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetWidth(loadingV.frame)/4-4*[SYCSystem PointCoefficient]+i*gap, CGRectGetMaxY(lable.frame)-5, 8*[SYCSystem PointCoefficient], 8*[SYCSystem PointCoefficient])];
         [loadingV addSubview:view];
         view.tag = 1000+i;
         view.layer.masksToBounds = YES;
