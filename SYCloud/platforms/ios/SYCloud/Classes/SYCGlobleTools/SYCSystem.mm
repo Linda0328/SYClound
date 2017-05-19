@@ -65,15 +65,15 @@ NSString *const payment_CancelMessage = @"支付取消";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
-    #ifdef DEBUG
+//    #ifdef DEBUG
 //    baseURL = SYCloudLocalBaseURLJW;
 //    baseURL = SYCloudLocalBaseURLTH;
-      baseURL = SYCloudTestBaseURL;
-      [SYCShareVersionInfo sharedVersion].formal = NO;
-    #else
+//      baseURL = SYCloudTestBaseURL;
+//      [SYCShareVersionInfo sharedVersion].formal = NO;
+//    #else
       baseURL = SYCloudFormalBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = YES;
-    #endif
+//    #endif
     [SYCShareVersionInfo sharedVersion].remoteUrl = baseURL;
     return baseURL;
 }

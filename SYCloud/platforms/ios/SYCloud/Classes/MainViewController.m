@@ -198,8 +198,6 @@
     
 }
 -(void)LoadURL:(NSString*)url{
-    //处理url中出现中文等特殊字符
-    url=[url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     self.wwwFolderName = @"www";
     if ([SYCSystem judgeNSString:url]) {
         self.startPage = url;

@@ -1561,8 +1561,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1585,8 +1585,8 @@
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
 				PRODUCT_NAME = SYCloud;
-				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
+				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudDis;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1600,8 +1600,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1622,8 +1622,8 @@
 				);
 				OTHER_LIBTOOLFLAGS = "-ObjC";
 				PRODUCT_NAME = SYCloud;
-				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
+				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudDis;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
