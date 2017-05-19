@@ -116,62 +116,79 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
         return;
     }
     [_YZMtextF resignFirstResponder];
-    NSDictionary *captchaDic = [SYCHttpReqTool getCaptchaforblindYKTwithCardNo:_YKTtextF.text];
-    NSLog(@"------%@--",captchaDic);
-    if ([captchaDic[@"code"] isEqualToString:@"000000"] ) {
-        _HUD.label.text = @"发送验证码成功，请注意查收短信";
-        UIButton *butt = (UIButton*)sender;
-        __block int timeout = 120; //倒计时时间
-        dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        
-        dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
-        
-        dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
-        
-        dispatch_source_set_event_handler(_timer, ^{
-            
-            if(timeout<=0){ //倒计时结束，关闭
-                
-                dispatch_source_cancel(_timer);
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    //设置界面的按钮显示 根据自己需求设置
-                    
-                    [butt setTitle:@"发送验证码" forState:UIControlStateNormal];
-                    butt.userInteractionEnabled = YES;
-                    butt.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
-                });
-                
-            }else{
-                NSString *strTime = [NSString stringWithFormat:@"%.2ds",timeout];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                    //设置界面的按钮显示 根据自己需求设置
-                    
-                    NSLog(@"____%@",strTime);
-                    
-                    [butt setTitle:[NSString stringWithFormat:@"%@",strTime] forState:UIControlStateNormal];
-                    
-                    butt.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
-                    
-                    butt.userInteractionEnabled = NO;
-                    
-                });
-                
-                timeout--;
-                
-            }
-            
-        });
-        dispatch_resume(_timer);
-    }else{
-        _HUD.label.text = captchaDic[@"msg"];
-    }
-    [_HUD showAnimated:YES];
-    [_HUD hideAnimated:YES afterDelay:2.0f];
+    __weak __typeof(self)weakSelf = self;
+    [SYCHttpReqTool getCaptchaforblindYKTwithCardNo:_YKTtextF.text completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        [strongSelf getCaptchResult:resultCode result:result sender:sender];
+    }];
+    
    
+}
+-(void)getCaptchResult:(NSString*)resultcode result:(NSDictionary*)result sender:(id)sender{
+    NSLog(@"------%@--",result);
+    NSString *text = @"获取验证码失败";
+    if ([resultcode isEqualToString:resultCodeSuccess]){
+        if([result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
+            text = @"发送验证码成功，请注意查收短信";
+            UIButton *butt = (UIButton*)sender;
+            __block int timeout = 120; //倒计时时间
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            
+            dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+            
+            dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+            
+            dispatch_source_set_event_handler(_timer, ^{
+                
+                if(timeout<=0){ //倒计时结束，关闭
+                    
+                    dispatch_source_cancel(_timer);
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        //设置界面的按钮显示 根据自己需求设置
+                        
+                        [butt setTitle:@"发送验证码" forState:UIControlStateNormal];
+                        butt.userInteractionEnabled = YES;
+                        butt.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+                    });
+                    
+                }else{
+                    NSString *strTime = [NSString stringWithFormat:@"%.2ds",timeout];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        
+                        //设置界面的按钮显示 根据自己需求设置
+                        
+                        NSLog(@"____%@",strTime);
+                        
+                        [butt setTitle:[NSString stringWithFormat:@"%@",strTime] forState:UIControlStateNormal];
+                        
+                        butt.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+                        
+                        butt.userInteractionEnabled = NO;
+                        
+                    });
+                    
+                    timeout--;
+                    
+                }
+                
+            });
+            dispatch_resume(_timer);
+        }else{
+            text = result[resultSuccessKey][@"msg"];
+        }
+    }
+    __weak __typeof(self)weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        strongSelf.HUD.label.text = text;
+        [strongSelf.HUD showAnimated:YES];
+        [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];
+    });
+
+    
 }
 -(void)BlindConfirm:(id)sender{
     if (![SYCSystem judgeNSString:_YKTtextF.text]){
@@ -187,21 +204,37 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
         return;
     }
     
-    NSDictionary *blindResulrDic = [SYCHttpReqTool blindYKTwithCardNo:_YKTtextF.text captcha:_YZMtextF.text];
-    NSLog(@"------%@--",blindResulrDic);
-    if ([blindResulrDic[@"code"] isEqualToString:@"000000"] ) {
-        _HUD.label.text = @"绑定成功！";
-        [_HUD showAnimated:YES];
-        [_HUD hideAnimated:YES afterDelay:2.0f];
-        [self dismissViewControllerAnimated:YES completion:^{
-            NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-            [center postNotificationName:refreshPaymentNotify object:nil];
-        }];
-    }else{
-        _HUD.label.text = blindResulrDic[@"msg"];
-        [_HUD showAnimated:YES];
-        [_HUD hideAnimated:YES afterDelay:2.0f];
-    }
+    [SYCHttpReqTool blindYKTwithCardNo:_YKTtextF.text captcha:_YZMtextF.text completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        NSString *text = @"绑定失败";
+        BOOL isFail = YES;
+        if ([resultCode isEqualToString:resultCodeSuccess]) {
+            if ([result[resultSuccessKey][@"code"] isEqualToString:@"000000"] ) {
+                isFail = NO;
+                __weak __typeof(self)weakSelf = self;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                __strong __typeof(weakSelf)strongSelf = weakSelf;
+                _HUD.label.text = @"绑定成功！";
+                [strongSelf.HUD showAnimated:YES];
+                [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];
+                [strongSelf dismissViewControllerAnimated:YES completion:^{
+                    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+                    [center postNotificationName:refreshPaymentNotify object:nil];
+                }];
+                });
+            }else{
+                text = result[resultSuccessKey][@"msg"];
+            }
+        }
+        if (isFail) {
+            __weak __typeof(self)weakSelf = self;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                __strong __typeof(weakSelf)strongSelf = weakSelf;
+                [strongSelf.HUD showAnimated:YES];
+                [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];
+            });
+        }
+    
+    }];
     
     
    

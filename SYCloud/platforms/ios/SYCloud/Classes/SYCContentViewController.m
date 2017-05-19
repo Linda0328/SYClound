@@ -152,21 +152,30 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(void)passwordSetting:(NSNotification*)notify{
     
-    BOOL reset = [SYCHttpReqTool PswSetOrNot];
     SYCPassWordModel *payModel = (SYCPassWordModel*)notify.object;
     MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
-    SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
-    passwVC.pswModel = payModel;
-    passwVC.showAmount = YES;
-    passwVC.isTranslate = YES;
-    passwVC.needSetPassword = reset;
-    passwVC.presentingMainVC = _CurrentChildVC;
-    passwVC.modalPresentationStyle = UIModalPresentationCustom;
-    passwVC.transitioningDelegate = self;
-    [self presentViewController:passwVC animated:YES completion:nil];
+    __weak __typeof(self)weakSelf = self;
+    [SYCHttpReqTool PswSetOrNot:^(NSString *resultCode, BOOL resetPsw) {
+        if ([resultCode isEqualToString:resultCodeSuccess]) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
+            passwVC.pswModel = payModel;
+            passwVC.showAmount = YES;
+            passwVC.isTranslate = YES;
+            passwVC.needSetPassword = resetPsw;
+            passwVC.presentingMainVC = strongSelf.CurrentChildVC;
+            dispatch_async(dispatch_get_main_queue(), ^{
+            passwVC.modalPresentationStyle = UIModalPresentationCustom;
+            passwVC.transitioningDelegate = strongSelf;
+            [strongSelf presentViewController:passwVC animated:YES completion:nil];
+            });
+        }
+       
+    }];
+    
 }
 
 -(void)PayImmedately:(NSNotification*)notify{
@@ -175,9 +184,6 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
-    __weak __typeof(self)weakSelf = self;
-
-//    SYCRequestLoadingViewController *laoding = [[SYCRequestLoadingViewController alloc]init];
 //    [self presentViewController:laoding animated:YES completion:^{
 //         __strong __typeof(weakSelf)strongSelf = weakSelf;
 //        NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
@@ -213,66 +219,88 @@ static void *eventBarItem = @"eventBarItem";
 //        }
 //
 //    }];
-    UIView *payloadingView = [self payLoading];
+     __weak __typeof(self)weakSelf = self;
+    __block UIView *payloadingView = [self payLoading];
     NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
-    SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
-    NSDictionary *result = nil;
+    __block SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
     if ([payMentType isEqualToString:payMentTypeImme]) {
         SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
         payOrderVC.payInfoModel = payModel;
-        result = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount];
+        [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+        }];
     }else if([payMentType isEqualToString:payMentTypeScan]){
         NSString *qrcode = (NSString*)notify.object;
         payOrderVC.qrcode = qrcode;
-        result = [SYCHttpReqTool payScanInfoWithQrcode:qrcode];
+        [SYCHttpReqTool payScanInfoWithQrcode:qrcode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+        }];
     }else if([payMentType isEqualToString:payMentTypeCode]){
         NSString *paycode = (NSString*)notify.object;
         payOrderVC.payCode = paycode;
-        result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
+        [SYCHttpReqTool payScanInfoWithPaycode:paycode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+        }];
     }
-    if (result&&[result[@"code"] isEqualToString:@"000000"]) {
+    
+}
+-(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC {
+    __weak __typeof(self)weakSelf = self;
+    if ([resultCode isEqualToString:resultCodeSuccess]&&[result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            //2秒以后移除view
-            [payloadingView removeFromSuperview];
+            
             //停止动画
             dispatch_source_cancel(strongSelf.timer);
-            strongSelf.view.userInteractionEnabled = YES;
+            
             payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
-            payOrderVC.payMentType = payMentType;
+            payOrderVC.payMentType = paymentType;
             payOrderVC.rquestResultDic = result;
-            payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
+            payOrderVC.isPreOrderPay = [paymentType isEqualToString:payMentTypeImme]?NO:YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+            //2秒以后移除view
+            [payloadingView removeFromSuperview];
+            strongSelf.view.userInteractionEnabled = YES;
             payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
             payOrderVC.transitioningDelegate = strongSelf;
-            [strongSelf presentViewController:payOrderVC animated:YES completion:nil];
+                [strongSelf presentViewController:payOrderVC animated:YES completion:nil];});
             
         });
     }
-    if (result&&![result[@"code"] isEqualToString:@"000000"]) {
-        //2秒以后移除view
-        [payloadingView removeFromSuperview];
+    if ([resultCode isEqualToString:resultCodeSuccess]&&![result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
+        
         //停止动画
         dispatch_source_cancel(_timer);
+        //主线程更新UI
+        dispatch_async(dispatch_get_main_queue(), ^{
+        //2秒以后移除view
+        [payloadingView removeFromSuperview];
         self.view.userInteractionEnabled = YES;
         MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
         [self.view addSubview:HUD];
         HUD.label.text = result[@"msg"];
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
+        });
     }
-    if (!result) {
-        //2秒以后移除view
-        [payloadingView removeFromSuperview];
+    if (![resultCode isEqualToString:resultCodeSuccess]) {
         //停止动画
         dispatch_source_cancel(_timer);
+        dispatch_async(dispatch_get_main_queue(), ^{
+        //2秒以后移除view
+        [payloadingView removeFromSuperview];
         self.view.userInteractionEnabled = YES;
         MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
         [self.view addSubview:HUD];
         HUD.label.text = @"请求失败，请检查网络";
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
+         });
     }
-    
+
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];

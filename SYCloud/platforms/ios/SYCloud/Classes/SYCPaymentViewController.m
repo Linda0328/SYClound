@@ -44,28 +44,53 @@ NSString *const selectIndex = @"selectedIndex";
     _isRefresh = YES;
     [_unEnnalepaymentArr removeAllObjects];
     [_EnnalepaymentArr removeAllObjects];
-    NSDictionary *dic = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:_payAmount];
-    NSDictionary *data = dic[@"result"][@"payment_info"];
-    [SYCPayOrderInfoModel mj_setupObjectClassInArray:^NSDictionary *{
-        return @{@"payTypes":@"SYCPayTypeModel"};
-    }];
-    SYCPayOrderInfoModel *payOrderInfo = [SYCPayOrderInfoModel mj_objectWithKeyValues:data];
-    
-    for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
-        if (model.defaultPay) {
-            [_EnnalepaymentArr addObject:model];
-        }
+    __weak __typeof(self)weakSelf = self;
+    if ([_paymentType isEqualToString:payMentTypeImme]) {
+       
+        [SYCHttpReqTool payImmediatelyInfoWithpayAmount:_payAmount completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if([_paymentType isEqualToString:payMentTypeScan]){
+        
+        [SYCHttpReqTool payScanInfoWithQrcode:_qrCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if([_paymentType isEqualToString:payMentTypeCode]){
+        [SYCHttpReqTool payScanInfoWithPaycode:_payCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
     }
-    for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
-        if (model.isEnabled) {
-            if (!model.defaultPay) {
+}
+-(void)dealWithNewRequest:(NSString*)resultCode result:(NSDictionary*)result{
+    if ([resultCode isEqualToString:resultCodeSuccess]) {
+        NSDictionary *data = result[resultSuccessKey][@"result"][@"payment_info"];
+        [SYCPayOrderInfoModel mj_setupObjectClassInArray:^NSDictionary *{
+            return @{@"payTypes":@"SYCPayTypeModel"};
+        }];
+        SYCPayOrderInfoModel *payOrderInfo = [SYCPayOrderInfoModel mj_objectWithKeyValues:data];
+        
+        for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
+            if (model.defaultPay) {
                 [_EnnalepaymentArr addObject:model];
             }
-        }else{
-            [_unEnnalepaymentArr addObject:model];
         }
+        for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
+            if (model.isEnabled) {
+                if (!model.defaultPay) {
+                    [_EnnalepaymentArr addObject:model];
+                }
+            }else{
+                [_unEnnalepaymentArr addObject:model];
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_paymentTable reloadData];
+        });
     }
-    [_paymentTable reloadData];
+    
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 2+[_unEnnalepaymentArr count]+[_EnnalepaymentArr count];

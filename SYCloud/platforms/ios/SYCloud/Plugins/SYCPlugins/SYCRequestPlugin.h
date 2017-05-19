@@ -11,10 +11,6 @@
 extern NSString * const GETRequest;
 extern NSString * const POSTRequest;
 
-NSString * const resultRequestError;
-NSString * const resultJsonError;
-NSString * const resultSuccess;
-
 @interface SYCRequestPlugin : CDVPlugin
 -(void)ajax:(CDVInvokedUrlCommand *)command;
 -(void)safeAjax:(CDVInvokedUrlCommand *)command;

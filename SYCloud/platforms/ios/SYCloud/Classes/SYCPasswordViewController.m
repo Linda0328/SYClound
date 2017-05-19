@@ -151,18 +151,22 @@ static const NSInteger passWNum = 6;
     if (_isSetTwice) {
         if ([_firstPsw isEqualToString:textField.text]) {
             NSString *md5Psw = [SYCSystem md5:textField.text];
-            if ([SYCHttpReqTool PswSet:md5Psw]) {
-                if (_isTranslate) {
-                    [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param];
-                }else{
-                    [self completePay:textField];
+            __weak __typeof(self)weakSelf = self;
+            [SYCHttpReqTool PswSet:md5Psw completion:^(NSString *resultCode, BOOL resetPsw) {
+                __strong __typeof(weakSelf)strongSelf = weakSelf;
+                if ([resultCode isEqualToString:resultCodeSuccess]) {
+                    
+                    if(resetPsw){
+                        [strongSelf completePay:textField];
+                    }else{
+                        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:strongSelf.presentationController.containerView animated:YES];
+                        hud.label.text = @"支付密码设置失败";
+                        [hud showAnimated:YES];
+                        [hud hideAnimated:YES afterDelay:3.0];
+                    }
+
                 }
-            }else{
-                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.presentationController.containerView animated:YES];
-                hud.label.text = @"支付密码设置失败";
-                [hud showAnimated:YES];
-                [hud hideAnimated:YES afterDelay:3.0];
-            }
+            }];
         }else{
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.presentationController.containerView animated:YES];
             hud.label.text = @"两次输入密码不一致";
@@ -189,7 +193,7 @@ static const NSInteger passWNum = 6;
         [self completePay:textField];
     }
 }
--(void)completePay:(UITextField*)textField{
+-(void)completePay:(UITextField*)textField {
     textField.hidden = YES;
     for (UIView *dotView in self.dotArr) {
         dotView.hidden = YES;
@@ -197,12 +201,14 @@ static const NSInteger passWNum = 6;
     for (UIView *dotView in self.lineArr) {
         dotView.hidden = YES;
     }
-    if (_showAmount) {
+    if (_isTranslate) {
         [self readyToPay:textField];
     }else{
         _confirmPayModel.payPassword = [SYCSystem md5:textField.text];
         [self readyToConfirmPay:textField];
     }
+
+    
 
 }
 /**
@@ -248,59 +254,79 @@ static const NSInteger passWNum = 6;
 -(void)readyToConfirmPay:(UITextField*)textF{
     
     _titleLable.text = @"支付结果";
-    _payResultDic = [SYCHttpReqTool payImmediatelyConfirm:_confirmPayModel prePayOrder:_isPreOrderPay];
-    if ([[_payResultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
-        [SYCPaymentLoadingHUD hideIn:self.view];
-        _resultMSGL.text = @"支付成功！";
-        _resultMSGL.hidden = NO;
-        [SYCPaymentSuccessHUD showIn:self.view];
-        __block SYCPasswordViewController *weakSelf = self;
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5* NSEC_PER_SEC));
-        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-            [weakSelf hideAndDismissAllPresented];
-        });
-    }else{
-        [SYCPaymentLoadingHUD hideIn:self.view];
-        _resultMSGL.text = [_payResultDic objectForKey:@"msg"];
-        _resultMSGL.hidden = NO;
-        [SYCPaymentFailHUD showIn:self.view];
-        __block SYCPasswordViewController *weakSelf = self;
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2* NSEC_PER_SEC));
-        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-            [weakSelf passwordUncorrect:textF];
-        });
-    }
+    __weak __typeof(self)weakSelf = self;
+    [SYCHttpReqTool payImmediatelyConfirm:_confirmPayModel prePayOrder:_isPreOrderPay completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if ([resultCode isEqualToString:resultCodeSuccess]) {
+            if ([[result[resultSuccessKey] objectForKey:@"code"]isEqualToString:@"000000"]) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                [SYCPaymentLoadingHUD hideIn:self.view];
+                strongSelf.resultMSGL.text = @"支付成功！";
+                strongSelf.resultMSGL.hidden = NO;
+                [SYCPaymentSuccessHUD showIn:self.view];
+                });
+                __block SYCPasswordViewController *weakSelf = self;
+                dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5* NSEC_PER_SEC));
+                dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                    [weakSelf hideAndDismissAllPresented:result[resultSuccessKey]];
+                });
+            }else{
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                [SYCPaymentLoadingHUD hideIn:self.view];
+                _resultMSGL.text = [result[resultSuccessKey] objectForKey:@"msg"];
+                _resultMSGL.hidden = NO;
+                [SYCPaymentFailHUD showIn:self.view];
+                });
+                __block SYCPasswordViewController *weakSelf = self;
+                dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2* NSEC_PER_SEC));
+                dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                    [weakSelf passwordUncorrect:textF];
+                });
+            }
+
+        }
+       
+    }];
     
 }
 -(void)readyToPay:(UITextField*)textF{
     NSString *md5Psw = [SYCSystem md5:textF.text];
     _titleLable.text = @"支付结果";
-    _payResultDic = [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param];
-    if ([[_payResultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
-        [SYCPaymentLoadingHUD hideIn:self.view];
-        _resultMSGL.text = @"支付成功！";
-        _resultMSGL.hidden = NO;
-        [SYCPaymentSuccessHUD showIn:self.view];
-        __block SYCPasswordViewController *weakSelf = self;
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5* NSEC_PER_SEC));
-        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-            [weakSelf hideAndDismiss];
-        });
-    }else{
-        [SYCPaymentLoadingHUD hideIn:self.view];
-        NSString *text = [_payResultDic objectForKey:@"msg"];
-//        CGSize labelSize = [text boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.view.frame)-60, 40*[SYCSystem PointCoefficient]) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:_resultMSGL.font} context:nil].size;
-//        _resultMSGL.frame = CGRectMake(_resultMSGL.frame.origin.x, _resultMSGL.frame.origin.y, labelSize.width, labelSize.height>20?40*[SYCSystem PointCoefficient]:17*[SYCSystem PointCoefficient]);
-        _resultMSGL.text = text;
-        _resultMSGL.hidden = NO;
-        [SYCPaymentFailHUD showIn:self.view];
-        __block SYCPasswordViewController *weakSelf = self;
-        dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0* NSEC_PER_SEC));
-        dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-              [weakSelf passwordUncorrect:textF];
-        });
-       
-    }
+    __weak __typeof(self)weakSelf = self;
+    [SYCHttpReqTool PayPswResponseUrl:_pswModel.url pswParam:_pswModel.psw password:md5Psw parmaDic:_pswModel.param completion:^(NSString *resultCode, BOOL success, NSString *msg, NSDictionary *successDic) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if ([resultCode isEqualToString:resultCodeSuccess]) {
+            if (success) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SYCPaymentLoadingHUD hideIn:strongSelf.view];
+                    strongSelf.resultMSGL.text = @"支付成功！";
+                    strongSelf.resultMSGL.hidden = NO;
+                    [SYCPaymentSuccessHUD showIn:strongSelf.view];
+                });
+                __block SYCPasswordViewController *weakSelf = self;
+                dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5* NSEC_PER_SEC));
+                dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                    [weakSelf hideAndDismiss:successDic];
+                });
+
+            }else{
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [SYCPaymentLoadingHUD hideIn:strongSelf.view];
+                    strongSelf.resultMSGL.text = msg;
+                    strongSelf.resultMSGL.hidden = NO;
+                    [SYCPaymentFailHUD showIn:strongSelf.view];
+                });
+                __block SYCPasswordViewController *weakSelf = self;
+                dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0* NSEC_PER_SEC));
+                dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                    [weakSelf passwordUncorrect:textF];
+                });
+
+            }
+        }
+    }];
     
     
 }
@@ -311,30 +337,30 @@ static const NSInteger passWNum = 6;
     for (UIView *dotView in self.lineArr) {
         dotView.hidden = NO;
     }
-    [textF becomeFirstResponder];
     _resultMSGL.hidden = YES;
     _titleLable.text = @"请输入支付密码";
+    [textF becomeFirstResponder];
 }
--(void)hideAndDismiss{
+-(void)hideAndDismiss:(NSDictionary*)successDic{
     
     [SYCPaymentSuccessHUD hideIn:self.view];
     __weak __typeof(self)weakSelf = self;
     [self dismissViewControllerAnimated:YES completion:^{
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-       [[NSNotificationCenter defaultCenter]postNotificationName:paySuccessNotify object:strongSelf.presentingMainVC userInfo:strongSelf.payResultDic];
+       [[NSNotificationCenter defaultCenter]postNotificationName:paySuccessNotify object:strongSelf.presentingMainVC userInfo:successDic];
     }];
     
 }
--(void)hideAndDismissAllPresented{
+-(void)hideAndDismissAllPresented:(NSDictionary*)dic{
     [SYCPaymentSuccessHUD hideIn:self.view];
 //    [SYCPaymentFailHUD hideIn:self.view];
     NSMutableDictionary *payCallback = [NSMutableDictionary dictionary];
     NSString *code = nil;
     NSString *message = nil;
-    if ([_payResultDic[@"code"] isEqualToString:@"000000"]) {
+    if ([dic[@"code"] isEqualToString:@"000000"]) {
         code = payment_SuccessCode;
         message = payment_SuccessMessage;
-        [payCallback setObject:_payResultDic[@"result"][@"tradeNo"] forKey:@"tradeNo"];
+        [payCallback setObject:dic[@"result"][@"tradeNo"] forKey:@"tradeNo"];
     }else{
         code = payment_FailCode;
         message = payment_CancelMessage;

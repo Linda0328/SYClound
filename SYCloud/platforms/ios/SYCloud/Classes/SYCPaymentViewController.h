@@ -17,5 +17,8 @@ extern NSString *const selectIndex;
 @property (nonatomic,strong)NSMutableArray *EnnalepaymentArr;
 @property (nonatomic,strong)NSMutableArray *unEnnalepaymentArr;
 @property (nonatomic,strong)NSIndexPath *selectedCellIndex;
+@property (nonatomic,copy)NSString *paymentType;
 @property (nonatomic,copy)NSString *payAmount;
+@property (nonatomic,copy)NSString *payCode;
+@property (nonatomic,copy)NSString *qrCode;
 @end

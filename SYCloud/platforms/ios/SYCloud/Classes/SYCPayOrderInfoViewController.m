@@ -258,9 +258,17 @@ static NSInteger infoCellNum = 2;
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 1) {
         SYCPaymentViewController *paymentVC = [[SYCPaymentViewController alloc]init];
+        
+        if ([_payMentType isEqualToString:payMentTypeImme]) {
+            paymentVC.payAmount = _amount;
+        }else if([_payMentType isEqualToString:payMentTypeScan]){
+            paymentVC.qrCode = _qrcode;
+        }else if([_payMentType isEqualToString:payMentTypeCode]){
+            paymentVC.payCode = _payCode;
+        }
         paymentVC.unEnnalepaymentArr = _unEnablePayment;
         paymentVC.EnnalepaymentArr = _EnablePayment;
-        paymentVC.payAmount = _amount;
+        paymentVC.paymentType = _payMentType;
         paymentVC.modalPresentationStyle = UIModalPresentationCustom;
         paymentVC.transitioningDelegate = self;
         paymentVC.selectedCellIndex = _selectedIndex;
