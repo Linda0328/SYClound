@@ -252,13 +252,11 @@ static void *eventBarItem = @"eventBarItem";
     if ([resultCode isEqualToString:resultCodeSuccess]&&[result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            
             //停止动画
             dispatch_source_cancel(strongSelf.timer);
-            
             payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
             payOrderVC.payMentType = paymentType;
-            payOrderVC.rquestResultDic = result;
+            payOrderVC.requestResultDic = result[resultSuccessKey];
             payOrderVC.isPreOrderPay = [paymentType isEqualToString:payMentTypeImme]?NO:YES;
             dispatch_async(dispatch_get_main_queue(), ^{
             //2秒以后移除view

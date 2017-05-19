@@ -24,6 +24,8 @@ cordova.define("shengyuan-plugin-module.RequestPlugin", function(require, export
 			}, "RequestPlugin", "ajax", [ url, type, params ]);
 		},
 		safeAjax : function(url, type, params, success, fail, error) {
+//               alert(url);
+//               alert(type);
 			exec(function(message) {
 				if (message.code == "000000") {
 					if (success && typeof success == "function") {

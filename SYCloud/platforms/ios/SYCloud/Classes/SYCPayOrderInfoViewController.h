@@ -18,5 +18,5 @@
 @property (nonatomic,copy)NSString *payCode;
 @property (nonatomic,assign)BOOL isPreOrderPay;
 @property (nonatomic,copy)NSString *payMentType;
-@property (nonatomic,strong)NSDictionary *rquestResultDic;
+@property (nonatomic,strong)NSDictionary *requestResultDic;
 @end

@@ -44,6 +44,7 @@ NSString *const selectIndex = @"selectedIndex";
     _isRefresh = YES;
     [_unEnnalepaymentArr removeAllObjects];
     [_EnnalepaymentArr removeAllObjects];
+    
     __weak __typeof(self)weakSelf = self;
     if ([_paymentType isEqualToString:payMentTypeImme]) {
        

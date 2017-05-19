@@ -44,11 +44,11 @@ static NSInteger infoCellNum = 2;
     _unEnablePayment = [NSMutableArray array];
     _selectedIndex = [NSIndexPath indexPathForRow:1 inSection:0];
     if ([_payMentType isEqualToString:payMentTypeImme]) {
-        [self getPayOrderInfo:_rquestResultDic];
+        [self getPayOrderInfo:_requestResultDic];
     }else if([_payMentType isEqualToString:payMentTypeScan]){
-        [self getScanPayOrderInfo:_rquestResultDic];
+        [self getScanPayOrderInfo:_requestResultDic];
     }else if([_payMentType isEqualToString:payMentTypeCode]){
-        [self getCodePayOrderInfo:_rquestResultDic];
+        [self getCodePayOrderInfo:_requestResultDic];
     }
    
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
@@ -112,7 +112,6 @@ static NSInteger infoCellNum = 2;
 -(void)getPayOrderInfo:(NSDictionary*)dic{
     _desc = _payInfoModel.desc;
     _amount = _payInfoModel.amount;
-   
     [self dealDataToModel:dic];
 }
 -(void)getScanPayOrderInfo:(NSDictionary*)dic{
@@ -154,7 +153,6 @@ static NSInteger infoCellNum = 2;
             [_unEnablePayment addObject:model];
         }
     }
-
 }
 -(void)PayImmedately:(id)sender{
     SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];

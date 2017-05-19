@@ -74,6 +74,7 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     NSString *url= [command.arguments firstObject];
     NSString *type = [command.arguments objectAtIndex:1];
     NSMutableDictionary *params = [command.arguments objectAtIndex:2];
+    NSLog(@"safeAjax------%@---",params);
     if (![SYCSystem judgeNSString:url] || ![SYCSystem judgeNSString:type]) {
         Code = PARSE_ERROR_CODE;
         Msg = PARSE_ERROR_MSG;

@@ -98,6 +98,8 @@ NSString *const payment_CancelMessage = @"支付取消";
         allKey = [allKey sortedArrayUsingSelector:@selector(compare:)];
         for (NSInteger i = 0; i < [allKey count]; i++) {
             NSString *parm = [NSString stringWithFormat:@"%@",[paramWithRandomNo objectForKey:allKey[i]]];
+            //解码UTF-8,反编码显示中文
+            parm = [parm stringByRemovingPercentEncoding];
             if (i == 0) {
                 paramStr = [NSString stringWithFormat:@"%@%@",allKey[i],parm];
             }else{
@@ -108,8 +110,9 @@ NSString *const payment_CancelMessage = @"支付取消";
         
     }
     paramStr = [paramStr stringByAppendingString:SecureSecrit];
-    //防止中文乱码
-    paramStr = [paramStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //处理特殊字符
+//    paramStr = [paramStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    paramStr  = [paramStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSLog(@"------------parameter----------%@",paramStr);
     NSString *signature = [SYCSystem md5:paramStr];
     return signature;

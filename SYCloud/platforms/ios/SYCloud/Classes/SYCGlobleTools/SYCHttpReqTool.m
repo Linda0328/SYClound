@@ -397,6 +397,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     __block NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",url];
+    NSLog(@"------%@---",params);
     if (ISsignature) {
         NSString *signature = [SYCSystem sinagureForReq:params];
         [params setObject:signature forKey:@"_signdata"];
@@ -412,7 +413,8 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     if ([type isEqualToString:GETRequest]) {
         reqUrl = [reqUrl stringByAppendingFormat:@"%@%@",@"?",paramStr];
     }
-    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    reqUrl = [reqUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+//    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:reqUrl]];
     request.HTTPMethod = type;
     request.timeoutInterval = 10.0f;
@@ -480,8 +482,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         }
     }];
     [dataTask resume];
-
-
 }
 
 +(void)payImmediatelyInfoWithpayAmount:(NSString*)amount completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
