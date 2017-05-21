@@ -33,6 +33,8 @@ static NSInteger infoCellNum = 2;
 @property (nonatomic,strong)NSIndexPath *selectedIndex;
 @property (nonatomic,copy)NSString *amount;
 @property (nonatomic,strong)UIButton *confirmBut;
+@property (nonatomic,copy)NSString *couponID;
+@property (nonatomic,copy)NSString *couponDesc;
 @end
 
 @implementation SYCPayOrderInfoViewController
@@ -111,7 +113,7 @@ static NSInteger infoCellNum = 2;
 }
 -(void)getPayOrderInfo:(NSDictionary*)dic{
     _desc = _payInfoModel.desc;
-    _amount = _payInfoModel.amount;
+    _amount = _payInfoModel.payAmount;
     [self dealDataToModel:dic];
 }
 -(void)getScanPayOrderInfo:(NSDictionary*)dic{
@@ -168,9 +170,10 @@ static NSInteger infoCellNum = 2;
         confirmPayModel.prepayId = _payOrderInfo.orderNo;
     }else{
         confirmPayModel.merchantId = _payInfoModel.merchantID;
-        confirmPayModel.payAmount =  _amount;
+        confirmPayModel.payAmount =  _isPreOrderPay?_amount:_payInfoModel.payAmount;
         confirmPayModel.orderSubject = _desc;
     }
+    confirmPayModel.couponId = _couponID;
     passwVC.confirmPayModel = confirmPayModel;
     passwVC.isPreOrderPay = _isPreOrderPay;
     passwVC.paymentType = _payMentType;
@@ -258,7 +261,7 @@ static NSInteger infoCellNum = 2;
         SYCPaymentViewController *paymentVC = [[SYCPaymentViewController alloc]init];
         
         if ([_payMentType isEqualToString:payMentTypeImme]) {
-            paymentVC.payAmount = _amount;
+            paymentVC.payAmount = _payInfoModel.amount;
         }else if([_payMentType isEqualToString:payMentTypeScan]){
             paymentVC.qrCode = _qrcode;
         }else if([_payMentType isEqualToString:payMentTypeCode]){

@@ -47,6 +47,8 @@
     payModel.merchantID = [command.arguments firstObject];
     payModel.amount = [command.arguments objectAtIndex:1];
     payModel.desc = [command.arguments objectAtIndex:2];
+    payModel.coupon = [command.arguments objectAtIndex:3];
+    payModel.payAmount = [command.arguments objectAtIndex:4];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:payMentTypeImme}];
     [self.commandDelegate runInBackground:^{
