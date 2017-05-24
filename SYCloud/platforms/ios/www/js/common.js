@@ -80,14 +80,6 @@ Sy.ns('app.request');
 	var loadeds = 0;
 	var resLoadTime = 0;
 
-	function loadedCallback() {
-		loadeds = loadeds + 1;
-		if (loadeds == 3) {
-			clearTimeout(resLoadTime);
-			eval('app.page.' + (req['pg'] ? req['pg'] + "." : "") + req['act'] + '.init(req)');
-		}
-	}
-
 	request.loadTimeout = function(msg) {
 		loadeds = 99;
 		clearTimeout(resLoadTime);
@@ -95,31 +87,32 @@ Sy.ns('app.request');
 	};
 
 	request.initHead = function() {
-		// check url has package
-		req = {};
-		window.location.search.substr(1).replace(/(\w+)=([^;]+)/ig, function(a, b, c) {
-			req[b] = decodeURI(c);
-		});
-
-		// init loadeds to 0
-		loadeds = 0;
-		// load timeout handle
-		resLoadTime = setTimeout("app.request.loadTimeout('网络不给力')", 10000);
-		
-		// load remote base css
-		$.cachedStyle(app.version.remoteUrl + "/app_resources/style/base.css?v=" + app.version.pageVersion, function() {
-			loadedCallback();
-		}, app.version.formal);
-
-		// load remote common js
-		$.cachedScript(app.version.remoteUrl + "/app_resources/js/common.js?v=" + app.version.pageVersion, function() {
-			loadedCallback();
-		}, app.version.formal);
-
-		// load romte page js
-		$.cachedScript(app.version.remoteUrl + "/app_resources/js/" + (req['pg'] ? req['pg'] + "/" : "") + req['act'] + ".js?v=" + app.version.pageVersion, function() {
-			loadedCallback();
-		}, app.version.formal);
+        // load remote css
+        var cssref = document.createElement('link');
+        cssref.setAttribute("rel", "stylesheet");
+        cssref.setAttribute("type", "text/css");
+        cssref.setAttribute("href", app.version.remoteUrl + "/app_resources/style/base.css?v=" + app.version.pageVersion);
+        document.getElementsByTagName("head")[0].appendChild(cssref);
+ 
+        $.getScript(app.version.remoteUrl + "/app_resources/js/common.js?v=" + app.version.pageVersion, function() {
+            // load remote page js
+            var req = {};
+        
+            window.location.search.substr(1).replace(/(\w+)=([^;]+)/ig, function(a, b, c) {
+                req[b] = decodeURI(c);
+            });
+            
+            // check url has package
+            var filePath = "";
+            var package = "";
+            if (req['pg']) {
+                filePath = req['pg'] + "/";
+                package = req['pg'] + ".";
+            }
+            $.getScript(app.version.remoteUrl + "/app_resources/js/" + filePath + req['act'] + ".js?v=" + app.version.pageVersion, function() {
+                eval('app.page.' + package + req['act'] + '.init(req)');
+            });
+        });
 	};
 
 	request.loadResource = function() {
