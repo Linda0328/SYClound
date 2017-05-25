@@ -485,10 +485,11 @@ static void *eventBarItem = @"eventBarItem";
        return;
     }
     
-    
-    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-    NSString *event = [userDef objectForKey:eventB.model.ID];
-    eventB.event = event;
+    if (![SYCSystem judgeNSString:eventB.event]) {
+        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+        NSString *event = [userDef objectForKey:eventB.model.ID];
+        eventB.event = event;
+    }
     if (![SYCSystem judgeNSString:eventB.event]) {
         UIAlertView *aler = [[UIAlertView alloc]initWithTitle:nil message:@"稍等片刻~~" delegate:self cancelButtonTitle:@"谢谢等待^_^" otherButtonTitles:nil, nil];
         [aler show];

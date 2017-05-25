@@ -301,7 +301,7 @@ static const NSInteger passWNum = 6;
             if (success) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [SYCPaymentLoadingHUD hideIn:strongSelf.view];
-                    strongSelf.resultMSGL.text = @"支付成功！";
+                    strongSelf.resultMSGL.text = @"成功！";
                     strongSelf.resultMSGL.hidden = NO;
                     [SYCPaymentSuccessHUD showIn:strongSelf.view];
                 });
