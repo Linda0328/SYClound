@@ -15,7 +15,7 @@
 static NSString * const SYCloudTestBaseURL = @"http://yun.test.shengyuan.cn:7360"; //测试服务器
 static NSString * const SYCloudLocalBaseURLJW = @"http://172.16.0.143:7360"; //本地服务器
 static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
-static NSString * const SYCloudFormalBaseURL = @"http://yun.shengyuan.cn:7360"; //正式服务器
+static NSString * const SYCloudFormalBaseURL = @"http://yun.shengyuan.cn"; //正式服务器
 static NSString * const SYCloudImageLoadBaseURL = @"http://yun.img.shengyuan.cn"; //正式服务器
 NSString * const bundleID = @"com.sycloud.SYCloud";
 NSString * const BDAppKay = @"ixLnp9iaDmKMD49N1OVmAsEMpQznxZST";
