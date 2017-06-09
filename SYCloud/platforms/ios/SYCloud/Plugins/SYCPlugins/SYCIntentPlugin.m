@@ -17,7 +17,7 @@
     NSString *loadUrl = [command.arguments firstObject];
     //重载URL
     MainViewController *mainVC = (MainViewController*)self.viewController;
-    
+    loadUrl = [loadUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if (mainVC.reloadB) {
         mainVC.reloadB(loadUrl);
     }
