@@ -11,7 +11,7 @@
 #import "SYCShareVersionInfo.h"
 #import "NSString+Helper.h"
 #import "SYCUUID.h"
-static NSString * const SYVersionParam = @"/app_resources/app/version.json?_";
+static NSString * const SYVersionParam = @"/app/common/version.jhtml?_";
 static NSString * const SYMainParam = @"/app_resources/app/index.json?_";
 static NSString * const SYCPswSetOrNot = @"/app/payment/member_pay_password.jhtml?";
 static NSString * const SYCPswSet = @"/app/payment/init_pay_password.jhtml?";

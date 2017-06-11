@@ -86,6 +86,8 @@
 		EE8156E11EB1CA2D00C13482 /* SYCPaymentFailHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */; };
 		EE8327D21EB32D4700B496A5 /* SYCPayOrderInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8327D11EB32D4700B496A5 /* SYCPayOrderInfoViewController.m */; };
 		EE839F211EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = EE839F201EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m */; };
+		EE84165D1EEBE2930032B37F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8416591EEBE2930032B37F /* libWeChatSDK.a */; };
+		EE8416611EEBE7470032B37F /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8416601EEBE7470032B37F /* WXApiManager.m */; };
 		EE91600D1E98BADC00B3D014 /* SYCAliPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */; };
 		EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF981E7F804A00C35C2A /* AFHTTPSessionManager.m */; };
 		EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9B1E7F804A00C35C2A /* AFNetworkReachabilityManager.m */; };
@@ -348,6 +350,12 @@
 		EE8327D11EB32D4700B496A5 /* SYCPayOrderInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPayOrderInfoViewController.m; sourceTree = "<group>"; };
 		EE839F1F1EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPresentionAnimatedTransitioning.h; sourceTree = "<group>"; };
 		EE839F201EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPresentionAnimatedTransitioning.m; sourceTree = "<group>"; };
+		EE8416591EEBE2930032B37F /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		EE84165A1EEBE2930032B37F /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
+		EE84165B1EEBE2930032B37F /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		EE84165C1EEBE2930032B37F /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		EE84165F1EEBE7470032B37F /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
+		EE8416601EEBE7470032B37F /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
 		EE91600B1E98BADC00B3D014 /* SYCAliPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCAliPayModel.h; sourceTree = "<group>"; };
 		EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCAliPayModel.m; sourceTree = "<group>"; };
 		EE9500001E7F804A00C35C2A /* MJRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooter.h; sourceTree = "<group>"; };
@@ -590,6 +598,7 @@
 				EE7AD80E1E8F542D00BCEB5F /* Foundation.framework in Frameworks */,
 				EE7AD80C1E8F541E00BCEB5F /* UIKit.framework in Frameworks */,
 				EE7AD80A1E8F541400BCEB5F /* CoreGraphics.framework in Frameworks */,
+				EE84165D1EEBE2930032B37F /* libWeChatSDK.a in Frameworks */,
 				EE7AD8081E8F540600BCEB5F /* CoreText.framework in Frameworks */,
 				A09E00A5EF174F9780492CC3 /* QuartzCore.framework in Frameworks */,
 				EE7AD8061E8F53F900BCEB5F /* CoreTelephony.framework in Frameworks */,
@@ -836,6 +845,26 @@
 			name = PaymentAnimation;
 			sourceTree = "<group>";
 		};
+		EE8416581EEBE2930032B37F /* WeiXin */ = {
+			isa = PBXGroup;
+			children = (
+				EE8416591EEBE2930032B37F /* libWeChatSDK.a */,
+				EE84165A1EEBE2930032B37F /* WechatAuthSDK.h */,
+				EE84165B1EEBE2930032B37F /* WXApi.h */,
+				EE84165C1EEBE2930032B37F /* WXApiObject.h */,
+			);
+			path = WeiXin;
+			sourceTree = "<group>";
+		};
+		EE84165E1EEBE5A60032B37F /* WeixinPayHelper */ = {
+			isa = PBXGroup;
+			children = (
+				EE84165F1EEBE7470032B37F /* WXApiManager.h */,
+				EE8416601EEBE7470032B37F /* WXApiManager.m */,
+			);
+			path = WeixinPayHelper;
+			sourceTree = "<group>";
+		};
 		EE9500041E7F804A00C35C2A /* Custom */ = {
 			isa = PBXGroup;
 			children = (
@@ -1009,6 +1038,7 @@
 		EE95FF941E7F804A00C35C2A /* LIbs */ = {
 			isa = PBXGroup;
 			children = (
+				EE8416581EEBE2930032B37F /* WeiXin */,
 				EE629EF51E962CC100832C36 /* thirdlibs */,
 				EED6FB551E94D9070061B6AC /* XZMCoreNewFeatureVC */,
 				EE95007B1E7FC1FC00C35C2A /* HexColor */,
@@ -1223,6 +1253,7 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EE84165E1EEBE5A60032B37F /* WeixinPayHelper */,
 				EE8156DB1EB1C77600C13482 /* PaymentAnimation */,
 				EE72D2E71EA9D7A000AFBD9E /* Presentation */,
 				EE95FF811E7F7ECD00C35C2A /* SYCModel */,
@@ -1434,6 +1465,7 @@
 				EE9500641E7F804A00C35C2A /* MJRefreshBackStateFooter.m in Sources */,
 				EE9500581E7F804A00C35C2A /* README.md in Sources */,
 				EE9500471E7F804A00C35C2A /* View+MASAdditions.m in Sources */,
+				EE8416611EEBE7470032B37F /* WXApiManager.m in Sources */,
 				EED6FB5B1E94D9070061B6AC /* CALayer+Transition.m in Sources */,
 				EE95005B1E7F804A00C35C2A /* MJRefreshBackFooter.m in Sources */,
 				EE9500661E7F804A00C35C2A /* MJRefreshNormalHeader.m in Sources */,
@@ -1582,8 +1614,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdlibs",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/WeiXin",
 				);
-				OTHER_LIBTOOLFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
 				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
 				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
@@ -1619,8 +1653,10 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/thirdlibs",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/WeiXin",
 				);
-				OTHER_LIBTOOLFLAGS = "-ObjC";
+				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
 				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
 				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
@@ -1640,8 +1676,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
@@ -1651,7 +1687,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
+				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 			};
@@ -1669,8 +1705,8 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
@@ -1679,7 +1715,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
+				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = NO;
 			};

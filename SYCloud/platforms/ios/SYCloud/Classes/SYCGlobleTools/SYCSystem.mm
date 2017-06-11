@@ -19,6 +19,8 @@ static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
 static NSString * const SYCloudFormalBaseURL = @"http://www.yuanpay.xin"; //正式服务器
 //static NSString * const SYCloudImageLoadBaseURL = @"http://yun.img.shengyuan.cn"; //正式服务器
 static NSString * const SYCloudImageLoadBaseURL = @"http://www.yuanpay.xin"; //正式服务器
+
+NSString * const WeiXinAppID = @"wxaa61de1143462250";
 NSString * const bundleID = @"com.sycloud.SYCloud";
 NSString * const BDAppKay = @"ixLnp9iaDmKMD49N1OVmAsEMpQznxZST";
 NSString *const loadToken = @"LoadToken";

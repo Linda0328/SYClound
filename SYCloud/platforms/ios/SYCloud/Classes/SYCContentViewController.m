@@ -347,6 +347,8 @@ static void *eventBarItem = @"eventBarItem";
         }
         searchB.placeholder = title;
         searchB.delegate = self;
+        UIImage *searchImage = [UIImage imageWithRect:searchB.bounds withColor:[UIColor clearColor]];
+        searchB.backgroundImage = searchImage;
         self.navigationItem.titleView = searchB;
         searchB.tag = [_titleModel.ID integerValue];
     }else if ([_titleModel.type isEqualToString:optionType]){

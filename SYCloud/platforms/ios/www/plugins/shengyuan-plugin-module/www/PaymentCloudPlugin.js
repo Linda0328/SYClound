@@ -16,7 +16,7 @@ cordova.define("shengyuan-plugin-module.PaymentCloudPlugin", function(require, e
 		paymentImmed : function(merchantId, amount, desc, coupon,payAmount,success) {
 			exec(success, function(err) {
 				alert(err);
-			}, "PaymentCloudPlugin", "paymentImmed", [ merchantId, amount, desc coupon,payAmount]);
+			}, "PaymentCloudPlugin", "paymentImmed", [ merchantId, amount, desc,coupon,payAmount]);
 		},
 		paymentPwd : function(title, url, pwdKey, params, success) {
 			exec(success, function(err) {
