@@ -33,13 +33,14 @@ static CGFloat font = 17.0f;
     }
     if (![SYCSystem judgeNSString:model.name]&&[SYCSystem judgeNSString:model.ico]) {
         UIImage *image = [UIImage imageNamed:model.ico];
-        CGFloat width = image.size.width>39?image.size.width:40;
-        CGFloat height = image.size.height>39?image.size.height:40;
+        
+        CGFloat width = image.size.width;//>39?40:image.size.width;
+        CGFloat height = image.size.height;//>?40:image.size.height;
         self.frame = CGRectMake(0, 0, width, height);
         [self setImage:image forState:UIControlStateNormal];
     }
-    if ([SYCSystem judgeNSString:model.name]&&![SYCSystem judgeNSString:model.ico]) {
-        
-    }
+//    if ([SYCSystem judgeNSString:model.name]&&![SYCSystem judgeNSString:model.ico]) {
+//        
+//    }
 }
 @end

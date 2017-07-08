@@ -378,6 +378,7 @@ static void *eventBarItem = @"eventBarItem";
     }
     if ([navBarModel.leftBtns count]>0) {
         NSMutableArray *leftItems = [NSMutableArray array];
+        
         for (NSDictionary *dic in navBarModel.leftBtns){
             UIBarButtonItem *item = [self creatNavigationItemButtons:dic];
             [leftItems addObject:item];

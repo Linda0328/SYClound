@@ -65,7 +65,7 @@ static const NSInteger passWNum = 6;
         [self.view addSubview:lable0];
     }
     
-    _textF = [[UITextField alloc]initWithFrame:CGRectMake(40*[SYCSystem PointCoefficient], CGRectGetMaxY(_titleLable.frame)+2*19*[SYCSystem PointCoefficient]+17*[SYCSystem PointCoefficient], width-80*[SYCSystem PointCoefficient],45*[SYCSystem PointCoefficient])];
+    _textF = [[UITextField alloc]initWithFrame:CGRectMake(40*[SYCSystem PointCoefficient], CGRectGetMaxY(_titleLable.frame)+2*19*[SYCSystem PointCoefficient]+17*[SYCSystem PointCoefficient]+15, width-80*[SYCSystem PointCoefficient],45*[SYCSystem PointCoefficient])];
     _textF.delegate = self;
     _textF.layer.borderColor = [UIColor colorWithHexString:@"dddddd"].CGColor;
     _textF.layer.borderWidth = 1;
@@ -286,6 +286,18 @@ static const NSInteger passWNum = 6;
                 });
             }
 
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SYCPaymentLoadingHUD hideIn:self.view];
+                _resultMSGL.text = @"请求超时，支付失败";
+                _resultMSGL.hidden = NO;
+                [SYCPaymentFailHUD showIn:self.view];
+            });
+            __block SYCPasswordViewController *weakSelf = self;
+            dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2* NSEC_PER_SEC));
+            dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                [weakSelf passwordUncorrect:textF];
+            });
         }
        
     }];
@@ -325,6 +337,19 @@ static const NSInteger passWNum = 6;
                 });
 
             }
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [SYCPaymentLoadingHUD hideIn:strongSelf.view];
+                strongSelf.resultMSGL.text = @"请求超时，支付失败";
+                strongSelf.resultMSGL.hidden = NO;
+                [SYCPaymentFailHUD showIn:strongSelf.view];
+            });
+            __block SYCPasswordViewController *weakSelf = self;
+            dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0* NSEC_PER_SEC));
+            dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+                [weakSelf passwordUncorrect:textF];
+            });
+            
         }
     }];
     

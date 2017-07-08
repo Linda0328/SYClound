@@ -99,22 +99,23 @@
 - (void)presentationTransitionDidEnd:(BOOL)completed {
     [super presentationTransitionDidEnd:completed];
     
-    if (!completed) {
-        [self.dimmingView removeFromSuperview];
-    }
+//    if (!completed) {
+//        [self.dimmingView removeFromSuperview];
+//    }
    
 }
 
 - (void)dismissalTransitionWillBegin {
     
     [super dismissalTransitionWillBegin];
+    [self.dimmingView removeFromSuperview];
 }
 
 - (void)dismissalTransitionDidEnd:(BOOL)completed {
     
-    if (completed) {
-        [self.dimmingView removeFromSuperview];
-    }
+//    if (completed) {
+//        [self.dimmingView removeFromSuperview];
+//    }
     [super dismissalTransitionDidEnd:completed];
 }
 
