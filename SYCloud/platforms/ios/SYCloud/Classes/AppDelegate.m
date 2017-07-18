@@ -51,7 +51,7 @@
     BMKMapManager *_mapManager;
 }
 @property (nonatomic,strong)Reachability *hostReach;
-
+@property (nonatomic,strong)SYCTabViewController *tabVC ;
 @end
 @implementation AppDelegate
 
@@ -129,8 +129,8 @@
         }
 
     }
-    [self.window makeKeyAndVisible];
     
+    [self.window makeKeyAndVisible];
     return YES;
 }
 -(void)setRootViewController{
@@ -168,9 +168,9 @@
     }];
     SYCMainModel *mainModel = [SYCMainModel mj_objectWithKeyValues:dic];
     SYCMainPageModel *mainPageModel = [SYCMainPageModel mj_objectWithKeyValues:mainModel.titleBarConfig];
-    SYCTabViewController *tabVC = [[SYCTabViewController alloc]init];
-    [tabVC InitTabBarWithtabbarItems:mainPageModel.bottomBtns navigationBars:mainModel.bottomBarConfig];
-    self.window.rootViewController = tabVC;
+    _tabVC = [[SYCTabViewController alloc]init];
+    [_tabVC InitTabBarWithtabbarItems:mainPageModel.bottomBtns navigationBars:mainModel.bottomBarConfig];
+    self.window.rootViewController = _tabVC;
 }
 //网络变化
 -(void)reachabilityChanged:(NSNotification*)notify{
@@ -195,7 +195,7 @@
     
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-         NSLog(@"----result---%@",resultDic);
+        NSLog(@"----result---%@",resultDic);
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
         
@@ -208,9 +208,20 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:AliPayResult object:dic];
 
     }];
-    
-
-    
+    NSLog(@"------------%@",url.absoluteString);
+    if ([url.absoluteString hasPrefix:SYCPayKEY]) {
+        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]) {
+            NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
+            NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
+            if ([SYCSystem judgeNSString:prePayID]) {
+                [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
+                [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
+                [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:prePayID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+            }
+            
+        }
+    }
+   
     return YES;
 }
 //ios9之后废弃该方法
@@ -218,7 +229,17 @@
     
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+        NSLog(@"----result---%@",resultDic);
+        NSString *resultContent = resultDic[@"memo"];
+        NSString *resultStatus = resultDic[@"resultStatus"];
         
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+        [dic setObject:AliPaySuccess forKey:@"resultCode"];
+        if (![resultStatus isEqualToString:@"9000"]) {
+            [dic setObject:AliPayFail forKey:@"resultCode"];
+        }
+        [dic setObject:resultContent forKey:resultContent];
+        [[NSNotificationCenter defaultCenter]postNotificationName:AliPayResult object:dic];
     }];
     
     //短信

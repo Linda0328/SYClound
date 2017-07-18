@@ -184,42 +184,7 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
-//    [self presentViewController:laoding animated:YES completion:^{
-//         __strong __typeof(weakSelf)strongSelf = weakSelf;
-//        NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
-//        SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
-//        NSDictionary *result = nil;
-//        if ([payMentType isEqualToString:payMentTypeImme]) {
-//            SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
-//            payOrderVC.payInfoModel = payModel;
-//            result = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount];
-//        }else if([payMentType isEqualToString:payMentTypeScan]){
-//            NSString *qrcode = (NSString*)notify.object;
-//            payOrderVC.qrcode = qrcode;
-//            result = [SYCHttpReqTool payScanInfoWithQrcode:qrcode];
-//        }else if([payMentType isEqualToString:payMentTypeCode]){
-//            NSString *paycode = (NSString*)notify.object;
-//            payOrderVC.payCode = paycode;
-//            result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
-//        }
-//        if (result) {
-//            laoding.pushBlock = ^(){
-//                payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
-//                payOrderVC.payMentType = payMentType;
-//                payOrderVC.rquestResultDic = result;
-//                payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
-//                payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
-//                payOrderVC.transitioningDelegate = self;
-//                [strongSelf presentViewController:payOrderVC animated:YES completion:nil];
-//            };
-//            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultSuccessNotify object:nil];
-//        
-//        }else{
-//            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultErrorNotify object:@"获取支付订单信息失败"];
-//        }
-//
-//    }];
-     __weak __typeof(self)weakSelf = self;
+    __weak __typeof(self)weakSelf = self;
     __block UIView *payloadingView = [self payLoading];
     NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
     __block SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
@@ -244,6 +209,15 @@ static void *eventBarItem = @"eventBarItem";
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
         }];
+    }else if([payMentType isEqualToString:payMentTypeSDK]){
+        NSString *prePayID = (NSString*)notify.object;
+        payOrderVC.prePayID = prePayID;
+        [SYCHttpReqTool requestPayPluginInfoWithPrepareID:prePayID completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            NSLog(@"-------result===%@",result);
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+        }];
+
     }
     
 }
@@ -296,7 +270,7 @@ static void *eventBarItem = @"eventBarItem";
         HUD.label.text = @"请求失败，请检查网络";
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
-         });
+        });
     }
 
 }

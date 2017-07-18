@@ -266,11 +266,10 @@
     if (![main isEqual:self]) {
         return;
     }
-    NSString *jsonStr = [payResult[PayResultCallback] JSONString];
+    NSDictionary *resultDic = payResult[PayResultCallback];
+    NSLog(@"--------%@",resultDic);
+    NSString *jsonStr = [resultDic JSONString];
     NSString *type = payResult[PreOrderPay];
-    NSLog(@"---------payImmedatelyplugin------%@",[SYCShareVersionInfo sharedVersion].paymentImmedatelyID);
-    NSLog(@"---------payscanplugin------%@",[SYCShareVersionInfo sharedVersion].paymentScanID);
-    NSLog(@"---------paycodeplugin------%@",[SYCShareVersionInfo sharedVersion].paymentCodeID);
     if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID]&&[type isEqualToString:payMentTypeImme]) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID];
@@ -285,6 +284,24 @@
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentCodeID];
         [SYCShareVersionInfo sharedVersion].paymentCodeID = nil;
+    }
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]&&[type isEqualToString:payMentTypeSDK]) {
+        UIApplication *app = [UIApplication sharedApplication];
+        NSString *urlS = [[SYCShareVersionInfo sharedVersion].thirdPartScheme stringByAppendingString:@"://back"];
+        for (NSString *key in [resultDic allKeys]) {
+            if ([key isEqualToString:@"resultContent"]) {
+                continue;
+            }
+            urlS = [urlS stringByAppendingFormat:@"&%@=%@",key,[resultDic objectForKey:key]];
+        }
+        NSURL *url = [NSURL URLWithString:urlS];
+        if([app canOpenURL:url]){
+            [app openURL:url options:@{} completionHandler:nil];
+        }else{
+        
+        }
+        [SYCShareVersionInfo sharedVersion].paymentSDKID = nil;
+        [SYCShareVersionInfo sharedVersion].thirdPartScheme = nil;
     }
 
 }

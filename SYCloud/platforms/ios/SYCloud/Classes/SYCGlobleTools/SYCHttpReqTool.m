@@ -21,6 +21,7 @@ static NSString * const SYCPayCode = @"/app/payment/member_pay_info.jhtml?";
 static NSString * const SYCPayConfirm= @"/app/payment/confirm_payment.jhtml?";
 static NSString * const SYCCaptchaForYKT= @"/app//card/remoteCaptcha.jhtml?";
 static NSString * const SYCBlindYKT= @"/app/card/bindCard.jhtml?";
+static NSString * const SYCPrePayInfo= @"/app/payment/app_pay_info.jhtml?";
 NSString * const SYCIndexJson = @"Index.json";
 NSString * const SYCIndexVersion = @"IndexVersion";
 NSString * const SYCChannel = @"02";
@@ -983,6 +984,69 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         }
     }];
     [dataTask resume];
+}
+
++(void)requestPayPluginInfoWithPrepareID:(NSString*)prepareId completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPrePayInfo];
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:prepareId forKey:@"prepayId"];
+//    [paramDic setObject:[SYCShareVersionInfo sharedVersion].token forKey:@"token"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+        
+    }
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSession *shareSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
+        NSLog(@"%@",[NSThread currentThread]);
+        
+        NSDictionary *dic = nil;
+        if (data && (error == nil)) {
+            // 网络访问成功
+            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+            NSLog(@"pswset : %@",backData);
+            NSError *err = nil;
+            dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                NSLog(@"---数据解析出错---%@",[err description]);
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                NSLog(@"----解析结果--- : %@",dic);
+                [result setObject:dic forKey:resultSuccessKey];
+            }
+        } else {
+            // 网络访问失败
+            NSLog(@"error=%@",error);
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+        }
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+    [dataTask resume];
+    
 }
 -(NSDictionary*)postRequestUrl:(NSString*)requestUrl withParam:(NSString*)param{
     NSMutableDictionary *result = [[NSMutableDictionary alloc]init];

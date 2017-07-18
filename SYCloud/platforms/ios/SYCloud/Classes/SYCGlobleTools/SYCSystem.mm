@@ -52,6 +52,7 @@ NSString *const PayResultCallback = @"ResultCallback";
 NSString *const payMentTypeCode = @"code";
 NSString *const payMentTypeScan = @"scan";
 NSString *const payMentTypeImme = @"immediately";
+NSString *const payMentTypeSDK = @"SYCPaySDK";
 
 NSString *const paySuccessNotify = @"paySuccess";
 
@@ -66,6 +67,10 @@ NSString *const payment_FailCode = @"1000";
 NSString *const payment_FailMessage = @"支付失败";
 NSString *const payment_CancelCode = @"2000";
 NSString *const payment_CancelMessage = @"支付取消";
+
+NSString *const SYCPayKEY = @"SYCPay";//生源支付key
+NSString *const SYCPrepayIDkey = @"prepayId";
+NSString *const SYCThirdPartSchemeKey = @"scheme";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
@@ -290,5 +295,18 @@ NSString *const payment_CancelMessage = @"支付取消";
         return 1.104;
     }
     return 1.0;
+}
++(NSDictionary *)dealWithURL:(NSString*)url{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    NSArray *arr = [url componentsSeparatedByString:@"&"];
+    for (NSString *itemS in arr) {
+        if ([itemS containsString:@"="]) {
+            NSArray *itemArr = [itemS componentsSeparatedByString:@"="];
+            if ([itemArr count]==2) {
+                [dic setObject:itemArr[1] forKey:itemArr[0]];
+            }
+        }
+    }
+    return dic;
 }
 @end

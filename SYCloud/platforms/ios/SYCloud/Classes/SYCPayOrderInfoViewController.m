@@ -51,6 +51,8 @@ static NSInteger infoCellNum = 2;
         [self getScanPayOrderInfo:_requestResultDic];
     }else if([_payMentType isEqualToString:payMentTypeCode]){
         [self getCodePayOrderInfo:_requestResultDic];
+    }else if([_payMentType isEqualToString:payMentTypeSDK]){
+        [self getSDKPayOrderInfo:_requestResultDic];
     }
    
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
@@ -124,6 +126,11 @@ static NSInteger infoCellNum = 2;
 }
 -(void)getCodePayOrderInfo:(NSDictionary*)dic{
    
+    _desc = dic[@"result"][@"payment_info"][@"orderDesc"];
+    _amount = dic[@"result"][@"payment_info"][@"payAmount"];
+    [self dealDataToModel:dic];
+}
+-(void)getSDKPayOrderInfo:(NSDictionary*)dic{
     _desc = dic[@"result"][@"payment_info"][@"orderDesc"];
     _amount = dic[@"result"][@"payment_info"][@"payAmount"];
     [self dealDataToModel:dic];

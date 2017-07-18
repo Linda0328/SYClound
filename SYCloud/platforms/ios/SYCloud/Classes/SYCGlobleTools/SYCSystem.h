@@ -34,9 +34,11 @@ extern NSString *const PaypswSet;
 extern NSString *const mainKey;
 extern NSString *const PreOrderPay;
 extern NSString *const PayResultCallback;
-extern NSString *const payMentTypeCode;
-extern NSString *const payMentTypeScan;
-extern NSString *const payMentTypeImme;
+//四种支付类型
+extern NSString *const payMentTypeCode;//二维码支付
+extern NSString *const payMentTypeScan;//扫码
+extern NSString *const payMentTypeImme;//面对面支付
+extern NSString *const payMentTypeSDK;//生源支付SDK
 
 extern NSString *const paySuccessNotify;
 extern NSString *const PayImmedateNotify;
@@ -50,6 +52,11 @@ extern NSString *const payment_FailCode;
 extern NSString *const payment_FailMessage;
 extern NSString *const payment_CancelCode;
 extern NSString *const payment_CancelMessage;
+
+//生源支付key
+extern NSString *const SYCPayKEY;
+extern NSString *const SYCPrepayIDkey;
+extern NSString *const SYCThirdPartSchemeKey;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;
@@ -67,4 +74,7 @@ extern NSString *const payment_CancelMessage;
 
 +(CGFloat)deviceWidth;
 +(CGFloat)deviceHeigth;
+
+//分解url参数
++(NSDictionary *)dealWithURL:(NSString*)url;
 @end

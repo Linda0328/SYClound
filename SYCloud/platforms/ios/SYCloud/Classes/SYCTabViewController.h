@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "SYCContentViewController.h"
 @interface SYCTabViewController : UITabBarController
+@property (nonatomic,strong)SYCContentViewController *firstViewC;
 -(void)InitTabBarWithtabbarItems:(NSArray*)tabbarItems navigationBars:(NSArray*)navigationBars;
 @end

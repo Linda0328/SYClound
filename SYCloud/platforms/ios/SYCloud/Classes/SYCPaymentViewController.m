@@ -63,6 +63,8 @@ NSString *const selectIndex = @"selectedIndex";
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf dealWithNewRequest:resultCode result:result];
         }];
+    }else if ([_paymentType isEqualToString:payMentTypeSDK]){
+    
     }
 }
 -(void)dealWithNewRequest:(NSString*)resultCode result:(NSDictionary*)result{

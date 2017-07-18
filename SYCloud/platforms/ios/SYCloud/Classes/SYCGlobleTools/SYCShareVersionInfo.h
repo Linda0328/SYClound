@@ -54,7 +54,8 @@
 @property (nonatomic,copy)NSString *paymentImmedatelyID;
 @property (nonatomic,copy)NSString *paymentScanID;
 @property (nonatomic,copy)NSString *paymentCodeID;
-
+@property (nonatomic,copy)NSString *paymentSDKID;
+@property (nonatomic,copy)NSString *thirdPartScheme;
 
 + (instancetype)sharedVersion;
 
