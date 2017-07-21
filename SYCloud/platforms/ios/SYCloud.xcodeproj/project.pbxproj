@@ -67,6 +67,7 @@
 		EE72D2F01EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2EF1EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m */; };
 		EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */; };
 		EE7329261EC0560B00FB85E1 /* SYCRequestLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */; };
+		EE742AC31F1F350C00EB4BC9 /* SYCustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */; };
 		EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */; };
 		EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8011E8F53D700BCEB5F /* libc++.tbd */; };
 		EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */; };
@@ -89,6 +90,7 @@
 		EE84165D1EEBE2930032B37F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8416591EEBE2930032B37F /* libWeChatSDK.a */; };
 		EE8416611EEBE7470032B37F /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8416601EEBE7470032B37F /* WXApiManager.m */; };
 		EE91600D1E98BADC00B3D014 /* SYCAliPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */; };
+		EE92F3CC1F1E0D75001C25F0 /* SYCLoadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE92F3CB1F1E0D75001C25F0 /* SYCLoadViewController.m */; };
 		EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF981E7F804A00C35C2A /* AFHTTPSessionManager.m */; };
 		EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9B1E7F804A00C35C2A /* AFNetworkReachabilityManager.m */; };
 		EE95002F1E7F804A00C35C2A /* AFSecurityPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF9D1E7F804A00C35C2A /* AFSecurityPolicy.m */; };
@@ -321,6 +323,8 @@
 		EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPasswordViewController.m; sourceTree = "<group>"; };
 		EE7329241EC0560B00FB85E1 /* SYCRequestLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestLoadingViewController.h; sourceTree = "<group>"; };
 		EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestLoadingViewController.m; sourceTree = "<group>"; };
+		EE742AC11F1F350C00EB4BC9 /* SYCustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCustomTextField.h; sourceTree = "<group>"; };
+		EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCustomTextField.m; sourceTree = "<group>"; };
 		EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestPlugin.h; sourceTree = "<group>"; };
 		EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestPlugin.m; sourceTree = "<group>"; };
 		EE7AD8011E8F53D700BCEB5F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -358,6 +362,8 @@
 		EE8416601EEBE7470032B37F /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
 		EE91600B1E98BADC00B3D014 /* SYCAliPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCAliPayModel.h; sourceTree = "<group>"; };
 		EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCAliPayModel.m; sourceTree = "<group>"; };
+		EE92F3CA1F1E0D75001C25F0 /* SYCLoadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCLoadViewController.h; sourceTree = "<group>"; };
+		EE92F3CB1F1E0D75001C25F0 /* SYCLoadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCLoadViewController.m; sourceTree = "<group>"; };
 		EE9500001E7F804A00C35C2A /* MJRefreshFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshFooter.h; sourceTree = "<group>"; };
 		EE9500011E7F804A00C35C2A /* MJRefreshFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshFooter.m; sourceTree = "<group>"; };
 		EE9500021E7F804A00C35C2A /* MJRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshHeader.h; sourceTree = "<group>"; };
@@ -865,6 +871,17 @@
 			path = WeixinPayHelper;
 			sourceTree = "<group>";
 		};
+		EE92F3C91F1E0CB0001C25F0 /* Load */ = {
+			isa = PBXGroup;
+			children = (
+				EE92F3CA1F1E0D75001C25F0 /* SYCLoadViewController.h */,
+				EE92F3CB1F1E0D75001C25F0 /* SYCLoadViewController.m */,
+				EE742AC11F1F350C00EB4BC9 /* SYCustomTextField.h */,
+				EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */,
+			);
+			name = Load;
+			sourceTree = "<group>";
+		};
 		EE9500041E7F804A00C35C2A /* Custom */ = {
 			isa = PBXGroup;
 			children = (
@@ -1253,6 +1270,7 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EE92F3C91F1E0CB0001C25F0 /* Load */,
 				EE84165E1EEBE5A60032B37F /* WeixinPayHelper */,
 				EE8156DB1EB1C77600C13482 /* PaymentAnimation */,
 				EE72D2E71EA9D7A000AFBD9E /* Presentation */,
@@ -1452,11 +1470,13 @@
 				EE95003F1E7F804A00C35C2A /* MASCompositeConstraint.m in Sources */,
 				EE9500711E7F804A00C35C2A /* README.md in Sources */,
 				EED6FB671E94DCF60061B6AC /* SYIntroduceWLANView.m in Sources */,
+				EE92F3CC1F1E0D75001C25F0 /* SYCLoadViewController.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				EE9500461E7F804A00C35C2A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				EE95007A1E7FBFB700C35C2A /* SYCContentViewController.m in Sources */,
 				EE9500691E7F804A00C35C2A /* MJRefreshConst.m in Sources */,
 				EE6DF19A1EBC622700AF15E4 /* SYCPopoverGroupViewController.m in Sources */,
+				EE742AC31F1F350C00EB4BC9 /* SYCustomTextField.m in Sources */,
 				EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */,
 				EE95006A1E7F804A00C35C2A /* NSBundle+MJRefresh.m in Sources */,
 				EE62103F1EAB31D200F71DF7 /* SYCPassWordModel.m in Sources */,

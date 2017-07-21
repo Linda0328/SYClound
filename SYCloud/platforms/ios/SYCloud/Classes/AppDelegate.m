@@ -47,6 +47,7 @@
 #import <BaiduMapAPI_Base/BMKMapManager.h>
 #import "SYCUUID.h"
 #import <AlipaySDK/AlipaySDK.h>
+#import "SYCLoadViewController.h"
 @interface AppDelegate(){
     BMKMapManager *_mapManager;
 }
@@ -129,7 +130,6 @@
         }
 
     }
-    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -210,15 +210,19 @@
     }];
     NSLog(@"------------%@",url.absoluteString);
     if ([url.absoluteString hasPrefix:SYCPayKEY]) {
-        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]) {
-            NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
-            NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
-            if ([SYCSystem judgeNSString:prePayID]) {
-                [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
-                [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
-                [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:prePayID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
-            }
-            
+        NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
+        NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
+        if ([SYCSystem judgeNSString:prePayID]) {
+            [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
+            [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
+        }
+        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+        }else{
+            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
+            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
+            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
     }
    
@@ -243,7 +247,19 @@
     }];
     
     //短信
-    
+    NSLog(@"------------%@",url.absoluteString);
+    if ([url.absoluteString hasPrefix:SYCPayKEY]) {
+        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]) {
+            NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
+            NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
+            if ([SYCSystem judgeNSString:prePayID]) {
+                [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
+                [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
+                [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:prePayID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+            }
+        }
+    }
+
     return YES;
 }
 @end

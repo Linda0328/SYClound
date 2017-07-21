@@ -24,6 +24,10 @@ NSString * const WeiXinAppID = @"wxaa61de1143462250";
 NSString * const bundleID = @"com.sycloud.SYCloud";
 NSString * const BDAppKay = @"ixLnp9iaDmKMD49N1OVmAsEMpQznxZST";
 NSString *const loadToken = @"LoadToken";
+NSString *const memberInfo = @"memberInfo";
+NSString *const loginName = @"loginName";
+
+
 NSString *const popNotify = @"PushVCandReload";
 NSString *const scanNotify = @"PushScanVC";
 NSString *const updateNotify = @"updateOrNot";
@@ -71,6 +75,8 @@ NSString *const payment_CancelMessage = @"支付取消";
 NSString *const SYCPayKEY = @"SYCPay";//生源支付key
 NSString *const SYCPrepayIDkey = @"prepayId";
 NSString *const SYCThirdPartSchemeKey = @"scheme";
+
+NSString * const SYCSystemType = @"1";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

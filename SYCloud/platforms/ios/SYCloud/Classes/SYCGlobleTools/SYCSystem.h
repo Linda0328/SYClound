@@ -8,7 +8,18 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVViewController.h>
+typedef NS_ENUM(NSInteger,getCaptchaType){
+    getCaptchaRegister = 0,
+    getCaptchaLoad ,
+    getCaptchaModifyPassw ,
+    getCaptchaModifyPayPassw ,
+    getCaptchaModifyPhoneNum ,
+};
+
 extern NSString *const loadToken;
+extern NSString *const memberInfo ;
+extern NSString *const loginName ;
+
 extern NSString *const popNotify;
 extern NSString *const scanNotify;
 extern NSString *const bundleID;
@@ -40,23 +51,24 @@ extern NSString *const payMentTypeScan;//扫码
 extern NSString *const payMentTypeImme;//面对面支付
 extern NSString *const payMentTypeSDK;//生源支付SDK
 
-extern NSString *const paySuccessNotify;
-extern NSString *const PayImmedateNotify;
-extern NSString *const payAndShowNotify;
-extern NSString *const dismissPswNotify;
-extern NSString *const selectPaymentNotify;
+extern NSString * const paySuccessNotify;
+extern NSString * const PayImmedateNotify;
+extern NSString * const payAndShowNotify;
+extern NSString * const dismissPswNotify;
+extern NSString * const selectPaymentNotify;
 
-extern NSString *const payment_SuccessCode;
-extern NSString *const payment_SuccessMessage;
-extern NSString *const payment_FailCode;
-extern NSString *const payment_FailMessage;
-extern NSString *const payment_CancelCode;
-extern NSString *const payment_CancelMessage;
+extern NSString * const payment_SuccessCode;
+extern NSString * const payment_SuccessMessage;
+extern NSString * const payment_FailCode;
+extern NSString * const payment_FailMessage;
+extern NSString * const payment_CancelCode;
+extern NSString * const payment_CancelMessage;
 
 //生源支付key
-extern NSString *const SYCPayKEY;
-extern NSString *const SYCPrepayIDkey;
-extern NSString *const SYCThirdPartSchemeKey;
+extern NSString * const SYCPayKEY;
+extern NSString * const SYCPrepayIDkey;
+extern NSString * const SYCThirdPartSchemeKey;
+extern NSString * const SYCSystemType;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

@@ -28,6 +28,7 @@
 #import "SYCHttpReqTool.h"
 #import "SYCRequestLoadingViewController.h"
 #import "MBProgressHUD.h"
+#import "SYCLoadViewController.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -256,6 +257,13 @@ static void *eventBarItem = @"eventBarItem";
         HUD.label.text = result[@"msg"];
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
+            //用户非登录状态
+        if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
+            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
+            load.mainVC = _CurrentChildVC;
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }
         });
     }
     if (![resultCode isEqualToString:resultCodeSuccess]) {
