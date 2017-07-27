@@ -48,6 +48,7 @@
 #import "SYCUUID.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "SYCLoadViewController.h"
+#import "SYCCacheURLProtocol.h"
 @interface AppDelegate(){
     BMKMapManager *_mapManager;
 }
@@ -73,9 +74,8 @@
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
-    
-   
     BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
+    [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     if(canShow){ // 初始化新特性界面
         self.window.rootViewController = [XZMCoreNewFeatureVC newFeatureVCWithImageNames:[SYCSystem guiderImageS] enterBlock:^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -259,7 +259,7 @@
             }
         }
     }
-
+    
     return YES;
 }
 @end

@@ -41,13 +41,12 @@ NSString* const kCDVAssetsLibraryPrefixes = @"assets-library://";
     if ([[theUrl absoluteString] hasPrefix:kCDVAssetsLibraryPrefixes]) {
         return YES;
     }
-
     return NO;
 }
 
 + (NSURLRequest*)canonicalRequestForRequest:(NSURLRequest*)request
 {
-    // NSLog(@"%@ received %@", self, NSStringFromSelector(_cmd));
+//    NSLog(@"%@ received %@", self, NSStringFromSelector(_cmd));
     return request;
 }
 

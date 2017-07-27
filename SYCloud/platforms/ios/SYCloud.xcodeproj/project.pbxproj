@@ -82,6 +82,8 @@
 		EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE6FD1E80C85B0080D625 /* NSString+Helper.m */; };
 		EE7BE7021E8125D50080D625 /* SYScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7011E8125D50080D625 /* SYScanViewController.m */; };
 		EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */; };
+		EE7D66F81F28684D007EDAC9 /* SYCCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7D66F71F28684D007EDAC9 /* SYCCache.m */; };
+		EE7D66FB1F287524007EDAC9 /* SYCCacheURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7D66FA1F287524007EDAC9 /* SYCCacheURLProtocol.m */; };
 		EE8156DA1EB1C72B00C13482 /* SYCPaymentLoadingHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156D91EB1C72B00C13482 /* SYCPaymentLoadingHUD.m */; };
 		EE8156DE1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156DD1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m */; };
 		EE8156E11EB1CA2D00C13482 /* SYCPaymentFailHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */; };
@@ -344,6 +346,10 @@
 		EE7BE7011E8125D50080D625 /* SYScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYScanViewController.m; sourceTree = "<group>"; };
 		EE7BE7031E812DFE0080D625 /* UIImage+SYColorExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+SYColorExtension.h"; sourceTree = "<group>"; };
 		EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+SYColorExtension.m"; sourceTree = "<group>"; };
+		EE7D66F61F28684D007EDAC9 /* SYCCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCCache.h; sourceTree = "<group>"; };
+		EE7D66F71F28684D007EDAC9 /* SYCCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCache.m; sourceTree = "<group>"; };
+		EE7D66F91F287524007EDAC9 /* SYCCacheURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCCacheURLProtocol.h; sourceTree = "<group>"; };
+		EE7D66FA1F287524007EDAC9 /* SYCCacheURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCacheURLProtocol.m; sourceTree = "<group>"; };
 		EE8156D81EB1C72B00C13482 /* SYCPaymentLoadingHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentLoadingHUD.h; sourceTree = "<group>"; };
 		EE8156D91EB1C72B00C13482 /* SYCPaymentLoadingHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentLoadingHUD.m; sourceTree = "<group>"; };
 		EE8156DC1EB1C85C00C13482 /* SYCPaymentSuccessHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentSuccessHUD.h; sourceTree = "<group>"; };
@@ -1011,6 +1017,10 @@
 				EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */,
 				EE7191CB1E976A1800DE5012 /* NSObject+JsonExchange.h */,
 				EE7191CC1E976A1800DE5012 /* NSObject+JsonExchange.m */,
+				EE7D66F61F28684D007EDAC9 /* SYCCache.h */,
+				EE7D66F71F28684D007EDAC9 /* SYCCache.m */,
+				EE7D66F91F287524007EDAC9 /* SYCCacheURLProtocol.h */,
+				EE7D66FA1F287524007EDAC9 /* SYCCacheURLProtocol.m */,
 			);
 			path = SYCGlobleTools;
 			sourceTree = "<group>";
@@ -1520,6 +1530,7 @@
 				EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */,
 				EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */,
 				EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */,
+				EE7D66FB1F287524007EDAC9 /* SYCCacheURLProtocol.m in Sources */,
 				EE629F0B1E963AF600832C36 /* SYCResultPlugin.m in Sources */,
 				EE9500381E7F804A00C35C2A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				EE9500771E7FBF3E00C35C2A /* SYCTabViewController.m in Sources */,
@@ -1549,6 +1560,7 @@
 				EE9500431E7F804A00C35C2A /* MASViewAttribute.m in Sources */,
 				EE95FF741E7F7DAB00C35C2A /* SYCSecurePlugin.m in Sources */,
 				EE91600D1E98BADC00B3D014 /* SYCAliPayModel.m in Sources */,
+				EE7D66F81F28684D007EDAC9 /* SYCCache.m in Sources */,
 				EE95005A1E7F804A00C35C2A /* MJRefreshAutoFooter.m in Sources */,
 				EE9500341E7F804A00C35C2A /* README.md in Sources */,
 				EE95FF731E7F7DAB00C35C2A /* SYCScanPlugin.m in Sources */,

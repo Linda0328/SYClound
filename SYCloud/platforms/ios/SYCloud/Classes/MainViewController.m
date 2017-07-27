@@ -111,6 +111,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+
     _locationTime = 0;
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -223,8 +225,8 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"AppsStore有最新版本哦，要去更新吗" delegate:self cancelButtonTitle:@"不去" otherButtonTitles:@"更新", nil];
         [alert show];
     }
-    
 }
+
 -(void)ReloadAppState:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
     if ([main isEqual:self]) {
