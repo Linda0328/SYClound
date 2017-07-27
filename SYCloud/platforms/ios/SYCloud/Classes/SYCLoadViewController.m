@@ -118,7 +118,16 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"退出登录，将取消支付" preferredStyle:UIAlertControllerStyleAlert];
     //UIAlertActionStyleDefault
     [alert addAction:[UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
-        [self dismissViewControllerAnimated:YES completion:nil];
+        NSMutableDictionary *payCallback = [NSMutableDictionary dictionary];
+        [payCallback setObject:payment_CancelCode forKey:@"resultCode"];
+        [payCallback setObject:payment_CancelMessage forKey:@"resultContent"];
+        
+        NSDictionary *resultDic = @{PayResultCallback:payCallback,
+                                    PreOrderPay:payMentTypeSDK
+                                    };
+        [self dismissViewControllerAnimated:YES completion:^{
+            [[NSNotificationCenter defaultCenter]postNotificationName:payAndShowNotify object:_mainVC userInfo:resultDic];
+        }];
     }]];
     //UIAlertActionStyleCancel
     [alert addAction:[UIAlertAction actionWithTitle:@"不退出" style:UIAlertActionStyleCancel handler:nil]];
@@ -172,14 +181,21 @@
     _passWordTextF.leftView = _leftV1;
 }
 -(void)loading:(UIButton*)butt{
-    if (![SYCSystem judgeNSString:_phoneTextF.text]) {
+    if (![SYCSystem judgeNSString:_passWordTextF.text]) {
         _HUD.label.text = @"请输入手机号码";
         [_HUD showAnimated:YES];
         [_HUD hideAnimated:YES afterDelay:2.0f];
         return;
+    }else{
+        if (_phoneTextF.text.length != 11) {
+            _HUD.label.text = @"请输入正确的手机号码";
+            [_HUD showAnimated:YES];
+            [_HUD hideAnimated:YES afterDelay:2.0f];
+            return;
+        }
     }
     if (![SYCSystem judgeNSString:_passWordTextF.text]) {
-        _HUD.label.text = @"请输入验证码";
+        _HUD.label.text = _isVerfication?@"请输入验证码":@"请输入密码";
         [_HUD showAnimated:YES];
         [_HUD hideAnimated:YES afterDelay:2.0f];
         return;

@@ -9,5 +9,7 @@
 #import "SYCCache.h"
 
 @implementation SYCCache
-
++(BOOL)downLoadJSFileWithPageVersion:(NSString*)pageVersion linkURL:(NSString*)pagePackage{
+    return YES;
+}
 @end

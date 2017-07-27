@@ -189,7 +189,7 @@ static NSInteger infoCellNum = 2;
 }
 
 -(void)dismiss:(id)sender{
-     NSMutableDictionary *payCallback = [NSMutableDictionary dictionary];
+    NSMutableDictionary *payCallback = [NSMutableDictionary dictionary];
     [payCallback setObject:payment_CancelCode forKey:@"resultCode"];
     [payCallback setObject:payment_CancelMessage forKey:@"resultContent"];
     [payCallback setObject:[NSString stringWithFormat:@"%ld",(long)_assetType] forKey:@"paymentMethod"];
