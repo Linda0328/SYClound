@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreLocation/CoreLocation.h>
 #import "SYCAliPayModel.h"
+#import "SYCWXPayModel.h"
 @interface SYCShareVersionInfo : NSObject
 @property (nonatomic,copy)NSString *remoteUrl;
 @property (nonatomic,copy)NSString *imageUrl;
@@ -28,6 +29,7 @@
 
 //verison 接口获取数据
 @property (nonatomic,copy)NSString *pageVersion;
+@property (nonatomic,copy)NSString *pagePackage;
 @property (nonatomic,copy)NSString *indexVersion;
 
 
@@ -48,6 +50,8 @@
 
 @property (nonatomic,copy)NSString *aliPayPluginID;
 @property (nonatomic,strong)SYCAliPayModel *aliPayModel;
+@property (nonatomic,copy)NSString *wxPayPluginID;
+@property (nonatomic,strong)SYCWXPayModel *wxPayModel;
 
 @property (nonatomic,copy)NSString *paymentID;
 

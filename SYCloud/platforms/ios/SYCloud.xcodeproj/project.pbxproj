@@ -90,7 +90,25 @@
 		EE8327D21EB32D4700B496A5 /* SYCPayOrderInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8327D11EB32D4700B496A5 /* SYCPayOrderInfoViewController.m */; };
 		EE839F211EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = EE839F201EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m */; };
 		EE84165D1EEBE2930032B37F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8416591EEBE2930032B37F /* libWeChatSDK.a */; };
-		EE8416611EEBE7470032B37F /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8416601EEBE7470032B37F /* WXApiManager.m */; };
+		EE85CE441F2C612500485041 /* SYCWXPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE431F2C612500485041 /* SYCWXPayModel.m */; };
+		EE85CE471F2C627B00485041 /* SYCWXPayRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE461F2C627B00485041 /* SYCWXPayRequestModel.m */; };
+		EE85CE4B1F2C706300485041 /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */; };
+		EE85CE4E1F2C735900485041 /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE4D1F2C735900485041 /* WXApiManager.m */; };
+		EE915B461F2AD6DA0046E24B /* aescrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B231F2AD6DA0046E24B /* aescrypt.c */; };
+		EE915B471F2AD6DA0046E24B /* aeskey.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B241F2AD6DA0046E24B /* aeskey.c */; };
+		EE915B481F2AD6DA0046E24B /* aestab.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B261F2AD6DA0046E24B /* aestab.c */; };
+		EE915B491F2AD6DA0046E24B /* entropy.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B2A1F2AD6DA0046E24B /* entropy.c */; };
+		EE915B4A1F2AD6DA0046E24B /* fileenc.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B2C1F2AD6DA0046E24B /* fileenc.c */; };
+		EE915B4B1F2AD6DA0046E24B /* hmac.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B2E1F2AD6DA0046E24B /* hmac.c */; };
+		EE915B4C1F2AD6DA0046E24B /* prng.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B301F2AD6DA0046E24B /* prng.c */; };
+		EE915B4D1F2AD6DA0046E24B /* pwd2key.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B321F2AD6DA0046E24B /* pwd2key.c */; };
+		EE915B4E1F2AD6DA0046E24B /* sha1.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B341F2AD6DA0046E24B /* sha1.c */; };
+		EE915B4F1F2AD6DA0046E24B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EE915B361F2AD6DA0046E24B /* Info.plist */; };
+		EE915B501F2AD6DA0046E24B /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B391F2AD6DA0046E24B /* ioapi.c */; };
+		EE915B511F2AD6DA0046E24B /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B3B1F2AD6DA0046E24B /* mztools.c */; };
+		EE915B521F2AD6DA0046E24B /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B3D1F2AD6DA0046E24B /* unzip.c */; };
+		EE915B531F2AD6DA0046E24B /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B3F1F2AD6DA0046E24B /* zip.c */; };
+		EE915B551F2AD6DA0046E24B /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = EE915B431F2AD6DA0046E24B /* SSZipArchive.m */; };
 		EE91600D1E98BADC00B3D014 /* SYCAliPayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */; };
 		EE92F3CC1F1E0D75001C25F0 /* SYCLoadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE92F3CB1F1E0D75001C25F0 /* SYCLoadViewController.m */; };
 		EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF981E7F804A00C35C2A /* AFHTTPSessionManager.m */; };
@@ -364,8 +382,49 @@
 		EE84165A1EEBE2930032B37F /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
 		EE84165B1EEBE2930032B37F /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		EE84165C1EEBE2930032B37F /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		EE84165F1EEBE7470032B37F /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
-		EE8416601EEBE7470032B37F /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
+		EE85CE421F2C612500485041 /* SYCWXPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCWXPayModel.h; sourceTree = "<group>"; };
+		EE85CE431F2C612500485041 /* SYCWXPayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCWXPayModel.m; sourceTree = "<group>"; };
+		EE85CE451F2C627B00485041 /* SYCWXPayRequestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCWXPayRequestModel.h; sourceTree = "<group>"; };
+		EE85CE461F2C627B00485041 /* SYCWXPayRequestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCWXPayRequestModel.m; sourceTree = "<group>"; };
+		EE85CE491F2C706300485041 /* WXApiRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiRequestHandler.h; sourceTree = "<group>"; };
+		EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiRequestHandler.m; sourceTree = "<group>"; };
+		EE85CE4C1F2C735900485041 /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
+		EE85CE4D1F2C735900485041 /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
+		EE915B211F2AD6DA0046E24B /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
+		EE915B221F2AD6DA0046E24B /* aes_via_ace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes_via_ace.h; sourceTree = "<group>"; };
+		EE915B231F2AD6DA0046E24B /* aescrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aescrypt.c; sourceTree = "<group>"; };
+		EE915B241F2AD6DA0046E24B /* aeskey.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aeskey.c; sourceTree = "<group>"; };
+		EE915B251F2AD6DA0046E24B /* aesopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aesopt.h; sourceTree = "<group>"; };
+		EE915B261F2AD6DA0046E24B /* aestab.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aestab.c; sourceTree = "<group>"; };
+		EE915B271F2AD6DA0046E24B /* aestab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aestab.h; sourceTree = "<group>"; };
+		EE915B281F2AD6DA0046E24B /* brg_endian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = brg_endian.h; sourceTree = "<group>"; };
+		EE915B291F2AD6DA0046E24B /* brg_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = brg_types.h; sourceTree = "<group>"; };
+		EE915B2A1F2AD6DA0046E24B /* entropy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entropy.c; sourceTree = "<group>"; };
+		EE915B2B1F2AD6DA0046E24B /* entropy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entropy.h; sourceTree = "<group>"; };
+		EE915B2C1F2AD6DA0046E24B /* fileenc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileenc.c; sourceTree = "<group>"; };
+		EE915B2D1F2AD6DA0046E24B /* fileenc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileenc.h; sourceTree = "<group>"; };
+		EE915B2E1F2AD6DA0046E24B /* hmac.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hmac.c; sourceTree = "<group>"; };
+		EE915B2F1F2AD6DA0046E24B /* hmac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hmac.h; sourceTree = "<group>"; };
+		EE915B301F2AD6DA0046E24B /* prng.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = prng.c; sourceTree = "<group>"; };
+		EE915B311F2AD6DA0046E24B /* prng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = prng.h; sourceTree = "<group>"; };
+		EE915B321F2AD6DA0046E24B /* pwd2key.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pwd2key.c; sourceTree = "<group>"; };
+		EE915B331F2AD6DA0046E24B /* pwd2key.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pwd2key.h; sourceTree = "<group>"; };
+		EE915B341F2AD6DA0046E24B /* sha1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sha1.c; sourceTree = "<group>"; };
+		EE915B351F2AD6DA0046E24B /* sha1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sha1.h; sourceTree = "<group>"; };
+		EE915B361F2AD6DA0046E24B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE915B381F2AD6DA0046E24B /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
+		EE915B391F2AD6DA0046E24B /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
+		EE915B3A1F2AD6DA0046E24B /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
+		EE915B3B1F2AD6DA0046E24B /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
+		EE915B3C1F2AD6DA0046E24B /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
+		EE915B3D1F2AD6DA0046E24B /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		EE915B3E1F2AD6DA0046E24B /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		EE915B3F1F2AD6DA0046E24B /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
+		EE915B401F2AD6DA0046E24B /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
+		EE915B421F2AD6DA0046E24B /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipArchive.h; sourceTree = "<group>"; };
+		EE915B431F2AD6DA0046E24B /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSZipArchive.m; sourceTree = "<group>"; };
+		EE915B441F2AD6DA0046E24B /* SSZipCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSZipCommon.h; sourceTree = "<group>"; };
+		EE915B451F2AD6DA0046E24B /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipArchive.h; sourceTree = "<group>"; };
 		EE91600B1E98BADC00B3D014 /* SYCAliPayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCAliPayModel.h; sourceTree = "<group>"; };
 		EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCAliPayModel.m; sourceTree = "<group>"; };
 		EE92F3CA1F1E0D75001C25F0 /* SYCLoadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCLoadViewController.h; sourceTree = "<group>"; };
@@ -868,13 +927,73 @@
 			path = WeiXin;
 			sourceTree = "<group>";
 		};
-		EE84165E1EEBE5A60032B37F /* WeixinPayHelper */ = {
+		EE85CE481F2C637F00485041 /* WXpay */ = {
 			isa = PBXGroup;
 			children = (
-				EE84165F1EEBE7470032B37F /* WXApiManager.h */,
-				EE8416601EEBE7470032B37F /* WXApiManager.m */,
+				EE85CE491F2C706300485041 /* WXApiRequestHandler.h */,
+				EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */,
+				EE85CE4C1F2C735900485041 /* WXApiManager.h */,
+				EE85CE4D1F2C735900485041 /* WXApiManager.m */,
 			);
-			path = WeixinPayHelper;
+			name = WXpay;
+			sourceTree = "<group>";
+		};
+		EE915B1F1F2AD6DA0046E24B /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				EE915B201F2AD6DA0046E24B /* aes */,
+				EE915B361F2AD6DA0046E24B /* Info.plist */,
+				EE915B371F2AD6DA0046E24B /* minizip */,
+				EE915B421F2AD6DA0046E24B /* SSZipArchive.h */,
+				EE915B431F2AD6DA0046E24B /* SSZipArchive.m */,
+				EE915B441F2AD6DA0046E24B /* SSZipCommon.h */,
+				EE915B451F2AD6DA0046E24B /* ZipArchive.h */,
+			);
+			path = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		EE915B201F2AD6DA0046E24B /* aes */ = {
+			isa = PBXGroup;
+			children = (
+				EE915B211F2AD6DA0046E24B /* aes.h */,
+				EE915B221F2AD6DA0046E24B /* aes_via_ace.h */,
+				EE915B231F2AD6DA0046E24B /* aescrypt.c */,
+				EE915B241F2AD6DA0046E24B /* aeskey.c */,
+				EE915B251F2AD6DA0046E24B /* aesopt.h */,
+				EE915B261F2AD6DA0046E24B /* aestab.c */,
+				EE915B271F2AD6DA0046E24B /* aestab.h */,
+				EE915B281F2AD6DA0046E24B /* brg_endian.h */,
+				EE915B291F2AD6DA0046E24B /* brg_types.h */,
+				EE915B2A1F2AD6DA0046E24B /* entropy.c */,
+				EE915B2B1F2AD6DA0046E24B /* entropy.h */,
+				EE915B2C1F2AD6DA0046E24B /* fileenc.c */,
+				EE915B2D1F2AD6DA0046E24B /* fileenc.h */,
+				EE915B2E1F2AD6DA0046E24B /* hmac.c */,
+				EE915B2F1F2AD6DA0046E24B /* hmac.h */,
+				EE915B301F2AD6DA0046E24B /* prng.c */,
+				EE915B311F2AD6DA0046E24B /* prng.h */,
+				EE915B321F2AD6DA0046E24B /* pwd2key.c */,
+				EE915B331F2AD6DA0046E24B /* pwd2key.h */,
+				EE915B341F2AD6DA0046E24B /* sha1.c */,
+				EE915B351F2AD6DA0046E24B /* sha1.h */,
+			);
+			path = aes;
+			sourceTree = "<group>";
+		};
+		EE915B371F2AD6DA0046E24B /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				EE915B381F2AD6DA0046E24B /* crypt.h */,
+				EE915B391F2AD6DA0046E24B /* ioapi.c */,
+				EE915B3A1F2AD6DA0046E24B /* ioapi.h */,
+				EE915B3B1F2AD6DA0046E24B /* mztools.c */,
+				EE915B3C1F2AD6DA0046E24B /* mztools.h */,
+				EE915B3D1F2AD6DA0046E24B /* unzip.c */,
+				EE915B3E1F2AD6DA0046E24B /* unzip.h */,
+				EE915B3F1F2AD6DA0046E24B /* zip.c */,
+				EE915B401F2AD6DA0046E24B /* zip.h */,
+			);
+			path = minizip;
 			sourceTree = "<group>";
 		};
 		EE92F3C91F1E0CB0001C25F0 /* Load */ = {
@@ -1048,6 +1167,10 @@
 				EE7AD8151E8F91BD00BCEB5F /* SYCGroupModel.m */,
 				EE91600B1E98BADC00B3D014 /* SYCAliPayModel.h */,
 				EE91600C1E98BADC00B3D014 /* SYCAliPayModel.m */,
+				EE85CE421F2C612500485041 /* SYCWXPayModel.h */,
+				EE85CE431F2C612500485041 /* SYCWXPayModel.m */,
+				EE85CE451F2C627B00485041 /* SYCWXPayRequestModel.h */,
+				EE85CE461F2C627B00485041 /* SYCWXPayRequestModel.m */,
 				EE62103D1EAB31D200F71DF7 /* SYCPassWordModel.h */,
 				EE62103E1EAB31D200F71DF7 /* SYCPassWordModel.m */,
 				EE4880BB1EB4435700D6A675 /* SYCPayInfoModel.h */,
@@ -1065,6 +1188,7 @@
 		EE95FF941E7F804A00C35C2A /* LIbs */ = {
 			isa = PBXGroup;
 			children = (
+				EE915B1F1F2AD6DA0046E24B /* SSZipArchive */,
 				EE8416581EEBE2930032B37F /* WeiXin */,
 				EE629EF51E962CC100832C36 /* thirdlibs */,
 				EED6FB551E94D9070061B6AC /* XZMCoreNewFeatureVC */,
@@ -1280,8 +1404,8 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EE85CE481F2C637F00485041 /* WXpay */,
 				EE92F3C91F1E0CB0001C25F0 /* Load */,
-				EE84165E1EEBE5A60032B37F /* WeixinPayHelper */,
 				EE8156DB1EB1C77600C13482 /* PaymentAnimation */,
 				EE72D2E71EA9D7A000AFBD9E /* Presentation */,
 				EE95FF811E7F7ECD00C35C2A /* SYCModel */,
@@ -1426,6 +1550,7 @@
 				4E7F4FE61C534CB280912E6C /* CDVNotification.bundle in Resources */,
 				EED6FB761E94E2430061B6AC /* 640x1136-1@2x.png in Resources */,
 				EED6FB741E94E2430061B6AC /* 1080x1920-2@3x.png in Resources */,
+				EE915B4F1F2AD6DA0046E24B /* Info.plist in Resources */,
 				EED6FB751E94E2430061B6AC /* 1080x1920-3@3x.png in Resources */,
 				EE9500681E7F804A00C35C2A /* MJRefresh.bundle in Resources */,
 				EED6FB681E94DCF60061B6AC /* SYIntroduceWLANView.xib in Resources */,
@@ -1473,8 +1598,10 @@
 				EE9500571E7F804A00C35C2A /* NSString+MJExtension.m in Sources */,
 				EE9500871E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m in Sources */,
 				EE9500621E7F804A00C35C2A /* MJRefreshBackGifFooter.m in Sources */,
+				EE85CE4E1F2C735900485041 /* WXApiManager.m in Sources */,
 				EE9500491E7F804A00C35C2A /* README.md in Sources */,
 				EE95005C1E7F804A00C35C2A /* MJRefreshComponent.m in Sources */,
+				EE915B461F2AD6DA0046E24B /* aescrypt.c in Sources */,
 				EE7BE7021E8125D50080D625 /* SYScanViewController.m in Sources */,
 				EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */,
 				EE95003F1E7F804A00C35C2A /* MASCompositeConstraint.m in Sources */,
@@ -1486,16 +1613,18 @@
 				EE95007A1E7FBFB700C35C2A /* SYCContentViewController.m in Sources */,
 				EE9500691E7F804A00C35C2A /* MJRefreshConst.m in Sources */,
 				EE6DF19A1EBC622700AF15E4 /* SYCPopoverGroupViewController.m in Sources */,
+				EE915B491F2AD6DA0046E24B /* entropy.c in Sources */,
 				EE742AC31F1F350C00EB4BC9 /* SYCustomTextField.m in Sources */,
 				EE7BE6FE1E80C85B0080D625 /* NSString+Helper.m in Sources */,
 				EE95006A1E7F804A00C35C2A /* NSBundle+MJRefresh.m in Sources */,
 				EE62103F1EAB31D200F71DF7 /* SYCPassWordModel.m in Sources */,
+				EE915B551F2AD6DA0046E24B /* SSZipArchive.m in Sources */,
+				EE915B481F2AD6DA0046E24B /* aestab.c in Sources */,
 				EE8327D21EB32D4700B496A5 /* SYCPayOrderInfoViewController.m in Sources */,
 				EEEAC04D1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m in Sources */,
 				EE9500641E7F804A00C35C2A /* MJRefreshBackStateFooter.m in Sources */,
 				EE9500581E7F804A00C35C2A /* README.md in Sources */,
 				EE9500471E7F804A00C35C2A /* View+MASAdditions.m in Sources */,
-				EE8416611EEBE7470032B37F /* WXApiManager.m in Sources */,
 				EED6FB5B1E94D9070061B6AC /* CALayer+Transition.m in Sources */,
 				EE95005B1E7F804A00C35C2A /* MJRefreshBackFooter.m in Sources */,
 				EE9500661E7F804A00C35C2A /* MJRefreshNormalHeader.m in Sources */,
@@ -1515,6 +1644,7 @@
 				EED6FB5C1E94D9070061B6AC /* XZMCoreNewFeatureVC.m in Sources */,
 				EE95FF701E7F7DAB00C35C2A /* SYCLocationPlugin.m in Sources */,
 				EE9500521E7F804A00C35C2A /* MJPropertyType.m in Sources */,
+				EE915B501F2AD6DA0046E24B /* ioapi.c in Sources */,
 				EE95006E1E7F804A00C35C2A /* README.md in Sources */,
 				EE95002F1E7F804A00C35C2A /* AFSecurityPolicy.m in Sources */,
 				EE9500601E7F804A00C35C2A /* MJRefreshAutoNormalFooter.m in Sources */,
@@ -1532,7 +1662,9 @@
 				EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */,
 				EE7D66FB1F287524007EDAC9 /* SYCCacheURLProtocol.m in Sources */,
 				EE629F0B1E963AF600832C36 /* SYCResultPlugin.m in Sources */,
+				EE915B4A1F2AD6DA0046E24B /* fileenc.c in Sources */,
 				EE9500381E7F804A00C35C2A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				EE915B521F2AD6DA0046E24B /* unzip.c in Sources */,
 				EE9500771E7FBF3E00C35C2A /* SYCTabViewController.m in Sources */,
 				EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */,
 				EE9500631E7F804A00C35C2A /* MJRefreshBackNormalFooter.m in Sources */,
@@ -1547,7 +1679,10 @@
 				EE6DF1971EBC59CE00AF15E4 /* SYCBlindYTKViewController.m in Sources */,
 				E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */,
 				C83F01A0ECF3438DB6144049 /* CDVFile.m in Sources */,
+				EE85CE4B1F2C706300485041 /* WXApiRequestHandler.m in Sources */,
+				EE915B511F2AD6DA0046E24B /* mztools.c in Sources */,
 				EE95FF901E7F7ECD00C35C2A /* SYCMainPageModel.m in Sources */,
+				EE915B4B1F2AD6DA0046E24B /* hmac.c in Sources */,
 				EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */,
 				EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */,
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,
@@ -1565,13 +1700,18 @@
 				EE9500341E7F804A00C35C2A /* README.md in Sources */,
 				EE95FF731E7F7DAB00C35C2A /* SYCScanPlugin.m in Sources */,
 				EE7329261EC0560B00FB85E1 /* SYCRequestLoadingViewController.m in Sources */,
+				EE915B531F2AD6DA0046E24B /* zip.c in Sources */,
+				EE85CE441F2C612500485041 /* SYCWXPayModel.m in Sources */,
 				EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */,
 				EE6210421EAB4E5500F71DF7 /* SYCUUID.m in Sources */,
 				C18824F19B5E455885AB351C /* CDVLocalFilesystem.m in Sources */,
+				EE915B4C1F2AD6DA0046E24B /* prng.c in Sources */,
 				EE9500671E7F804A00C35C2A /* MJRefreshStateHeader.m in Sources */,
 				EE9500451E7F804A00C35C2A /* NSArray+MASAdditions.m in Sources */,
 				EE95006C1E7F804A00C35C2A /* UIScrollView+MJRefresh.m in Sources */,
 				EE95FF7E1E7F7EC600C35C2A /* SYCHttpReqTool.m in Sources */,
+				EE915B4E1F2AD6DA0046E24B /* sha1.c in Sources */,
+				EE85CE471F2C627B00485041 /* SYCWXPayRequestModel.m in Sources */,
 				EE839F211EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m in Sources */,
 				DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */,
 				EE95004F1E7F804A00C35C2A /* MJFoundation.m in Sources */,
@@ -1582,6 +1722,7 @@
 				EE9500481E7F804A00C35C2A /* ViewController+MASAdditions.m in Sources */,
 				EE9500541E7F804A00C35C2A /* NSObject+MJCoding.m in Sources */,
 				2A8071774CB64E038B1C7366 /* CDVVibration.m in Sources */,
+				EE915B471F2AD6DA0046E24B /* aeskey.c in Sources */,
 				EE95FF931E7F7ECD00C35C2A /* SYCTabBarItemModel.m in Sources */,
 				EE95006B1E7F804A00C35C2A /* UIScrollView+MJExtension.m in Sources */,
 				EE9500411E7F804A00C35C2A /* MASConstraintMaker.m in Sources */,
@@ -1589,6 +1730,7 @@
 				EE8156DA1EB1C72B00C13482 /* SYCPaymentLoadingHUD.m in Sources */,
 				EE8156E11EB1CA2D00C13482 /* SYCPaymentFailHUD.m in Sources */,
 				EE95002E1E7F804A00C35C2A /* AFNetworkReachabilityManager.m in Sources */,
+				EE915B4D1F2AD6DA0046E24B /* pwd2key.c in Sources */,
 				EE9500351E7F804A00C35C2A /* AFAutoPurgingImageCache.m in Sources */,
 				D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */,
 				EE95003D1E7F804A00C35C2A /* UIWebView+AFNetworking.m in Sources */,

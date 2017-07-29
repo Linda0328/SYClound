@@ -40,11 +40,16 @@
 #import <BaiduMapAPI_Location/BMKLocationService.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "NSObject+JsonExchange.h"
+#import "SYCWXPayModel.h"
+#import "MJExtension.h"
+#import "WXApiRequestHandler.h"
+#import "SYCWXPayRequestModel.h"
 @interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate>{
     BMKLocationService *_locationService;
 }
 @property (nonatomic,strong)MBProgressHUD *HUD;
 @property (nonatomic,assign)BOOL isAliPay;
+@property (nonatomic,assign)BOOL isWexinPay;
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 //@property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property(nonatomic,strong)SYIntroduceWLANView *introductV;
@@ -172,7 +177,8 @@
     [center addObserver:self selector:@selector(AlyPay:) name:AliPay object:nil];
     [center addObserver:self selector:@selector(AlyPayResult:) name:AliPayResult object:nil];
     [center addObserver:self selector:@selector(WeixiPay:) name:WeixiPay object:nil];
-    
+    [center addObserver:self selector:@selector(WeixiPayResult:) name: WeixiPayResult object:nil];
+   
     //开始加载
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
     //加载完成
@@ -253,7 +259,7 @@
     if (![main isEqual:self]) {
         return;
     }
-    NSString *jsonStr = [payResult JSONString];
+    NSString *jsonStr = [payResult ex_JSONString];
     NSLog(@"---------payplugin------%@",[SYCShareVersionInfo sharedVersion].paymentID);
     if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentID]) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
@@ -270,7 +276,7 @@
     }
     NSDictionary *resultDic = payResult[PayResultCallback];
     NSLog(@"--------%@",resultDic);
-    NSString *jsonStr = [resultDic JSONString];
+    NSString *jsonStr = [resultDic ex_JSONString];
     NSString *type = payResult[PreOrderPay];
     if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID]&&[type isEqualToString:payMentTypeImme]) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
@@ -329,7 +335,7 @@
             [dic setObject:AliPayFail forKey:@"resultCode"];
         }
         [dic setObject:resultContent forKey:resultContent];
-        NSString *jsonS = [dic JSONString];
+        NSString *jsonS = [dic ex_JSONString];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].aliPayPluginID];
         [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
@@ -344,7 +350,7 @@
     [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderDesc forKey:@"orderDesc"];
     [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderSn forKey:@"orderSn"];
     [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderAmount forKey:@"orderAmount"];
-    NSString *jsonS = [dic JSONString];
+    NSString *jsonS = [dic ex_JSONString];
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
     [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].aliPayPluginID];
     [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
@@ -355,10 +361,38 @@
     MainViewController *main = (MainViewController*)notify.object;
     if (![main isEqual:self]) {
         return;
+    }else{
+        _isWexinPay = YES;
     }
-    self.HUD.label.text = @"微信支付暂未开通~敬请期待";
-    [self.HUD showAnimated:YES];
-    [self.HUD hideAnimated:YES afterDelay:1.5f];
+//    if ([WXApi isWXAppInstalled]) {
+         SYCWXPayRequestModel *requestM = [SYCWXPayRequestModel mj_objectWithKeyValues:[SYCShareVersionInfo sharedVersion].wxPayModel.paymentParameters];
+          if (requestM.requestParams) {
+              if(![WXApiRequestHandler sendRequestForPay:requestM.requestParams]){
+                  self.HUD.label.text = @"请求微信失败";
+                  [self.HUD showAnimated:YES];
+                  [self.HUD hideAnimated:YES afterDelay:1.5f];
+              }
+          }
+//    }else{
+//        self.HUD.label.text = @"请安装微信";
+//        [self.HUD showAnimated:YES];
+//        [self.HUD hideAnimated:YES afterDelay:1.5f];
+//    }
+}
+-(void) WeixiPayResult:(NSNotification*)notify{
+    if (!_isWexinPay) {
+        return;
+    }
+    NSMutableDictionary *dic = (NSMutableDictionary*)notify.object;
+    [dic setObject:[SYCShareVersionInfo sharedVersion].wxPayModel.orderDesc forKey:@"orderDesc"];
+    [dic setObject:[SYCShareVersionInfo sharedVersion].wxPayModel.orderSn forKey:@"orderSn"];
+    [dic setObject:[SYCShareVersionInfo sharedVersion].wxPayModel.orderAmount forKey:@"orderAmount"];
+    NSString *jsonS = [dic ex_JSONString];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
+    [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].wxPayPluginID];
+    [SYCShareVersionInfo sharedVersion].wxPayModel = nil;
+    [SYCShareVersionInfo sharedVersion].wxPayPluginID = nil;
+    _isWexinPay = NO;
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {

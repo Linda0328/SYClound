@@ -49,6 +49,9 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "SYCLoadViewController.h"
 #import "SYCCacheURLProtocol.h"
+#import "SYCCache.h"
+#import "WXApi.h"
+#import "WXApiManager.h"
 @interface AppDelegate(){
     BMKMapManager *_mapManager;
 }
@@ -74,6 +77,8 @@
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
+    //注册微信支付
+    [WXApi registerApp:WeiXinAppID];
     BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
     [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     if(canShow){ // 初始化新特性界面
@@ -134,7 +139,15 @@
     return YES;
 }
 -(void)setRootViewController{
-    [SYCHttpReqTool VersionInfo];
+    NSDictionary *versionResult = [SYCHttpReqTool VersionInfo];
+    if (![[versionResult objectForKey:resultCodeKey]isEqualToString:resultCodeSuccess]) {
+        return;
+    }
+    //并发队列使用全局并发队列，异步执行任务
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        SYCCache *cache = [[SYCCache alloc]init];
+        [cache downLoadJSFileWithPageVersion:[SYCShareVersionInfo sharedVersion].pageVersion linkURL:[SYCShareVersionInfo sharedVersion].pagePackage];
+    });
     NSDictionary *dic = nil;
 //    NSUserDefaults *userdef = [NSUserDefaults standardUserDefaults];
 //    NSString *indexV = [userdef objectForKey:SYCIndexVersion];
@@ -193,6 +206,8 @@
 
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     
+    NSString *comesURl = url.absoluteString;
+    NSLog(@"链接来敲门------------%@",comesURl);
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         NSLog(@"----result---%@",resultDic);
@@ -200,16 +215,16 @@
         NSString *resultStatus = resultDic[@"resultStatus"];
         
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setObject:AliPaySuccess forKey:@"resultCode"];
+        [dic setObject:AliPaySuccess forKey:paymentResultCodeKey];
         if (![resultStatus isEqualToString:@"9000"]) {
-            [dic setObject:AliPayFail forKey:@"resultCode"];
+            [dic setObject:AliPayFail forKey:paymentResultCodeKey];
         }
         [dic setObject:resultContent forKey:resultContent];
         [[NSNotificationCenter defaultCenter]postNotificationName:AliPayResult object:dic];
 
     }];
-    NSLog(@"------------%@",url.absoluteString);
-    if ([url.absoluteString hasPrefix:SYCPayKEY]) {
+   
+    if ([comesURl hasPrefix:SYCPayKEY]) {
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
@@ -225,12 +240,15 @@
             [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
     }
-   
+    if ([comesURl hasPrefix:WeiXinAppID]) {
+        return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
     return YES;
 }
 //ios9之后废弃该方法
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    
+    NSString *comesURl = url.absoluteString;
+    NSLog(@"链接来敲门------------%@",comesURl);
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         NSLog(@"----result---%@",resultDic);
@@ -242,13 +260,13 @@
         if (![resultStatus isEqualToString:@"9000"]) {
             [dic setObject:AliPayFail forKey:@"resultCode"];
         }
-        [dic setObject:resultContent forKey:resultContent];
+        [dic setObject:resultContent forKey:@"resultContent"];
         [[NSNotificationCenter defaultCenter]postNotificationName:AliPayResult object:dic];
     }];
     
     //短信
-    NSLog(@"------------%@",url.absoluteString);
-    if ([url.absoluteString hasPrefix:SYCPayKEY]) {
+    
+    if ([comesURl hasPrefix:SYCPayKEY]) {
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]) {
             NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
             NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
@@ -259,7 +277,9 @@
             }
         }
     }
-    
+    if ([comesURl hasPrefix:WeiXinAppID]) {
+        return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
     return YES;
 }
 @end

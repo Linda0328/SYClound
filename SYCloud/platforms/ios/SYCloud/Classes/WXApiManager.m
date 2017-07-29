@@ -2,12 +2,12 @@
 //  WXApiManager.m
 //  SYCloud
 //
-//  Created by 文清 on 2017/6/10.
+//  Created by 文清 on 2017/7/29.
 //
 //
 
 #import "WXApiManager.h"
-
+#import "SYCSystem.h"
 @implementation WXApiManager
 
 #pragma mark - LifeCycle
@@ -19,6 +19,7 @@
     });
     return instance;
 }
+
 #pragma mark - WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
     if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
@@ -41,22 +42,24 @@
         }
     }else if([resp isKindOfClass:[PayResp class]]){
         //支付返回结果，实际支付结果需要去微信服务器端查询
-        NSString *strMsg = nil;
-        NSString *strTitle = [NSString stringWithFormat:@"支付结果"];
+        NSString *strMsg;
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
         
         switch (resp.errCode) {
             case WXSuccess:
+                [dic setObject:AliPaySuccess forKey:@"resultCode"];
                 strMsg = @"支付结果：成功！";
-                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+//                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
                 break;
                 
             default:
+                [dic setObject:AliPayFail forKey:@"resultCode"];
                 strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
-                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+//                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
                 break;
         }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
+        [dic setObject:strMsg forKey:@"resultContent"];
+        [[NSNotificationCenter defaultCenter]postNotificationName:WeixiPayResult object:dic];
     }
     
 }

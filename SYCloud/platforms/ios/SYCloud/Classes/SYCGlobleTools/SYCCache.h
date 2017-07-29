@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface SYCCache : NSObject
-+(BOOL)downLoadJSFileWithPageVersion:(NSString*)pageVersion linkURL:(NSString*)pagePackage;
+-(BOOL)downLoadJSFileWithPageVersion:(NSString*)pageVersion linkURL:(NSString*)pagePackage;
++(NSString*)zipFilePath;
 @end

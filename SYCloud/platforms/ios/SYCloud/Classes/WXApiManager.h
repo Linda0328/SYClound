@@ -2,14 +2,17 @@
 //  WXApiManager.h
 //  SYCloud
 //
-//  Created by 文清 on 2017/6/10.
+//  Created by 文清 on 2017/7/29.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import "WXApi.h"
-@protocol WXApiManagereDelegate <NSObject>
+
+@protocol WXApiManagerDelegate <NSObject>
+
 @optional
+
 - (void)managerDidRecvGetMessageReq:(GetMessageFromWXReq *)request;
 
 - (void)managerDidRecvShowMessageReq:(ShowMessageFromWXReq *)request;
@@ -21,11 +24,9 @@
 - (void)managerDidRecvAuthResponse:(SendAuthResp *)response;
 
 - (void)managerDidRecvAddCardResponse:(AddCardToWXCardPackageResp *)response;
+
 @end
-
-@interface WXApiManager : NSObject
-
-@property (nonatomic,assign)id<WXApiManagereDelegate>delegate;
-
-+(instancetype)sharedManager;
+@interface WXApiManager : NSObject<WXApiDelegate>
+@property (nonatomic, assign) id<WXApiManagerDelegate> delegate;
++ (instancetype)sharedManager;
 @end

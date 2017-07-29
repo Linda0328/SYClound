@@ -26,9 +26,16 @@
     }];
 }
 -(void)wxpay:(CDVInvokedUrlCommand *)command{
+    NSDictionary *msg = [command.arguments firstObject];
     MainViewController *mainVC = (MainViewController*)self.viewController;
+    SYCWXPayModel *wxmodel = [SYCWXPayModel mj_objectWithKeyValues:msg];
+    [SYCShareVersionInfo sharedVersion].wxPayModel = wxmodel;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:WeixiPay object:mainVC];
+    [self.commandDelegate runInBackground:^{
+        [SYCShareVersionInfo sharedVersion].wxPayPluginID = command.callbackId;
+        
+    }];
 }
 
 @end

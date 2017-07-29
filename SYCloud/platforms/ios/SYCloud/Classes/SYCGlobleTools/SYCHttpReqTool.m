@@ -73,9 +73,10 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         resultCode = resultCodeJsonError;
         NSLog(@"---数据解析出错---%@",[err description]);
     }else{
-        [SYCShareVersionInfo sharedVersion].pageVersion = [dic objectForKey:@"pageVersion"];
+        [SYCShareVersionInfo sharedVersion].pageVersion = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pageVersion"]];
         [SYCShareVersionInfo sharedVersion].needUpdate = [[dic objectForKey:@"needUpdate"] boolValue];
         [SYCShareVersionInfo sharedVersion].indexVersion = [dic objectForKey:@"indexVersion"];
+        [SYCShareVersionInfo sharedVersion].pagePackage = [dic objectForKey:@"pagePackage"];
         [result setObject:dic forKey:resultSuccessKey];
         NSLog(@"----解析结果--- : %@",dic);
     }

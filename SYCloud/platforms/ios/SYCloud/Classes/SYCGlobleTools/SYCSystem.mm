@@ -43,6 +43,7 @@ NSString *const groupItemIDKey = @"groupItemID";
 NSString *const AliPay = @"AliPay";
 NSString *const AliPayResult = @"AliPayResult";
 NSString *const WeixiPay = @"WeixinPay";
+NSString *const WeixiPayResult = @"WeixiPayResult";
 NSString *const AliPayScheme = @"SYCloud";
 NSString *const AliPaySuccess = @"0000";
 NSString *const AliPayFail = @"7000";
@@ -75,8 +76,12 @@ NSString *const payment_CancelMessage = @"支付取消";
 NSString *const SYCPayKEY = @"SYCPay";//生源支付key
 NSString *const SYCPrepayIDkey = @"prepayId";
 NSString *const SYCThirdPartSchemeKey = @"scheme";
-
 NSString * const SYCSystemType = @"1";
+
+NSString *const PageVersionKey = @"pageVersion";
+
+NSString *const paymentResultCodeKey = @"resultCode";
+NSString *const paymentDatakey = @"paymentmodelkey";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

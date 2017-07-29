@@ -23,7 +23,7 @@
                                   @"mmDistrict":[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].mDistrict]?[SYCShareVersionInfo sharedVersion].mDistrict:@"无",
                                   @"mStreet":[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].mStreet]?[SYCShareVersionInfo sharedVersion].mStreet:@"无",
                                   @"mAddrStr":[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].mAddrStr]?[SYCShareVersionInfo sharedVersion].mAddrStr:@"无"};
-    NSString *jsonStr = [locationDic JSONString];
+    NSString *jsonStr = [locationDic ex_JSONString];
     [self.commandDelegate runInBackground:^{
 //        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].locationError]) {
 //            CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:[SYCShareVersionInfo sharedVersion].locationError];

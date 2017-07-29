@@ -7,10 +7,12 @@
 //
 
 #import "SYCCacheURLProtocol.h"
-
-NSString* const kCacheJSPath = @"/app_resources/js";
-NSString* const kCacheStylePath = @"/app_resources/style";
-NSString* const requestMarked = @"requestMarked";
+#import "SYCCache.h"
+#import "SYCSystem.h"
+NSString * const kresource = @"/app_resources/";
+NSString * const kCacheJSPath = @"/app_resources/js";
+NSString * const kCacheStylePath = @"/app_resources/style";
+NSString * const requestMarked = @"requestMarked";
 @interface SYCCacheURLProtocol ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 @property (nonatomic, strong)NSURLConnection *connection;
 @property (nonatomic, strong)NSMutableData *responseData;
@@ -43,10 +45,32 @@ NSString* const requestMarked = @"requestMarked";
     NSURL* url = [[self request] URL];
     if ([[url absoluteString] containsString:kCacheJSPath]||[[url absoluteString] containsString:kCacheStylePath]) {
         NSLog(@"------请求从本地去资源文件--%@",[url absoluteString]);
-        self.connection = [NSURLConnection connectionWithRequest:mutableRequest delegate:self];
+        NSFileManager *fmanager = [NSFileManager defaultManager];
+        NSString *filePath = [SYCCacheURLProtocol completePathForsource:[url absoluteString]];
+        NSData *data = [fmanager contentsAtPath:filePath];
+        if ([SYCSystem judgeNSString:filePath]&&[fmanager fileExistsAtPath:filePath]&&data) {
+            NSString *mimeType = nil;
+            if ([filePath hasSuffix:@"css"]) {
+                mimeType = @"text/css";
+            }
+           [self sendResponseWithResponseCode:200 data:data mimeType:mimeType];
+        }else{
+           self.connection = [NSURLConnection connectionWithRequest:mutableRequest delegate:self];
+        }
+        
     }
 }
-
++(NSString*)completePathForsource:(NSString*)urlPath{
+    NSArray *arr = [urlPath componentsSeparatedByString:@"?"];
+    if ([arr count]==2) {
+        NSString *first = [arr firstObject];
+        NSRange range = [first rangeOfString:kresource];
+        NSString *subfilePath = [first substringFromIndex:range.location];
+        NSString *path = [SYCCache zipFilePath];
+        return [path stringByAppendingString:subfilePath];
+    }
+    return nil;
+}
 - (void)stopLoading
 {
     // do any cleanup here

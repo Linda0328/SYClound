@@ -36,6 +36,7 @@ extern NSString *const groupItemIDKey;
 extern NSString *const AliPay;
 extern NSString *const AliPayResult;
 extern NSString *const WeixiPay;
+extern NSString *const WeixiPayResult;
 extern NSString *const AliPayScheme;
 extern NSString *const AliPaySuccess;
 extern NSString *const AliPayFail;
@@ -69,6 +70,11 @@ extern NSString * const SYCPayKEY;
 extern NSString * const SYCPrepayIDkey;
 extern NSString * const SYCThirdPartSchemeKey;
 extern NSString * const SYCSystemType;
+
+extern NSString *const PageVersionKey;
+
+extern NSString *const paymentResultCodeKey;
+extern NSString *const paymentDatakey ;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;
