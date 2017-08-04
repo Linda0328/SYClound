@@ -78,7 +78,9 @@ extern NSString * const SYCSystemType;
 extern NSString *const PageVersionKey;
 
 extern NSString *const paymentResultCodeKey;
-extern NSString *const paymentDatakey ;
+extern NSString *const paymentDatakey;
+
+extern NSString *const shareNotify;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

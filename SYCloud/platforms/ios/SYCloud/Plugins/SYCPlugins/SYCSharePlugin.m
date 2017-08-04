@@ -8,10 +8,21 @@
 
 #import "SYCSharePlugin.h"
 #import "SYCShareModel.h"
+#import "MainViewController.h"
+#import "SYCShareVersionInfo.h"
+#import "SYCSystem.h"
 @implementation SYCSharePlugin
 -(void)share:(CDVInvokedUrlCommand *)command{
+    MainViewController *main = (MainViewController*)self.viewController;
     SYCShareModel *shareM = [[SYCShareModel alloc]init];
-    
-    NSArray *data = [command.arguments firstObject];
+    shareM.title = [command.arguments firstObject];
+    shareM.describe = [command.arguments objectAtIndex:1];
+    shareM.pic = [command.arguments objectAtIndex:2];
+    shareM.url = [command.arguments objectAtIndex:3];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:shareNotify object:shareM userInfo:@{mainKey:main}];
+    [self.commandDelegate runInBackground:^{
+        [SYCShareVersionInfo sharedVersion].sharePluginID = command.callbackId;
+    }];
 }
 @end

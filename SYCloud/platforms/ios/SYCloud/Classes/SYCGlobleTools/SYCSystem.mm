@@ -85,6 +85,8 @@ NSString *const PageVersionKey = @"pageVersion";
 
 NSString *const paymentResultCodeKey = @"resultCode";
 NSString *const paymentDatakey = @"paymentmodelkey";
+
+NSString *const shareNotify = @"shareNotify";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

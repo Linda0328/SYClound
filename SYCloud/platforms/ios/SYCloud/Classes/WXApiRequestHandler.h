@@ -11,4 +11,10 @@
 #import "WXApi.h"
 @interface WXApiRequestHandler : NSObject
 +(BOOL)sendRequestForPay:(NSDictionary*)data;
++ (BOOL)sendLinkURL:(NSString *)urlString
+            TagName:(NSString *)tagName
+              Title:(NSString *)title
+        Description:(NSString *)description
+         ThumbImage:(UIImage *)thumbImage
+            InScene:(enum WXScene)scene;
 @end

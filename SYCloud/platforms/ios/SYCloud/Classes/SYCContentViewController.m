@@ -29,12 +29,15 @@
 #import "SYCRequestLoadingViewController.h"
 #import "MBProgressHUD.h"
 #import "SYCLoadViewController.h"
+#import "SYCShareModel.h"
+#import "SYCShareAppViewController.h"
+#import "WXApiManager.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
 static NSString *const searchBarSubmit = @"submit";
 static void *eventBarItem = @"eventBarItem";
-@interface SYCContentViewController ()<UISearchBarDelegate,UIViewControllerTransitioningDelegate,UIAdaptivePresentationControllerDelegate,UIPopoverPresentationControllerDelegate>
+@interface SYCContentViewController ()<UISearchBarDelegate,UIViewControllerTransitioningDelegate,UIAdaptivePresentationControllerDelegate,UIPopoverPresentationControllerDelegate,WXApiManagerDelegate>
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 @property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property (nonatomic,strong)NSMutableArray *groupArr;
@@ -99,6 +102,7 @@ static void *eventBarItem = @"eventBarItem";
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
     [center addObserver:self selector:@selector(passwordSetting:) name:passwordNotify object:nil];
     [center addObserver:self selector:@selector(PayImmedately:) name:PayImmedateNotify object:nil];
+    [center addObserver:self selector:@selector(shareApp:) name:shareNotify object:nil];
     
 }
 
@@ -221,6 +225,27 @@ static void *eventBarItem = @"eventBarItem";
 
     }
     
+}
+-(void)shareApp:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCShareModel *shareM = (SYCShareModel*)notify.object;
+    SYCShareAppViewController *shareVC = [[SYCShareAppViewController alloc]init];
+    shareVC.shareModel = shareM;
+    shareVC.modalPresentationStyle = UIModalPresentationCustom;
+    shareVC.transitioningDelegate = self;
+    [WXApiManager sharedManager].delegate = self;
+    [self presentViewController:shareVC animated:YES completion:nil];
+}
+- (void)managerDidRecvMessageResponse:(SendMessageToWXResp *)response{
+     NSLog(@"----%d--%@--",response.errCode,response.errStr);
+    if (response.errCode == WXSuccess) {
+        
+    }else{
+    
+    }
 }
 -(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC {
     __weak __typeof(self)weakSelf = self;

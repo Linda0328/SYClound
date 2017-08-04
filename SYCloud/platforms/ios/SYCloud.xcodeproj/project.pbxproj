@@ -211,6 +211,9 @@
 		EE95FF931E7F7ECD00C35C2A /* SYCTabBarItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF8D1E7F7ECD00C35C2A /* SYCTabBarItemModel.m */; };
 		EEC060CC1EB8771000E3BDE3 /* SYCPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */; };
 		EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CE1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m */; };
+		EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */; };
+		EEC8290E1F34494200D828B0 /* WXMediaMessage+messageConstruct.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290D1F34494200D828B0 /* WXMediaMessage+messageConstruct.m */; };
+		EEC829111F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC829101F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m */; };
 		EED6FB5B1E94D9070061B6AC /* CALayer+Transition.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB581E94D9070061B6AC /* CALayer+Transition.m */; };
 		EED6FB5C1E94D9070061B6AC /* XZMCoreNewFeatureVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB5A1E94D9070061B6AC /* XZMCoreNewFeatureVC.m */; };
 		EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB5F1E94DCA70061B6AC /* SYReachableNotViewController.m */; };
@@ -630,6 +633,12 @@
 		EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentViewController.m; sourceTree = "<group>"; };
 		EEC060CD1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderConfirmModel.h; sourceTree = "<group>"; };
 		EEC060CE1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPayOrderConfirmModel.m; sourceTree = "<group>"; };
+		EEC829091F34072100D828B0 /* SYCShareAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCShareAppViewController.h; sourceTree = "<group>"; };
+		EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCShareAppViewController.m; sourceTree = "<group>"; };
+		EEC8290C1F34494200D828B0 /* WXMediaMessage+messageConstruct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "WXMediaMessage+messageConstruct.h"; sourceTree = "<group>"; };
+		EEC8290D1F34494200D828B0 /* WXMediaMessage+messageConstruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WXMediaMessage+messageConstruct.m"; sourceTree = "<group>"; };
+		EEC8290F1F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SendMessageToWXReq+requestWithTextOrMediaMessage.h"; sourceTree = "<group>"; };
+		EEC829101F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SendMessageToWXReq+requestWithTextOrMediaMessage.m"; sourceTree = "<group>"; };
 		EED6FB571E94D9070061B6AC /* CALayer+Transition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+Transition.h"; sourceTree = "<group>"; };
 		EED6FB581E94D9070061B6AC /* CALayer+Transition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+Transition.m"; sourceTree = "<group>"; };
 		EED6FB591E94D9070061B6AC /* XZMCoreNewFeatureVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZMCoreNewFeatureVC.h; sourceTree = "<group>"; };
@@ -907,6 +916,8 @@
 				EE6DF1961EBC59CE00AF15E4 /* SYCBlindYTKViewController.m */,
 				EE6DF1981EBC622700AF15E4 /* SYCPopoverGroupViewController.h */,
 				EE6DF1991EBC622700AF15E4 /* SYCPopoverGroupViewController.m */,
+				EEC829091F34072100D828B0 /* SYCShareAppViewController.h */,
+				EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */,
 				EE7329241EC0560B00FB85E1 /* SYCRequestLoadingViewController.h */,
 				EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */,
 				EE839F1F1EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.h */,
@@ -944,6 +955,10 @@
 			children = (
 				EE85CE491F2C706300485041 /* WXApiRequestHandler.h */,
 				EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */,
+				EEC8290C1F34494200D828B0 /* WXMediaMessage+messageConstruct.h */,
+				EEC8290D1F34494200D828B0 /* WXMediaMessage+messageConstruct.m */,
+				EEC8290F1F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.h */,
+				EEC829101F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m */,
 				EE85CE4C1F2C735900485041 /* WXApiManager.h */,
 				EE85CE4D1F2C735900485041 /* WXApiManager.m */,
 			);
@@ -1665,6 +1680,7 @@
 				EE95FF701E7F7DAB00C35C2A /* SYCLocationPlugin.m in Sources */,
 				EE9500521E7F804A00C35C2A /* MJPropertyType.m in Sources */,
 				EE915B501F2AD6DA0046E24B /* ioapi.c in Sources */,
+				EEC8290E1F34494200D828B0 /* WXMediaMessage+messageConstruct.m in Sources */,
 				EE95006E1E7F804A00C35C2A /* README.md in Sources */,
 				EE95002F1E7F804A00C35C2A /* AFSecurityPolicy.m in Sources */,
 				EE9500601E7F804A00C35C2A /* MJRefreshAutoNormalFooter.m in Sources */,
@@ -1677,6 +1693,7 @@
 				83DD878B14E1419EA30544A6 /* UIImage+CropScaleOrientation.m in Sources */,
 				EE9500311E7F804A00C35C2A /* AFURLResponseSerialization.m in Sources */,
 				CA6AB10D4F5E4D02ADD7E86F /* CDVCamera.m in Sources */,
+				EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */,
 				EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */,
 				EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */,
 				EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */,
@@ -1704,6 +1721,7 @@
 				EE915B511F2AD6DA0046E24B /* mztools.c in Sources */,
 				EE95FF901E7F7ECD00C35C2A /* SYCMainPageModel.m in Sources */,
 				EE915B4B1F2AD6DA0046E24B /* hmac.c in Sources */,
+				EEC829111F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */,
 				EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */,
 				EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */,
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,

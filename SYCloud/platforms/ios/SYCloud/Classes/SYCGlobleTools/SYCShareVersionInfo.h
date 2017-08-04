@@ -61,6 +61,8 @@
 @property (nonatomic,copy)NSString *paymentSDKID;
 @property (nonatomic,copy)NSString *thirdPartScheme;
 
+@property (nonatomic,copy)NSString *sharePluginID;
+
 + (instancetype)sharedVersion;
 
 @end
