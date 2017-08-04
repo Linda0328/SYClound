@@ -22,9 +22,13 @@ extern NSString *const loginName ;
 
 extern NSString *const popNotify;
 extern NSString *const scanNotify;
+
 extern NSString *const bundleID;
 extern NSString *const WeiXinAppID;
 extern NSString *const BDAppKay;
+extern NSString * const QQAppID;
+extern NSString * const QQAppkey;
+
 extern NSString *const updateNotify;
 extern NSString *const hideNotify;
 extern NSString *const loadAppNotify;

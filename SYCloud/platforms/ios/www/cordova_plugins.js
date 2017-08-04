@@ -97,6 +97,30 @@ module.exports = [
          ]
     },
     {
+      "id": "shengyuan-plugin-module.SharePlugin",
+      "file": "plugins/shengyuan-plugin-module/www/SharePlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+            "syapp.share"
+         ]
+    },
+    {
+      "id": "shengyuan-plugin-module.PhotoPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/PhotoPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+                   "syapp.photo"
+         ]
+    },
+    {
+      "id": "shengyuan-plugin-module.PatternLockPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/PatternLockPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+                   "syapp.patternlock"
+         ]
+    },
+    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",

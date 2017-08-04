@@ -66,6 +66,12 @@
     NSString *zipFilePath = [documentsDirectory stringByAppendingString:@"/zipfile"];
     return zipFilePath;
 }
++(NSString*)indexJsonPath{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths firstObject];
+    NSString *zipFilePath = [documentsDirectory stringByAppendingString:@"/indexJson"];
+    return zipFilePath;
+}
 -(void)releaseZipFilesWithUnzipFileAtPath:(NSString *)zipPath Destination:(NSString *)unzipPath{
     NSError *error = nil;
     if ([SSZipArchive unzipFileAtPath:zipPath toDestination:unzipPath overwrite:YES password:nil error:&error delegate:self]) {

@@ -141,6 +141,7 @@
 -(void)setRootViewController{
     NSDictionary *versionResult = [SYCHttpReqTool VersionInfo];
     if (![[versionResult objectForKey:resultCodeKey]isEqualToString:resultCodeSuccess]) {
+        [self ShowException];
         return;
     }
     //并发队列使用全局并发队列，异步执行任务
@@ -149,21 +150,30 @@
         [cache downLoadJSFileWithPageVersion:[SYCShareVersionInfo sharedVersion].pageVersion linkURL:[SYCShareVersionInfo sharedVersion].pagePackage];
     });
     NSDictionary *dic = nil;
-//    NSUserDefaults *userdef = [NSUserDefaults standardUserDefaults];
-//    NSString *indexV = [userdef objectForKey:SYCIndexVersion];
-//    if ([indexV isEqualToString:[SYCShareVersionInfo sharedVersion].indexVersion]) {
-////        // 读取本地缓存首页数据
-////        NSString *jsonPath = [NSString appendJsonFilePathToDocument:SYCIndexJson];
-////        // Json数据
-////        NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
-////        dic = [NSJSONSerialization JSONObjectWithData:[indexData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//        dic = [userdef objectForKey:SYCIndexJson];
-//    }else{
-//        [userdef setObject:[SYCShareVersionInfo sharedVersion].indexVersion forKey:SYCIndexVersion];
+    NSUserDefaults *userdef = [NSUserDefaults standardUserDefaults];
+    NSString *indexV = [userdef objectForKey:SYCIndexVersion];
+    if ([SYCSystem judgeNSString:indexV]&&[indexV isEqualToString:[SYCShareVersionInfo sharedVersion].indexVersion]) {
+        // 读取本地缓存路径
+        NSString *jsonPath = [SYCCache indexJsonPath];
+        // Json数据
+        NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
+        NSError *error = nil;
+        dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
+    }else{
         NSDictionary *result = [SYCHttpReqTool MainData];
-        dic = result[resultSuccessKey];
-//    }
-    
+        if ([result[resultCodeKey]isEqualToString:resultCodeSuccess]) {
+            dic = result[resultSuccessKey];
+            NSString *jsonPath = [SYCCache indexJsonPath];
+            NSString *dataStr = [dic mj_JSONString];
+            NSData *data = [dataStr dataUsingEncoding:NSUnicodeStringEncoding];
+            if ([data writeToFile:jsonPath atomically:YES]) {
+                [userdef setObject:[SYCShareVersionInfo sharedVersion].indexVersion forKey:SYCIndexVersion];
+            }
+        }else{
+            [self ShowException];
+            return;
+        }
+    }
     
     [SYCNavTitleModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"ID":@"id"};
@@ -203,7 +213,26 @@
     }
     
 }
-
+-(void)ShowException{
+    __weak __typeof(self)weakSelf = self;
+    SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
+    rec.titleName = @"异常";
+    rec.notice = @"出现异常，敬请谅解！";
+    rec.refreshB = ^(){
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        if (strongSelf.isReachable) {
+            [strongSelf setRootViewController];
+        }else{
+            MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+            [self.window addSubview:HUD];
+            HUD.label.text = @"加载数据异常";
+            [HUD showAnimated:YES ];
+            [HUD hideAnimated:YES afterDelay:1.5f];
+        }
+    };
+    UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
+    self.window.rootViewController = navC;
+}
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     
     NSString *comesURl = url.absoluteString;

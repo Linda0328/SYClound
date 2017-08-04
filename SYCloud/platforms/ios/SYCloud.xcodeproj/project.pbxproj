@@ -69,6 +69,10 @@
 		EE7329261EC0560B00FB85E1 /* SYCRequestLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */; };
 		EE742AC31F1F350C00EB4BC9 /* SYCustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */; };
 		EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */; };
+		EE7913CB1F3163A1002E4317 /* SYCSharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913CA1F3163A1002E4317 /* SYCSharePlugin.m */; };
+		EE7913CE1F316BB6002E4317 /* SYCPhotoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913CD1F316BB6002E4317 /* SYCPhotoPlugin.m */; };
+		EE7913D11F316BEF002E4317 /* SYCPatternLockPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913D01F316BEF002E4317 /* SYCPatternLockPlugin.m */; };
+		EE7913D41F31AE2B002E4317 /* SYCShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913D31F31AE2B002E4317 /* SYCShareModel.m */; };
 		EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8011E8F53D700BCEB5F /* libc++.tbd */; };
 		EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */; };
 		EE7AD8061E8F53F900BCEB5F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */; };
@@ -347,6 +351,14 @@
 		EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCustomTextField.m; sourceTree = "<group>"; };
 		EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestPlugin.h; sourceTree = "<group>"; };
 		EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestPlugin.m; sourceTree = "<group>"; };
+		EE7913C91F3163A1002E4317 /* SYCSharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSharePlugin.h; sourceTree = "<group>"; };
+		EE7913CA1F3163A1002E4317 /* SYCSharePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSharePlugin.m; sourceTree = "<group>"; };
+		EE7913CC1F316BB6002E4317 /* SYCPhotoPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPhotoPlugin.h; sourceTree = "<group>"; };
+		EE7913CD1F316BB6002E4317 /* SYCPhotoPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPhotoPlugin.m; sourceTree = "<group>"; };
+		EE7913CF1F316BEF002E4317 /* SYCPatternLockPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPatternLockPlugin.h; sourceTree = "<group>"; };
+		EE7913D01F316BEF002E4317 /* SYCPatternLockPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPatternLockPlugin.m; sourceTree = "<group>"; };
+		EE7913D21F31AE2B002E4317 /* SYCShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCShareModel.h; sourceTree = "<group>"; };
+		EE7913D31F31AE2B002E4317 /* SYCShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCShareModel.m; sourceTree = "<group>"; };
 		EE7AD8011E8F53D700BCEB5F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -1111,6 +1123,12 @@
 				EEEAC04C1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m */,
 				EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */,
 				EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */,
+				EE7913C91F3163A1002E4317 /* SYCSharePlugin.h */,
+				EE7913CA1F3163A1002E4317 /* SYCSharePlugin.m */,
+				EE7913CC1F316BB6002E4317 /* SYCPhotoPlugin.h */,
+				EE7913CD1F316BB6002E4317 /* SYCPhotoPlugin.m */,
+				EE7913CF1F316BEF002E4317 /* SYCPatternLockPlugin.h */,
+				EE7913D01F316BEF002E4317 /* SYCPatternLockPlugin.m */,
 			);
 			path = SYCPlugins;
 			sourceTree = "<group>";
@@ -1181,6 +1199,8 @@
 				EE4880C21EB4718D00D6A675 /* SYCPayTypeModel.m */,
 				EEC060CD1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.h */,
 				EEC060CE1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m */,
+				EE7913D21F31AE2B002E4317 /* SYCShareModel.h */,
+				EE7913D31F31AE2B002E4317 /* SYCShareModel.m */,
 			);
 			path = SYCModel;
 			sourceTree = "<group>";
@@ -1677,6 +1697,7 @@
 				EE72D2F01EA9E71D00AFBD9E /* SYCBlurEffectSdapter.m in Sources */,
 				EE72D2ED1EA9DF9300AFBD9E /* SYCPresentedViewController.m in Sources */,
 				EE6DF1971EBC59CE00AF15E4 /* SYCBlindYTKViewController.m in Sources */,
+				EE7913CB1F3163A1002E4317 /* SYCSharePlugin.m in Sources */,
 				E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */,
 				C83F01A0ECF3438DB6144049 /* CDVFile.m in Sources */,
 				EE85CE4B1F2C706300485041 /* WXApiRequestHandler.m in Sources */,
@@ -1695,6 +1716,7 @@
 				EE9500431E7F804A00C35C2A /* MASViewAttribute.m in Sources */,
 				EE95FF741E7F7DAB00C35C2A /* SYCSecurePlugin.m in Sources */,
 				EE91600D1E98BADC00B3D014 /* SYCAliPayModel.m in Sources */,
+				EE7913D41F31AE2B002E4317 /* SYCShareModel.m in Sources */,
 				EE7D66F81F28684D007EDAC9 /* SYCCache.m in Sources */,
 				EE95005A1E7F804A00C35C2A /* MJRefreshAutoFooter.m in Sources */,
 				EE9500341E7F804A00C35C2A /* README.md in Sources */,
@@ -1734,6 +1756,7 @@
 				EE9500351E7F804A00C35C2A /* AFAutoPurgingImageCache.m in Sources */,
 				D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */,
 				EE95003D1E7F804A00C35C2A /* UIWebView+AFNetworking.m in Sources */,
+				EE7913D11F316BEF002E4317 /* SYCPatternLockPlugin.m in Sources */,
 				66922D104FC949A8A6B1AF42 /* Toast.m in Sources */,
 				EE7AD8161E8F91BD00BCEB5F /* SYCGroupModel.m in Sources */,
 				EE95003A1E7F804A00C35C2A /* UIImageView+AFNetworking.m in Sources */,
@@ -1742,6 +1765,7 @@
 				EE95005E1E7F804A00C35C2A /* MJRefreshHeader.m in Sources */,
 				EE95FF801E7F7EC600C35C2A /* SYCSystem.mm in Sources */,
 				EE9500361E7F804A00C35C2A /* AFImageDownloader.m in Sources */,
+				EE7913CE1F316BB6002E4317 /* SYCPhotoPlugin.m in Sources */,
 				EE9500401E7F804A00C35C2A /* MASConstraint.m in Sources */,
 				EE9500371E7F804A00C35C2A /* AFNetworkActivityIndicatorManager.m in Sources */,
 			);

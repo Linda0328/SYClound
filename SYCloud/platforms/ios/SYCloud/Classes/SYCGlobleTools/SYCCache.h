@@ -11,4 +11,5 @@
 @interface SYCCache : NSObject
 -(BOOL)downLoadJSFileWithPageVersion:(NSString*)pageVersion linkURL:(NSString*)pagePackage;
 +(NSString*)zipFilePath;
++(NSString*)indexJsonPath;
 @end

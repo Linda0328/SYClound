@@ -179,6 +179,7 @@ static NSInteger infoCellNum = 2;
         confirmPayModel.merchantId = _payInfoModel.merchantID;
         confirmPayModel.payAmount =  _isPreOrderPay?_amount:_payInfoModel.payAmount;
         confirmPayModel.orderSubject = _desc;
+        confirmPayModel.exclAmount = _payInfoModel.exclAmount;
     }
     confirmPayModel.couponId = _couponID;
     passwVC.confirmPayModel = confirmPayModel;

@@ -23,6 +23,9 @@ static NSString * const SYCloudImageLoadBaseURL = @"http://www.yuanpay.xin"; //æ
 NSString * const WeiXinAppID = @"wxaa61de1143462250";
 NSString * const bundleID = @"com.sycloud.SYCloud";
 NSString * const BDAppKay = @"ixLnp9iaDmKMD49N1OVmAsEMpQznxZST";
+NSString * const QQAppID = @"101414961";
+NSString * const QQAppkey = @"b7954e6562b3067283f04b0166709aed";
+
 NSString *const loadToken = @"LoadToken";
 NSString *const memberInfo = @"memberInfo";
 NSString *const loginName = @"loginName";

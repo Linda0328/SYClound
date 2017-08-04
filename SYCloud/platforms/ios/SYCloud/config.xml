@@ -118,4 +118,13 @@
     <feature name="RequestPlugin">
         <param name="ios-package" value="SYCRequestPlugin" />
     </feature>
+    <feature name="SharePlugin">
+        <param name="ios-package" value="SYCSharePlugin" />
+    </feature>
+    <feature name="PhotoPlugin">
+        <param name="ios-package" value="SYCPhotoPlugin" />
+    </feature>
+    <feature name="PatternLockPlugin">
+        <param name="ios-package" value="SYCPatternLockPlugin" />
+    </feature>
 </widget>

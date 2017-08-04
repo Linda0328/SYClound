@@ -41,18 +41,19 @@
 }
 //面对面支付
 -(void)paymentImmed:(CDVInvokedUrlCommand *)command{
-//    __weak __typeof(self)weakSelf = self;
+
     MainViewController *main = (MainViewController*)self.viewController;
     SYCPayInfoModel *payModel = [[SYCPayInfoModel alloc]init];
     payModel.merchantID = [command.arguments firstObject];
     payModel.amount = [command.arguments objectAtIndex:1];
     payModel.desc = [command.arguments objectAtIndex:2];
     payModel.coupon = [command.arguments objectAtIndex:3];
-    payModel.payAmount = [command.arguments objectAtIndex:4];
+    payModel.exclAmount = [command.arguments objectAtIndex:4];
+    payModel.payAmount = [command.arguments objectAtIndex:5];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:payMentTypeImme}];
     [self.commandDelegate runInBackground:^{
-//        __strong __typeof(weakSelf)strongSelf = weakSelf;
+
         NSLog(@"----------%@",command.arguments);
         
         [SYCShareVersionInfo sharedVersion].paymentImmedatelyID = command.callbackId;
