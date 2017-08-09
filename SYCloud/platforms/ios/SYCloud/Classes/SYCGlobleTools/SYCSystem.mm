@@ -87,6 +87,7 @@ NSString *const paymentResultCodeKey = @"resultCode";
 NSString *const paymentDatakey = @"paymentmodelkey";
 
 NSString *const shareNotify = @"shareNotify";
+NSString *const dismissShareNotify = @"dismissShare";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

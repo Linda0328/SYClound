@@ -8,6 +8,7 @@
 
 #import "SYCPresentationController.h"
 #import "SYCBlurEffectSdapter.h"
+#import "SYCSystem.h"
 @interface SYCPresentationController()
 @property (nonatomic, strong) UIView *dimmingView;
 @property (nonatomic, strong) UIVisualEffectView *blurBackgroundView;
@@ -84,18 +85,19 @@
 #pragma mark - SuperClass Override
 
 - (void)presentationTransitionWillBegin {
-    
-    [self setupBackgroundBlurView];
-    
-    self.dimmingView.frame = self.containerView.bounds;
-   
-    [self.containerView addSubview:self.dimmingView];
-    
     // this is some kind of bug :<, if we will delete this line, then inside custom animator
     // we need to set finalFrameForViewController to targetView
     [super presentationTransitionWillBegin];
+    [self setupBackgroundBlurView];
+    
+    self.dimmingView.frame = self.containerView.bounds;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismiss)];
+    [self.dimmingView addGestureRecognizer:tap];
+    [self.containerView addSubview:self.dimmingView];
 }
-
+-(void)dismiss{
+    [[NSNotificationCenter defaultCenter]postNotificationName:dismissShareNotify object:nil];
+}
 - (void)presentationTransitionDidEnd:(BOOL)completed {
     [super presentationTransitionDidEnd:completed];
     

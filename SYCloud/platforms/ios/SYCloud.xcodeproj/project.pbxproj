@@ -191,6 +191,7 @@
 		EE9500841E7FD18D00C35C2A /* SYCEventButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500831E7FD18D00C35C2A /* SYCEventButton.m */; };
 		EE9500871E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */; };
 		EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */; };
+		EE9575101F3B0669000F2D5E /* UIButton+TitleImageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95750F1F3B0669000F2D5E /* UIButton+TitleImageCenter.m */; };
 		EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */; };
 		EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */; };
 		EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */; };
@@ -497,6 +498,8 @@
 		EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+SYCNavigationTitle.m"; sourceTree = "<group>"; };
 		EE9500891E7FDCAC00C35C2A /* SYCSearchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSearchModel.h; sourceTree = "<group>"; };
 		EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSearchModel.m; sourceTree = "<group>"; };
+		EE95750E1F3B0669000F2D5E /* UIButton+TitleImageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+TitleImageCenter.h"; sourceTree = "<group>"; };
+		EE95750F1F3B0669000F2D5E /* UIButton+TitleImageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+TitleImageCenter.m"; sourceTree = "<group>"; };
 		EE95FF5B1E7F7DAB00C35C2A /* SYCCachePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCCachePlugin.h; sourceTree = "<group>"; };
 		EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCachePlugin.m; sourceTree = "<group>"; };
 		EE95FF5D1E7F7DAB00C35C2A /* SYCEventPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCEventPlugin.h; sourceTree = "<group>"; };
@@ -1173,6 +1176,8 @@
 				EE7D66F71F28684D007EDAC9 /* SYCCache.m */,
 				EE7D66F91F287524007EDAC9 /* SYCCacheURLProtocol.h */,
 				EE7D66FA1F287524007EDAC9 /* SYCCacheURLProtocol.m */,
+				EE95750E1F3B0669000F2D5E /* UIButton+TitleImageCenter.h */,
+				EE95750F1F3B0669000F2D5E /* UIButton+TitleImageCenter.m */,
 			);
 			path = SYCGlobleTools;
 			sourceTree = "<group>";
@@ -1702,6 +1707,7 @@
 				EE915B4A1F2AD6DA0046E24B /* fileenc.c in Sources */,
 				EE9500381E7F804A00C35C2A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				EE915B521F2AD6DA0046E24B /* unzip.c in Sources */,
+				EE9575101F3B0669000F2D5E /* UIButton+TitleImageCenter.m in Sources */,
 				EE9500771E7FBF3E00C35C2A /* SYCTabViewController.m in Sources */,
 				EE95FF711E7F7DAB00C35C2A /* SYCLoadingPlugin.m in Sources */,
 				EE9500631E7F804A00C35C2A /* MJRefreshBackNormalFooter.m in Sources */,

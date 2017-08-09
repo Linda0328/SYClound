@@ -42,6 +42,7 @@ static void *eventBarItem = @"eventBarItem";
 @property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property (nonatomic,strong)NSMutableArray *groupArr;
 @property (nonatomic,strong)dispatch_source_t timer;
+@property (nonatomic,assign)CGRect presentedRect;
 @end
 
 @implementation SYCContentViewController
@@ -58,7 +59,7 @@ static void *eventBarItem = @"eventBarItem";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    _presentedRect = CGRectZero;
     _optionURLArr = [NSMutableArray arrayWithCapacity:20];
     __weak __typeof(self)weakSelf = self;
     self.pushBlock = ^(NSString *contentUrl,BOOL isBackToLast,BOOL reload,SYCNavigationBarModel *navModel){
@@ -231,6 +232,8 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
+    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    _presentedRect = CGRectMake(0, screenSize.height-105*[SYCSystem PointCoefficient], screenSize.width, 105*[SYCSystem PointCoefficient]);
     SYCShareModel *shareM = (SYCShareModel*)notify.object;
     SYCShareAppViewController *shareVC = [[SYCShareAppViewController alloc]init];
     shareVC.shareModel = shareM;
@@ -250,6 +253,8 @@ static void *eventBarItem = @"eventBarItem";
 -(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC {
     __weak __typeof(self)weakSelf = self;
     if ([resultCode isEqualToString:resultCodeSuccess]&&[result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
+        CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+        _presentedRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             //停止动画
@@ -309,12 +314,12 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];
-    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    
 //    presentation.blurEffectStyle = UIBlurEffectStyleLight;
 //    presentation.shouldApplyBackgroundBlurEffect = YES;
     presentation.backgroundColor = [UIColor colorWithHexString:@"000000"];
     presentation.backgroundAlpha = 0.5;
-    presentation.contentViewRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
+    presentation.contentViewRect = _presentedRect;
     return presentation;
 }
 

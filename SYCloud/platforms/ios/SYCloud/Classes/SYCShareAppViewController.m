@@ -9,6 +9,9 @@
 #import "SYCShareAppViewController.h"
 #import "WXApiRequestHandler.h"
 #import "MBProgressHUD.h"
+#import "SYCSystem.h"
+#import "HexColor.h"
+#import "UIButton+TitleImageCenter.h"
 static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
 @interface SYCShareAppViewController ()
 @property (nonatomic,strong)MBProgressHUD *HUD;
@@ -19,15 +22,26 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.view.backgroundColor = [UIColor whiteColor];
-    NSArray *shareArr = @[@"QQ",@"QQ空间",@"微信",@"朋友圈"];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(Dismiss) name:dismissShareNotify object:nil];
+    self.view.backgroundColor = [UIColor whiteColor];
+    NSArray *shareArr = @[@"微信",@"朋友圈",@"QQ",@"QQ空间"];
+    NSArray *shareImgs = @[@"wx",@"pyq",@"qq",@"qqZone"];
     CGFloat width = [[UIScreen mainScreen]bounds].size.width;
-    CGFloat gap = 20.0f;
-    CGFloat buttonWidth = (width-(shareArr.count+1)*gap)/4;
+    CGFloat gapRight = 17.0f*[SYCSystem PointCoefficient];
+    CGFloat gapUp = 23.0*[SYCSystem PointCoefficient];
+    CGFloat buttonWidth = 54*[SYCSystem PointCoefficient];
+    CGFloat gap = (width-2*gapRight-shareArr.count*buttonWidth)/(shareArr.count-1);
     for (NSInteger i = 0;i < [shareArr count];i++) {
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(gap+i*buttonWidth, gap, buttonWidth, 60)];
+        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(gapRight+i*(buttonWidth+gap), gapUp, buttonWidth, 59*[SYCSystem PointCoefficient])];
+        [button setImage:[UIImage imageNamed:shareImgs[i]] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor colorWithHexString:@"888890"] forState:UIControlStateNormal];
         [button setTitle:[shareArr objectAtIndex:i] forState:UIControlStateNormal];
-        
+        button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+//        //设置文字偏移：向下偏移图片高度+向左偏移图片的宽度
+//        [button setTitleEdgeInsets:UIEdgeInsetsMake(button.imageView.frame.size.height+5,-button.imageView.frame.size.width, 0, 0)];
+//        //设置图片偏移:向上偏移文字的高度+向右偏移文字的宽度
+//        [button setImageEdgeInsets:UIEdgeInsetsMake(-button.titleLabel.frame.size.height-5, 0, 0, -button.titleLabel.frame.size.width)];
+        [button verticalImageAndTitle:10.0f];
         [button addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
     }
@@ -63,6 +77,9 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
         [_HUD showAnimated:YES];
         [_HUD hideAnimated:YES afterDelay:1.5f];
     }
+}
+-(void)Dismiss{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
