@@ -32,12 +32,13 @@
 #import "SYCShareModel.h"
 #import "SYCShareAppViewController.h"
 #import "WXApiManager.h"
+#import "QQManager.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
 static NSString *const searchBarSubmit = @"submit";
 static void *eventBarItem = @"eventBarItem";
-@interface SYCContentViewController ()<UISearchBarDelegate,UIViewControllerTransitioningDelegate,UIAdaptivePresentationControllerDelegate,UIPopoverPresentationControllerDelegate,WXApiManagerDelegate>
+@interface SYCContentViewController ()<UISearchBarDelegate,UIViewControllerTransitioningDelegate,UIAdaptivePresentationControllerDelegate,UIPopoverPresentationControllerDelegate>
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 @property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property (nonatomic,strong)NSMutableArray *groupArr;
@@ -239,16 +240,9 @@ static void *eventBarItem = @"eventBarItem";
     shareVC.shareModel = shareM;
     shareVC.modalPresentationStyle = UIModalPresentationCustom;
     shareVC.transitioningDelegate = self;
-    [WXApiManager sharedManager].delegate = self;
+    [WXApiManager sharedManager].delegate = self.CurrentChildVC;
+    [QQManager sharedManager].delegate = self.CurrentChildVC;
     [self presentViewController:shareVC animated:YES completion:nil];
-}
-- (void)managerDidRecvMessageResponse:(SendMessageToWXResp *)response{
-     NSLog(@"----%d--%@--",response.errCode,response.errStr);
-    if (response.errCode == WXSuccess) {
-        
-    }else{
-    
-    }
 }
 -(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC {
     __weak __typeof(self)weakSelf = self;

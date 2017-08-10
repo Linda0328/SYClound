@@ -12,6 +12,8 @@
 #import "SYCSystem.h"
 #import "HexColor.h"
 #import "UIButton+TitleImageCenter.h"
+#import <TencentOpenAPI/QQApiInterfaceObject.h>
+#import <TencentOpenAPI/QQApiInterface.h>
 static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
 @interface SYCShareAppViewController ()
 @property (nonatomic,strong)MBProgressHUD *HUD;
@@ -50,11 +52,14 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     [_HUD hideAnimated:YES];
 }
 -(void)action:(UIButton*)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
     NSString *title = [sender currentTitle];
     __block UIImage *thumbImg = nil;
+    __block NSData *imageData = nil;
     //并发队列使用全局并发队列，异步执行任务
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        thumbImg = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:_shareModel.pic]]];
+        imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_shareModel.pic]];
+        thumbImg = [UIImage imageWithData:imageData];
     });
     
     _HUD.label.text = @"请求微信失败";
@@ -68,15 +73,24 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
 
     }
     if ([title isEqualToString:@"QQ"]) {
-        
+        QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
+        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+        [self handleSentToQQresult:sent];
     }
     if ([title isEqualToString:@"QQ空间"]) {
-        
+        QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
+        QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
+        [self handleSentToQQresult:sent];
     }
     if(!isShared){
         [_HUD showAnimated:YES];
         [_HUD hideAnimated:YES afterDelay:1.5f];
     }
+}
+-(void)handleSentToQQresult:(QQApiSendResultCode)code{
+
 }
 -(void)Dismiss{
     [self dismissViewControllerAnimated:YES completion:nil];

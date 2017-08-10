@@ -52,6 +52,8 @@
 #import "SYCCache.h"
 #import "WXApi.h"
 #import "WXApiManager.h"
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "QQManager.h"
 @interface AppDelegate(){
     BMKMapManager *_mapManager;
 }
@@ -79,6 +81,7 @@
     self.window.autoresizesSubviews = YES;
     //注册微信支付
     [WXApi registerApp:WeiXinAppID];
+    [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
     BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
     [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     if(canShow){ // 初始化新特性界面
@@ -234,7 +237,14 @@
     self.window.rootViewController = navC;
 }
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
-    
+    //上次支付订单未完成，新的支付订单又来了
+    UIViewController *vc = _tabVC.firstViewC;
+    if ([SYCShareVersionInfo sharedVersion].paymentSDKID) {
+        while (vc.presentedViewController) {
+            [vc dismissViewControllerAnimated:YES completion:nil];
+            vc = vc.presentedViewController;
+        }
+    }
     NSString *comesURl = url.absoluteString;
     NSLog(@"链接来敲门------------%@",comesURl);
     //跳转支付宝钱包进行支付，处理支付结果
@@ -254,6 +264,7 @@
     }];
    
     if ([comesURl hasPrefix:SYCPayKEY]) {
+        
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
@@ -272,10 +283,26 @@
     if ([comesURl hasPrefix:WeiXinAppID]) {
         return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
     }
+
+    if ([comesURl hasPrefix:[@"tencent" stringByAppendingString:QQAppID]])
+    {
+        return [QQApiInterface handleOpenURL:url delegate:[QQManager sharedManager]];;
+    }
+
+    
     return YES;
 }
 //ios9之后废弃该方法
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    //上次支付订单未完成，新的支付订单又来了
+    UIViewController *vc = _tabVC.firstViewC;
+    if ([SYCShareVersionInfo sharedVersion].paymentSDKID) {
+        while (vc.presentedViewController) {
+            [vc dismissViewControllerAnimated:YES completion:nil];
+            vc = vc.presentedViewController;
+        }
+    }
+
     NSString *comesURl = url.absoluteString;
     NSLog(@"链接来敲门------------%@",comesURl);
     //跳转支付宝钱包进行支付，处理支付结果
@@ -296,18 +323,29 @@
     //短信
     
     if ([comesURl hasPrefix:SYCPayKEY]) {
-        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]) {
-            NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
-            NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
-            if ([SYCSystem judgeNSString:prePayID]) {
-                [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
-                [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
-                [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:prePayID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
-            }
+        
+        NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
+        NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
+        if ([SYCSystem judgeNSString:prePayID]) {
+            [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
+            [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
+        }
+        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+        }else{
+            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
+            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
+            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
     }
     if ([comesURl hasPrefix:WeiXinAppID]) {
         return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+    }
+
+    if ([comesURl hasPrefix:[@"tencent" stringByAppendingString:QQAppID]])
+    {
+        return [QQApiInterface handleOpenURL:url delegate:[QQManager sharedManager]];;
     }
     return YES;
 }

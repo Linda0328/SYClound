@@ -44,7 +44,9 @@
 #import "MJExtension.h"
 #import "WXApiRequestHandler.h"
 #import "SYCWXPayRequestModel.h"
-@interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate>{
+#import "WXApiManager.h"
+#import "QQManager.h"
+@interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate,WXApiManagerDelegate,QQManagerDelegate>{
     BMKLocationService *_locationService;
 }
 @property (nonatomic,strong)MBProgressHUD *HUD;
@@ -137,6 +139,7 @@
         self.webView.scrollView.mj_header = gifHeader;
     }
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
+    _HUD.mode = MBProgressHUDModeText;
     [self.view addSubview:_HUD];
     
     self.reloadB = ^(NSString *url){
@@ -448,6 +451,31 @@
     _locationTime++;
         //    [_locationService stopUserLocationService];
 }
+- (void)managerDidRecvMessageResponse:(SendMessageToWXResp *)response{
+    NSLog(@"----%d--%@--",response.errCode,response.errStr);
+//    MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.view];
+//    hud.mode = MBProgressHUDModeText;
+//    [self.view addSubview:hud];
+    if (response.errCode == WXSuccess) {
+        _HUD.label.text = @"分享成功";
+    }else{
+        _HUD.label.text = @"分享失败";
+    }
+    [_HUD showAnimated:YES];
+    [_HUD hideAnimated:YES afterDelay:1.50f];
+}
+-(void)managerDidRecvQQMessageResponse:(SendMessageToQQResp *)response{
+    NSLog(@"------%@--",response.result);
+    
+    if ([response.result isEqualToString:@"0"]) {
+        _HUD.label.text = @"分享成功";
+    }else{
+        _HUD.label.text = @"分享失败";
+    }
+    [_HUD showAnimated:YES];
+    [_HUD hideAnimated:YES afterDelay:1.50f];
+}
+
 //- (void)didFailToLocateUserWithError:(NSError *)error{
 //    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0* NSEC_PER_SEC));
 //    dispatch_after(delayTime, dispatch_get_main_queue(), ^{

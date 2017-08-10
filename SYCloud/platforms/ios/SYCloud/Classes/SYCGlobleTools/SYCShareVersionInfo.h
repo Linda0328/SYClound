@@ -59,6 +59,7 @@
 @property (nonatomic,copy)NSString *paymentScanID;
 @property (nonatomic,copy)NSString *paymentCodeID;
 @property (nonatomic,copy)NSString *paymentSDKID;
+//@property (nonatomic,strong)NSMutableArray *presentedVCs;
 @property (nonatomic,copy)NSString *thirdPartScheme;
 
 @property (nonatomic,copy)NSString *sharePluginID;

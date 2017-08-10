@@ -210,6 +210,9 @@
 		EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF891E7F7ECD00C35C2A /* SYCNavigationBarModel.m */; };
 		EE95FF921E7F7ECD00C35C2A /* SYCNavTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF8B1E7F7ECD00C35C2A /* SYCNavTitleModel.m */; };
 		EE95FF931E7F7ECD00C35C2A /* SYCTabBarItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF8D1E7F7ECD00C35C2A /* SYCTabBarItemModel.m */; };
+		EE9FE4791F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE9FE4781F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle */; };
+		EE9FE47B1F3C3EB400B1D67A /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */; };
+		EE9FE4811F3C429E00B1D67A /* QQManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9FE4801F3C429E00B1D67A /* QQManager.m */; };
 		EEC060CC1EB8771000E3BDE3 /* SYCPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */; };
 		EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CE1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m */; };
 		EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */; };
@@ -632,6 +635,10 @@
 		EE95FFFD1E7F804A00C35C2A /* MJRefreshBackFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshBackFooter.m; sourceTree = "<group>"; };
 		EE95FFFE1E7F804A00C35C2A /* MJRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MJRefreshComponent.h; sourceTree = "<group>"; };
 		EE95FFFF1E7F804A00C35C2A /* MJRefreshComponent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshComponent.m; sourceTree = "<group>"; };
+		EE9FE4781F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TencentOpenApi_IOS_Bundle.bundle; sourceTree = "<group>"; };
+		EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
+		EE9FE47F1F3C429E00B1D67A /* QQManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QQManager.h; sourceTree = "<group>"; };
+		EE9FE4801F3C429E00B1D67A /* QQManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QQManager.m; sourceTree = "<group>"; };
 		EEC060CA1EB8771000E3BDE3 /* SYCPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentViewController.h; sourceTree = "<group>"; };
 		EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentViewController.m; sourceTree = "<group>"; };
 		EEC060CD1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderConfirmModel.h; sourceTree = "<group>"; };
@@ -692,6 +699,7 @@
 				EE7AD8101E8F543500BCEB5F /* CFNetwork.framework in Frameworks */,
 				EE7AD80E1E8F542D00BCEB5F /* Foundation.framework in Frameworks */,
 				EE7AD80C1E8F541E00BCEB5F /* UIKit.framework in Frameworks */,
+				EE9FE47B1F3C3EB400B1D67A /* TencentOpenAPI.framework in Frameworks */,
 				EE7AD80A1E8F541400BCEB5F /* CoreGraphics.framework in Frameworks */,
 				EE84165D1EEBE2930032B37F /* libWeChatSDK.a in Frameworks */,
 				EE7AD8081E8F540600BCEB5F /* CoreText.framework in Frameworks */,
@@ -749,6 +757,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				EE9FE4781F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle */,
 				EE629EF11E962A8100832C36 /* mapapi.bundle */,
 				EB87FDF41871DAF40020F90C /* config.xml */,
 				EB87FDF31871DA8E0020F90C /* www */,
@@ -795,6 +804,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */,
 				EE629EFD1E962E6600832C36 /* BaiduMapAPI_Cloud.framework */,
 				EE629EFE1E962E6600832C36 /* BaiduMapAPI_Location.framework */,
 				EE629EFF1E962E6600832C36 /* BaiduMapAPI_Map.framework */,
@@ -1444,6 +1454,7 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EE9FE47E1F3C427600B1D67A /* QQShare */,
 				EE85CE481F2C637F00485041 /* WXpay */,
 				EE92F3C91F1E0CB0001C25F0 /* Load */,
 				EE8156DB1EB1C77600C13482 /* PaymentAnimation */,
@@ -1453,6 +1464,15 @@
 			);
 			name = SYClasses;
 			path = SYCloud/Classes;
+			sourceTree = "<group>";
+		};
+		EE9FE47E1F3C427600B1D67A /* QQShare */ = {
+			isa = PBXGroup;
+			children = (
+				EE9FE47F1F3C429E00B1D67A /* QQManager.h */,
+				EE9FE4801F3C429E00B1D67A /* QQManager.m */,
+			);
+			name = QQShare;
 			sourceTree = "<group>";
 		};
 		EED6FB551E94D9070061B6AC /* XZMCoreNewFeatureVC */ = {
@@ -1574,6 +1594,7 @@
 				EE629ED61E95EA5500832C36 /* 750x1334-2@2x.png in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				EED6FB771E94E2430061B6AC /* 640x1136-2@2x.png in Resources */,
+				EE9FE4791F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				EE95004D1E7F804A00C35C2A /* LICENSE in Resources */,
 				EE629EDC1E9624CA00832C36 /* AlipaySDK.bundle in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
@@ -1700,6 +1721,7 @@
 				CA6AB10D4F5E4D02ADD7E86F /* CDVCamera.m in Sources */,
 				EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */,
 				EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */,
+				EE9FE4811F3C429E00B1D67A /* QQManager.m in Sources */,
 				EE95FF911E7F7ECD00C35C2A /* SYCNavigationBarModel.m in Sources */,
 				EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */,
 				EE7D66FB1F287524007EDAC9 /* SYCCacheURLProtocol.m in Sources */,
