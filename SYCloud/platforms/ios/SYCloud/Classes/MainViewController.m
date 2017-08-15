@@ -186,7 +186,8 @@
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
     //加载完成
     [center addObserver:self selector:@selector(loadedNotification:) name:CDVPageDidLoadNotification object:nil];
-   
+    [WXApiManager sharedManager].delegate = self;
+    [QQManager sharedManager].delegate = self;
 }
 -(void)viewWillLayoutSubviews{
     if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)

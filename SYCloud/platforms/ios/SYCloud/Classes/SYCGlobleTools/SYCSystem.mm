@@ -88,6 +88,10 @@ NSString *const paymentDatakey = @"paymentmodelkey";
 
 NSString *const shareNotify = @"shareNotify";
 NSString *const dismissShareNotify = @"dismissShare";
+
+NSString *const showPhotoNotify = @"showPhoto";
+NSString *const photoArrkey = @"photoArr";
+NSString *const defaultPhotoIndexKey = @"defaultPhotoIndex";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

@@ -54,7 +54,8 @@
 #import "WXApiManager.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "QQManager.h"
-@interface AppDelegate(){
+#import "MiPushSDK.h"
+@interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
 @property (nonatomic,strong)Reachability *hostReach;
@@ -79,8 +80,11 @@
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
+    //小米推送
+    [MiPushSDK registerMiPush:self];
     //注册微信支付
     [WXApi registerApp:WeiXinAppID];
+    //手机QQ权限注册
     [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
     BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
     [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
@@ -139,6 +143,15 @@
 
     }
     [self.window makeKeyAndVisible];
+    //通过推送窗口启动程序
+    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if(userInfo){
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"消息"
+                                                                       message:[NSString stringWithFormat:@"%@", userInfo]
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *act = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:act];
+    }
     return YES;
 }
 -(void)setRootViewController{
@@ -348,5 +361,56 @@
         return [QQApiInterface handleOpenURL:url delegate:[QQManager sharedManager]];;
     }
     return YES;
+}
+#pragma mark ---推送
+//打开app推送信息数目归零
+-(void)applicationWillResignActive:(UIApplication *)application{
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+}
+-(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(nonnull NSData *)deviceToken{
+    //注册APNS成功，注册deviceToken
+    [MiPushSDK bindDeviceToken:deviceToken];
+}
+
+-(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    //注册APNS失败
+}
+//应用在前台
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"----------%@",userInfo);
+}
+// iOS10新加入的回调方法
+// 应用在前台收到通知
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
+    NSDictionary * userInfo = notification.request.content.userInfo;
+    if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        
+    }
+    
+}
+
+// 点击通知进入应用
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+        
+    }
+    completionHandler();
+}
+#pragma mark --- MiPushSDKDelegate
+-(void)miPushRequestSuccWithSelector:(NSString *)selector data:(NSDictionary *)data{
+     NSLog(@"selector = %@,data = %@", selector,data);
+   //请求成功，可在此获取regid
+    if ([selector isEqualToString:@"registerApp"]) {
+        // 获取regId
+        NSLog(@"regid = %@", data[@"regid"]);
+        [SYCShareVersionInfo sharedVersion].regId = data[@"regid"];
+    }
+}
+
+-(void)miPushRequestErrWithSelector:(NSString *)selector error:(int)error data:(NSDictionary *)data{
+   //请求失败
 }
 @end

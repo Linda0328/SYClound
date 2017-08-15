@@ -32,7 +32,7 @@
     [verDic setObject:@(shareVerInfo.needUpdate) forKey:@"needUpdate"];
     [verDic setObject:@(shareVerInfo.needPush) forKey:@"needPush"];
     [verDic setObject:shareVerInfo.systemType forKey:@"systemType"];
-    [verDic setObject:shareVerInfo.regId forKey:@"regId"];
+    [verDic setObject:[SYCSystem judgeNSString:shareVerInfo.regId]?shareVerInfo.regId :@""forKey:@"regId"];
     [verDic setObject:@(shareVerInfo.formal) forKey:@"formal"];
     [verDic setObject:shareVerInfo.localPath forKey:@"localPath"];
     return verDic;

@@ -82,6 +82,10 @@ extern NSString *const paymentDatakey;
 
 extern NSString *const shareNotify;
 extern NSString *const dismissShareNotify;
+
+extern NSString *const showPhotoNotify;
+extern NSString *const photoArrkey;
+extern NSString *const defaultPhotoIndexKey;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

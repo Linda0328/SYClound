@@ -33,6 +33,7 @@
 #import "SYCShareAppViewController.h"
 #import "WXApiManager.h"
 #import "QQManager.h"
+#import "SYCScanPictureViewController.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -105,7 +106,7 @@ static void *eventBarItem = @"eventBarItem";
     [center addObserver:self selector:@selector(passwordSetting:) name:passwordNotify object:nil];
     [center addObserver:self selector:@selector(PayImmedately:) name:PayImmedateNotify object:nil];
     [center addObserver:self selector:@selector(shareApp:) name:shareNotify object:nil];
-    
+    [center addObserver:self selector:@selector(ShowPhotos:) name:showPhotoNotify object:nil];
 }
 
 -(void)PushScanVC:(NSNotification*)notify{
@@ -164,6 +165,8 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
+    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    _presentedRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
     __weak __typeof(self)weakSelf = self;
     [SYCHttpReqTool PswSetOrNot:^(NSString *resultCode, BOOL resetPsw) {
         if ([resultCode isEqualToString:resultCodeSuccess]) {
@@ -240,9 +243,22 @@ static void *eventBarItem = @"eventBarItem";
     shareVC.shareModel = shareM;
     shareVC.modalPresentationStyle = UIModalPresentationCustom;
     shareVC.transitioningDelegate = self;
-    [WXApiManager sharedManager].delegate = self.CurrentChildVC;
-    [QQManager sharedManager].delegate = self.CurrentChildVC;
     [self presentViewController:shareVC animated:YES completion:nil];
+}
+-(void)ShowPhotos:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    NSArray *imgs = [notify.userInfo objectForKey:photoArrkey];
+    NSInteger index =[[notify.userInfo objectForKey:defaultPhotoIndexKey]integerValue];
+    _presentedRect = [[UIScreen mainScreen]bounds];
+    SYCScanPictureViewController *pic = [[SYCScanPictureViewController alloc]init];
+    pic.imgs = imgs ;
+    pic.index = index;
+    pic.modalPresentationStyle = UIModalPresentationCustom;
+    pic.transitioningDelegate = self;
+    [self presentViewController:pic animated:YES completion:nil];
 }
 -(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC {
     __weak __typeof(self)weakSelf = self;

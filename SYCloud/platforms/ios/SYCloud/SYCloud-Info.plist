@@ -144,5 +144,11 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>MiSDKAppID</key>
+    <string>2882303761517605700</string>
+    <key>MiSDKAppKey</key>
+    <string>5681760532700</string>
+    <key>MiSDKRun</key>
+    <string>${MiSDKRun}</string>
 </dict>
 </plist>

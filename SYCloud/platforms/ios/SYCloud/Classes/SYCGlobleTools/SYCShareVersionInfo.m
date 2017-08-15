@@ -16,7 +16,7 @@
     dispatch_once(&onceToken, ^{
         shareVersion = [[SYCShareVersionInfo alloc]init];
         shareVersion.systemType = @"1";
-        shareVersion.regId = @"";
+        
         NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
         UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
         shareVersion.needPush = (settings.types!=UIUserNotificationTypeNone)?YES:NO;

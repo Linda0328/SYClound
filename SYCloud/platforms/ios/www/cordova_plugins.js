@@ -109,7 +109,7 @@ module.exports = [
       "file": "plugins/shengyuan-plugin-module/www/PhotoPlugin.js",
       "pluginId": "shengyuan-plugin-module",
       "clobbers": [
-                   "syapp.photo"
+             "syapp.slide"
          ]
     },
     {

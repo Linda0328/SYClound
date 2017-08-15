@@ -59,6 +59,7 @@
 		EE629F071E962E6600832C36 /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629F011E962E6600832C36 /* BaiduMapAPI_Search.framework */; };
 		EE629F081E962E6600832C36 /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629F021E962E6600832C36 /* BaiduMapAPI_Utils.framework */; };
 		EE629F0B1E963AF600832C36 /* SYCResultPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE629F0A1E963AF600832C36 /* SYCResultPlugin.m */; };
+		EE661D771F3D4F6F009E2BAA /* SYCScanPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE661D761F3D4F6F009E2BAA /* SYCScanPictureViewController.m */; };
 		EE6DF1971EBC59CE00AF15E4 /* SYCBlindYTKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6DF1961EBC59CE00AF15E4 /* SYCBlindYTKViewController.m */; };
 		EE6DF19A1EBC622700AF15E4 /* SYCPopoverGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6DF1991EBC622700AF15E4 /* SYCPopoverGroupViewController.m */; };
 		EE7191CD1E976A1800DE5012 /* NSObject+JsonExchange.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7191CC1E976A1800DE5012 /* NSObject+JsonExchange.m */; };
@@ -98,6 +99,13 @@
 		EE85CE471F2C627B00485041 /* SYCWXPayRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE461F2C627B00485041 /* SYCWXPayRequestModel.m */; };
 		EE85CE4B1F2C706300485041 /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */; };
 		EE85CE4E1F2C735900485041 /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE4D1F2C735900485041 /* WXApiManager.m */; };
+		EE8B32AB1F41480100CC065D /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8B32AA1F41480100CC065D /* NotificationService.m */; };
+		EE8B32AF1F41480100CC065D /* SYCNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EE8B32A71F41480100CC065D /* SYCNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EE8B32BD1F417A6D00CC065D /* libMiPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32BB1F417A6D00CC065D /* libMiPushSDK.a */; };
+		EE8B32BF1F4188A000CC065D /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32BE1F4188A000CC065D /* libresolv.tbd */; };
+		EE8B32C11F4188AB00CC065D /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32C01F4188AB00CC065D /* libxml2.2.tbd */; };
+		EE8B32C31F4188C600CC065D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32C21F4188C600CC065D /* UserNotifications.framework */; };
+		EE8CCD851F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8CCD841F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m */; };
 		EE915B461F2AD6DA0046E24B /* aescrypt.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B231F2AD6DA0046E24B /* aescrypt.c */; };
 		EE915B471F2AD6DA0046E24B /* aeskey.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B241F2AD6DA0046E24B /* aeskey.c */; };
 		EE915B481F2AD6DA0046E24B /* aestab.c in Sources */ = {isa = PBXBuildFile; fileRef = EE915B261F2AD6DA0046E24B /* aestab.c */; };
@@ -252,7 +260,28 @@
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = CordovaLib;
 		};
+		EE8B32AD1F41480100CC065D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EE8B32A61F41480100CC065D;
+			remoteInfo = SYCNotificationService;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EE8B32B31F41480100CC065D /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EE8B32AF1F41480100CC065D /* SYCNotificationService.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0207DA571B56EA530066E2B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SYCloud/Images.xcassets; sourceTree = SOURCE_ROOT; };
@@ -338,6 +367,8 @@
 		EE629F021E962E6600832C36 /* BaiduMapAPI_Utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Utils.framework; sourceTree = "<group>"; };
 		EE629F091E963AF600832C36 /* SYCResultPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCResultPlugin.h; sourceTree = "<group>"; };
 		EE629F0A1E963AF600832C36 /* SYCResultPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCResultPlugin.m; sourceTree = "<group>"; };
+		EE661D751F3D4F6F009E2BAA /* SYCScanPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCScanPictureViewController.h; sourceTree = "<group>"; };
+		EE661D761F3D4F6F009E2BAA /* SYCScanPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCScanPictureViewController.m; sourceTree = "<group>"; };
 		EE6DF1951EBC59CD00AF15E4 /* SYCBlindYTKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCBlindYTKViewController.h; sourceTree = "<group>"; };
 		EE6DF1961EBC59CE00AF15E4 /* SYCBlindYTKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCBlindYTKViewController.m; sourceTree = "<group>"; };
 		EE6DF1981EBC622700AF15E4 /* SYCPopoverGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPopoverGroupViewController.h; sourceTree = "<group>"; };
@@ -409,6 +440,19 @@
 		EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiRequestHandler.m; sourceTree = "<group>"; };
 		EE85CE4C1F2C735900485041 /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
 		EE85CE4D1F2C735900485041 /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
+		EE8B32A71F41480100CC065D /* SYCNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SYCNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE8B32A91F41480100CC065D /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		EE8B32AA1F41480100CC065D /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		EE8B32AC1F41480100CC065D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EE8B32B41F41506C00CC065D /* SYCNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SYCNotificationService.entitlements; sourceTree = "<group>"; };
+		EE8B32B51F4178A600CC065D /* SYCloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SYCloud.entitlements; path = SYCloud/SYCloud.entitlements; sourceTree = "<group>"; };
+		EE8B32BB1F417A6D00CC065D /* libMiPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMiPushSDK.a; sourceTree = "<group>"; };
+		EE8B32BC1F417A6D00CC065D /* MiPushSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiPushSDK.h; sourceTree = "<group>"; };
+		EE8B32BE1F4188A000CC065D /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		EE8B32C01F4188AB00CC065D /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		EE8B32C21F4188C600CC065D /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		EE8CCD831F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCImgCollectionViewCell.h; sourceTree = "<group>"; };
+		EE8CCD841F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCImgCollectionViewCell.m; sourceTree = "<group>"; };
 		EE915B211F2AD6DA0046E24B /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		EE915B221F2AD6DA0046E24B /* aes_via_ace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes_via_ace.h; sourceTree = "<group>"; };
 		EE915B231F2AD6DA0046E24B /* aescrypt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = aescrypt.c; sourceTree = "<group>"; };
@@ -682,6 +726,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE8B32C31F4188C600CC065D /* UserNotifications.framework in Frameworks */,
+				EE8B32C11F4188AB00CC065D /* libxml2.2.tbd in Frameworks */,
+				EE8B32BF1F4188A000CC065D /* libresolv.tbd in Frameworks */,
 				EE629F031E962E6600832C36 /* BaiduMapAPI_Cloud.framework in Frameworks */,
 				EE629F041E962E6600832C36 /* BaiduMapAPI_Location.framework in Frameworks */,
 				EE629F051E962E6600832C36 /* BaiduMapAPI_Map.framework in Frameworks */,
@@ -711,9 +758,17 @@
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */,
 				641E5B79DBB84C4AAFB24975 /* CoreLocation.framework in Frameworks */,
+				EE8B32BD1F417A6D00CC065D /* libMiPushSDK.a in Frameworks */,
 				CB7792794FF549449FE6E2A3 /* AVFoundation.framework in Frameworks */,
 				AD4BC4C29EF848E0B8A6BC3F /* AudioToolbox.framework in Frameworks */,
 				EE629EF81E962CC100832C36 /* libcrypto.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE8B32A41F41480100CC065D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -750,6 +805,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* SYCloud.app */,
+				EE8B32A71F41480100CC065D /* SYCNotificationService.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -757,6 +813,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				EE8B32B51F4178A600CC065D /* SYCloud.entitlements */,
 				EE9FE4781F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle */,
 				EE629EF11E962A8100832C36 /* mapapi.bundle */,
 				EB87FDF41871DAF40020F90C /* config.xml */,
@@ -769,6 +826,7 @@
 				EE95FF941E7F804A00C35C2A /* LIbs */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
+				EE8B32A81F41480100CC065D /* SYCNotificationService */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -804,6 +862,9 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EE8B32C21F4188C600CC065D /* UserNotifications.framework */,
+				EE8B32C01F4188AB00CC065D /* libxml2.2.tbd */,
+				EE8B32BE1F4188A000CC065D /* libresolv.tbd */,
 				EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */,
 				EE629EFD1E962E6600832C36 /* BaiduMapAPI_Cloud.framework */,
 				EE629EFE1E962E6600832C36 /* BaiduMapAPI_Location.framework */,
@@ -931,6 +992,8 @@
 				EE6DF1991EBC622700AF15E4 /* SYCPopoverGroupViewController.m */,
 				EEC829091F34072100D828B0 /* SYCShareAppViewController.h */,
 				EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */,
+				EE661D751F3D4F6F009E2BAA /* SYCScanPictureViewController.h */,
+				EE661D761F3D4F6F009E2BAA /* SYCScanPictureViewController.m */,
 				EE7329241EC0560B00FB85E1 /* SYCRequestLoadingViewController.h */,
 				EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */,
 				EE839F1F1EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.h */,
@@ -976,6 +1039,36 @@
 				EE85CE4D1F2C735900485041 /* WXApiManager.m */,
 			);
 			name = WXpay;
+			sourceTree = "<group>";
+		};
+		EE8B32A81F41480100CC065D /* SYCNotificationService */ = {
+			isa = PBXGroup;
+			children = (
+				EE8B32B41F41506C00CC065D /* SYCNotificationService.entitlements */,
+				EE8B32A91F41480100CC065D /* NotificationService.h */,
+				EE8B32AA1F41480100CC065D /* NotificationService.m */,
+				EE8B32AC1F41480100CC065D /* Info.plist */,
+			);
+			path = SYCNotificationService;
+			sourceTree = "<group>";
+		};
+		EE8B32BA1F417A6D00CC065D /* MiPushSDK */ = {
+			isa = PBXGroup;
+			children = (
+				EE8B32BB1F417A6D00CC065D /* libMiPushSDK.a */,
+				EE8B32BC1F417A6D00CC065D /* MiPushSDK.h */,
+			);
+			name = MiPushSDK;
+			path = SDK;
+			sourceTree = "<group>";
+		};
+		EE8CCD821F3EA6CD000CD9A7 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				EE8CCD831F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.h */,
+				EE8CCD841F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m */,
+			);
+			name = CustomViews;
 			sourceTree = "<group>";
 		};
 		EE915B1F1F2AD6DA0046E24B /* SSZipArchive */ = {
@@ -1238,6 +1331,7 @@
 		EE95FF941E7F804A00C35C2A /* LIbs */ = {
 			isa = PBXGroup;
 			children = (
+				EE8B32BA1F417A6D00CC065D /* MiPushSDK */,
 				EE915B1F1F2AD6DA0046E24B /* SSZipArchive */,
 				EE8416581EEBE2930032B37F /* WeiXin */,
 				EE629EF51E962CC100832C36 /* thirdlibs */,
@@ -1454,6 +1548,7 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EE8CCD821F3EA6CD000CD9A7 /* CustomViews */,
 				EE9FE47E1F3C427600B1D67A /* QQShare */,
 				EE85CE481F2C637F00485041 /* WXpay */,
 				EE92F3C91F1E0CB0001C25F0 /* Load */,
@@ -1524,16 +1619,35 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				EE8B32B31F41480100CC065D /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				301BF551109A68C00062928A /* PBXTargetDependency */,
+				EE8B32AE1F41480100CC065D /* PBXTargetDependency */,
 			);
 			name = SYCloud;
 			productName = SYCloud;
 			productReference = 1D6058910D05DD3D006BFB54 /* SYCloud.app */;
 			productType = "com.apple.product-type.application";
+		};
+		EE8B32A61F41480100CC065D /* SYCNotificationService */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE8B32B21F41480100CC065D /* Build configuration list for PBXNativeTarget "SYCNotificationService" */;
+			buildPhases = (
+				EE8B32A31F41480100CC065D /* Sources */,
+				EE8B32A41F41480100CC065D /* Frameworks */,
+				EE8B32A51F41480100CC065D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SYCNotificationService;
+			productName = SYCNotificationService;
+			productReference = EE8B32A71F41480100CC065D /* SYCNotificationService.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -1547,6 +1661,19 @@
 						DevelopmentTeam = 8YHY633A9W;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
+					EE8B32A61F41480100CC065D = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 8YHY633A9W;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -1571,6 +1698,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* SYCloud */,
+				EE8B32A61F41480100CC065D /* SYCNotificationService */,
 			);
 		};
 /* End PBXProject section */
@@ -1618,6 +1746,13 @@
 				EE629ED71E95EA5500832C36 /* 750x1334-3@2x.png in Resources */,
 				EED6FB791E94E2430061B6AC /* 640x960-1.png in Resources */,
 				EE9500331E7F804A00C35C2A /* LICENSE in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EE8B32A51F41480100CC065D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1685,6 +1820,7 @@
 				EEEAC04D1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m in Sources */,
 				EE9500641E7F804A00C35C2A /* MJRefreshBackStateFooter.m in Sources */,
 				EE9500581E7F804A00C35C2A /* README.md in Sources */,
+				EE661D771F3D4F6F009E2BAA /* SYCScanPictureViewController.m in Sources */,
 				EE9500471E7F804A00C35C2A /* View+MASAdditions.m in Sources */,
 				EED6FB5B1E94D9070061B6AC /* CALayer+Transition.m in Sources */,
 				EE95005B1E7F804A00C35C2A /* MJRefreshBackFooter.m in Sources */,
@@ -1755,6 +1891,7 @@
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,
 				EE9500391E7F804A00C35C2A /* UIButton+AFNetworking.m in Sources */,
 				EE95006D1E7F804A00C35C2A /* UIView+MJExtension.m in Sources */,
+				EE8CCD851F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m in Sources */,
 				EE9500841E7FD18D00C35C2A /* SYCEventButton.m in Sources */,
 				EE8156DE1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m in Sources */,
 				EE9500551E7F804A00C35C2A /* NSObject+MJKeyValue.m in Sources */,
@@ -1817,6 +1954,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		EE8B32A31F41480100CC065D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE8B32AB1F41480100CC065D /* NotificationService.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1824,6 +1969,11 @@
 			isa = PBXTargetDependency;
 			name = CordovaLib;
 			targetProxy = 301BF550109A68C00062928A /* PBXContainerItemProxy */;
+		};
+		EE8B32AE1F41480100CC065D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EE8B32A61F41480100CC065D /* SYCNotificationService */;
+			targetProxy = EE8B32AD1F41480100CC065D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1837,6 +1987,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = SYCloud/SYCloud.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				COPY_PHASE_STRIP = NO;
@@ -1860,7 +2011,9 @@
 					"$(PROJECT_DIR)/thirdlibs",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/WeiXin",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/SDK",
 				);
+				MiSDKRun = debugs;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
 				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
@@ -1878,6 +2031,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_ENTITLEMENTS = SYCloud/SYCloud.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				COPY_PHASE_STRIP = YES;
@@ -1899,7 +2053,9 @@
 					"$(PROJECT_DIR)/thirdlibs",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/WeiXin",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/SDK",
 				);
+				MiSDKRun = online;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
 				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
@@ -1965,6 +2121,91 @@
 			};
 			name = Release;
 		};
+		EE8B32B01F41480100CC065D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = SYCNotificationService/SYCNotificationService.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8YHY633A9W;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = SYCNotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sycloud.SYCloud.SYCNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35f8425f-945c-494e-9447-ecb581210939";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationService;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		EE8B32B11F41480100CC065D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = SYCNotificationService/SYCNotificationService.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 8YHY633A9W;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				INFOPLIST_FILE = SYCNotificationService/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sycloud.SYCloud.SYCNotificationService;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "35f8425f-945c-494e-9447-ecb581210939";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationService;
+				SKIP_INSTALL = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1982,6 +2223,15 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE8B32B21F41480100CC065D /* Build configuration list for PBXNativeTarget "SYCNotificationService" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE8B32B01F41480100CC065D /* Debug */,
+				EE8B32B11F41480100CC065D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
