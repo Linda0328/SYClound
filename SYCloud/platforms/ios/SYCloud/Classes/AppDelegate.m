@@ -55,6 +55,7 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "QQManager.h"
 #import "MiPushSDK.h"
+#import "SYCPushMessageViewController.h"
 @interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
@@ -146,11 +147,7 @@
     //通过推送窗口启动程序
     NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     if(userInfo){
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"消息"
-                                                                       message:[NSString stringWithFormat:@"%@", userInfo]
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *act = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:act];
+        [self dealWithPushMessage:userInfo];
     }
     return YES;
 }
@@ -380,13 +377,14 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"----------%@",userInfo);
+    [self dealWithPushMessage:userInfo];
 }
 // iOS10新加入的回调方法
 // 应用在前台收到通知
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
     NSDictionary * userInfo = notification.request.content.userInfo;
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        
+        [self dealWithPushMessage:userInfo];
     }
     
 }
@@ -395,7 +393,7 @@
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        
+        [self dealWithPushMessage:userInfo];
     }
     completionHandler();
 }
@@ -412,5 +410,25 @@
 
 -(void)miPushRequestErrWithSelector:(NSString *)selector error:(int)error data:(NSDictionary *)data{
    //请求失败
+}
+-(void)dealWithPushMessage:(NSDictionary*)userInfo{
+    NSString *title = userInfo[@"push_title"];
+    NSString *type = userInfo[@"push_type"];
+    NSString *url = userInfo[@"push_url"];
+    if ([type isEqualToString:pushMessageTypePage]) {
+        SYCPushMessageViewController *viewC =[[SYCPushMessageViewController alloc]init];
+        viewC.navTitle = title;
+        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-113);
+        viewC.view.frame =rect;
+        MainViewController *mainViewC = [[MainViewController alloc]init];
+        mainViewC.startPage = url;
+        mainViewC.view.frame = rect;
+        [viewC.view addSubview:mainViewC.view];
+        [viewC addChildViewController:mainViewC];
+        [mainViewC didMoveToParentViewController:viewC];
+        UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:viewC];
+        [self.window.rootViewController presentViewController:navC animated:YES completion:nil];
+    }
+    
 }
 @end

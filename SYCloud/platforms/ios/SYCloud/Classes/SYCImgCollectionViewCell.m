@@ -7,7 +7,8 @@
 //
 
 #import "SYCImgCollectionViewCell.h"
-
+static CGFloat MaxScale = 3.0;
+static CGFloat MinScale = 1.0;
 
 @implementation SYCImgCollectionViewCell
 

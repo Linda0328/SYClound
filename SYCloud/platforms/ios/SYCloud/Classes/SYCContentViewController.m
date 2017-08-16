@@ -34,6 +34,7 @@
 #import "WXApiManager.h"
 #import "QQManager.h"
 #import "SYCScanPictureViewController.h"
+#import "SYCScanImagesViewController.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -253,7 +254,9 @@ static void *eventBarItem = @"eventBarItem";
     NSArray *imgs = [notify.userInfo objectForKey:photoArrkey];
     NSInteger index =[[notify.userInfo objectForKey:defaultPhotoIndexKey]integerValue];
     _presentedRect = [[UIScreen mainScreen]bounds];
-    SYCScanPictureViewController *pic = [[SYCScanPictureViewController alloc]init];
+//    SYCScanPictureViewController *pic = [[SYCScanPictureViewController alloc]init];
+
+    SYCScanImagesViewController *pic = [[SYCScanImagesViewController alloc]init];
     pic.imgs = imgs ;
     pic.index = index;
     pic.modalPresentationStyle = UIModalPresentationCustom;

@@ -92,6 +92,9 @@ NSString *const dismissShareNotify = @"dismissShare";
 NSString *const showPhotoNotify = @"showPhoto";
 NSString *const photoArrkey = @"photoArr";
 NSString *const defaultPhotoIndexKey = @"defaultPhotoIndex";
+
+//push message type
+NSString *const pushMessageTypePage = @"page";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

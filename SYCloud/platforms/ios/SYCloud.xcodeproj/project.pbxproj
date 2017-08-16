@@ -74,6 +74,10 @@
 		EE7913CE1F316BB6002E4317 /* SYCPhotoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913CD1F316BB6002E4317 /* SYCPhotoPlugin.m */; };
 		EE7913D11F316BEF002E4317 /* SYCPatternLockPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913D01F316BEF002E4317 /* SYCPatternLockPlugin.m */; };
 		EE7913D41F31AE2B002E4317 /* SYCShareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913D31F31AE2B002E4317 /* SYCShareModel.m */; };
+		EE79AD491F43D41600DFEDB1 /* SYCPushMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE79AD481F43D41600DFEDB1 /* SYCPushMessageViewController.m */; };
+		EE79AD4C1F44241000DFEDB1 /* SYCScanImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE79AD4B1F44241000DFEDB1 /* SYCScanImageViewController.m */; };
+		EE79AD4F1F442FDA00DFEDB1 /* MRZoomScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE79AD4E1F442FDA00DFEDB1 /* MRZoomScrollView.m */; };
+		EE79AD521F4433B100DFEDB1 /* SYCScanImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE79AD511F4433B100DFEDB1 /* SYCScanImagesViewController.m */; };
 		EE7AD8021E8F53D700BCEB5F /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8011E8F53D700BCEB5F /* libc++.tbd */; };
 		EE7AD8041E8F53EF00BCEB5F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */; };
 		EE7AD8061E8F53F900BCEB5F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */; };
@@ -397,6 +401,14 @@
 		EE7913D01F316BEF002E4317 /* SYCPatternLockPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPatternLockPlugin.m; sourceTree = "<group>"; };
 		EE7913D21F31AE2B002E4317 /* SYCShareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCShareModel.h; sourceTree = "<group>"; };
 		EE7913D31F31AE2B002E4317 /* SYCShareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCShareModel.m; sourceTree = "<group>"; };
+		EE79AD471F43D41600DFEDB1 /* SYCPushMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPushMessageViewController.h; sourceTree = "<group>"; };
+		EE79AD481F43D41600DFEDB1 /* SYCPushMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPushMessageViewController.m; sourceTree = "<group>"; };
+		EE79AD4A1F44241000DFEDB1 /* SYCScanImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCScanImageViewController.h; sourceTree = "<group>"; };
+		EE79AD4B1F44241000DFEDB1 /* SYCScanImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCScanImageViewController.m; sourceTree = "<group>"; };
+		EE79AD4D1F442FDA00DFEDB1 /* MRZoomScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRZoomScrollView.h; path = ../../../../../../../Downloads/MRZoomScrollView.h; sourceTree = "<group>"; };
+		EE79AD4E1F442FDA00DFEDB1 /* MRZoomScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MRZoomScrollView.m; path = ../../../../../../../Downloads/MRZoomScrollView.m; sourceTree = "<group>"; };
+		EE79AD501F4433B100DFEDB1 /* SYCScanImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCScanImagesViewController.h; sourceTree = "<group>"; };
+		EE79AD511F4433B100DFEDB1 /* SYCScanImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCScanImagesViewController.m; sourceTree = "<group>"; };
 		EE7AD8011E8F53D700BCEB5F /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		EE7AD8031E8F53EF00BCEB5F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		EE7AD8051E8F53F900BCEB5F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -793,9 +805,8 @@
 				EED6FB5F1E94DCA70061B6AC /* SYReachableNotViewController.m */,
 				EED6FB611E94DCCD0061B6AC /* SYOpenWLANTableViewController.h */,
 				EED6FB621E94DCCD0061B6AC /* SYOpenWLANTableViewController.m */,
-				EED6FB641E94DCF60061B6AC /* SYIntroduceWLANView.h */,
-				EED6FB651E94DCF60061B6AC /* SYIntroduceWLANView.m */,
-				EED6FB661E94DCF60061B6AC /* SYIntroduceWLANView.xib */,
+				EE79AD471F43D41600DFEDB1 /* SYCPushMessageViewController.h */,
+				EE79AD481F43D41600DFEDB1 /* SYCPushMessageViewController.m */,
 			);
 			name = Classes;
 			path = SYCloud/Classes;
@@ -992,8 +1003,12 @@
 				EE6DF1991EBC622700AF15E4 /* SYCPopoverGroupViewController.m */,
 				EEC829091F34072100D828B0 /* SYCShareAppViewController.h */,
 				EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */,
+				EE79AD501F4433B100DFEDB1 /* SYCScanImagesViewController.h */,
+				EE79AD511F4433B100DFEDB1 /* SYCScanImagesViewController.m */,
 				EE661D751F3D4F6F009E2BAA /* SYCScanPictureViewController.h */,
 				EE661D761F3D4F6F009E2BAA /* SYCScanPictureViewController.m */,
+				EE79AD4A1F44241000DFEDB1 /* SYCScanImageViewController.h */,
+				EE79AD4B1F44241000DFEDB1 /* SYCScanImageViewController.m */,
 				EE7329241EC0560B00FB85E1 /* SYCRequestLoadingViewController.h */,
 				EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */,
 				EE839F1F1EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.h */,
@@ -1065,6 +1080,11 @@
 		EE8CCD821F3EA6CD000CD9A7 /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				EE79AD4D1F442FDA00DFEDB1 /* MRZoomScrollView.h */,
+				EE79AD4E1F442FDA00DFEDB1 /* MRZoomScrollView.m */,
+				EED6FB641E94DCF60061B6AC /* SYIntroduceWLANView.h */,
+				EED6FB651E94DCF60061B6AC /* SYIntroduceWLANView.m */,
+				EED6FB661E94DCF60061B6AC /* SYIntroduceWLANView.xib */,
 				EE8CCD831F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.h */,
 				EE8CCD841F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m */,
 			);
@@ -1794,11 +1814,13 @@
 				EE9500571E7F804A00C35C2A /* NSString+MJExtension.m in Sources */,
 				EE9500871E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m in Sources */,
 				EE9500621E7F804A00C35C2A /* MJRefreshBackGifFooter.m in Sources */,
+				EE79AD521F4433B100DFEDB1 /* SYCScanImagesViewController.m in Sources */,
 				EE85CE4E1F2C735900485041 /* WXApiManager.m in Sources */,
 				EE9500491E7F804A00C35C2A /* README.md in Sources */,
 				EE95005C1E7F804A00C35C2A /* MJRefreshComponent.m in Sources */,
 				EE915B461F2AD6DA0046E24B /* aescrypt.c in Sources */,
 				EE7BE7021E8125D50080D625 /* SYScanViewController.m in Sources */,
+				EE79AD491F43D41600DFEDB1 /* SYCPushMessageViewController.m in Sources */,
 				EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */,
 				EE95003F1E7F804A00C35C2A /* MASCompositeConstraint.m in Sources */,
 				EE9500711E7F804A00C35C2A /* README.md in Sources */,
@@ -1837,6 +1859,7 @@
 				EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */,
 				EE4880C01EB46FE900D6A675 /* SYCPayOrderInfoModel.m in Sources */,
 				EE9500301E7F804A00C35C2A /* AFURLRequestSerialization.m in Sources */,
+				EE79AD4F1F442FDA00DFEDB1 /* MRZoomScrollView.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				EED6FB5C1E94D9070061B6AC /* XZMCoreNewFeatureVC.m in Sources */,
 				EE95FF701E7F7DAB00C35C2A /* SYCLocationPlugin.m in Sources */,
@@ -1925,6 +1948,7 @@
 				C3C575E09E47446381BCDEEF /* CDVStatusBar.m in Sources */,
 				EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */,
 				EE9500481E7F804A00C35C2A /* ViewController+MASAdditions.m in Sources */,
+				EE79AD4C1F44241000DFEDB1 /* SYCScanImageViewController.m in Sources */,
 				EE9500541E7F804A00C35C2A /* NSObject+MJCoding.m in Sources */,
 				2A8071774CB64E038B1C7366 /* CDVVibration.m in Sources */,
 				EE915B471F2AD6DA0046E24B /* aeskey.c in Sources */,

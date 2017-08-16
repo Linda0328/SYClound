@@ -86,6 +86,8 @@ extern NSString *const dismissShareNotify;
 extern NSString *const showPhotoNotify;
 extern NSString *const photoArrkey;
 extern NSString *const defaultPhotoIndexKey;
+
+extern NSString *const pushMessageTypePage;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

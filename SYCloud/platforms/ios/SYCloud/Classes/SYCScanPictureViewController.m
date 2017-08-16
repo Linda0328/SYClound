@@ -10,12 +10,11 @@
 #import "SYCImgCollectionViewCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "HexColor.h"
-static CGFloat MaxScale = 3.0;
-static CGFloat MinScale = 1.0;
+
 @interface SYCScanPictureViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (nonatomic,strong)UIPageControl *pageC;
 @property (nonatomic,strong)UICollectionView *collectionView;
-
+@property (nonatomic,assign)CGFloat lastImgScale;
 @end
 
 @implementation SYCScanPictureViewController
@@ -37,9 +36,9 @@ static CGFloat MinScale = 1.0;
     _collectionView.pagingEnabled = YES;//滑动分页效果
     _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.showsHorizontalScrollIndicator = NO;
-//    _collectionView.maximumZoomScale = 3;
-//    _collectionView.minimumZoomScale = 1;
-//    [_collectionView setZoomScale:1 animated:NO];
+    _collectionView.maximumZoomScale = 3;
+    _collectionView.minimumZoomScale = 1;
+    [_collectionView setZoomScale:1 animated:NO];
     [_collectionView registerClass:[SYCImgCollectionViewCell class] forCellWithReuseIdentifier:NSStringFromClass([SYCImgCollectionViewCell class])];
     [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:_index inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
     [self.view addSubview:_collectionView];
@@ -74,8 +73,8 @@ static CGFloat MinScale = 1.0;
     [cell.imageV setImageWithURL:[NSURL URLWithString:[_imgs objectAtIndex:indexPath.row]]
                         placeholderImage:nil];
     cell.imageV.userInteractionEnabled = YES;
-    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(Pinch:)];
-    [cell.imageV addGestureRecognizer:pinch];
+//    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(Pinch:)];
+//    [cell.imageV addGestureRecognizer:pinch];
     return cell;
 }
 #pragma mark ---
@@ -85,18 +84,34 @@ static CGFloat MinScale = 1.0;
         self.pageC.currentPage = page;
     }
 }
-////告诉Scrollview缩放哪个子控件
+//-(void)Pinch:(UIPinchGestureRecognizer*)pinch{
+//    if ([pinch state] == UIGestureRecognizerStateBegan) {
+//        _lastImgScale = 1.0;
+//    }
+//    CGFloat scale = pinch.scale-_lastImgScale+1.0;
+//    pinch.view.transform = CGAffineTransformScale(pinch.view.transform, scale, scale);
+//    _lastImgScale = pinch.scale;
+//}
+//告诉Scrollview缩放哪个子控件
 //-(UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView{
 //    SYCImgCollectionViewCell *cell = (SYCImgCollectionViewCell*)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageC.currentPage inSection:0]];
-//    return cell.imageV;
+//    return cell;
 //}
 ////等比放大，让放大的图片保持在scrollview的中央
 //-(void)scrollViewDidZoom:(UIScrollView *)scrollView{
 //    SYCImgCollectionViewCell *cell = (SYCImgCollectionViewCell*)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageC.currentPage inSection:0]];
-//    CGFloat offsetX = (_collectionView.bounds.size.width > _collectionView.contentSize.width)?(_collectionView.bounds.size.width - _collectionView.contentSize.width) *0.5 : 0.0;
-//    CGFloat offsetY = (_collectionView.bounds.size.height > _collectionView.contentSize.height)?
-//    (_collectionView.bounds.size.height - _collectionView.contentSize.height) *0.5 : 0.0;
-//    cell.imageV.center =CGPointMake(_collectionView.contentSize.width *0.5 + offsetX,_collectionView.contentSize.height *0.5 + offsetY);
+//    CGRect frame = cell.frame;
+//    
+//    frame.origin.y = (scrollView.frame.size.height - cell.frame.size.height) > 0 ? (scrollView.frame.size.height - cell.frame.size.height) * 0.5 : 0;
+//    frame.origin.x = (scrollView.frame.size.width - cell.frame.size.width) > 0 ? (scrollView.frame.size.width - cell.frame.size.width) * 0.5 : 0;
+//    cell.frame = frame;
+//    
+//    scrollView.contentSize = CGSizeMake(cell.frame.size.width + 30, cell.frame.size.height + 30);
+////    SYCImgCollectionViewCell *cell = (SYCImgCollectionViewCell*)[_collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.pageC.currentPage inSection:0]];
+////    CGFloat offsetX = (_collectionView.bounds.size.width > _collectionView.contentSize.width)?(_collectionView.bounds.size.width - _collectionView.contentSize.width) *0.5 : 0.0;
+////    CGFloat offsetY = (_collectionView.bounds.size.height > _collectionView.contentSize.height)?
+////    (_collectionView.bounds.size.height - _collectionView.contentSize.height)*0.5 : 0.0;
+////    cell.imageV.center =CGPointMake(_collectionView.contentSize.width *0.5 + offsetX,_collectionView.contentSize.height *0.5 + offsetY);
 //}
 /*
 #pragma mark - Navigation
