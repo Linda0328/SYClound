@@ -9,8 +9,9 @@
 #import "SYCScanImagesViewController.h"
 #import "MRZoomScrollView.h"
 #import "UIImageView+AFNetworking.h"
-@interface SYCScanImagesViewController ()<UIScrollViewDelegate>
-
+#import "HexColor.h"
+@interface SYCScanImagesViewController ()<UIScrollViewDelegate,MRZoomScrollViewDelegate>
+@property (nonatomic,strong)UIPageControl *pageC;
 @end
 
 @implementation SYCScanImagesViewController
@@ -28,16 +29,32 @@
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     [self.view addSubview:scrollView];
-    
+    CGRect frame = scrollView.bounds;
     for (NSInteger i = 0; i < [_imgs count]; i++) {
-        CGRect frame = scrollView.frame;
         frame.origin.x = frame.size.width*i;
         frame.origin.y = 0;
         MRZoomScrollView *scrollV = [[MRZoomScrollView alloc]initWithFrame:frame];
         [scrollV.imageView setImageWithURL:[NSURL URLWithString:[_imgs objectAtIndex:i]]
                           placeholderImage:nil];
         [scrollView addSubview:scrollV];
+        scrollV.customDelegate = self;
     }
+    [scrollView setContentOffset:CGPointMake(_index*screenSize.width, 0)];
+    _pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(60, screenSize.height-60, screenSize.width-120, 40)];
+    _pageC.numberOfPages = [_imgs count];
+    _pageC.currentPage = _index;
+    _pageC.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"45bdef"];
+    [self.view addSubview:_pageC];
+}
+-(void)dismissScanPicture{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+#pragma mark ---
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    NSInteger page = scrollView.contentOffset.x/scrollView.frame.size.width;
+    self.pageC.currentPage = page;
+
 }
 
 - (void)didReceiveMemoryWarning {
