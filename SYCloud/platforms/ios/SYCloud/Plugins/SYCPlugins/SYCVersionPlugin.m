@@ -46,9 +46,9 @@
     [def setObject:comeback forKey:loadToken];
     [def synchronize];
     [SYCShareVersionInfo sharedVersion].token = comeback;
-    MainViewController *main = (MainViewController*)self.viewController;
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:loadAppNotify object:main];
+//    MainViewController *main = (MainViewController*)self.viewController;
+//    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+//    [center postNotificationName:loadAppNotify object:main];
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:comeback];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];

@@ -51,7 +51,10 @@
                 strMsg = @"支付结果：成功！";
 //                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
                 break;
-                
+            case WXErrCodeUserCancel:
+                [dic setObject:AliPaySuccess forKey:@"resultCode"];
+                strMsg = @"支付结果：取消支付！";
+                break;
             default:
                 [dic setObject:AliPayFail forKey:@"resultCode"];
 //                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];

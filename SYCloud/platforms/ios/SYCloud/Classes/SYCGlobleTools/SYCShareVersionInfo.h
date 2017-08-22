@@ -32,6 +32,7 @@
 @property (nonatomic,copy)NSString *pagePackage;
 @property (nonatomic,copy)NSString *indexVersion;
 
+@property (nonatomic,assign)BOOL downPageOrNot;
 
 //扫描
 @property (nonatomic,copy)NSString *scanPluginID;

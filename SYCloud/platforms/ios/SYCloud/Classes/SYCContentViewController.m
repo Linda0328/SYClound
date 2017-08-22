@@ -600,7 +600,7 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(UIView*)payLoading{
     UIWindow *windows = [UIApplication sharedApplication].keyWindow;
-    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 68*[SYCSystem PointCoefficient], 68*[SYCSystem PointCoefficient])];
+    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 80*[SYCSystem PointCoefficient], 80*[SYCSystem PointCoefficient])];
     loadingV.center = windows.center;
     loadingV.backgroundColor = [UIColor colorWithHexString:@"000000"];
     loadingV.alpha = 0.8;
@@ -608,7 +608,7 @@ static void *eventBarItem = @"eventBarItem";
     loadingV.layer.cornerRadius = 10.0;
     
     UIImage *pay_loading = [UIImage imageNamed:@"pay_loading"];
-    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, 8*[SYCSystem PointCoefficient], pay_loading.size.width, pay_loading.size.height)];
+    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, 12*[SYCSystem PointCoefficient], pay_loading.size.width, pay_loading.size.height)];
     [imageV setImage:pay_loading];
     [loadingV addSubview:imageV];
     
@@ -623,7 +623,7 @@ static void *eventBarItem = @"eventBarItem";
     NSMutableArray *viewArr = [NSMutableArray array];
     for (NSInteger i = 0; i < 3; i++) {
         CGFloat gap = 6;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetWidth(loadingV.frame)/2-6*[SYCSystem PointCoefficient]-gap+i*(gap+4*[SYCSystem PointCoefficient]), CGRectGetHeight(loadingV.frame)- 12, 4*[SYCSystem PointCoefficient], 4*[SYCSystem PointCoefficient])];
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetWidth(loadingV.frame)/2-6*[SYCSystem PointCoefficient]-gap+i*(gap+4*[SYCSystem PointCoefficient]), CGRectGetHeight(loadingV.frame)- 16, 4*[SYCSystem PointCoefficient], 4*[SYCSystem PointCoefficient])];
         [loadingV addSubview:view];
         view.tag = 1000+i;
         view.layer.masksToBounds = YES;

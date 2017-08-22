@@ -47,13 +47,27 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
         [button addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
     }
-    _HUD = [[MBProgressHUD alloc]initWithView:self.view];
-    [self.view addSubview:_HUD];
+    _HUD = [[MBProgressHUD alloc]initWithView:[UIApplication sharedApplication].keyWindow];
+    _HUD.mode = MBProgressHUDModeText;
+    [[UIApplication sharedApplication].keyWindow addSubview:_HUD];
     [_HUD hideAnimated:YES];
 }
 -(void)action:(UIButton*)sender{
-    [self dismissViewControllerAnimated:YES completion:nil];
     NSString *title = [sender currentTitle];
+    if (![QQApiInterface isQQInstalled]&&([title isEqualToString:@"QQ"]||[title isEqualToString:@"QQ空间"])) {
+        _HUD.label.text = @"请安装QQ";
+        [_HUD showAnimated:YES];
+        [_HUD hideAnimated:YES afterDelay:1.5f];
+        return;
+    }
+    if (![WXApi isWXAppInstalled]&&([title isEqualToString:@"微信"]||[title isEqualToString:@"朋友圈"])) {
+        _HUD.label.text = @"请安装微信";
+        [_HUD showAnimated:YES];
+        [_HUD hideAnimated:YES afterDelay:1.5f];
+        return;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
     __block UIImage *thumbImg = nil;
     __block NSData *imageData = nil;
     //并发队列使用全局并发队列，异步执行任务

@@ -10,11 +10,16 @@
 #import "SYCSystem.h"
 #import "AFNetworking.h"
 #import "SSZipArchive.h"
+#import "SYCShareVersionInfo.h"
 @interface SYCCache()<SSZipArchiveDelegate>
 
 @end
 @implementation SYCCache
 -(BOOL)downLoadJSFileWithPageVersion:(NSString*)pageVersion linkURL:(NSString*)pagePackage{
+    //测试环境不做缓存处理
+    if (![SYCShareVersionInfo sharedVersion].formal) {
+        return NO;
+    }
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
     NSString *pageVersionLocal = [userdefault objectForKey:PageVersionKey];
     if ([SYCSystem judgeNSString:pageVersionLocal]&&[pageVersion isEqualToString:pageVersionLocal]) {

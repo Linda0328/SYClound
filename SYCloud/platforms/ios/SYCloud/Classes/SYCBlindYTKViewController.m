@@ -204,7 +204,7 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
         return;
     }
     
-    [SYCHttpReqTool blindYKTwithCardNo:_YKTtextF.text captcha:_YZMtextF.text completion:^(NSString *resultCode, NSMutableDictionary *result) {
+    [SYCHttpReqTool blindYKTwithCardNo:_YKTtextF.text captcha:_YZMtextF.text prior:@"1" completion:^(NSString *resultCode, NSMutableDictionary *result) {
         NSString *text = @"绑定失败";
         BOOL isFail = YES;
         if ([resultCode isEqualToString:resultCodeSuccess]) {

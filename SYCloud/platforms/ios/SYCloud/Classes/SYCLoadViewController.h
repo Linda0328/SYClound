@@ -10,4 +10,5 @@
 #import "MainViewController.h"
 @interface SYCLoadViewController : UIViewController
 @property (nonatomic,strong)MainViewController *mainVC;
+@property (nonatomic,assign)BOOL isFromSDK;
 @end

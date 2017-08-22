@@ -171,8 +171,12 @@
         // Json数据
         NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
         NSError *error = nil;
-        dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
-    }else{
+        if (indexData) {
+             dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
+        }
+       
+    }
+    if (!dic) {
         NSDictionary *result = [SYCHttpReqTool MainData];
         if ([result[resultCodeKey]isEqualToString:resultCodeSuccess]) {
             dic = result[resultSuccessKey];
@@ -249,7 +253,7 @@
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     //上次支付订单未完成，新的支付订单又来了
     UIViewController *vc = _tabVC.firstViewC;
-    if ([SYCShareVersionInfo sharedVersion].paymentSDKID) {
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
         while (vc.presentedViewController) {
             [vc dismissViewControllerAnimated:YES completion:nil];
             vc = vc.presentedViewController;
@@ -278,6 +282,9 @@
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
+            NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+            [def setObject:prePayID forKey:SDKIDkey];
+            [def synchronize];
             [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
@@ -286,6 +293,7 @@
         }else{
             SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
             load.mainVC = _tabVC.firstViewC.CurrentChildVC;
+            load.isFromSDK = YES;
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
             [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
@@ -306,7 +314,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     //上次支付订单未完成，新的支付订单又来了
     UIViewController *vc = _tabVC.firstViewC;
-    if ([SYCShareVersionInfo sharedVersion].paymentSDKID) {
+    if ([[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
         while (vc.presentedViewController) {
             [vc dismissViewControllerAnimated:YES completion:nil];
             vc = vc.presentedViewController;
@@ -337,6 +345,9 @@
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
+            NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+            [def setObject:prePayID forKey:SDKIDkey];
+            [def synchronize];
             [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
@@ -345,6 +356,7 @@
         }else{
             SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
             load.mainVC = _tabVC.firstViewC.CurrentChildVC;
+            load.isFromSDK = YES;
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
             [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
@@ -377,14 +389,46 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     NSLog(@"----------%@",userInfo);
-    [self dealWithPushMessage:userInfo];
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"新消息" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"忽视" style:UIAlertActionStyleCancel handler:nil
+                                     ];
+            [alertC addAction:action];
+            UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"去看看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self dealWithPushMessage:userInfo];
+            }];
+            [alertC addAction:action0];
+            [self.window.rootViewController presentViewController:alertC animated:YES completion:nil];
+        });
+    }else if ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [self dealWithPushMessage:userInfo];
+        });
+    }
+    
 }
 // iOS10新加入的回调方法
 // 应用在前台收到通知
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
     NSDictionary * userInfo = notification.request.content.userInfo;
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        [self dealWithPushMessage:userInfo];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"新消息" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"忽视" style:UIAlertActionStyleCancel handler:nil
+                                     ];
+            [alertC addAction:action];
+            UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"去看看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self dealWithPushMessage:userInfo];
+            }];
+            [alertC addAction:action0];
+            [self.window.rootViewController presentViewController:alertC animated:YES completion:nil];
+            
+        });
+       
     }
     
 }
@@ -395,8 +439,8 @@
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [self dealWithPushMessage:userInfo];
     }
-    completionHandler();
 }
+
 #pragma mark --- MiPushSDKDelegate
 -(void)miPushRequestSuccWithSelector:(NSString *)selector data:(NSDictionary *)data{
      NSLog(@"selector = %@,data = %@", selector,data);

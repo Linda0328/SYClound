@@ -12,6 +12,7 @@
 #import "HexColor.h"
 @interface SYCScanImagesViewController ()<UIScrollViewDelegate,MRZoomScrollViewDelegate>
 @property (nonatomic,strong)UIPageControl *pageC;
+
 @end
 
 @implementation SYCScanImagesViewController
@@ -34,8 +35,21 @@
         frame.origin.x = frame.size.width*i;
         frame.origin.y = 0;
         MRZoomScrollView *scrollV = [[MRZoomScrollView alloc]initWithFrame:frame];
-        [scrollV.imageView setImageWithURL:[NSURL URLWithString:[_imgs objectAtIndex:i]]
-                          placeholderImage:nil];
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        indicator.center = CGPointMake(screenSize.width/2, screenSize.height/2);
+        [scrollV addSubview:indicator];
+        [indicator startAnimating];
+        NSURL *imgURL = [NSURL URLWithString:[_imgs objectAtIndex:i]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:imgURL];
+//        [UIImage imageNamed:@"merchantDefaultImage"]
+        __weak __typeof(scrollV.imageView)weakImg = scrollV.imageView;
+        [scrollV.imageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+            __strong __typeof(weakImg)strongImg = weakImg;
+            [strongImg setImage:image];
+            [indicator stopAnimating];
+        } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+            [indicator stopAnimating];
+        }];
         [scrollView addSubview:scrollV];
         scrollV.customDelegate = self;
     }

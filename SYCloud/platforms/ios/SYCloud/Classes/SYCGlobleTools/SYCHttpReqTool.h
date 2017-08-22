@@ -31,7 +31,7 @@ extern NSString * const resultCodeSuccess;
 +(void)payScanInfoWithPaycode:(NSString*)payCode completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 +(void)payImmediatelyConfirm:(SYCPayOrderConfirmModel*)payConfirm prePayOrder:(BOOL)isPreOrder completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 +(void)getCaptchaforblindYKTwithCardNo:(NSString*)cardNo completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
-+(void)blindYKTwithCardNo:(NSString*)cardNo captcha:(NSString*)captcha completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
++(void)blindYKTwithCardNo:(NSString*)cardNo captcha:(NSString*)captcha prior:(NSString*)prior completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //获取到支付订单信息
 +(void)requestPayPluginInfoWithPrepareID:(NSString*)prepareId completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //获取验证码
@@ -39,5 +39,5 @@ extern NSString * const resultCodeSuccess;
 //手机密码登录
 +(void)loadWithMobile:(NSString*)phoneNum password:(NSString*)password regID:(NSString*)regId fromTerminal:(NSString*)systemType completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //手机验证码登录
-+(void)loadWithMobile:(NSString*)phoneNum verficationCode:(NSString*)code fromTerminal:(NSString*)systemType completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
++(void)loadWithMobile:(NSString*)phoneNum verficationCode:(NSString*)code regID:(NSString*)regId fromTerminal:(NSString*)systemType completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 @end

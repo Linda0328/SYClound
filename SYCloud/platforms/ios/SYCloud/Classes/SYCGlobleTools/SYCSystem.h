@@ -86,7 +86,8 @@ extern NSString *const dismissShareNotify;
 extern NSString *const showPhotoNotify;
 extern NSString *const photoArrkey;
 extern NSString *const defaultPhotoIndexKey;
-
+extern NSString *const SDKIDkey;
+extern NSString *const finishSDKPay;
 extern NSString *const pushMessageTypePage;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
@@ -108,4 +109,7 @@ extern NSString *const pushMessageTypePage;
 
 //分解url参数
 +(NSDictionary *)dealWithURL:(NSString*)url;
+
+//是否是手机号码
++ (BOOL)isMobilePhoneOrtelePhone:(NSString *)mobileNum;
 @end

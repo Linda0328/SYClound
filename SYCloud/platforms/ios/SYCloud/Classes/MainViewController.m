@@ -312,6 +312,9 @@
         }else{
         
         }
+        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+        [def setObject:finishSDKPay forKey:SDKIDkey];
+        [def synchronize];
         [SYCShareVersionInfo sharedVersion].paymentSDKID = nil;
         [SYCShareVersionInfo sharedVersion].thirdPartScheme = nil;
     }
@@ -368,20 +371,21 @@
     }else{
         _isWexinPay = YES;
     }
-//    if ([WXApi isWXAppInstalled]) {
+    if ([WXApi isWXAppInstalled]) {
          SYCWXPayRequestModel *requestM = [SYCWXPayRequestModel mj_objectWithKeyValues:[SYCShareVersionInfo sharedVersion].wxPayModel.paymentParameters];
           if (requestM.requestParams) {
               if(![WXApiRequestHandler sendRequestForPay:requestM.requestParams]){
-                  self.HUD.label.text = @"请求微信失败";
-                  [self.HUD showAnimated:YES];
-                  [self.HUD hideAnimated:YES afterDelay:1.5f];
+                  _HUD.label.text = @"请求微信失败";
               }
           }
-//    }else{
-//        self.HUD.label.text = @"请安装微信";
-//        [self.HUD showAnimated:YES];
-//        [self.HUD hideAnimated:YES afterDelay:1.5f];
-//    }
+    }else{
+        _HUD.label.text = @"请安装微信";
+    }
+    [_HUD showAnimated:YES];
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5* NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        [_HUD hideAnimated:YES];
+    });
 }
 -(void) WeixiPayResult:(NSNotification*)notify{
     if (!_isWexinPay) {
@@ -453,26 +457,27 @@
         //    [_locationService stopUserLocationService];
 }
 - (void)managerDidRecvMessageResponse:(SendMessageToWXResp *)response{
-    NSLog(@"----%d--%@--",response.errCode,response.errStr);
-//    MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.view];
-//    hud.mode = MBProgressHUDModeText;
-//    [self.view addSubview:hud];
+    NSString *text = @"分享失败";
     if (response.errCode == WXSuccess) {
-        _HUD.label.text = @"分享成功";
-    }else{
-        _HUD.label.text = @"分享失败";
+        text = @"分享成功";
     }
+    if (response.errCode == WXErrCodeUserCancel){
+        text = @"取消分享";
+    }
+    _HUD.label.text = text;
     [_HUD showAnimated:YES];
     [_HUD hideAnimated:YES afterDelay:1.50f];
 }
 -(void)managerDidRecvQQMessageResponse:(SendMessageToQQResp *)response{
-    NSLog(@"------%@--",response.result);
     
-    if ([response.result isEqualToString:@"0"]) {
-        _HUD.label.text = @"分享成功";
-    }else{
-        _HUD.label.text = @"分享失败";
+    NSString *text = @"分享失败";
+    if ([[response result]isEqualToString:@"0"]) {
+        text = @"分享成功";
     }
+    if([[response result]isEqualToString:@"-4"]) {
+        text = @"取消分享";
+    }
+    _HUD.label.text = text;
     [_HUD showAnimated:YES];
     [_HUD hideAnimated:YES afterDelay:1.50f];
 }

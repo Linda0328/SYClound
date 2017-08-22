@@ -58,7 +58,7 @@
     [_leftV setImage:leftImage];
     _phoneTextF.leftView = _leftV;
     _phoneTextF.leftViewMode = UITextFieldViewModeAlways;
-    _phoneTextF.placeholder = @"手机号码";
+    _phoneTextF.placeholder = @"手机号码/闪购手机号码";
     _phoneTextF.font = [UIFont systemFontOfSize:15.0];
     _phoneTextF.textColor = [UIColor colorWithHexString:@"999999"];
     _phoneTextF.keyboardType = UIKeyboardTypeNumberPad;
@@ -75,9 +75,9 @@
     [_leftV1 setImage:leftImage1];
     _passWordTextF.leftView = _leftV1;
     _passWordTextF.leftViewMode = UITextFieldViewModeAlways;
-    _passWordTextF.placeholder = @"密码";
+    _passWordTextF.placeholder = @"请输入密码";
     //暗文输入
-    _passWordTextF.secureTextEntry = YES;
+    
     _passWordTextF.font = [UIFont systemFontOfSize:15.0];
     _passWordTextF.textColor = [UIColor colorWithHexString:@"999999"];
     _passWordTextF.layer.borderColor = [UIColor colorWithHexString:@"dddddd"].CGColor;
@@ -110,10 +110,14 @@
     loadButt.layer.masksToBounds = YES;
     [self.view addSubview:loadButt];
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
+    _HUD.mode = MBProgressHUDModeText;
     [self.view addSubview:_HUD];
     [_HUD hideAnimated:YES];
 }
 -(void)backClick{
+    if (!_isFromSDK) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
     //初始化提示框
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"退出登录，将取消支付" preferredStyle:UIAlertControllerStyleAlert];
     //UIAlertActionStyleDefault
@@ -136,7 +140,7 @@
 }
 -(void)getVerfication:(UIButton*)button{
     
-    if ([SYCSystem judgeNSString:_phoneTextF.text]) {
+    if ([SYCSystem isMobilePhoneOrtelePhone:_phoneTextF.text]) {
         __weak __typeof(self)weakSelf = self;
         [SYCHttpReqTool getVerficationCodeWithMobile:_phoneTextF.text forUseCode:[NSString stringWithFormat:@"%@",@(getCaptchaLoad)] fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -145,6 +149,7 @@
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                     if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
+                        [self Countdown];
                         strongSelf.HUD.label.text = @"请注意查收验证码";
                     }else{
                         strongSelf.HUD.label.text = [resultDic objectForKey:@"msg"];
@@ -158,7 +163,7 @@
             
         }];
     }else{
-        _HUD.label.text = @"请输入手机号码";
+        _HUD.label.text = @"请输入正确的手机号码";
         [_HUD showAnimated:YES];
         [_HUD hideAnimated:YES afterDelay:2.0f];
     }
@@ -166,12 +171,14 @@
 }
 -(void)ExchangeWayForloading:(UIButton*)button{
     if ([button.currentTitle isEqualToString:@"验证码登录"]) {
+        _passWordTextF.secureTextEntry = NO;
         _getVerficationB.hidden = NO;
         [button setTitle:@"密码登录" forState:UIControlStateNormal];
         [_leftV1 setImage:_isEditing?[UIImage imageNamed:@"loadVerficationInput"]:[UIImage imageNamed:@"loadVerficationNormal"]];
         _passWordTextF.placeholder = @"验证码";
         _isVerfication = YES;
     }else{
+        _passWordTextF.secureTextEntry = YES;
         _getVerficationB.hidden = YES;
         [button setTitle:@"验证码登录" forState:UIControlStateNormal];
         [_leftV1 setImage:_isEditing?[UIImage imageNamed:@"loadPassWInput"]:[UIImage imageNamed:@"loadPassWNormal"]];
@@ -181,19 +188,14 @@
     _passWordTextF.leftView = _leftV1;
 }
 -(void)loading:(UIButton*)butt{
-    if (![SYCSystem judgeNSString:_passWordTextF.text]) {
-        _HUD.label.text = @"请输入手机号码";
+    
+    if (![SYCSystem isMobilePhoneOrtelePhone:_phoneTextF.text]) {
+        _HUD.label.text = @"请输入正确的手机号码";
         [_HUD showAnimated:YES];
         [_HUD hideAnimated:YES afterDelay:2.0f];
         return;
-    }else{
-        if (_phoneTextF.text.length != 11) {
-            _HUD.label.text = @"请输入正确的手机号码";
-            [_HUD showAnimated:YES];
-            [_HUD hideAnimated:YES afterDelay:2.0f];
-            return;
-        }
     }
+    
     if (![SYCSystem judgeNSString:_passWordTextF.text]) {
         _HUD.label.text = _isVerfication?@"请输入验证码":@"请输入密码";
         [_HUD showAnimated:YES];
@@ -202,13 +204,14 @@
     }
     __weak __typeof(self)weakSelf = self;
     if (_isVerfication) {
-        [SYCHttpReqTool loadWithMobile:_phoneTextF.text verficationCode:_passWordTextF.text fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        [SYCHttpReqTool loadWithMobile:_phoneTextF.text verficationCode:_passWordTextF.text regID:[SYCShareVersionInfo sharedVersion].regId fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
             NSLog(@"------%@",result);
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                     if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
+                       
                         NSString *token = [[resultDic objectForKey:@"result"] objectForKey:@"token"];
                         NSString *nickName = [[resultDic objectForKey:@"result"] objectForKey:@"nickName"];
                         NSString *portraitPath = [[resultDic objectForKey:@"result"] objectForKey:@"portraitPath"];
@@ -236,7 +239,7 @@
 
         }];
     }else{
-        [SYCHttpReqTool loadWithMobile:_phoneTextF.text password:_passWordTextF.text regID:@" " fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        [SYCHttpReqTool loadWithMobile:_phoneTextF.text password:_passWordTextF.text regID:[SYCShareVersionInfo sharedVersion].regId fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
             NSLog(@"------%@",result);
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             
@@ -271,6 +274,54 @@
 
         }];
     }
+}
+-(void) Countdown{
+    __block int timeout = 120; //倒计时时间
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    dispatch_source_t _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0,queue);
+    
+    dispatch_source_set_timer(_timer,dispatch_walltime(NULL, 0),1.0*NSEC_PER_SEC, 0); //每秒执行
+    
+    dispatch_source_set_event_handler(_timer, ^{
+        
+        if(timeout<=0){ //倒计时结束，关闭
+            
+            dispatch_source_cancel(_timer);
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                //设置界面的按钮显示 根据自己需求设置
+                
+                [_getVerficationB setTitle:@"获取验证码" forState:UIControlStateNormal];
+                _getVerficationB.userInteractionEnabled = YES;
+                _getVerficationB.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+            });
+            
+        }else{
+            NSString *strTime = [NSString stringWithFormat:@"%.2ds",timeout];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                //设置界面的按钮显示 根据自己需求设置
+                
+                NSLog(@"____%@",strTime);
+                
+                [_getVerficationB setTitle:[NSString stringWithFormat:@"%@",strTime] forState:UIControlStateNormal];
+                
+                _getVerficationB.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+                
+                _getVerficationB.userInteractionEnabled = NO;
+                
+            });
+            
+            timeout--;
+            
+        }
+        
+    });
+    dispatch_resume(_timer);
+
 }
 #pragma mark ---textfield delegate
 -(void)textFieldDidBeginEditing:(UITextField *)textField{

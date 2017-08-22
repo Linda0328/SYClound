@@ -97,9 +97,16 @@
 		<string>wtloginmqq2</string>
 		<string>wtloginzone</string>
 		<string>SYSG</string>
+		<string>weixin</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>MiSDKAppID</key>
+	<string>2882303761517605700</string>
+	<key>MiSDKAppKey</key>
+	<string>5681760532700</string>
+	<key>MiSDKRun</key>
+	<string>${MiSDKRun}</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -144,11 +151,5 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>MiSDKAppID</key>
-    <string>2882303761517605700</string>
-    <key>MiSDKAppKey</key>
-    <string>5681760532700</string>
-    <key>MiSDKRun</key>
-    <string>${MiSDKRun}</string>
 </dict>
 </plist>
