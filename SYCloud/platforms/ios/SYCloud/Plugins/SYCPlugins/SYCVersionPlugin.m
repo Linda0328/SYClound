@@ -29,6 +29,8 @@
     [verDic setObject:[SYCSystem judgeNSString:shareVerInfo.token]?shareVerInfo.token:@"" forKey:@"token"];
     [verDic setObject:shareVerInfo.lastAppVersion forKey:@"lastAppVersion"];
     [verDic setObject:shareVerInfo.lastAppVersionName forKey:@"lastVersionName"];
+    UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+    shareVerInfo.needPush = (settings.types!=UIUserNotificationTypeNone)?YES:NO;
     [verDic setObject:@(shareVerInfo.needUpdate) forKey:@"needUpdate"];
     [verDic setObject:@(shareVerInfo.needPush) forKey:@"needPush"];
     [verDic setObject:shareVerInfo.systemType forKey:@"systemType"];
@@ -46,9 +48,7 @@
     [def setObject:comeback forKey:loadToken];
     [def synchronize];
     [SYCShareVersionInfo sharedVersion].token = comeback;
-//    MainViewController *main = (MainViewController*)self.viewController;
-//    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-//    [center postNotificationName:loadAppNotify object:main];
+
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:comeback];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
@@ -56,8 +56,10 @@
 }
 -(void)setNeedPush:(CDVInvokedUrlCommand*)command{
     NSString *comeback = [command.arguments firstObject];
+    MainViewController *main = (MainViewController*)self.viewController;
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:loadAppNotify object:main];
     [self.commandDelegate runInBackground:^{
-        [SYCShareVersionInfo sharedVersion].needPush = [comeback boolValue];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:comeback];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];

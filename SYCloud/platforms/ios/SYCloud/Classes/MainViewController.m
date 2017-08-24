@@ -308,9 +308,11 @@
         }
         NSURL *url = [NSURL URLWithString:urlS];
         if([app canOpenURL:url]){
-            [app openURL:url options:@{} completionHandler:nil];
-        }else{
-        
+            if ([[UIDevice currentDevice].systemVersion doubleValue]>=10.0) {
+                [app openURL:url options:@{} completionHandler:nil];
+            }else{
+                [app openURL:url];
+            }
         }
         NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
         [def setObject:finishSDKPay forKey:SDKIDkey];

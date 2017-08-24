@@ -172,23 +172,37 @@ static void *eventBarItem = @"eventBarItem";
     [SYCHttpReqTool PswSetOrNot:^(NSString *resultCode, BOOL resetPsw) {
         if ([resultCode isEqualToString:resultCodeSuccess]) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
-            passwVC.pswModel = payModel;
-            passwVC.showAmount = YES;
-            passwVC.isTranslate = YES;
-            passwVC.needSetPassword = resetPsw;
-            passwVC.presentingMainVC = strongSelf.CurrentChildVC;
-            dispatch_async(dispatch_get_main_queue(), ^{
-            passwVC.modalPresentationStyle = UIModalPresentationCustom;
-            passwVC.transitioningDelegate = strongSelf;
-            [strongSelf presentViewController:passwVC animated:YES completion:nil];
-            });
+            if (resetPsw) {
+                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"您未设置支付密码，请设置您的支付密码并完成提交" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                     [strongSelf showPasswordInput:payModel needResetPsw:resetPsw];
+                }];
+                [alertC addAction:action];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf presentViewController:alertC animated:YES completion:nil];
+                });
+            }else{
+                 [strongSelf showPasswordInput:payModel needResetPsw:resetPsw];
+            }
         }
        
     }];
     
 }
+-(void)showPasswordInput:(SYCPassWordModel*)payModel needResetPsw:(BOOL)resetPsw{
+    SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
+    passwVC.pswModel = payModel;
+    passwVC.showAmount = YES;
+    passwVC.isTranslate = YES;
+    passwVC.needSetPassword = resetPsw;
+    passwVC.presentingMainVC = self.CurrentChildVC;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        passwVC.modalPresentationStyle = UIModalPresentationCustom;
+        passwVC.transitioningDelegate = self;
+        [self presentViewController:passwVC animated:YES completion:nil];
+    });
 
+}
 -(void)PayImmedately:(NSNotification*)notify{
     
     MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
@@ -304,6 +318,9 @@ static void *eventBarItem = @"eventBarItem";
         if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
             SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
             load.mainVC = _CurrentChildVC;
+            if ([paymentType isEqualToString:payMentTypeSDK]) {
+                load.isFromSDK = YES;
+            }
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
             [self.navigationController presentViewController:nav animated:YES completion:nil];
         }
@@ -488,13 +505,6 @@ static void *eventBarItem = @"eventBarItem";
         return;
     }
     if ([eventB.model.type isEqualToString:groupType]) {
-//        if (_groupTable.hidden) {
-//            _groupTable.hidden = NO;
-//            UIWindow *window = [[UIApplication sharedApplication]keyWindow];
-//            [window addSubview:_groupTable];
-//        }else{
-//            _groupTable.hidden = YES;
-//        }
        UIBarButtonItem *item = objc_getAssociatedObject(eventB, eventBarItem);
        SYCPopoverGroupViewController *popOverVC = [[SYCPopoverGroupViewController alloc]init];
        popOverVC.groupArr = _groupArr;
@@ -509,7 +519,6 @@ static void *eventBarItem = @"eventBarItem";
        popOverVC.preferredContentSize = CGSizeMake(100*[SYCSystem PointCoefficient], [_groupArr count]*cellHeight*[SYCSystem PointCoefficient]);
        [self presentViewController:popOverVC animated:YES
                          completion:nil];
-
        return;
     }
     
@@ -608,7 +617,7 @@ static void *eventBarItem = @"eventBarItem";
     loadingV.layer.cornerRadius = 10.0;
     
     UIImage *pay_loading = [UIImage imageNamed:@"pay_loading"];
-    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, 12*[SYCSystem PointCoefficient], pay_loading.size.width, pay_loading.size.height)];
+    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, 10*[SYCSystem PointCoefficient], pay_loading.size.width, pay_loading.size.height)];
     [imageV setImage:pay_loading];
     [loadingV addSubview:imageV];
     
@@ -623,7 +632,7 @@ static void *eventBarItem = @"eventBarItem";
     NSMutableArray *viewArr = [NSMutableArray array];
     for (NSInteger i = 0; i < 3; i++) {
         CGFloat gap = 6;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetWidth(loadingV.frame)/2-6*[SYCSystem PointCoefficient]-gap+i*(gap+4*[SYCSystem PointCoefficient]), CGRectGetHeight(loadingV.frame)- 16, 4*[SYCSystem PointCoefficient], 4*[SYCSystem PointCoefficient])];
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetWidth(loadingV.frame)/2-6*[SYCSystem PointCoefficient]-gap+i*(gap+4*[SYCSystem PointCoefficient]), CGRectGetHeight(loadingV.frame)- 12, 4*[SYCSystem PointCoefficient], 4*[SYCSystem PointCoefficient])];
         [loadingV addSubview:view];
         view.tag = 1000+i;
         view.layer.masksToBounds = YES;

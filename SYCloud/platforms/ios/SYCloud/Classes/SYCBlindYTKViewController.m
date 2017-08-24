@@ -100,6 +100,7 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
     
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
     [self.view addSubview:_HUD];
+    _HUD.mode = MBProgressHUDModeText;
     
 }
 -(void)dismiss:(id)sender{
@@ -229,6 +230,7 @@ NSString *const refreshPaymentNotify = @"refreshPayment";
             __weak __typeof(self)weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
                 __strong __typeof(weakSelf)strongSelf = weakSelf;
+                strongSelf.HUD.label.text = text;
                 [strongSelf.HUD showAnimated:YES];
                 [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];
             });

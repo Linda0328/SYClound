@@ -27,6 +27,8 @@ NSString *const selectIndex = @"selectedIndex";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"----%ld",(long)_selectedCellIndex.row);
+    
     _isRefresh = NO;
     // Do any additional setup after loading the view.
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
@@ -109,7 +111,7 @@ NSString *const selectIndex = @"selectedIndex";
         }
          for (SYCPayTypeModel *model in _EnnalepaymentArr) {
             if (model.defaultPay) {
-                NSInteger index = [payOrderInfo.payTypes indexOfObject:model];
+                NSInteger index = [_EnnalepaymentArr indexOfObject:model];
                 _selectedCellIndex = [NSIndexPath indexPathForRow:index inSection:0];
             }
          }
@@ -131,10 +133,6 @@ NSString *const selectIndex = @"selectedIndex";
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
-    for (UIView *subviews in [cell.contentView subviews]) {
-        [subviews removeFromSuperview];
-    }
-    
     cell.detailTextLabel.text = nil;
     cell.textLabel.font = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
     cell.textLabel.textColor = [UIColor colorWithHexString:@"444444"];
@@ -149,7 +147,7 @@ NSString *const selectIndex = @"selectedIndex";
         }else if (model.assetType == 2){
             imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
         }
-        if (_selectedCellIndex == indexPath) {
+        if (_selectedCellIndex.row == indexPath.row) {
             cell.accessoryView.hidden = NO;
             _model = model;
         }else{
@@ -217,10 +215,7 @@ NSString *const selectIndex = @"selectedIndex";
     }
 }
 -(void)dismiss:(id)sender{
-    [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:_model userInfo:@{selectIndex : _selectedCellIndex}];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
-    
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];

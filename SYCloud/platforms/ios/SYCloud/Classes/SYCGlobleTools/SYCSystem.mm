@@ -96,6 +96,7 @@ NSString *const SDKIDkey = @"SDKID";
 NSString *const finishSDKPay = @"finishSDKPay";
 //push message type
 NSString *const pushMessageTypePage = @"page";
+NSString *const pushNotify = @"pushNotify";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;

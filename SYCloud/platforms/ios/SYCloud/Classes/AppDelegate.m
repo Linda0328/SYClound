@@ -253,7 +253,7 @@
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     //上次支付订单未完成，新的支付订单又来了
     UIViewController *vc = _tabVC.firstViewC;
-    if ([[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
+    if (![[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
         while (vc.presentedViewController) {
             [vc dismissViewControllerAnimated:YES completion:nil];
             vc = vc.presentedViewController;
@@ -314,7 +314,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     //上次支付订单未完成，新的支付订单又来了
     UIViewController *vc = _tabVC.firstViewC;
-    if ([[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
+    if (![[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
         while (vc.presentedViewController) {
             [vc dismissViewControllerAnimated:YES completion:nil];
             vc = vc.presentedViewController;

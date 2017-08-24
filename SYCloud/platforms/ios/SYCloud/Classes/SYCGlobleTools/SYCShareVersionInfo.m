@@ -16,11 +16,8 @@
     dispatch_once(&onceToken, ^{
         shareVersion = [[SYCShareVersionInfo alloc]init];
         shareVersion.systemType = @"1";
-        
         NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
         UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
-        shareVersion.needPush = (settings.types!=UIUserNotificationTypeNone)?YES:NO;
-        //        shareVersion.appVersionName = [infoDic objectForKey:@"CFBundleDisplayName"];
         shareVersion.appVersionName = [infoDic objectForKey:@"CFBundleShortVersionString"];
         shareVersion.appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
         shareVersion.lastAppVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];

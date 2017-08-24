@@ -167,52 +167,49 @@ static NSInteger infoCellNum = 2;
             _defaultPayType = model.assetName;
             _assetType = model.assetType;
             _assetNo = model.assetNo;
-            NSInteger index = [_payOrderInfo.payTypes indexOfObject:model];
+            NSInteger index = [_EnablePayment indexOfObject:model];
             _selectedIndex = [NSIndexPath indexPathForRow:index inSection:0];
         }
     }
     
 }
 -(void)orderPayImmedately:(id)sender{
-    NSTimeInterval delay = 0.0;
     if (_payOrderInfo.resetPayPassword) {
-        delay = 1.5f;
-        _hud.label.font = [UIFont systemFontOfSize:13*[SYCSystem PointCoefficient]];
-        _hud.label.text = @"您还没有支付密码，请设置";
-        [_hud showAnimated:YES];
-        [_hud hideAnimated:YES afterDelay:delay];
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"您未设置支付密码，请设置您的支付密码并完成提交" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self showPasswordInput];
+        }];
+        [alertC addAction:action];
+        [self presentViewController:alertC animated:YES completion:nil];
+    }else{
+        [self showPasswordInput];
     }
-    __weak __typeof(self)weakSelf = self;
-    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay* NSEC_PER_SEC));
-    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
-        passwVC.modalPresentationStyle = UIModalPresentationCustom;
-        passwVC.transitioningDelegate = self;
-        passwVC.presentingMainVC = _presentingMainVC;
-        SYCPayOrderConfirmModel *confirmPayModel = [[SYCPayOrderConfirmModel alloc]init];
-        confirmPayModel.assetType = [NSString stringWithFormat:@"%ld",(long)_assetType];
-        confirmPayModel.assetNo = _assetNo;
-        passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
-        confirmPayModel.prepayId = _payOrderInfo.orderNo;
-        if (_isPreOrderPay) {
-            confirmPayModel.partner = _payOrderInfo.partner;
-        }else{
-            confirmPayModel.merchantId = _payInfoModel.merchantID;
-            confirmPayModel.payAmount =  [SYCSystem judgeNSString:_couponID]?_payInfoModel.amount:_amount;
-            confirmPayModel.orderSubject = _desc;
-            confirmPayModel.exclAmount = _payInfoModel.exclAmount;
-        }
-        confirmPayModel.couponId = _couponID;
-        passwVC.confirmPayModel = confirmPayModel;
-        passwVC.isPreOrderPay = _isPreOrderPay;
-        passwVC.paymentType = _payMentType;
-        passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
-        [strongSelf presentViewController:passwVC animated:YES completion:nil];
-    });
-    
 }
-
+-(void)showPasswordInput{
+    SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
+    passwVC.modalPresentationStyle = UIModalPresentationCustom;
+    passwVC.transitioningDelegate = self;
+    passwVC.presentingMainVC = _presentingMainVC;
+    SYCPayOrderConfirmModel *confirmPayModel = [[SYCPayOrderConfirmModel alloc]init];
+    confirmPayModel.assetType = [NSString stringWithFormat:@"%ld",(long)_assetType];
+    confirmPayModel.assetNo = _assetNo;
+    passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
+    confirmPayModel.prepayId = _payOrderInfo.orderNo;
+    if (_isPreOrderPay) {
+        confirmPayModel.partner = _payOrderInfo.partner;
+    }else{
+        confirmPayModel.merchantId = _payInfoModel.merchantID;
+        confirmPayModel.payAmount =  [SYCSystem judgeNSString:_couponID]?_payInfoModel.amount:_amount;
+        confirmPayModel.orderSubject = _desc;
+        confirmPayModel.exclAmount = _payInfoModel.exclAmount;
+    }
+    confirmPayModel.couponId = _couponID;
+    passwVC.confirmPayModel = confirmPayModel;
+    passwVC.isPreOrderPay = _isPreOrderPay;
+    passwVC.paymentType = _payMentType;
+    passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
+    [self presentViewController:passwVC animated:YES completion:nil];
+}
 -(void)dismiss:(id)sender{
     NSMutableDictionary *payCallback = [NSMutableDictionary dictionary];
     [payCallback setObject:payment_CancelCode forKey:@"resultCode"];
@@ -317,7 +314,10 @@ static NSInteger infoCellNum = 2;
         paymentVC.modalPresentationStyle = UIModalPresentationCustom;
         paymentVC.transitioningDelegate = self;
         paymentVC.selectedCellIndex = _selectedIndex;
-        [self presentViewController:paymentVC animated:YES completion:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [self presentViewController:paymentVC animated:YES completion:nil];
+        });
+       
     }
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{

@@ -77,7 +77,7 @@
     _passWordTextF.leftViewMode = UITextFieldViewModeAlways;
     _passWordTextF.placeholder = @"请输入密码";
     //暗文输入
-    
+    _passWordTextF.secureTextEntry = YES;
     _passWordTextF.font = [UIFont systemFontOfSize:15.0];
     _passWordTextF.textColor = [UIColor colorWithHexString:@"999999"];
     _passWordTextF.layer.borderColor = [UIColor colorWithHexString:@"dddddd"].CGColor;
@@ -117,6 +117,7 @@
 -(void)backClick{
     if (!_isFromSDK) {
         [self dismissViewControllerAnimated:YES completion:nil];
+        return;
     }
     //初始化提示框
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"退出登录，将取消支付" preferredStyle:UIAlertControllerStyleAlert];
@@ -170,6 +171,7 @@
    
 }
 -(void)ExchangeWayForloading:(UIButton*)button{
+    _passWordTextF.text = nil;
     if ([button.currentTitle isEqualToString:@"验证码登录"]) {
         _passWordTextF.secureTextEntry = NO;
         _getVerficationB.hidden = NO;
@@ -182,7 +184,7 @@
         _getVerficationB.hidden = YES;
         [button setTitle:@"验证码登录" forState:UIControlStateNormal];
         [_leftV1 setImage:_isEditing?[UIImage imageNamed:@"loadPassWInput"]:[UIImage imageNamed:@"loadPassWNormal"]];
-        _passWordTextF.placeholder = @"密码";
+        _passWordTextF.placeholder = @"请输入密码";
         _isVerfication = NO;
     }
     _passWordTextF.leftView = _leftV1;

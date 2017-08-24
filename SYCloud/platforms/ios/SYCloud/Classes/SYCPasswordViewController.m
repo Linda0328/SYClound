@@ -36,6 +36,7 @@ static const NSInteger passWNum = 6;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     _firstPsw = [[NSString alloc]init];
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     self.view.backgroundColor = [UIColor whiteColor];
@@ -100,6 +101,7 @@ static const NSInteger passWNum = 6;
     [self.view addSubview:_resultMSGL];
     _confirmPayModel.token = [SYCShareVersionInfo sharedVersion].token;
 
+    
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {

@@ -319,31 +319,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requrl];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
-    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---支付密码输入正确出错---%@",[error description]);
-//        return nil;
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//        
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
-    
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];    
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 网络请求完成之后就会执行，NSURLSession自动实现多线程
@@ -403,7 +379,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     __block NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",url];
-    NSLog(@"------%@---",params);
     if (ISsignature) {
         NSString *signature = [SYCSystem sinagureForReq:params];
         [params setObject:signature forKey:@"_signdata"];
@@ -430,12 +405,9 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     }
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
-        NSLog(@"%@",[NSThread currentThread]);
         
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
-           
             // 网络访问成功
             NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
@@ -958,6 +930,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
             param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
         }
     }
+    
     NSURL *url = [NSURL URLWithString:reqUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -1020,6 +993,8 @@ NSString * const resultCodeSuccess = @"SucsessCode";
             param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
         }
     }
+    //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题
+    param = [param stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"$*^#<>[\\]^`{|}\"]+"].invertedSet];
     NSURL *url = [NSURL URLWithString:reqUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -1081,6 +1056,8 @@ NSString * const resultCodeSuccess = @"SucsessCode";
             param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
         }
     }
+    //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题
+    param = [param stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"$*^#<>[\\]^`{|}\"]+"].invertedSet];
     NSURL *url = [NSURL URLWithString:reqUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
