@@ -12,7 +12,7 @@
 #import "SYCHttpReqTool.h"
 #import "SYCShareVersionInfo.h"
 #import "MBProgressHUD.h"
-NSString *const refreshPaymentNotify = @"refreshPayment";
+
 @interface SYCBlindYTKViewController ()
 @property (nonatomic,strong)UITextField *YKTtextF;
 @property (nonatomic,strong)UITextField *YZMtextF;

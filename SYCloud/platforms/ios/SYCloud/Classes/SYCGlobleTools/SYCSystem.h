@@ -61,6 +61,7 @@ extern NSString * const PayImmedateNotify;
 extern NSString * const payAndShowNotify;
 extern NSString * const dismissPswNotify;
 extern NSString * const selectPaymentNotify;
+extern NSString *const refreshPaymentNotify;
 
 extern NSString * const payment_SuccessCode;
 extern NSString * const payment_SuccessMessage;

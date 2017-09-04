@@ -95,11 +95,6 @@ static void *eventBarItem = @"eventBarItem";
         }
         
     };
-//    self.CurrentChildVC.unReachableB = ^(){
-//        __strong __typeof(weakSelf)strongSelf = weakSelf;
-//        SYOpenWLANTableViewController *openL = [[SYOpenWLANTableViewController alloc]initWithStyle:UITableViewStyleGrouped];
-//        [strongSelf.navigationController pushViewController:openL animated:YES];
-//    };
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];

@@ -329,12 +329,9 @@
     }else{
         _isAliPay = YES;
     }
-    NSLog(@"-----requestparmas-----%@",[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams);
     [[AlipaySDK defaultService] payOrder:[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams fromScheme:AliPayScheme callback:^(NSDictionary *resultDic) {
         [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"alipay:"]];
-        
-        NSLog(@"----result---%@",resultDic);
-        NSLog(@"-----memo---%@",resultDic[@"memo"]);
+
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
         
@@ -343,7 +340,10 @@
         if (![resultStatus isEqualToString:@"9000"]) {
             [dic setObject:AliPayFail forKey:@"resultCode"];
         }
-        [dic setObject:resultContent forKey:resultContent];
+        [dic setObject:resultContent forKey:@"resultContent"];
+        [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderDesc forKey:@"orderDesc"];
+        [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderSn forKey:@"orderSn"];
+        [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderAmount forKey:@"orderAmount"];
         NSString *jsonS = [dic ex_JSONString];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].aliPayPluginID];

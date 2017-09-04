@@ -65,8 +65,9 @@ static const NSInteger passWNum = 6;
         lable0.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:lable0];
     }
-    
-    _textF = [[UITextField alloc]initWithFrame:CGRectMake(40*[SYCSystem PointCoefficient], CGRectGetMaxY(_titleLable.frame)+2*19*[SYCSystem PointCoefficient]+17*[SYCSystem PointCoefficient]+15, width-80*[SYCSystem PointCoefficient],45*[SYCSystem PointCoefficient])];
+//    CGFloat isPhone5Gap = [[UIScreen mainScreen] bounds].size.height < 569?-15:15;
+    CGFloat gap = 15.0f;
+    _textF = [[UITextField alloc]initWithFrame:CGRectMake(40*[SYCSystem PointCoefficient], CGRectGetMaxY(_titleLable.frame)+2*19*[SYCSystem PointCoefficient]+17*[SYCSystem PointCoefficient]+gap*[SYCSystem PointCoefficient], width-80*[SYCSystem PointCoefficient],45*[SYCSystem PointCoefficient])];
     _textF.delegate = self;
     _textF.layer.borderColor = [UIColor colorWithHexString:@"dddddd"].CGColor;
     _textF.layer.borderWidth = 1;

@@ -391,8 +391,11 @@ NSString * const resultCodeSuccess = @"SucsessCode";
             paramStr = [paramStr stringByAppendingFormat:@"%@=%@&",key,[params objectForKey:key]];
         }
     }
-    //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题
-    paramStr = [paramStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"#<>[\\]^`{|}\"]+"].invertedSet];
+
+    if ([paramStr containsString:@"+"]) {
+        //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题,以及页面链接中文编码处理
+        paramStr = [paramStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"+"].invertedSet];
+    }
     if ([type isEqualToString:GETRequest]) {
         reqUrl = [reqUrl stringByAppendingFormat:@"%@%@",@"?",paramStr];
     }

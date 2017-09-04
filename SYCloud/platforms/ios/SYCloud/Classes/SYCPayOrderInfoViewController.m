@@ -115,7 +115,72 @@ static NSInteger infoCellNum = 2;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(pswPayResult:) name:dismissPswNotify object:nil];
     [center addObserver:self selector:@selector(selectPayment:) name:selectPaymentNotify object:nil];
+    [center addObserver:self selector:@selector(refreshResult:) name:refreshPaymentNotify object:nil];
 }
+-(void)refreshResult:(NSNotification*)notify{
+    [_unEnablePayment removeAllObjects];
+    [_EnablePayment removeAllObjects];
+    
+    __weak __typeof(self)weakSelf = self;
+    if ([_payMentType isEqualToString:payMentTypeImme]) {
+        
+        [SYCHttpReqTool payImmediatelyInfoWithpayAmount:_payOrderInfo.payAmount completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if([_payMentType isEqualToString:payMentTypeScan]){
+        
+        [SYCHttpReqTool payScanInfoWithQrcode:_qrcode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if([_payMentType isEqualToString:payMentTypeCode]){
+        [SYCHttpReqTool payScanInfoWithPaycode:_payCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if ([_payMentType isEqualToString:payMentTypeSDK]){
+        [SYCHttpReqTool requestPayPluginInfoWithPrepareID:_prePayID completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            NSLog(@"-------result===%@",result);
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+        
+    }
+}
+-(void)dealWithNewRequest:(NSString*)resultCode result:(NSDictionary*)result{
+    if ([resultCode isEqualToString:resultCodeSuccess]) {
+        [_EnablePayment removeAllObjects];
+        [_unEnablePayment removeAllObjects];
+        NSDictionary *data = result[resultSuccessKey][@"result"][@"payment_info"];
+        [SYCPayOrderInfoModel mj_setupObjectClassInArray:^NSDictionary *{
+            return @{@"payTypes":@"SYCPayTypeModel"};
+        }];
+        SYCPayOrderInfoModel *payOrderInfo = [SYCPayOrderInfoModel mj_objectWithKeyValues:data];
+        
+        for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
+            if (model.isEnabled) {
+                [_EnablePayment addObject:model];
+            }else{
+                [_unEnablePayment addObject:model];
+            }
+        }
+        for (SYCPayTypeModel *model in _EnablePayment){
+            if (model.defaultPay) {
+                _defaultPayType = model.assetName;
+                _assetType = model.assetType;
+                _assetNo = model.assetNo;
+                NSInteger index = [_EnablePayment indexOfObject:model];
+                _selectedIndex = [NSIndexPath indexPathForRow:index inSection:0];
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [_infoTable reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        });
+    }
+    
+}
+
 -(void)getPayOrderInfo:(NSDictionary*)dic{
     _desc = _payInfoModel.desc;
     _amount = _payInfoModel.payAmount;

@@ -260,10 +260,10 @@
         }
     }
     NSString *comesURl = url.absoluteString;
-    NSLog(@"链接来敲门------------%@",comesURl);
+   
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        NSLog(@"----result---%@",resultDic);
+        
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
         
@@ -272,7 +272,7 @@
         if (![resultStatus isEqualToString:@"9000"]) {
             [dic setObject:AliPayFail forKey:paymentResultCodeKey];
         }
-        [dic setObject:resultContent forKey:resultContent];
+        [dic setObject:resultContent forKey:@"resultContent"];
         [[NSNotificationCenter defaultCenter]postNotificationName:AliPayResult object:dic];
 
     }];
@@ -306,8 +306,6 @@
     {
         return [QQApiInterface handleOpenURL:url delegate:[QQManager sharedManager]];;
     }
-
-    
     return YES;
 }
 //ios9之后废弃该方法
@@ -320,15 +318,12 @@
             vc = vc.presentedViewController;
         }
     }
-
     NSString *comesURl = url.absoluteString;
-    NSLog(@"链接来敲门------------%@",comesURl);
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        NSLog(@"----result---%@",resultDic);
+        
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
-        
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
         [dic setObject:AliPaySuccess forKey:@"resultCode"];
         if (![resultStatus isEqualToString:@"9000"]) {
@@ -388,11 +383,11 @@
 //应用在前台
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    NSLog(@"----------%@",userInfo);
+    
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"新消息" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"新消息" message:[[userInfo objectForKey:@"aps"]objectForKey:@"alert"] preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"忽视" style:UIAlertActionStyleCancel handler:nil
                                      ];
             [alertC addAction:action];
@@ -401,10 +396,10 @@
             }];
             [alertC addAction:action0];
             [self.window.rootViewController presentViewController:alertC animated:YES completion:nil];
-        });
+       });
     }else if ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive){
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+        
             [self dealWithPushMessage:userInfo];
         });
     }
@@ -417,7 +412,7 @@
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
-            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"新消息" message:userInfo[@"aps"][@"alert"] preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"新消息" message:[[userInfo objectForKey:@"aps"]objectForKey:@"alert"] preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *action = [UIAlertAction actionWithTitle:@"忽视" style:UIAlertActionStyleCancel handler:nil
                                      ];
             [alertC addAction:action];
@@ -456,9 +451,9 @@
    //请求失败
 }
 -(void)dealWithPushMessage:(NSDictionary*)userInfo{
-    NSString *title = userInfo[@"push_title"];
-    NSString *type = userInfo[@"push_type"];
-    NSString *url = userInfo[@"push_url"];
+    NSString *title = [userInfo objectForKey:@"push_title"];
+    NSString *type = [userInfo objectForKey:@"push_type"];
+    NSString *url = [userInfo objectForKey:@"push_url"];
     if ([type isEqualToString:pushMessageTypePage]) {
         SYCPushMessageViewController *viewC =[[SYCPushMessageViewController alloc]init];
         viewC.navTitle = title;

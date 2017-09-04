@@ -56,71 +56,10 @@ NSString *const selectIndex = @"selectedIndex";
     _paymentTable.showsVerticalScrollIndicator = NO;
     _paymentTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [self.view addSubview:_paymentTable];
-    
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(refreshResult:) name:refreshPaymentNotify object:nil];
+    [center addObserver:self selector:@selector(dismiss:) name:refreshPaymentNotify object:nil];
 }
--(void)refreshResult:(NSNotification*)notify{
-    _isRefresh = YES;
-    [_unEnnalepaymentArr removeAllObjects];
-    [_EnnalepaymentArr removeAllObjects];
-    
-    __weak __typeof(self)weakSelf = self;
-    if ([_paymentType isEqualToString:payMentTypeImme]) {
-       
-        [SYCHttpReqTool payImmediatelyInfoWithpayAmount:_payAmount completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithNewRequest:resultCode result:result];
-        }];
-    }else if([_paymentType isEqualToString:payMentTypeScan]){
-        
-        [SYCHttpReqTool payScanInfoWithQrcode:_qrCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithNewRequest:resultCode result:result];
-        }];
-    }else if([_paymentType isEqualToString:payMentTypeCode]){
-        [SYCHttpReqTool payScanInfoWithPaycode:_payCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithNewRequest:resultCode result:result];
-        }];
-    }else if ([_paymentType isEqualToString:payMentTypeSDK]){
-        [SYCHttpReqTool requestPayPluginInfoWithPrepareID:_prePayID completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            NSLog(@"-------result===%@",result);
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithNewRequest:resultCode result:result];
-        }];
 
-    }
-}
--(void)dealWithNewRequest:(NSString*)resultCode result:(NSDictionary*)result{
-    if ([resultCode isEqualToString:resultCodeSuccess]) {
-        [_EnnalepaymentArr removeAllObjects];
-        [_unEnnalepaymentArr removeAllObjects];
-        NSDictionary *data = result[resultSuccessKey][@"result"][@"payment_info"];
-        [SYCPayOrderInfoModel mj_setupObjectClassInArray:^NSDictionary *{
-            return @{@"payTypes":@"SYCPayTypeModel"};
-        }];
-        SYCPayOrderInfoModel *payOrderInfo = [SYCPayOrderInfoModel mj_objectWithKeyValues:data];
-        
-        for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
-            if (model.isEnabled) {
-               [_EnnalepaymentArr addObject:model];
-            }else{
-                [_unEnnalepaymentArr addObject:model];
-            }
-        }
-         for (SYCPayTypeModel *model in _EnnalepaymentArr) {
-            if (model.defaultPay) {
-                NSInteger index = [_EnnalepaymentArr indexOfObject:model];
-                _selectedCellIndex = [NSIndexPath indexPathForRow:index inSection:0];
-            }
-         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_paymentTable reloadData];
-        });
-    }
-    
-}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1+[_unEnnalepaymentArr count]+[_EnnalepaymentArr count];
 }

@@ -65,10 +65,12 @@ NSString *const payMentTypeSDK = @"SYCPaySDK";
 NSString *const paySuccessNotify = @"paySuccess";
 
 NSString *const PayImmedateNotify = @"PayImmedateNotify";
-static CGFloat heightForSixSeries = 568;
+static CGFloat heightForSixSeries = 667;
+static CGFloat heightForFivethSeries = 568;
 NSString *const payAndShowNotify = @"showPayResult";
 NSString *const dismissPswNotify = @"dismissPsw";
 NSString *const selectPaymentNotify = @"selectPaymentNotify";
+NSString *const refreshPaymentNotify = @"refreshPayment";
 NSString *const payment_SuccessCode = @"0000";
 NSString *const payment_SuccessMessage = @"支付成功";
 NSString *const payment_FailCode = @"1000";
@@ -102,7 +104,7 @@ NSString *const pushNotify = @"pushNotify";
     NSString *baseURL = nil;
     #ifdef DEBUG
 //      baseURL = SYCloudLocalBaseURLJW;
-//    baseURL = SYCloudLocalBaseURLTH;
+//      baseURL = SYCloudLocalBaseURLTH;
       baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
     #else
@@ -147,8 +149,6 @@ NSString *const pushNotify = @"pushNotify";
     paramStr = [paramStr stringByAppendingString:SecureSecrit];
     //处理特殊字符
 //    paramStr = [paramStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
-    NSLog(@"------------parameter----------%@",paramStr);
     NSString *signature = [SYCSystem md5:paramStr];
     return signature;
 }
@@ -317,6 +317,9 @@ NSString *const pushNotify = @"pushNotify";
     return networkType;
 }
 +(CGFloat)PointCoefficient{
+    if ([[self class]deviceHeigth]<heightForFivethSeries+1) {
+        return 0.845;
+    }
     if ([[self class]deviceHeigth]>heightForSixSeries) {
         return 1.104;
     }
