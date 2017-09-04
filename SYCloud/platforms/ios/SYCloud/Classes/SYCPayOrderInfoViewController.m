@@ -18,6 +18,7 @@
 #import "SYCPresentationController.h"
 #import "SYCPaymentViewController.h"
 #import "SYCPresentionAnimatedTransitioning.h"
+#import "MBProgressHUD.h"
 static CGFloat infoCellHeight = 43;
 static NSInteger infoCellNum = 2;
 @interface SYCPayOrderInfoViewController ()<UITableViewDelegate,UITableViewDataSource,UIViewControllerTransitioningDelegate>
@@ -33,6 +34,9 @@ static NSInteger infoCellNum = 2;
 @property (nonatomic,strong)NSIndexPath *selectedIndex;
 @property (nonatomic,copy)NSString *amount;
 @property (nonatomic,strong)UIButton *confirmBut;
+@property (nonatomic,copy)NSString *couponID;
+@property (nonatomic,copy)NSString *couponDesc;
+@property (nonatomic,strong)MBProgressHUD *hud;
 @end
 
 @implementation SYCPayOrderInfoViewController
@@ -42,13 +46,15 @@ static NSInteger infoCellNum = 2;
     // Do any additional setup after loading the view.
     _EnablePayment = [NSMutableArray array];
     _unEnablePayment = [NSMutableArray array];
-    _selectedIndex = [NSIndexPath indexPathForRow:1 inSection:0];
+    
     if ([_payMentType isEqualToString:payMentTypeImme]) {
         [self getPayOrderInfo:_requestResultDic];
     }else if([_payMentType isEqualToString:payMentTypeScan]){
         [self getScanPayOrderInfo:_requestResultDic];
     }else if([_payMentType isEqualToString:payMentTypeCode]){
         [self getCodePayOrderInfo:_requestResultDic];
+    }else if([_payMentType isEqualToString:payMentTypeSDK]){
+        [self getSDKPayOrderInfo:_requestResultDic];
     }
    
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
@@ -78,23 +84,24 @@ static NSInteger infoCellNum = 2;
     _moneyAmountLablel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_moneyAmountLablel];
     
-    _infoTable = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_moneyAmountLablel.frame)+15*[SYCSystem PointCoefficient], self.view.frame.size.width,infoCellNum*infoCellHeight) style:UITableViewStylePlain];
+    _infoTable = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_moneyAmountLablel.frame)+15*[SYCSystem PointCoefficient], self.view.frame.size.width,(infoCellNum+1)*infoCellHeight) style:UITableViewStylePlain];
     _infoTable.tableFooterView = [[UIView alloc]init];
     _infoTable.delegate = self;
     _infoTable.dataSource = self;
+    _infoTable.showsVerticalScrollIndicator = NO;
     _infoTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [self.view addSubview:_infoTable];
    
-//    UIView *lineView1 = [[UIView alloc]initWithFrame:CGRectMake(16, CGRectGetMaxY(_infoTable.frame)+6, width, 0.5)];
-//    lineView1.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
-//    [self.view addSubview:lineView1];
+    _hud = [[MBProgressHUD alloc]initWithView:self.view];
+    _hud.mode = MBProgressHUDModeText;
+    [self.view addSubview:_hud];
     
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
     _confirmBut = [[UIButton alloc]initWithFrame:CGRectMake(16*[SYCSystem PointCoefficient], 3*screenSize.height/5-16*[SYCSystem PointCoefficient]-50*[SYCSystem PointCoefficient], self.view.frame.size.width-32*[SYCSystem PointCoefficient], 50*[SYCSystem PointCoefficient])];
     _confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
     [_confirmBut setTitle:@"立即付款" forState:UIControlStateNormal];
     [_confirmBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [_confirmBut addTarget:self action:@selector(PayImmedately:) forControlEvents:UIControlEventTouchUpInside];
+    [_confirmBut addTarget:self action:@selector(orderPayImmedately:) forControlEvents:UIControlEventTouchUpInside];
     if ([SYCSystem judgeNSString:_defaultPayType]) {
         _confirmBut.enabled = YES;
     }else{
@@ -108,22 +115,100 @@ static NSInteger infoCellNum = 2;
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(pswPayResult:) name:dismissPswNotify object:nil];
     [center addObserver:self selector:@selector(selectPayment:) name:selectPaymentNotify object:nil];
+    [center addObserver:self selector:@selector(refreshResult:) name:refreshPaymentNotify object:nil];
 }
+-(void)refreshResult:(NSNotification*)notify{
+    [_unEnablePayment removeAllObjects];
+    [_EnablePayment removeAllObjects];
+    
+    __weak __typeof(self)weakSelf = self;
+    if ([_payMentType isEqualToString:payMentTypeImme]) {
+        
+        [SYCHttpReqTool payImmediatelyInfoWithpayAmount:_payOrderInfo.payAmount completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if([_payMentType isEqualToString:payMentTypeScan]){
+        
+        [SYCHttpReqTool payScanInfoWithQrcode:_qrcode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if([_payMentType isEqualToString:payMentTypeCode]){
+        [SYCHttpReqTool payScanInfoWithPaycode:_payCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+    }else if ([_payMentType isEqualToString:payMentTypeSDK]){
+        [SYCHttpReqTool requestPayPluginInfoWithPrepareID:_prePayID completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            NSLog(@"-------result===%@",result);
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithNewRequest:resultCode result:result];
+        }];
+        
+    }
+}
+-(void)dealWithNewRequest:(NSString*)resultCode result:(NSDictionary*)result{
+    if ([resultCode isEqualToString:resultCodeSuccess]) {
+        [_EnablePayment removeAllObjects];
+        [_unEnablePayment removeAllObjects];
+        NSDictionary *data = result[resultSuccessKey][@"result"][@"payment_info"];
+        [SYCPayOrderInfoModel mj_setupObjectClassInArray:^NSDictionary *{
+            return @{@"payTypes":@"SYCPayTypeModel"};
+        }];
+        SYCPayOrderInfoModel *payOrderInfo = [SYCPayOrderInfoModel mj_objectWithKeyValues:data];
+        
+        for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
+            if (model.isEnabled) {
+                [_EnablePayment addObject:model];
+            }else{
+                [_unEnablePayment addObject:model];
+            }
+        }
+        for (SYCPayTypeModel *model in _EnablePayment){
+            if (model.defaultPay) {
+                _defaultPayType = model.assetName;
+                _assetType = model.assetType;
+                _assetNo = model.assetNo;
+                NSInteger index = [_EnablePayment indexOfObject:model];
+                _selectedIndex = [NSIndexPath indexPathForRow:index inSection:0];
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [_infoTable reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+        });
+    }
+    
+}
+
 -(void)getPayOrderInfo:(NSDictionary*)dic{
     _desc = _payInfoModel.desc;
-    _amount = _payInfoModel.amount;
+    _amount = _payInfoModel.payAmount;
+    _couponID = _payInfoModel.coupon;
+    _couponDesc = [NSString stringWithFormat:@"%0.2f",[_payInfoModel.amount floatValue]-[_amount floatValue]];
     [self dealDataToModel:dic];
 }
 -(void)getScanPayOrderInfo:(NSDictionary*)dic{
     
     _desc = dic[@"result"][@"payment_info"][@"orderDesc"];
     _amount = dic[@"result"][@"payment_info"][@"payAmount"];
+    _couponID = dic[@"result"][@"payment_info"][@"couponId"];
+    _couponDesc = dic[@"result"][@"payment_info"][@"couponAmount"];
     [self dealDataToModel:dic];
 }
 -(void)getCodePayOrderInfo:(NSDictionary*)dic{
    
     _desc = dic[@"result"][@"payment_info"][@"orderDesc"];
     _amount = dic[@"result"][@"payment_info"][@"payAmount"];
+    _couponID = dic[@"result"][@"payment_info"][@"couponId"];
+    _couponDesc = dic[@"result"][@"payment_info"][@"couponAmount"];
+    [self dealDataToModel:dic];
+}
+-(void)getSDKPayOrderInfo:(NSDictionary*)dic{
+    _desc = dic[@"result"][@"payment_info"][@"orderDesc"];
+    _amount = dic[@"result"][@"payment_info"][@"payAmount"];
+    _couponID = dic[@"result"][@"payment_info"][@"couponId"];
+    _couponDesc = dic[@"result"][@"payment_info"][@"couponAmount"];
     [self dealDataToModel:dic];
 }
 -(void)dealDataToModel:(NSDictionary*)dic{
@@ -133,28 +218,39 @@ static NSInteger infoCellNum = 2;
     }];
     _payOrderInfo = [SYCPayOrderInfoModel mj_objectWithKeyValues:data];
     
-    for (SYCPayTypeModel *model in _payOrderInfo.payTypes) {
-        if (model.defaultPay) {
-            _defaultPayType = model.assetName;
-            _assetType = model.assetType;
-            _assetNo = model.assetNo;
-            [_EnablePayment addObject:model];
-        }
-        
-    }
     NSIndexPath *index = [NSIndexPath indexPathForRow:1 inSection:0];
     [_infoTable reloadRowsAtIndexPaths:@[index] withRowAnimation:UITableViewRowAnimationNone];
     for (SYCPayTypeModel *model in _payOrderInfo.payTypes) {
         if (model.isEnabled) {
-            if (!model.defaultPay) {
-                [_EnablePayment addObject:model];
-            }
+            [_EnablePayment addObject:model];
         }else{
             [_unEnablePayment addObject:model];
         }
     }
+    for (SYCPayTypeModel *model in _EnablePayment){
+        if (model.defaultPay) {
+            _defaultPayType = model.assetName;
+            _assetType = model.assetType;
+            _assetNo = model.assetNo;
+            NSInteger index = [_EnablePayment indexOfObject:model];
+            _selectedIndex = [NSIndexPath indexPathForRow:index inSection:0];
+        }
+    }
+    
 }
--(void)PayImmedately:(id)sender{
+-(void)orderPayImmedately:(id)sender{
+    if (_payOrderInfo.resetPayPassword) {
+        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"您未设置支付密码，请设置您的支付密码并完成提交" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self showPasswordInput];
+        }];
+        [alertC addAction:action];
+        [self presentViewController:alertC animated:YES completion:nil];
+    }else{
+        [self showPasswordInput];
+    }
+}
+-(void)showPasswordInput{
     SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
     passwVC.modalPresentationStyle = UIModalPresentationCustom;
     passwVC.transitioningDelegate = self;
@@ -163,23 +259,24 @@ static NSInteger infoCellNum = 2;
     confirmPayModel.assetType = [NSString stringWithFormat:@"%ld",(long)_assetType];
     confirmPayModel.assetNo = _assetNo;
     passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
+    confirmPayModel.prepayId = _payOrderInfo.orderNo;
     if (_isPreOrderPay) {
         confirmPayModel.partner = _payOrderInfo.partner;
-        confirmPayModel.prepayId = _payOrderInfo.orderNo;
     }else{
         confirmPayModel.merchantId = _payInfoModel.merchantID;
-        confirmPayModel.payAmount =  _amount;
+        confirmPayModel.payAmount =  [SYCSystem judgeNSString:_couponID]?_payInfoModel.amount:_amount;
         confirmPayModel.orderSubject = _desc;
+        confirmPayModel.exclAmount = _payInfoModel.exclAmount;
     }
+    confirmPayModel.couponId = _couponID;
     passwVC.confirmPayModel = confirmPayModel;
     passwVC.isPreOrderPay = _isPreOrderPay;
     passwVC.paymentType = _payMentType;
     passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
     [self presentViewController:passwVC animated:YES completion:nil];
 }
-
 -(void)dismiss:(id)sender{
-     NSMutableDictionary *payCallback = [NSMutableDictionary dictionary];
+    NSMutableDictionary *payCallback = [NSMutableDictionary dictionary];
     [payCallback setObject:payment_CancelCode forKey:@"resultCode"];
     [payCallback setObject:payment_CancelMessage forKey:@"resultContent"];
     [payCallback setObject:[NSString stringWithFormat:@"%ld",(long)_assetType] forKey:@"paymentMethod"];
@@ -213,7 +310,11 @@ static NSInteger infoCellNum = 2;
     [_infoTable reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return infoCellNum;
+    NSInteger num = infoCellNum;
+    if ([_couponDesc floatValue]>0) {
+        num += 1;
+    }
+    return num;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return infoCellHeight*[SYCSystem PointCoefficient];
@@ -233,7 +334,7 @@ static NSInteger infoCellNum = 2;
         if ([SYCSystem judgeNSString:_desc]) {
             cell.textLabel.text = [text stringByAppendingString:_desc];
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-            [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"444444"]} range:[cell.textLabel.text rangeOfString:_desc]];
+            [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"444444"]} range:[cell.textLabel.text rangeOfString:_desc]];
             cell.textLabel.attributedText = str;
         }else{
             cell.textLabel.text = text;
@@ -245,9 +346,15 @@ static NSInteger infoCellNum = 2;
         }
         cell.textLabel.text = [text stringByAppendingString:_defaultPayType];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"444444"]} range:[cell.textLabel.text rangeOfString:_defaultPayType]];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"444444"]} range:[cell.textLabel.text rangeOfString:_defaultPayType]];
         cell.textLabel.attributedText = str;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }else if (indexPath.row == 2){
+        NSString *text =@"订单优惠：";
+        cell.textLabel.text = [text stringByAppendingFormat:@"¥%@",_couponDesc];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"3B7BCB"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
+        cell.textLabel.attributedText = str;
     }
     cell.separatorInset = UIEdgeInsetsMake(0, 16*[SYCSystem PointCoefficient], 0, 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -258,11 +365,13 @@ static NSInteger infoCellNum = 2;
         SYCPaymentViewController *paymentVC = [[SYCPaymentViewController alloc]init];
         
         if ([_payMentType isEqualToString:payMentTypeImme]) {
-            paymentVC.payAmount = _amount;
+            paymentVC.payAmount = _payInfoModel.amount;
         }else if([_payMentType isEqualToString:payMentTypeScan]){
             paymentVC.qrCode = _qrcode;
         }else if([_payMentType isEqualToString:payMentTypeCode]){
             paymentVC.payCode = _payCode;
+        }else if([_payMentType isEqualToString:payMentTypeSDK]){
+            paymentVC.prePayID = _prePayID;
         }
         paymentVC.unEnnalepaymentArr = _unEnablePayment;
         paymentVC.EnnalepaymentArr = _EnablePayment;
@@ -270,7 +379,10 @@ static NSInteger infoCellNum = 2;
         paymentVC.modalPresentationStyle = UIModalPresentationCustom;
         paymentVC.transitioningDelegate = self;
         paymentVC.selectedCellIndex = _selectedIndex;
-        [self presentViewController:paymentVC animated:YES completion:nil];
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [self presentViewController:paymentVC animated:YES completion:nil];
+        });
+       
     }
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{

@@ -40,11 +40,18 @@
 #import <BaiduMapAPI_Location/BMKLocationService.h>
 #import <AlipaySDK/AlipaySDK.h>
 #import "NSObject+JsonExchange.h"
-@interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate>{
+#import "SYCWXPayModel.h"
+#import "MJExtension.h"
+#import "WXApiRequestHandler.h"
+#import "SYCWXPayRequestModel.h"
+#import "WXApiManager.h"
+#import "QQManager.h"
+@interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate,WXApiManagerDelegate,QQManagerDelegate>{
     BMKLocationService *_locationService;
 }
 @property (nonatomic,strong)MBProgressHUD *HUD;
 @property (nonatomic,assign)BOOL isAliPay;
+@property (nonatomic,assign)BOOL isWexinPay;
 @property (nonatomic,strong)SYCNavTitleModel *titleModel;
 //@property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property(nonatomic,strong)SYIntroduceWLANView *introductV;
@@ -111,6 +118,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+
     _locationTime = 0;
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -130,6 +139,7 @@
         self.webView.scrollView.mj_header = gifHeader;
     }
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
+    _HUD.mode = MBProgressHUDModeText;
     [self.view addSubview:_HUD];
     
     self.reloadB = ^(NSString *url){
@@ -170,12 +180,14 @@
     [center addObserver:self selector:@selector(AlyPay:) name:AliPay object:nil];
     [center addObserver:self selector:@selector(AlyPayResult:) name:AliPayResult object:nil];
     [center addObserver:self selector:@selector(WeixiPay:) name:WeixiPay object:nil];
-    
+    [center addObserver:self selector:@selector(WeixiPayResult:) name: WeixiPayResult object:nil];
+   
     //开始加载
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
     //加载完成
     [center addObserver:self selector:@selector(loadedNotification:) name:CDVPageDidLoadNotification object:nil];
-   
+    [WXApiManager sharedManager].delegate = self;
+    [QQManager sharedManager].delegate = self;
 }
 -(void)viewWillLayoutSubviews{
     if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
@@ -223,8 +235,8 @@
         UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:@"AppsStore有最新版本哦，要去更新吗" delegate:self cancelButtonTitle:@"不去" otherButtonTitles:@"更新", nil];
         [alert show];
     }
-    
 }
+
 -(void)ReloadAppState:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
     if ([main isEqual:self]) {
@@ -251,7 +263,7 @@
     if (![main isEqual:self]) {
         return;
     }
-    NSString *jsonStr = [payResult JSONString];
+    NSString *jsonStr = [payResult ex_JSONString];
     NSLog(@"---------payplugin------%@",[SYCShareVersionInfo sharedVersion].paymentID);
     if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentID]) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
@@ -266,11 +278,10 @@
     if (![main isEqual:self]) {
         return;
     }
-    NSString *jsonStr = [payResult[PayResultCallback] JSONString];
+    NSDictionary *resultDic = payResult[PayResultCallback];
+    NSLog(@"--------%@",resultDic);
+    NSString *jsonStr = [resultDic ex_JSONString];
     NSString *type = payResult[PreOrderPay];
-    NSLog(@"---------payImmedatelyplugin------%@",[SYCShareVersionInfo sharedVersion].paymentImmedatelyID);
-    NSLog(@"---------payscanplugin------%@",[SYCShareVersionInfo sharedVersion].paymentScanID);
-    NSLog(@"---------paycodeplugin------%@",[SYCShareVersionInfo sharedVersion].paymentCodeID);
     if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID]&&[type isEqualToString:payMentTypeImme]) {
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonStr];
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentImmedatelyID];
@@ -286,6 +297,29 @@
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].paymentCodeID];
         [SYCShareVersionInfo sharedVersion].paymentCodeID = nil;
     }
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]&&[type isEqualToString:payMentTypeSDK]) {
+        UIApplication *app = [UIApplication sharedApplication];
+        NSString *urlS = [[SYCShareVersionInfo sharedVersion].thirdPartScheme stringByAppendingString:@"://back"];
+        for (NSString *key in [resultDic allKeys]) {
+            if ([key isEqualToString:@"resultContent"]) {
+                continue;
+            }
+            urlS = [urlS stringByAppendingFormat:@"&%@=%@",key,[resultDic objectForKey:key]];
+        }
+        NSURL *url = [NSURL URLWithString:urlS];
+        if([app canOpenURL:url]){
+            if ([[UIDevice currentDevice].systemVersion doubleValue]>=10.0) {
+                [app openURL:url options:@{} completionHandler:nil];
+            }else{
+                [app openURL:url];
+            }
+        }
+        NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+        [def setObject:finishSDKPay forKey:SDKIDkey];
+        [def synchronize];
+        [SYCShareVersionInfo sharedVersion].paymentSDKID = nil;
+        [SYCShareVersionInfo sharedVersion].thirdPartScheme = nil;
+    }
 
 }
 -(void)AlyPay:(NSNotification*)notify{
@@ -295,12 +329,9 @@
     }else{
         _isAliPay = YES;
     }
-    NSLog(@"-----requestparmas-----%@",[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams);
     [[AlipaySDK defaultService] payOrder:[SYCShareVersionInfo sharedVersion].aliPayModel.requestParams fromScheme:AliPayScheme callback:^(NSDictionary *resultDic) {
         [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"alipay:"]];
-        
-        NSLog(@"----result---%@",resultDic);
-        NSLog(@"-----memo---%@",resultDic[@"memo"]);
+
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
         
@@ -309,8 +340,11 @@
         if (![resultStatus isEqualToString:@"9000"]) {
             [dic setObject:AliPayFail forKey:@"resultCode"];
         }
-        [dic setObject:resultContent forKey:resultContent];
-        NSString *jsonS = [dic JSONString];
+        [dic setObject:resultContent forKey:@"resultContent"];
+        [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderDesc forKey:@"orderDesc"];
+        [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderSn forKey:@"orderSn"];
+        [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderAmount forKey:@"orderAmount"];
+        NSString *jsonS = [dic ex_JSONString];
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
         [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].aliPayPluginID];
         [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
@@ -325,7 +359,7 @@
     [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderDesc forKey:@"orderDesc"];
     [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderSn forKey:@"orderSn"];
     [dic setObject:[SYCShareVersionInfo sharedVersion].aliPayModel.orderAmount forKey:@"orderAmount"];
-    NSString *jsonS = [dic JSONString];
+    NSString *jsonS = [dic ex_JSONString];
     CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
     [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].aliPayPluginID];
     [SYCShareVersionInfo sharedVersion].aliPayModel = nil;
@@ -336,10 +370,39 @@
     MainViewController *main = (MainViewController*)notify.object;
     if (![main isEqual:self]) {
         return;
+    }else{
+        _isWexinPay = YES;
     }
-    self.HUD.label.text = @"微信支付暂未开通~敬请期待";
-    [self.HUD showAnimated:YES];
-    [self.HUD hideAnimated:YES afterDelay:1.5f];
+    if ([WXApi isWXAppInstalled]) {
+         SYCWXPayRequestModel *requestM = [SYCWXPayRequestModel mj_objectWithKeyValues:[SYCShareVersionInfo sharedVersion].wxPayModel.paymentParameters];
+          if (requestM.requestParams) {
+              if(![WXApiRequestHandler sendRequestForPay:requestM.requestParams]){
+                  _HUD.label.text = @"请求微信失败";
+              }
+          }
+    }else{
+        _HUD.label.text = @"请安装微信";
+    }
+    [_HUD showAnimated:YES];
+    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5* NSEC_PER_SEC));
+    dispatch_after(delayTime, dispatch_get_main_queue(), ^{
+        [_HUD hideAnimated:YES];
+    });
+}
+-(void) WeixiPayResult:(NSNotification*)notify{
+    if (!_isWexinPay) {
+        return;
+    }
+    NSMutableDictionary *dic = (NSMutableDictionary*)notify.object;
+    [dic setObject:[SYCShareVersionInfo sharedVersion].wxPayModel.orderDesc forKey:@"orderDesc"];
+    [dic setObject:[SYCShareVersionInfo sharedVersion].wxPayModel.orderSn forKey:@"orderSn"];
+    [dic setObject:[SYCShareVersionInfo sharedVersion].wxPayModel.orderAmount forKey:@"orderAmount"];
+    NSString *jsonS = [dic ex_JSONString];
+    CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:jsonS];
+    [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].wxPayPluginID];
+    [SYCShareVersionInfo sharedVersion].wxPayModel = nil;
+    [SYCShareVersionInfo sharedVersion].wxPayPluginID = nil;
+    _isWexinPay = NO;
 }
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
@@ -395,6 +458,32 @@
     _locationTime++;
         //    [_locationService stopUserLocationService];
 }
+- (void)managerDidRecvMessageResponse:(SendMessageToWXResp *)response{
+    NSString *text = @"分享失败";
+    if (response.errCode == WXSuccess) {
+        text = @"分享成功";
+    }
+    if (response.errCode == WXErrCodeUserCancel){
+        text = @"取消分享";
+    }
+    _HUD.label.text = text;
+    [_HUD showAnimated:YES];
+    [_HUD hideAnimated:YES afterDelay:1.50f];
+}
+-(void)managerDidRecvQQMessageResponse:(SendMessageToQQResp *)response{
+    
+    NSString *text = @"分享失败";
+    if ([[response result]isEqualToString:@"0"]) {
+        text = @"分享成功";
+    }
+    if([[response result]isEqualToString:@"-4"]) {
+        text = @"取消分享";
+    }
+    _HUD.label.text = text;
+    [_HUD showAnimated:YES];
+    [_HUD hideAnimated:YES afterDelay:1.50f];
+}
+
 //- (void)didFailToLocateUserWithError:(NSError *)error{
 //    dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6.0* NSEC_PER_SEC));
 //    dispatch_after(delayTime, dispatch_get_main_queue(), ^{

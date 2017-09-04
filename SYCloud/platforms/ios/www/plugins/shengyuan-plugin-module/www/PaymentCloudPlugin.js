@@ -13,10 +13,10 @@ cordova.define("shengyuan-plugin-module.PaymentCloudPlugin", function(require, e
 				alert(err);
 			}, "PaymentCloudPlugin", "paymentScan", [ qrcode ]);
 		},
-		paymentImmed : function(merchantId, amount, desc, success) {
+		paymentImmed : function(merchantId, amount, desc, coupon,exclAmount,payAmount,success) {
 			exec(success, function(err) {
 				alert(err);
-			}, "PaymentCloudPlugin", "paymentImmed", [ merchantId, amount, desc ]);
+			}, "PaymentCloudPlugin", "paymentImmed", [ merchantId, amount, desc,coupon,exclAmount,payAmount]);
 		},
 		paymentPwd : function(title, url, pwdKey, params, success) {
 			exec(success, function(err) {

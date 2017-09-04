@@ -27,74 +27,41 @@ NSString *const selectIndex = @"selectedIndex";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSLog(@"----%ld",(long)_selectedCellIndex.row);
+    
     _isRefresh = NO;
     // Do any additional setup after loading the view.
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
-    _paymentTable = [[UITableView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 3*screenSize.height/5) style:UITableViewStylePlain];
+    self.view.backgroundColor = [UIColor whiteColor];
+    UIButton *backBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 45*[SYCSystem PointCoefficient])];
+    [backBut setImage:[UIImage imageNamed:@"pay_back"] forState:UIControlStateNormal];
+    [backBut addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBut];
+    UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 240*[SYCSystem PointCoefficient], 17.0*[SYCSystem PointCoefficient])];
+    titleLable.numberOfLines = 1;
+    titleLable.font = [UIFont systemFontOfSize:17.0*[SYCSystem PointCoefficient]];
+    titleLable.textColor = [UIColor colorWithHexString:@"444444"];
+    titleLable.center = CGPointMake(self.view.center.x, 22.5);
+    titleLable.text = @"选择支付方式";
+    titleLable.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:titleLable];
+    UIView *lineView = [[UIView alloc]initWithFrame:CGRectMake(0, 45*[SYCSystem PointCoefficient],screenSize.width, 1)];
+    lineView.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
+    [self.view addSubview:lineView];
+    
+    _paymentTable = [[UITableView alloc]initWithFrame:CGRectMake(0,45, self.view.frame.size.width, 3*screenSize.height/5-45) style:UITableViewStylePlain];
     _paymentTable.tableFooterView = [[UIView alloc]init];
     _paymentTable.delegate = self;
     _paymentTable.dataSource = self;
+    _paymentTable.showsVerticalScrollIndicator = NO;
     _paymentTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     [self.view addSubview:_paymentTable];
-    
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(refreshResult:) name:refreshPaymentNotify object:nil];
+    [center addObserver:self selector:@selector(dismiss:) name:refreshPaymentNotify object:nil];
 }
--(void)refreshResult:(NSNotification*)notify{
-    _isRefresh = YES;
-    [_unEnnalepaymentArr removeAllObjects];
-    [_EnnalepaymentArr removeAllObjects];
-    
-    __weak __typeof(self)weakSelf = self;
-    if ([_paymentType isEqualToString:payMentTypeImme]) {
-       
-        [SYCHttpReqTool payImmediatelyInfoWithpayAmount:_payAmount completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithNewRequest:resultCode result:result];
-        }];
-    }else if([_paymentType isEqualToString:payMentTypeScan]){
-        
-        [SYCHttpReqTool payScanInfoWithQrcode:_qrCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithNewRequest:resultCode result:result];
-        }];
-    }else if([_paymentType isEqualToString:payMentTypeCode]){
-        [SYCHttpReqTool payScanInfoWithPaycode:_payCode completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithNewRequest:resultCode result:result];
-        }];
-    }
-}
--(void)dealWithNewRequest:(NSString*)resultCode result:(NSDictionary*)result{
-    if ([resultCode isEqualToString:resultCodeSuccess]) {
-        NSDictionary *data = result[resultSuccessKey][@"result"][@"payment_info"];
-        [SYCPayOrderInfoModel mj_setupObjectClassInArray:^NSDictionary *{
-            return @{@"payTypes":@"SYCPayTypeModel"};
-        }];
-        SYCPayOrderInfoModel *payOrderInfo = [SYCPayOrderInfoModel mj_objectWithKeyValues:data];
-        
-        for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
-            if (model.defaultPay) {
-                [_EnnalepaymentArr addObject:model];
-            }
-        }
-        for (SYCPayTypeModel *model in payOrderInfo.payTypes) {
-            if (model.isEnabled) {
-                if (!model.defaultPay) {
-                    [_EnnalepaymentArr addObject:model];
-                }
-            }else{
-                [_unEnnalepaymentArr addObject:model];
-            }
-        }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_paymentTable reloadData];
-        });
-    }
-    
-}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2+[_unEnnalepaymentArr count]+[_EnnalepaymentArr count];
+    return 1+[_unEnnalepaymentArr count]+[_EnnalepaymentArr count];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 45*[SYCSystem PointCoefficient];
@@ -105,102 +72,81 @@ NSString *const selectIndex = @"selectedIndex";
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
-    
-    if (indexPath.row == 0) {
-        for (UIView *subviews in [cell.contentView subviews]) {
-            [subviews removeFromSuperview];
+    cell.detailTextLabel.text = nil;
+    cell.textLabel.font = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
+    cell.textLabel.textColor = [UIColor colorWithHexString:@"444444"];
+    NSString *imageStr = nil;
+    if (indexPath.row < [_EnnalepaymentArr count]) {
+        cell.accessoryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"paymentselected"]];
+        SYCPayTypeModel *model = [_EnnalepaymentArr objectAtIndex:indexPath.row];
+        if (model.assetType == 0) {
+            imageStr = model.isEnabled?@"consumeImg":@"consumeImgDisable";
+        }else if (model.assetType == 1) {
+            imageStr = model.isEnabled?@"LCTImg":@"LCTImgDisable";
+        }else if (model.assetType == 2){
+            imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
         }
-        self.view.backgroundColor = [UIColor whiteColor];
-        UIButton *backBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 50, 45*[SYCSystem PointCoefficient])];
-        [backBut setImage:[UIImage imageNamed:@"pay_back"] forState:UIControlStateNormal];
-        [backBut addTarget:self action:@selector(dismiss:) forControlEvents:UIControlEventTouchUpInside];
-        [cell.contentView addSubview:backBut];
-        UILabel *titleLable = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 240*[SYCSystem PointCoefficient], 17.0*[SYCSystem PointCoefficient])];
-        titleLable.numberOfLines = 1;
-        titleLable.font = [UIFont systemFontOfSize:17.0*[SYCSystem PointCoefficient]];
-        titleLable.textColor = [UIColor colorWithHexString:@"444444"];
-        titleLable.center = CGPointMake(cell.contentView.center.x, cell.contentView.center.y);
-        titleLable.text = @"选择支付方式";
-        titleLable.textAlignment = NSTextAlignmentCenter;
-        [cell.contentView addSubview:titleLable];
-        
-    }else{
-        cell.detailTextLabel.text = nil;
-        cell.textLabel.font = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
-        cell.textLabel.textColor = [UIColor colorWithHexString:@"444444"];
-        NSString *imageStr = nil;
-        if (indexPath.row <= [_EnnalepaymentArr count]) {
-            cell.accessoryView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"paymentselected"]];
-            SYCPayTypeModel *model = [_EnnalepaymentArr objectAtIndex:indexPath.row-1];
-            if (model.assetType == 0) {
-                imageStr = model.isEnabled?@"consumeImg":@"consumeImgDisable";
-            }else if (model.assetType == 1) {
-                imageStr = model.isEnabled?@"LCTImg":@"LCTImgDisable";
-            }else if (model.assetType == 2){
-                imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
-            }
-            if (indexPath.row == _selectedCellIndex.row) {
-                cell.accessoryView.hidden = NO;
-                _model = model;
-            }else{
-                cell.accessoryView.hidden = YES;
-            }
-            if (!model.isEnabled) {
-                cell.textLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
-                cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
-                cell.detailTextLabel.text = model.tips;
-            }
-            cell.textLabel.text = model.assetName;
+        if (_selectedCellIndex.row == indexPath.row) {
+            cell.accessoryView.hidden = NO;
+            _model = model;
         }else{
-            if (indexPath.row == [_EnnalepaymentArr count]+1) {
-                imageStr = @"addYKT";
-                cell.textLabel.text = @"绑定生源一卡通";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }else{
-                if ([_unEnnalepaymentArr count]>0) {
-                    NSInteger cout = indexPath.row - [_EnnalepaymentArr count] - 2;
-                    SYCPayTypeModel *model = [_unEnnalepaymentArr objectAtIndex:cout];
-                    if (model.assetType == 0) {
-                        imageStr = model.isEnabled?@"consumeImg":@"consumeImgDisable";
-                    }else if (model.assetType == 1) {
-                        imageStr = model.isEnabled?@"LCTImg":@"LCTImgDisable";
-                    }else if (model.assetType == 2){
-                        imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
-                    }
-                    if (!model.isEnabled) {
-                        cell.textLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
-                        cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
-                        cell.detailTextLabel.text = model.tips;
-                    }
-                    cell.textLabel.text = model.assetName;
-                }
-               
-            }
+           cell.accessoryView.hidden = YES;
         }
-        [cell.imageView setImage:[UIImage imageNamed:imageStr]];
+        if (!model.isEnabled) {
+            cell.textLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+            cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+            cell.detailTextLabel.text = model.tips;
+        }
+        cell.textLabel.text = model.assetName;
+    }else{
+        if (indexPath.row == [_EnnalepaymentArr count] ) {
+            imageStr = @"addYKT";
+            cell.textLabel.text = @"绑定生源一卡通";
+            cell.accessoryView = nil;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else{
+            if ([_unEnnalepaymentArr count]>0) {
+                NSInteger cout = indexPath.row - [_EnnalepaymentArr count] - 1;
+                SYCPayTypeModel *model = [_unEnnalepaymentArr objectAtIndex:cout];
+                if (model.assetType == 0) {
+                    imageStr = model.isEnabled?@"consumeImg":@"consumeImgDisable";
+                }else if (model.assetType == 1) {
+                    imageStr = model.isEnabled?@"LCTImg":@"LCTImgDisable";
+                }else if (model.assetType == 2){
+                    imageStr = model.isEnabled?@"YKTimg":@"YKTimgDisable";
+                }
+                if (!model.isEnabled) {
+                    cell.textLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+                    cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"dddddd"];
+                    cell.detailTextLabel.text = model.tips;
+                }
+                cell.accessoryView = nil;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.textLabel.text = model.assetName;
+            }
+           
+        }
     }
+    [cell.imageView setImage:[UIImage imageNamed:imageStr]];
     cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row <= [_EnnalepaymentArr count]) {
-        SYCPayTypeModel *model = [_EnnalepaymentArr objectAtIndex:indexPath.row -1];
+    if (indexPath.row < [_EnnalepaymentArr count]) {
+        SYCPayTypeModel *model = [_EnnalepaymentArr objectAtIndex:indexPath.row];
         if (!model.isEnabled) {
             return;
         }
-        __weak __typeof(self)weakSelf = self;
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.accessoryView.hidden = NO;
-        UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:_selectedCellIndex];
-        selectedCell.accessoryView.hidden = YES;
-        [self dismissViewControllerAnimated:YES completion:^{
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:model userInfo:@{selectIndex : strongSelf.selectedCellIndex}];
-        }];
-        _selectedCellIndex = indexPath;
-        _model = model;
-    }else if (indexPath.row == [_EnnalepaymentArr count]+1){
+        if(_selectedCellIndex !=indexPath){
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.accessoryView.hidden = NO;
+            UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:_selectedCellIndex];
+            selectedCell.accessoryView.hidden = YES;
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:model userInfo:@{selectIndex : indexPath}];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else if (indexPath.row == [_EnnalepaymentArr count]){
         SYCBlindYTKViewController *SYCBlind = [[SYCBlindYTKViewController alloc]init];
         SYCBlind.modalPresentationStyle = UIModalPresentationCustom;
         SYCBlind.transitioningDelegate = self;
@@ -208,13 +154,7 @@ NSString *const selectIndex = @"selectedIndex";
     }
 }
 -(void)dismiss:(id)sender{
-    __weak __typeof(self)weakSelf = self;
-    [self dismissViewControllerAnimated:YES completion:^{
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        [[NSNotificationCenter defaultCenter] postNotificationName:selectPaymentNotify object:strongSelf.model userInfo:@{selectIndex : strongSelf.selectedCellIndex}];
-    }];
-    
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];

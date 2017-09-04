@@ -21,4 +21,5 @@ extern NSString *const selectIndex;
 @property (nonatomic,copy)NSString *payAmount;
 @property (nonatomic,copy)NSString *payCode;
 @property (nonatomic,copy)NSString *qrCode;
+@property (nonatomic,copy)NSString *prePayID;
 @end

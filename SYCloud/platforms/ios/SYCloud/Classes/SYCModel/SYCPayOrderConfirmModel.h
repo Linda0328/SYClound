@@ -21,4 +21,7 @@
 @property (nonatomic,copy)NSString *merchantId;//商家编号
 @property (nonatomic,copy)NSString *orderSubject;//订单描述
 @property (nonatomic,copy)NSString *payAmount;//支付金额
+@property (nonatomic,copy)NSString *couponId;//优惠券ID
+@property (nonatomic,copy)NSString *exclAmount;
+@property (nonatomic,copy)NSString *amount;
 @end

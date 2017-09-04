@@ -11,7 +11,7 @@
 #import "SYCShareVersionInfo.h"
 #import "NSString+Helper.h"
 #import "SYCUUID.h"
-static NSString * const SYVersionParam = @"/app_resources/app/version.json?_";
+static NSString * const SYVersionParam = @"/app/common/version.jhtml?_";
 static NSString * const SYMainParam = @"/app_resources/app/index.json?_";
 static NSString * const SYCPswSetOrNot = @"/app/payment/member_pay_password.jhtml?";
 static NSString * const SYCPswSet = @"/app/payment/init_pay_password.jhtml?";
@@ -21,6 +21,10 @@ static NSString * const SYCPayCode = @"/app/payment/member_pay_info.jhtml?";
 static NSString * const SYCPayConfirm= @"/app/payment/confirm_payment.jhtml?";
 static NSString * const SYCCaptchaForYKT= @"/app//card/remoteCaptcha.jhtml?";
 static NSString * const SYCBlindYKT= @"/app/card/bindCard.jhtml?";
+static NSString * const SYCPrePayInfo= @"/app/payment/app_pay_info.jhtml?";
+static NSString * const SYCGetVerfication = @"/app/common/getCaptcha.jhtml";
+static NSString * const SYCLoadWithPassw = @"/app/common/payment_login.jhtml";
+static NSString * const SYCLoadWithVerfication = @"/app/common/payment_checkcode.jhtml";
 NSString * const SYCIndexJson = @"Index.json";
 NSString * const SYCIndexVersion = @"IndexVersion";
 NSString * const SYCChannel = @"02";
@@ -69,9 +73,11 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         resultCode = resultCodeJsonError;
         NSLog(@"---数据解析出错---%@",[err description]);
     }else{
-        [SYCShareVersionInfo sharedVersion].pageVersion = [dic objectForKey:@"pageVersion"];
+        [SYCShareVersionInfo sharedVersion].pageVersion = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pageVersion"]];
+        
         [SYCShareVersionInfo sharedVersion].needUpdate = [[dic objectForKey:@"needUpdate"] boolValue];
-        [SYCShareVersionInfo sharedVersion].indexVersion = [dic objectForKey:@"indexVersion"];
+        [SYCShareVersionInfo sharedVersion].indexVersion = [NSString stringWithFormat:@"%@",[dic objectForKey:@"indexVersion"]];
+        [SYCShareVersionInfo sharedVersion].pagePackage = [dic objectForKey:@"pagePackage"];
         [result setObject:dic forKey:resultSuccessKey];
         NSLog(@"----解析结果--- : %@",dic);
     }
@@ -313,31 +319,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:requrl];
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
-    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---支付密码输入正确出错---%@",[error description]);
-//        return nil;
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//        
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
-    
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];    
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 网络请求完成之后就会执行，NSURLSession自动实现多线程
@@ -397,7 +379,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     __block NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
     NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",url];
-    NSLog(@"------%@---",params);
     if (ISsignature) {
         NSString *signature = [SYCSystem sinagureForReq:params];
         [params setObject:signature forKey:@"_signdata"];
@@ -410,57 +391,33 @@ NSString * const resultCodeSuccess = @"SucsessCode";
             paramStr = [paramStr stringByAppendingFormat:@"%@=%@&",key,[params objectForKey:key]];
         }
     }
+
+    if ([paramStr containsString:@"+"]) {
+        //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题,以及页面链接中文编码处理
+        paramStr = [paramStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"+"].invertedSet];
+    }
     if ([type isEqualToString:GETRequest]) {
         reqUrl = [reqUrl stringByAppendingFormat:@"%@%@",@"?",paramStr];
     }
     reqUrl = [reqUrl stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-//    reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:reqUrl]];
     request.HTTPMethod = type;
     request.timeoutInterval = 10.0f;
     if ([type isEqualToString:POSTRequest]) {
         request.HTTPBody = [paramStr dataUsingEncoding:NSUTF8StringEncoding];
     }
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---a确出错---%@",[error description]);
-//        [result setObject:[error description] forKey:resultRequestErrorKey];
-//        return nil;
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        [result setObject:[err description] forKey:resultJsonErrorKey];
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//         [result setObject:dic forKey:resultSuccessKey];
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
-        NSLog(@"%@",[NSThread currentThread]);
         
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
-           
             // 网络访问成功
             NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
+            NSLog(@"ajaxResponse : %@",backData);
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
@@ -509,29 +466,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---面对面支付请求出错---%@",[error description]);
-//        
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//        
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 网络请求完成之后就会执行，NSURLSession自动实现多线程
@@ -594,30 +528,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---扫码支付请求出错---%@",[error description]);
-//        return nil;
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//        
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
-//    return dic;
+
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 网络请求完成之后就会执行，NSURLSession自动实现多线程
@@ -679,30 +590,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---付款码支付请求出错---%@",[error description]);
-//        return nil;
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//        
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
-//    return dic;
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 网络请求完成之后就会执行，NSURLSession自动实现多线程
@@ -750,14 +637,17 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     [paramDic setObject:payConfirm.assetType forKey:@"assetType"];
     [paramDic setObject:payConfirm.assetNo forKey:@"assetNo"];
     [paramDic setObject:payConfirm.payPassword forKey:@"payPassword"];
-    
+    if ([SYCSystem judgeNSString:payConfirm.couponId]) {
+        [paramDic setObject:payConfirm.couponId forKey:@"couponId"];
+    }
+    [paramDic setObject:payConfirm.prepayId forKey:@"prepayId"];
     if (isPreOrder) {
         [paramDic setObject:payConfirm.partner forKey:@"partner"];
-        [paramDic setObject:payConfirm.prepayId forKey:@"prepayId"];
     }else{
         [paramDic setObject:payConfirm.merchantId forKey:@"merchantId"];
         [paramDic setObject:payConfirm.orderSubject forKey:@"orderSubject"];
         [paramDic setObject:payConfirm.payAmount forKey:@"payAmount"];
+        [paramDic setObject:payConfirm.exclAmount forKey:@"exclAmount"];
     }
     NSString *signature = [SYCSystem sinagureForReq:paramDic];
     [paramDic setObject:signature forKey:@"_signdata"];
@@ -775,30 +665,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---面对面支付确认请求出错---%@",[error description]);
-//        return nil;
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//        
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
-//    return dic;
+
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 网络请求完成之后就会执行，NSURLSession自动实现多线程
@@ -922,7 +789,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     }];
     [dataTask resume];
 }
-+(void)blindYKTwithCardNo:(NSString*)cardNo captcha:(NSString*)captcha completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
++(void)blindYKTwithCardNo:(NSString*)cardNo captcha:(NSString*)captcha prior:(NSString*)prior completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
     __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
     __block NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
@@ -931,6 +798,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSMutableDictionary *paramDic = [[self class] commonParam];
     [paramDic setObject:cardNo forKey:@"cardNo"];
     [paramDic setObject:captcha forKey:@"captcha"];
+    [paramDic setObject:prior forKey:@"prior"];
     NSString *signature = [SYCSystem sinagureForReq:paramDic];
     [paramDic setObject:signature forKey:@"_signdata"];
     for (NSString *key in [paramDic allKeys]) {
@@ -984,10 +852,259 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     }];
     [dataTask resume];
 }
--(NSDictionary*)postRequestUrl:(NSString*)requestUrl withParam:(NSString*)param{
+
++(void)requestPayPluginInfoWithPrepareID:(NSString*)prepareId completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCPrePayInfo];
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+//    NSMutableDictionary *paramDic = [NSMutableDictionary dictionary];
+    [paramDic setObject:prepareId forKey:@"prepayId"];
+//    [paramDic setObject:[SYCShareVersionInfo sharedVersion].token forKey:@"token"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+        
+    }
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSession *shareSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
+        NSLog(@"%@",[NSThread currentThread]);
+        
+        NSDictionary *dic = nil;
+        if (data && (error == nil)) {
+            // 网络访问成功
+            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+            NSLog(@"pswset : %@",backData);
+            NSError *err = nil;
+            dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                NSLog(@"---数据解析出错---%@",[err description]);
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                NSLog(@"----解析结果--- : %@",dic);
+                [result setObject:dic forKey:resultSuccessKey];
+            }
+        } else {
+            // 网络访问失败
+            NSLog(@"error=%@",error);
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+        }
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+    [dataTask resume];
+}
++(void)getVerficationCodeWithMobile:(NSString*)phoneNum forUseCode:(NSString*)code fromTerminal:(NSString*)terminal completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCGetVerfication];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:phoneNum forKey:@"mobile"];
+    [paramDic setObject:code forKey:@"code"];
+    [paramDic setObject:terminal forKey:@"terminal"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+    }
+    
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSession *shareSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
+        NSLog(@"%@",[NSThread currentThread]);
+        
+        NSDictionary *dic = nil;
+        if (data && (error == nil)) {
+            // 网络访问成功
+            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+            NSLog(@"pswset : %@",backData);
+            NSError *err = nil;
+            dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                NSLog(@"---数据解析出错---%@",[err description]);
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                NSLog(@"----解析结果--- : %@",dic);
+                [result setObject:dic forKey:resultSuccessKey];
+            }
+        } else {
+            // 网络访问失败
+            NSLog(@"error=%@",error);
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+        }
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+    [dataTask resume];
+    
+}
++(void)loadWithMobile:(NSString*)phoneNum password:(NSString*)password regID:(NSString*)regId fromTerminal:(NSString*)systemType completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCLoadWithPassw];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:phoneNum forKey:@"mobile"];
+    [paramDic setObject:[SYCSystem md5:password] forKey:@"password"];
+    [paramDic setObject:regId forKey:@"regId"];
+    [paramDic setObject:systemType forKey:@"systemType"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+    }
+    //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题
+    param = [param stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"$*^#<>[\\]^`{|}\"]+"].invertedSet];
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSession *shareSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
+        NSLog(@"%@",[NSThread currentThread]);
+        
+        NSDictionary *dic = nil;
+        if (data && (error == nil)) {
+            // 网络访问成功
+            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+
+            NSError *err = nil;
+            dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                NSLog(@"---数据解析出错---%@",[err description]);
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                NSLog(@"----解析结果--- : %@",dic);
+                [result setObject:dic forKey:resultSuccessKey];
+            }
+        } else {
+            // 网络访问失败
+            NSLog(@"error=%@",error);
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+        }
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+    [dataTask resume];
+}
++(void)loadWithMobile:(NSString *)phoneNum verficationCode:(NSString *)captcha regID:(NSString*)regId fromTerminal:(NSString *)systemType completion:(void (^)(NSString *, NSMutableDictionary *))completionHandler{
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCLoadWithVerfication];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:phoneNum forKey:@"mobile"];
+    [paramDic setObject:captcha forKey:@"captcha"];
+    [paramDic setObject:regId forKey:@"regId"];
+    [paramDic setObject:systemType forKey:@"systemType"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+    }
+    //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题
+    param = [param stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"$*^#<>[\\]^`{|}\"]+"].invertedSet];
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSession *shareSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
+        NSLog(@"%@",[NSThread currentThread]);
+        
+        NSDictionary *dic = nil;
+        if (data && (error == nil)) {
+            // 网络访问成功
+            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+            NSLog(@"pswset : %@",backData);
+            NSError *err = nil;
+            dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                NSLog(@"---数据解析出错---%@",[err description]);
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                NSLog(@"----解析结果--- : %@",dic);
+                [result setObject:dic forKey:resultSuccessKey];
+            }
+        } else {
+            // 网络访问失败
+            NSLog(@"error=%@",error);
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+        }
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+    [dataTask resume];
+}
++(NSDictionary*)postRequestUrl:(NSString*)requestUrl withParam:(NSString*)param{
     NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
     NSString *resultCode = resultCodeSuccess;
-    
     NSURL *url = [NSURL URLWithString:requestUrl];
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];

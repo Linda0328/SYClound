@@ -36,6 +36,7 @@ static const NSInteger passWNum = 6;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     _firstPsw = [[NSString alloc]init];
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
     self.view.backgroundColor = [UIColor whiteColor];
@@ -64,8 +65,9 @@ static const NSInteger passWNum = 6;
         lable0.textAlignment = NSTextAlignmentCenter;
         [self.view addSubview:lable0];
     }
-    
-    _textF = [[UITextField alloc]initWithFrame:CGRectMake(40*[SYCSystem PointCoefficient], CGRectGetMaxY(_titleLable.frame)+2*19*[SYCSystem PointCoefficient]+17*[SYCSystem PointCoefficient]+15, width-80*[SYCSystem PointCoefficient],45*[SYCSystem PointCoefficient])];
+//    CGFloat isPhone5Gap = [[UIScreen mainScreen] bounds].size.height < 569?-15:15;
+    CGFloat gap = 15.0f;
+    _textF = [[UITextField alloc]initWithFrame:CGRectMake(40*[SYCSystem PointCoefficient], CGRectGetMaxY(_titleLable.frame)+2*19*[SYCSystem PointCoefficient]+17*[SYCSystem PointCoefficient]+gap*[SYCSystem PointCoefficient], width-80*[SYCSystem PointCoefficient],45*[SYCSystem PointCoefficient])];
     _textF.delegate = self;
     _textF.layer.borderColor = [UIColor colorWithHexString:@"dddddd"].CGColor;
     _textF.layer.borderWidth = 1;
@@ -91,7 +93,7 @@ static const NSInteger passWNum = 6;
     _resultMSGL = [[UILabel alloc]initWithFrame:CGRectMake(0, 0,CGRectGetWidth(self.view.frame)-10, 15*[SYCSystem PointCoefficient])];
     _resultMSGL.numberOfLines = 0;
 //    _resultMSGL.lineBreakMode = NSLineBreakByCharWrapping;
-    _resultMSGL.font = [UIFont systemFontOfSize:15.0*[SYCSystem PointCoefficient]];
+    _resultMSGL.font = [UIFont systemFontOfSize:13.0*[SYCSystem PointCoefficient]];
     _resultMSGL.textColor = [UIColor colorWithHexString:@"444444"];
     _resultMSGL.center = CGPointMake(self.view.center.x, _payResultIMG.center.y);
     _resultMSGL.text = @"支付成功！";
@@ -100,6 +102,7 @@ static const NSInteger passWNum = 6;
     [self.view addSubview:_resultMSGL];
     _confirmPayModel.token = [SYCShareVersionInfo sharedVersion].token;
 
+    
 }
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
@@ -289,7 +292,7 @@ static const NSInteger passWNum = 6;
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SYCPaymentLoadingHUD hideIn:self.view];
-                _resultMSGL.text = @"请求超时，支付失败";
+                _resultMSGL.text = [SYCSystem connectedToNetwork]?@"请求超时，支付失败":@"网络不给力";
                 _resultMSGL.hidden = NO;
                 [SYCPaymentFailHUD showIn:self.view];
             });
@@ -340,7 +343,7 @@ static const NSInteger passWNum = 6;
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
                 [SYCPaymentLoadingHUD hideIn:strongSelf.view];
-                strongSelf.resultMSGL.text = @"请求超时，支付失败";
+                strongSelf.resultMSGL.text = [SYCSystem connectedToNetwork]?@"请求超时，支付失败":@"网络不给力";
                 strongSelf.resultMSGL.hidden = NO;
                 [SYCPaymentFailHUD showIn:strongSelf.view];
             });

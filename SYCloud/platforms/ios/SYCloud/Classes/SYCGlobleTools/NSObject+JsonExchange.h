@@ -14,14 +14,14 @@
  *
  *  @return NSData
  */
-- (nullable NSData *)JSONData;
+- (nullable NSData *)ex_JSONData;
 
 /**
  *  对象转换为JSONString
  *
  *  @return NSString
  */
--(nullable NSString *)JSONString;
+-(nullable NSString *)ex_JSONString;
 
 /**
  *  将JSONString转换为对象
@@ -30,7 +30,7 @@
  *
  *  @return 对象
  */
-+ (nullable id)objectFromJSONString:(nullable NSString *)jsonString;
++ (nullable id)ex_objectFromJSONString:(nullable NSString *)jsonString;
 
 /**
  *  将JSONString转换为对象
@@ -39,5 +39,5 @@
  *
  *  @return 对象
  */
-+ (nullable id)objectFromJSONData:(nullable NSData *)jsonData;
++ (nullable id)ex_objectFromJSONData:(nullable NSData *)jsonData;
 @end

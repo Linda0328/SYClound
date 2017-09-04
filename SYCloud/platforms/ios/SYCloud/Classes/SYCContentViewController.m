@@ -28,6 +28,13 @@
 #import "SYCHttpReqTool.h"
 #import "SYCRequestLoadingViewController.h"
 #import "MBProgressHUD.h"
+#import "SYCLoadViewController.h"
+#import "SYCShareModel.h"
+#import "SYCShareAppViewController.h"
+#import "WXApiManager.h"
+#import "QQManager.h"
+#import "SYCScanPictureViewController.h"
+#import "SYCScanImagesViewController.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -38,6 +45,7 @@ static void *eventBarItem = @"eventBarItem";
 @property (nonatomic,strong)NSMutableArray *optionURLArr;
 @property (nonatomic,strong)NSMutableArray *groupArr;
 @property (nonatomic,strong)dispatch_source_t timer;
+@property (nonatomic,assign)CGRect presentedRect;
 @end
 
 @implementation SYCContentViewController
@@ -54,7 +62,7 @@ static void *eventBarItem = @"eventBarItem";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    _presentedRect = CGRectZero;
     _optionURLArr = [NSMutableArray arrayWithCapacity:20];
     __weak __typeof(self)weakSelf = self;
     self.pushBlock = ^(NSString *contentUrl,BOOL isBackToLast,BOOL reload,SYCNavigationBarModel *navModel){
@@ -87,18 +95,14 @@ static void *eventBarItem = @"eventBarItem";
         }
         
     };
-//    self.CurrentChildVC.unReachableB = ^(){
-//        __strong __typeof(weakSelf)strongSelf = weakSelf;
-//        SYOpenWLANTableViewController *openL = [[SYOpenWLANTableViewController alloc]initWithStyle:UITableViewStyleGrouped];
-//        [strongSelf.navigationController pushViewController:openL animated:YES];
-//    };
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
     [center addObserver:self selector:@selector(passwordSetting:) name:passwordNotify object:nil];
     [center addObserver:self selector:@selector(PayImmedately:) name:PayImmedateNotify object:nil];
-    
+    [center addObserver:self selector:@selector(shareApp:) name:shareNotify object:nil];
+    [center addObserver:self selector:@selector(ShowPhotos:) name:showPhotoNotify object:nil];
 }
 
 -(void)PushScanVC:(NSNotification*)notify{
@@ -157,69 +161,50 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
+    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    _presentedRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
     __weak __typeof(self)weakSelf = self;
     [SYCHttpReqTool PswSetOrNot:^(NSString *resultCode, BOOL resetPsw) {
         if ([resultCode isEqualToString:resultCodeSuccess]) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
-            passwVC.pswModel = payModel;
-            passwVC.showAmount = YES;
-            passwVC.isTranslate = YES;
-            passwVC.needSetPassword = resetPsw;
-            passwVC.presentingMainVC = strongSelf.CurrentChildVC;
-            dispatch_async(dispatch_get_main_queue(), ^{
-            passwVC.modalPresentationStyle = UIModalPresentationCustom;
-            passwVC.transitioningDelegate = strongSelf;
-            [strongSelf presentViewController:passwVC animated:YES completion:nil];
-            });
+            if (resetPsw) {
+                UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:@"您未设置支付密码，请设置您的支付密码并完成提交" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                     [strongSelf showPasswordInput:payModel needResetPsw:resetPsw];
+                }];
+                [alertC addAction:action];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                [strongSelf presentViewController:alertC animated:YES completion:nil];
+                });
+            }else{
+                 [strongSelf showPasswordInput:payModel needResetPsw:resetPsw];
+            }
         }
        
     }];
     
 }
+-(void)showPasswordInput:(SYCPassWordModel*)payModel needResetPsw:(BOOL)resetPsw{
+    SYCPasswordViewController *passwVC = [[SYCPasswordViewController alloc]init];
+    passwVC.pswModel = payModel;
+    passwVC.showAmount = YES;
+    passwVC.isTranslate = YES;
+    passwVC.needSetPassword = resetPsw;
+    passwVC.presentingMainVC = self.CurrentChildVC;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        passwVC.modalPresentationStyle = UIModalPresentationCustom;
+        passwVC.transitioningDelegate = self;
+        [self presentViewController:passwVC animated:YES completion:nil];
+    });
 
+}
 -(void)PayImmedately:(NSNotification*)notify{
     
     MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
-//    [self presentViewController:laoding animated:YES completion:^{
-//         __strong __typeof(weakSelf)strongSelf = weakSelf;
-//        NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
-//        SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
-//        NSDictionary *result = nil;
-//        if ([payMentType isEqualToString:payMentTypeImme]) {
-//            SYCPayInfoModel *payModel = (SYCPayInfoModel*)notify.object;
-//            payOrderVC.payInfoModel = payModel;
-//            result = [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount];
-//        }else if([payMentType isEqualToString:payMentTypeScan]){
-//            NSString *qrcode = (NSString*)notify.object;
-//            payOrderVC.qrcode = qrcode;
-//            result = [SYCHttpReqTool payScanInfoWithQrcode:qrcode];
-//        }else if([payMentType isEqualToString:payMentTypeCode]){
-//            NSString *paycode = (NSString*)notify.object;
-//            payOrderVC.payCode = paycode;
-//            result = [SYCHttpReqTool payScanInfoWithPaycode:paycode];
-//        }
-//        if (result) {
-//            laoding.pushBlock = ^(){
-//                payOrderVC.presentingMainVC = strongSelf.CurrentChildVC;
-//                payOrderVC.payMentType = payMentType;
-//                payOrderVC.rquestResultDic = result;
-//                payOrderVC.isPreOrderPay = [payMentType isEqualToString:payMentTypeImme]?NO:YES;
-//                payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
-//                payOrderVC.transitioningDelegate = self;
-//                [strongSelf presentViewController:payOrderVC animated:YES completion:nil];
-//            };
-//            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultSuccessNotify object:nil];
-//        
-//        }else{
-//            [[NSNotificationCenter defaultCenter] postNotificationName:requestResultErrorNotify object:@"获取支付订单信息失败"];
-//        }
-//
-//    }];
-     __weak __typeof(self)weakSelf = self;
+    __weak __typeof(self)weakSelf = self;
     __block UIView *payloadingView = [self payLoading];
     NSString *payMentType = [notify.userInfo objectForKey:PreOrderPay];
     __block SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
@@ -244,12 +229,54 @@ static void *eventBarItem = @"eventBarItem";
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
         }];
+    }else if([payMentType isEqualToString:payMentTypeSDK]){
+        NSString *prePayID = (NSString*)notify.object;
+        payOrderVC.prePayID = prePayID;
+        [SYCHttpReqTool requestPayPluginInfoWithPrepareID:prePayID completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            NSLog(@"-------result===%@",result);
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+        }];
+
     }
     
+}
+-(void)shareApp:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    _presentedRect = CGRectMake(0, screenSize.height-105*[SYCSystem PointCoefficient], screenSize.width, 105*[SYCSystem PointCoefficient]);
+    SYCShareModel *shareM = (SYCShareModel*)notify.object;
+    SYCShareAppViewController *shareVC = [[SYCShareAppViewController alloc]init];
+    shareVC.shareModel = shareM;
+    shareVC.modalPresentationStyle = UIModalPresentationCustom;
+    shareVC.transitioningDelegate = self;
+    [self presentViewController:shareVC animated:YES completion:nil];
+}
+-(void)ShowPhotos:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    NSArray *imgs = [notify.userInfo objectForKey:photoArrkey];
+    NSInteger index =[[notify.userInfo objectForKey:defaultPhotoIndexKey]integerValue];
+    _presentedRect = [[UIScreen mainScreen]bounds];
+//    SYCScanPictureViewController *pic = [[SYCScanPictureViewController alloc]init];
+
+    SYCScanImagesViewController *pic = [[SYCScanImagesViewController alloc]init];
+    pic.imgs = imgs ;
+    pic.index = index;
+    pic.modalPresentationStyle = UIModalPresentationCustom;
+    pic.transitioningDelegate = self;
+    [self presentViewController:pic animated:YES completion:nil];
 }
 -(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC {
     __weak __typeof(self)weakSelf = self;
     if ([resultCode isEqualToString:resultCodeSuccess]&&[result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
+        CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+        _presentedRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)),dispatch_get_main_queue(), ^{
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             //停止动画
@@ -282,6 +309,16 @@ static void *eventBarItem = @"eventBarItem";
         HUD.label.text = result[@"msg"];
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
+            //用户非登录状态
+        if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
+            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
+            load.mainVC = _CurrentChildVC;
+            if ([paymentType isEqualToString:payMentTypeSDK]) {
+                load.isFromSDK = YES;
+            }
+            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
+            [self.navigationController presentViewController:nav animated:YES completion:nil];
+        }
         });
     }
     if (![resultCode isEqualToString:resultCodeSuccess]) {
@@ -296,18 +333,18 @@ static void *eventBarItem = @"eventBarItem";
         HUD.label.text = @"请求失败，请检查网络";
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
-         });
+        });
     }
 
 }
 -(UIPresentationController*)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source{
     SYCPresentationController *presentation = [[SYCPresentationController alloc]initWithPresentedViewController:presented presentingViewController:presenting];
-    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    
 //    presentation.blurEffectStyle = UIBlurEffectStyleLight;
 //    presentation.shouldApplyBackgroundBlurEffect = YES;
     presentation.backgroundColor = [UIColor colorWithHexString:@"000000"];
     presentation.backgroundAlpha = 0.5;
-    presentation.contentViewRect = CGRectMake(0, 2*screenSize.height/5, screenSize.width,  3*screenSize.height/5);
+    presentation.contentViewRect = _presentedRect;
     return presentation;
 }
 
@@ -347,6 +384,8 @@ static void *eventBarItem = @"eventBarItem";
         }
         searchB.placeholder = title;
         searchB.delegate = self;
+        UIImage *searchImage = [UIImage imageWithRect:searchB.bounds withColor:[UIColor clearColor]];
+        searchB.backgroundImage = searchImage;
         self.navigationItem.titleView = searchB;
         searchB.tag = [_titleModel.ID integerValue];
     }else if ([_titleModel.type isEqualToString:optionType]){
@@ -461,13 +500,6 @@ static void *eventBarItem = @"eventBarItem";
         return;
     }
     if ([eventB.model.type isEqualToString:groupType]) {
-//        if (_groupTable.hidden) {
-//            _groupTable.hidden = NO;
-//            UIWindow *window = [[UIApplication sharedApplication]keyWindow];
-//            [window addSubview:_groupTable];
-//        }else{
-//            _groupTable.hidden = YES;
-//        }
        UIBarButtonItem *item = objc_getAssociatedObject(eventB, eventBarItem);
        SYCPopoverGroupViewController *popOverVC = [[SYCPopoverGroupViewController alloc]init];
        popOverVC.groupArr = _groupArr;
@@ -482,7 +514,6 @@ static void *eventBarItem = @"eventBarItem";
        popOverVC.preferredContentSize = CGSizeMake(100*[SYCSystem PointCoefficient], [_groupArr count]*cellHeight*[SYCSystem PointCoefficient]);
        [self presentViewController:popOverVC animated:YES
                          completion:nil];
-
        return;
     }
     
@@ -573,7 +604,7 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(UIView*)payLoading{
     UIWindow *windows = [UIApplication sharedApplication].keyWindow;
-    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, windows.frame.size.width/3, windows.frame.size.width/3)];
+    UIView *loadingV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 80*[SYCSystem PointCoefficient], 80*[SYCSystem PointCoefficient])];
     loadingV.center = windows.center;
     loadingV.backgroundColor = [UIColor colorWithHexString:@"000000"];
     loadingV.alpha = 0.8;
@@ -581,7 +612,7 @@ static void *eventBarItem = @"eventBarItem";
     loadingV.layer.cornerRadius = 10.0;
     
     UIImage *pay_loading = [UIImage imageNamed:@"pay_loading"];
-    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, windows.frame.size.width*0.05, pay_loading.size.width, pay_loading.size.height)];
+    UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake((loadingV.frame.size.width-pay_loading.size.width)/2, 10*[SYCSystem PointCoefficient], pay_loading.size.width, pay_loading.size.height)];
     [imageV setImage:pay_loading];
     [loadingV addSubview:imageV];
     
@@ -595,12 +626,12 @@ static void *eventBarItem = @"eventBarItem";
     self.view.userInteractionEnabled = NO;
     NSMutableArray *viewArr = [NSMutableArray array];
     for (NSInteger i = 0; i < 3; i++) {
-        CGFloat gap = CGRectGetWidth(loadingV.frame)/4;
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetWidth(loadingV.frame)/4-4*[SYCSystem PointCoefficient]+i*gap, CGRectGetMaxY(lable.frame)-5, 8*[SYCSystem PointCoefficient], 8*[SYCSystem PointCoefficient])];
+        CGFloat gap = 6;
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetWidth(loadingV.frame)/2-6*[SYCSystem PointCoefficient]-gap+i*(gap+4*[SYCSystem PointCoefficient]), CGRectGetHeight(loadingV.frame)- 12, 4*[SYCSystem PointCoefficient], 4*[SYCSystem PointCoefficient])];
         [loadingV addSubview:view];
         view.tag = 1000+i;
         view.layer.masksToBounds = YES;
-        view.layer.cornerRadius = 4.0*[SYCSystem PointCoefficient];
+        view.layer.cornerRadius = 2.0*[SYCSystem PointCoefficient];
         view.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
         [loadingV addSubview:view];
         [viewArr addObject:view];
