@@ -17,7 +17,7 @@
         shareVersion = [[SYCShareVersionInfo alloc]init];
         shareVersion.systemType = @"1";
         NSDictionary *infoDic = [[NSBundle mainBundle] infoDictionary];
-        UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+//        UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
         shareVersion.appVersionName = [infoDic objectForKey:@"CFBundleShortVersionString"];
         shareVersion.appVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];
         shareVersion.lastAppVersion = [infoDic objectForKey:@"CFBundleShortVersionString"];

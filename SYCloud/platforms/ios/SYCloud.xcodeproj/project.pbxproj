@@ -230,6 +230,7 @@
 		EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */; };
 		EEC8290E1F34494200D828B0 /* WXMediaMessage+messageConstruct.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290D1F34494200D828B0 /* WXMediaMessage+messageConstruct.m */; };
 		EEC829111F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC829101F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m */; };
+		EED377251FB2DE7B007540D3 /* SYCNewLoadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED377241FB2DE7B007540D3 /* SYCNewLoadViewController.m */; };
 		EED6FB5B1E94D9070061B6AC /* CALayer+Transition.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB581E94D9070061B6AC /* CALayer+Transition.m */; };
 		EED6FB5C1E94D9070061B6AC /* XZMCoreNewFeatureVC.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB5A1E94D9070061B6AC /* XZMCoreNewFeatureVC.m */; };
 		EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EED6FB5F1E94DCA70061B6AC /* SYReachableNotViewController.m */; };
@@ -705,6 +706,8 @@
 		EEC8290D1F34494200D828B0 /* WXMediaMessage+messageConstruct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "WXMediaMessage+messageConstruct.m"; sourceTree = "<group>"; };
 		EEC8290F1F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SendMessageToWXReq+requestWithTextOrMediaMessage.h"; sourceTree = "<group>"; };
 		EEC829101F3449B800D828B0 /* SendMessageToWXReq+requestWithTextOrMediaMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SendMessageToWXReq+requestWithTextOrMediaMessage.m"; sourceTree = "<group>"; };
+		EED377231FB2DE7B007540D3 /* SYCNewLoadViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCNewLoadViewController.h; sourceTree = "<group>"; };
+		EED377241FB2DE7B007540D3 /* SYCNewLoadViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCNewLoadViewController.m; sourceTree = "<group>"; };
 		EED6FB571E94D9070061B6AC /* CALayer+Transition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+Transition.h"; sourceTree = "<group>"; };
 		EED6FB581E94D9070061B6AC /* CALayer+Transition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+Transition.m"; sourceTree = "<group>"; };
 		EED6FB591E94D9070061B6AC /* XZMCoreNewFeatureVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XZMCoreNewFeatureVC.h; sourceTree = "<group>"; };
@@ -1568,6 +1571,7 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EED377221FB2DE20007540D3 /* newLoad */,
 				EE8CCD821F3EA6CD000CD9A7 /* CustomViews */,
 				EE9FE47E1F3C427600B1D67A /* QQShare */,
 				EE85CE481F2C637F00485041 /* WXpay */,
@@ -1588,6 +1592,15 @@
 				EE9FE4801F3C429E00B1D67A /* QQManager.m */,
 			);
 			name = QQShare;
+			sourceTree = "<group>";
+		};
+		EED377221FB2DE20007540D3 /* newLoad */ = {
+			isa = PBXGroup;
+			children = (
+				EED377231FB2DE7B007540D3 /* SYCNewLoadViewController.h */,
+				EED377241FB2DE7B007540D3 /* SYCNewLoadViewController.m */,
+			);
+			name = newLoad;
 			sourceTree = "<group>";
 		};
 		EED6FB551E94D9070061B6AC /* XZMCoreNewFeatureVC */ = {
@@ -1853,6 +1866,7 @@
 				EE9500651E7F804A00C35C2A /* MJRefreshGifHeader.m in Sources */,
 				EE95004C1E7F804A00C35C2A /* README.mdown in Sources */,
 				EE95004B1E7F804A00C35C2A /* MBProgressHUD.m in Sources */,
+				EED377251FB2DE7B007540D3 /* SYCNewLoadViewController.m in Sources */,
 				EEC060CC1EB8771000E3BDE3 /* SYCPaymentViewController.m in Sources */,
 				EE95003B1E7F804A00C35C2A /* UIProgressView+AFNetworking.m in Sources */,
 				EE4880C31EB4718D00D6A675 /* SYCPayTypeModel.m in Sources */,
