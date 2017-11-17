@@ -15,5 +15,6 @@ typedef void(^pushViewControllerBlock)(NSString *contentUrl,BOOL isBackToLast,BO
 @property (nonatomic,strong)MainViewController *CurrentChildVC;
 @property (nonatomic,assign)BOOL isHiddenNavigationBar;
 @property (nonatomic,assign)BOOL isBackToLast;
+@property (nonatomic,assign)BOOL isFirst;
 -(void)setNavigationBar:(SYCNavigationBarModel *)navBarModel;
 @end

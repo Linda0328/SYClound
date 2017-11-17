@@ -31,4 +31,5 @@
 @interface AppDelegate : CDVAppDelegate {}
 @property (nonatomic,assign)BOOL isReachable;
 @property (nonatomic,copy)NSString *paymentSDKID;
+-(void)setTabController;
 @end

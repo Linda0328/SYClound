@@ -33,8 +33,10 @@
 #import "SYCShareAppViewController.h"
 #import "WXApiManager.h"
 #import "QQManager.h"
+#import "SYCShareVersionInfo.h"
 #import "SYCScanPictureViewController.h"
 #import "SYCScanImagesViewController.h"
+#import "SYCNewLoadViewController.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -62,6 +64,17 @@ static void *eventBarItem = @"eventBarItem";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    if (_isFirst&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]) {
+        __weak __typeof(self)weakSelf = self;
+        __block UIView *payloadingView = [self payLoading];
+        __block SYCPayOrderInfoViewController *payOrderVC = [[SYCPayOrderInfoViewController alloc]init];
+        payOrderVC.prePayID = [SYCShareVersionInfo sharedVersion].paymentSDKID;
+        [SYCHttpReqTool requestPayPluginInfoWithPrepareID:[SYCShareVersionInfo sharedVersion].paymentSDKID completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentTypeSDK loadingView:payloadingView payOrderVC:payOrderVC payCode:[SYCShareVersionInfo sharedVersion].paymentSDKID];
+        }];
+    }
     _presentedRect = CGRectZero;
     _optionURLArr = [NSMutableArray arrayWithCapacity:20];
     __weak __typeof(self)weakSelf = self;
@@ -213,21 +226,21 @@ static void *eventBarItem = @"eventBarItem";
         payOrderVC.payInfoModel = payModel;
         [SYCHttpReqTool payImmediatelyInfoWithpayAmount:payModel.amount completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC payCode:payModel];
         }];
     }else if([payMentType isEqualToString:payMentTypeScan]){
         NSString *qrcode = (NSString*)notify.object;
         payOrderVC.qrcode = qrcode;
         [SYCHttpReqTool payScanInfoWithQrcode:qrcode completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC payCode:qrcode];
         }];
     }else if([payMentType isEqualToString:payMentTypeCode]){
         NSString *paycode = (NSString*)notify.object;
         payOrderVC.payCode = paycode;
         [SYCHttpReqTool payScanInfoWithPaycode:paycode completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC payCode:paycode];
         }];
     }else if([payMentType isEqualToString:payMentTypeSDK]){
         NSString *prePayID = (NSString*)notify.object;
@@ -235,7 +248,7 @@ static void *eventBarItem = @"eventBarItem";
         [SYCHttpReqTool requestPayPluginInfoWithPrepareID:prePayID completion:^(NSString *resultCode, NSMutableDictionary *result) {
             NSLog(@"-------result===%@",result);
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC];
+            [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC payCode:prePayID];
         }];
 
     }
@@ -272,7 +285,7 @@ static void *eventBarItem = @"eventBarItem";
     pic.transitioningDelegate = self;
     [self presentViewController:pic animated:YES completion:nil];
 }
--(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC {
+-(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC payCode:(id)payCode{
     __weak __typeof(self)weakSelf = self;
     if ([resultCode isEqualToString:resultCodeSuccess]&&[result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
         CGSize screenSize = [[UIScreen mainScreen]bounds].size;
@@ -311,13 +324,18 @@ static void *eventBarItem = @"eventBarItem";
         [HUD hideAnimated:YES afterDelay:1.5f];
             //用户非登录状态
         if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
-            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-            load.mainVC = _CurrentChildVC;
-            if ([paymentType isEqualToString:payMentTypeSDK]) {
-                load.isFromSDK = YES;
-            }
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-            [self.navigationController presentViewController:nav animated:YES completion:nil];
+//            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
+//            load.mainVC = _CurrentChildVC;
+//            if ([paymentType isEqualToString:payMentTypeSDK]) {
+//                load.isFromSDK = YES;
+//            }
+//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
+//            [self.navigationController presentViewController:nav animated:YES completion:nil];
+            SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+            newLoad.payCode = payCode;
+            newLoad.contentVC = self;
+            newLoad.paymentType = paymentType;
+            [self.navigationController presentViewController:newLoad animated:YES completion:nil];
         }
         });
     }

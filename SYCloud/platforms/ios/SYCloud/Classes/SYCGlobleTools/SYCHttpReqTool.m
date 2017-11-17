@@ -25,6 +25,7 @@ static NSString * const SYCPrePayInfo= @"/app/payment/app_pay_info.jhtml?";
 static NSString * const SYCGetVerfication = @"/app/common/getCaptcha.jhtml";
 static NSString * const SYCLoadWithPassw = @"/app/common/payment_login.jhtml";
 static NSString * const SYCLoadWithVerfication = @"/app/common/payment_checkcode.jhtml";
+static NSString * const SYCToken = @"token";
 NSString * const SYCIndexJson = @"Index.json";
 NSString * const SYCIndexVersion = @"IndexVersion";
 NSString * const SYCChannel = @"02";
@@ -46,10 +47,11 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
     [SYCSystem imagLoadURL];
-    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@",SYVersionParam,[SYCSystem secondsForNow]];
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *token = [def objectForKey:loadToken];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@&%@=%@",SYVersionParam,[SYCSystem secondsForNow],SYCToken,token];
     NSURL *url = [NSURL URLWithString:reqUrl];
     reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
    
     NSURLResponse *response = nil;

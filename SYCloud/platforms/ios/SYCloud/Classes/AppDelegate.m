@@ -56,6 +56,7 @@
 #import "QQManager.h"
 #import "MiPushSDK.h"
 #import "SYCPushMessageViewController.h"
+#import "SYCNewLoadViewController.h"
 @interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
@@ -152,11 +153,21 @@
     return YES;
 }
 -(void)setRootViewController{
+    
     NSDictionary *versionResult = [SYCHttpReqTool VersionInfo];
+    BOOL isLogined = [[versionResult objectForKey:@"isLogined"] boolValue];
     if (![[versionResult objectForKey:resultCodeKey]isEqualToString:resultCodeSuccess]) {
         [self ShowException];
         return;
     }
+    if (!isLogined) {
+        self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
+    }else{
+       [self setTabController];
+    }
+    
+}
+-(void)setTabController{
     //并发队列使用全局并发队列，异步执行任务
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SYCCache *cache = [[SYCCache alloc]init];
@@ -172,9 +183,9 @@
         NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
         NSError *error = nil;
         if (indexData) {
-             dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
+            dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
         }
-       
+        
     }
     if (!dic) {
         NSDictionary *result = [SYCHttpReqTool MainData];
@@ -291,11 +302,12 @@
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
         }else{
-            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
-            load.isFromSDK = YES;
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
+//            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
+//            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
+//            load.isFromSDK = YES;
+//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
+//            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
     }
     if ([comesURl hasPrefix:WeiXinAppID]) {
@@ -349,11 +361,12 @@
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
             [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
         }else{
-            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
-            load.isFromSDK = YES;
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
+//            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
+//            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
+//            load.isFromSDK = YES;
+//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
+//            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
         }
     }
     if ([comesURl hasPrefix:WeiXinAppID]) {
@@ -427,14 +440,19 @@
     }
     
 }
-
-// 点击通知进入应用
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(nonnull UNNotificationResponse *)response withCompletionHandler:(nonnull void (^)(void))completionHandler{
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [self dealWithPushMessage:userInfo];
     }
 }
+// 点击通知进入应用
+//- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+//    NSDictionary * userInfo = response.notification.request.content.userInfo;
+//    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
+//        [self dealWithPushMessage:userInfo];
+//    }
+//}
 
 #pragma mark --- MiPushSDKDelegate
 -(void)miPushRequestSuccWithSelector:(NSString *)selector data:(NSDictionary *)data{

@@ -69,6 +69,8 @@
 		EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE72D2F21EA9F35100AFBD9E /* SYCPasswordViewController.m */; };
 		EE7329261EC0560B00FB85E1 /* SYCRequestLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */; };
 		EE742AC31F1F350C00EB4BC9 /* SYCustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */; };
+		EE7458AE1FBD67240024DA75 /* SYCLoadTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7458AD1FBD67240024DA75 /* SYCLoadTextField.m */; };
+		EE7458B11FBD79490024DA75 /* UILabel+SYCFitWidthLable.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7458B01FBD79490024DA75 /* UILabel+SYCFitWidthLable.m */; };
 		EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */; };
 		EE7913CB1F3163A1002E4317 /* SYCSharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913CA1F3163A1002E4317 /* SYCSharePlugin.m */; };
 		EE7913CE1F316BB6002E4317 /* SYCPhotoPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913CD1F316BB6002E4317 /* SYCPhotoPlugin.m */; };
@@ -93,9 +95,11 @@
 		EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7BE7041E812DFE0080D625 /* UIImage+SYColorExtension.m */; };
 		EE7D66F81F28684D007EDAC9 /* SYCCache.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7D66F71F28684D007EDAC9 /* SYCCache.m */; };
 		EE7D66FB1F287524007EDAC9 /* SYCCacheURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7D66FA1F287524007EDAC9 /* SYCCacheURLProtocol.m */; };
+		EE7E49BA1FB58D630020C7A6 /* SYCCustomTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7E49B91FB58D630020C7A6 /* SYCCustomTabBar.m */; };
 		EE8156DA1EB1C72B00C13482 /* SYCPaymentLoadingHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156D91EB1C72B00C13482 /* SYCPaymentLoadingHUD.m */; };
 		EE8156DE1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156DD1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m */; };
 		EE8156E11EB1CA2D00C13482 /* SYCPaymentFailHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */; };
+		EE8265941FBEE0C800B702F3 /* SYCRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8265931FBEE0C800B702F3 /* SYCRegisterViewController.m */; };
 		EE8327D21EB32D4700B496A5 /* SYCPayOrderInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8327D11EB32D4700B496A5 /* SYCPayOrderInfoViewController.m */; };
 		EE839F211EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m in Sources */ = {isa = PBXBuildFile; fileRef = EE839F201EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.m */; };
 		EE84165D1EEBE2930032B37F /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8416591EEBE2930032B37F /* libWeChatSDK.a */; };
@@ -392,6 +396,10 @@
 		EE7329251EC0560B00FB85E1 /* SYCRequestLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestLoadingViewController.m; sourceTree = "<group>"; };
 		EE742AC11F1F350C00EB4BC9 /* SYCustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCustomTextField.h; sourceTree = "<group>"; };
 		EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCustomTextField.m; sourceTree = "<group>"; };
+		EE7458AC1FBD67240024DA75 /* SYCLoadTextField.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCLoadTextField.h; sourceTree = "<group>"; };
+		EE7458AD1FBD67240024DA75 /* SYCLoadTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCLoadTextField.m; sourceTree = "<group>"; };
+		EE7458AF1FBD79490024DA75 /* UILabel+SYCFitWidthLable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+SYCFitWidthLable.h"; sourceTree = "<group>"; };
+		EE7458B01FBD79490024DA75 /* UILabel+SYCFitWidthLable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+SYCFitWidthLable.m"; sourceTree = "<group>"; };
 		EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestPlugin.h; sourceTree = "<group>"; };
 		EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestPlugin.m; sourceTree = "<group>"; };
 		EE7913C91F3163A1002E4317 /* SYCSharePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCSharePlugin.h; sourceTree = "<group>"; };
@@ -431,12 +439,16 @@
 		EE7D66F71F28684D007EDAC9 /* SYCCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCache.m; sourceTree = "<group>"; };
 		EE7D66F91F287524007EDAC9 /* SYCCacheURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCCacheURLProtocol.h; sourceTree = "<group>"; };
 		EE7D66FA1F287524007EDAC9 /* SYCCacheURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCacheURLProtocol.m; sourceTree = "<group>"; };
+		EE7E49B81FB58D630020C7A6 /* SYCCustomTabBar.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCCustomTabBar.h; sourceTree = "<group>"; };
+		EE7E49B91FB58D630020C7A6 /* SYCCustomTabBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCCustomTabBar.m; sourceTree = "<group>"; };
 		EE8156D81EB1C72B00C13482 /* SYCPaymentLoadingHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentLoadingHUD.h; sourceTree = "<group>"; };
 		EE8156D91EB1C72B00C13482 /* SYCPaymentLoadingHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentLoadingHUD.m; sourceTree = "<group>"; };
 		EE8156DC1EB1C85C00C13482 /* SYCPaymentSuccessHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentSuccessHUD.h; sourceTree = "<group>"; };
 		EE8156DD1EB1C85C00C13482 /* SYCPaymentSuccessHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentSuccessHUD.m; sourceTree = "<group>"; };
 		EE8156DF1EB1CA2D00C13482 /* SYCPaymentFailHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentFailHUD.h; sourceTree = "<group>"; };
 		EE8156E01EB1CA2D00C13482 /* SYCPaymentFailHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentFailHUD.m; sourceTree = "<group>"; };
+		EE8265921FBEE0C800B702F3 /* SYCRegisterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCRegisterViewController.h; sourceTree = "<group>"; };
+		EE8265931FBEE0C800B702F3 /* SYCRegisterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCRegisterViewController.m; sourceTree = "<group>"; };
 		EE8327D01EB32D4700B496A5 /* SYCPayOrderInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderInfoViewController.h; sourceTree = "<group>"; };
 		EE8327D11EB32D4700B496A5 /* SYCPayOrderInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPayOrderInfoViewController.m; sourceTree = "<group>"; };
 		EE839F1F1EC6EE7800E947B5 /* SYCPresentionAnimatedTransitioning.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPresentionAnimatedTransitioning.h; sourceTree = "<group>"; };
@@ -1090,6 +1102,8 @@
 				EED6FB661E94DCF60061B6AC /* SYIntroduceWLANView.xib */,
 				EE8CCD831F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.h */,
 				EE8CCD841F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m */,
+				EE7E49B81FB58D630020C7A6 /* SYCCustomTabBar.h */,
+				EE7E49B91FB58D630020C7A6 /* SYCCustomTabBar.m */,
 			);
 			name = CustomViews;
 			sourceTree = "<group>";
@@ -1599,6 +1613,12 @@
 			children = (
 				EED377231FB2DE7B007540D3 /* SYCNewLoadViewController.h */,
 				EED377241FB2DE7B007540D3 /* SYCNewLoadViewController.m */,
+				EE8265921FBEE0C800B702F3 /* SYCRegisterViewController.h */,
+				EE8265931FBEE0C800B702F3 /* SYCRegisterViewController.m */,
+				EE7458AC1FBD67240024DA75 /* SYCLoadTextField.h */,
+				EE7458AD1FBD67240024DA75 /* SYCLoadTextField.m */,
+				EE7458AF1FBD79490024DA75 /* UILabel+SYCFitWidthLable.h */,
+				EE7458B01FBD79490024DA75 /* UILabel+SYCFitWidthLable.m */,
 			);
 			name = newLoad;
 			sourceTree = "<group>";
@@ -1838,6 +1858,7 @@
 				EE95003F1E7F804A00C35C2A /* MASCompositeConstraint.m in Sources */,
 				EE9500711E7F804A00C35C2A /* README.md in Sources */,
 				EED6FB671E94DCF60061B6AC /* SYIntroduceWLANView.m in Sources */,
+				EE7458AE1FBD67240024DA75 /* SYCLoadTextField.m in Sources */,
 				EE92F3CC1F1E0D75001C25F0 /* SYCLoadViewController.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				EE9500461E7F804A00C35C2A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
@@ -1926,6 +1947,7 @@
 				EED6FB601E94DCA70061B6AC /* SYReachableNotViewController.m in Sources */,
 				EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */,
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,
+				EE8265941FBEE0C800B702F3 /* SYCRegisterViewController.m in Sources */,
 				EE9500391E7F804A00C35C2A /* UIButton+AFNetworking.m in Sources */,
 				EE95006D1E7F804A00C35C2A /* UIView+MJExtension.m in Sources */,
 				EE8CCD851F3EA6FC000CD9A7 /* SYCImgCollectionViewCell.m in Sources */,
@@ -1967,6 +1989,7 @@
 				2A8071774CB64E038B1C7366 /* CDVVibration.m in Sources */,
 				EE915B471F2AD6DA0046E24B /* aeskey.c in Sources */,
 				EE95FF931E7F7ECD00C35C2A /* SYCTabBarItemModel.m in Sources */,
+				EE7458B11FBD79490024DA75 /* UILabel+SYCFitWidthLable.m in Sources */,
 				EE95006B1E7F804A00C35C2A /* UIScrollView+MJExtension.m in Sources */,
 				EE9500411E7F804A00C35C2A /* MASConstraintMaker.m in Sources */,
 				EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */,
@@ -1976,6 +1999,7 @@
 				EE915B4D1F2AD6DA0046E24B /* pwd2key.c in Sources */,
 				EE9500351E7F804A00C35C2A /* AFAutoPurgingImageCache.m in Sources */,
 				D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */,
+				EE7E49BA1FB58D630020C7A6 /* SYCCustomTabBar.m in Sources */,
 				EE95003D1E7F804A00C35C2A /* UIWebView+AFNetworking.m in Sources */,
 				EE7913D11F316BEF002E4317 /* SYCPatternLockPlugin.m in Sources */,
 				66922D104FC949A8A6B1AF42 /* Toast.m in Sources */,
