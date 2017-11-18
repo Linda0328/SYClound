@@ -16,18 +16,23 @@
     // Drawing code
 }
 */
-//重设 leftview x
--(CGRect)leftViewRectForBounds:(CGRect)bounds{
-    CGRect iconRect = [super leftViewRectForBounds:bounds];
-    iconRect.origin.x +=16;
-    return iconRect;
+////重设 leftview x
+//-(CGRect)leftViewRectForBounds:(CGRect)bounds{
+//    CGRect iconRect = [super leftViewRectForBounds:bounds];
+//    iconRect.origin.x +=16;
+//    return iconRect;
+//}
+//UItextfield 文字与输入框的距离
+-(CGRect)textRectForBounds:(CGRect)bounds{
+    return CGRectInset(bounds,16.0 , 0);
 }
-////UItextfield 文字与输入框的距离
-//-(CGRect)textRectForBounds:(CGRect)bounds{
-//    return CGRectInset(bounds,65.0 , 0);
-//}
-////控制文本的位置
-//-(CGRect)editingRectForBounds:(CGRect)bounds{
-//    return CGRectInset(bounds,65.0, 0);
-//}
+//控制文本的位置
+-(CGRect)editingRectForBounds:(CGRect)bounds{
+    return CGRectInset(bounds,16.0, 0);
+}
+//重写此方法,修改placeholder颜色
+-(void)drawPlaceholderInRect:(CGRect)rect{
+    CGSize palcaholderSize = [self.placeholder sizeWithAttributes:@{NSFontAttributeName:self.font}];
+    [self.placeholder drawInRect:CGRectMake(0, (rect.size.height - palcaholderSize.height)/2, rect.size.width, rect.size.height) withAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor],NSFontAttributeName:self.font}];
+}
 @end

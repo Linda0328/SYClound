@@ -48,7 +48,7 @@
     
     UIFont *lableFont = [UIFont systemFontOfSize:15.0*[SYCSystem PointCoefficient]];
     UIColor *textColor = [UIColor colorWithHexString:@"ffffff"];
-    UILabel *leftLabel = [UILabel SingleLineCustomText:@"手机号码  " Font:lableFont Color:textColor];
+//    UILabel *leftLabel = [UILabel SingleLineCustomText:@"手机号码  " Font:lableFont Color:textColor];
     _acountTextF = [[SYCLoadTextField alloc]init];
     [self.view addSubview:_acountTextF];
     CGFloat left = 30*[SYCSystem PointCoefficient];
@@ -66,15 +66,16 @@
     _acountTextF.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
     _acountTextF.textColor = textColor;
     _acountTextF.font = lableFont;
-    _acountTextF.leftView = leftLabel;
-    //必须设置，否则默认不显示leftview
-    _acountTextF.leftViewMode = UITextFieldViewModeAlways;
+//    _acountTextF.leftView = leftLabel;
+//    //必须设置，否则默认不显示leftview
+//    _acountTextF.leftViewMode = UITextFieldViewModeAlways;
+    _acountTextF.placeholder = @"手机号码/闪购手机号码";
     _acountTextF.keyboardType = UIKeyboardTypeNumberPad;
     //输入框光标的颜色为白色
     _acountTextF.tintColor = [UIColor whiteColor];
     _acountTextF.delegate = self;
     
-    UILabel *leftLabel0 = [UILabel SingleLineCustomText:@"密码  " Font:lableFont Color:textColor];
+//    UILabel *leftLabel0 = [UILabel SingleLineCustomText:@"密码  " Font:lableFont Color:textColor];
     _passWordTextF = [[SYCLoadTextField alloc]init];
     [self.view addSubview:_passWordTextF];
     CGFloat gap0 = 26*[SYCSystem PointCoefficient];
@@ -90,9 +91,10 @@
     _passWordTextF.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
     _passWordTextF.textColor = textColor;
     _passWordTextF.font = lableFont;
-    _passWordTextF.leftView = leftLabel0;
-    //必须设置，否则默认不显示leftview
-    _passWordTextF.leftViewMode = UITextFieldViewModeAlways;
+//    _passWordTextF.leftView = leftLabel0;
+//    //必须设置，否则默认不显示leftview
+//    _passWordTextF.leftViewMode = UITextFieldViewModeAlways;
+    _passWordTextF.placeholder = @"密码";
     //输入框光标的颜色为白色
     _passWordTextF.tintColor = [UIColor whiteColor];
     _passWordTextF.secureTextEntry = YES;
@@ -208,7 +210,7 @@
     __weak __typeof(self)weakSelf = self;
     if (_isVerfication) {
         [SYCHttpReqTool loadWithMobile:_acountTextF.text verficationCode:_passWordTextF.text regID:[SYCShareVersionInfo sharedVersion].regId fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            NSLog(@"------%@",result);
+            
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([resultCode isEqualToString:resultCodeSuccess]) {

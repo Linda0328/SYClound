@@ -107,6 +107,7 @@
 		EE85CE471F2C627B00485041 /* SYCWXPayRequestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE461F2C627B00485041 /* SYCWXPayRequestModel.m */; };
 		EE85CE4B1F2C706300485041 /* WXApiRequestHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */; };
 		EE85CE4E1F2C735900485041 /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE85CE4D1F2C735900485041 /* WXApiManager.m */; };
+		EE892A001FC01CCB00558368 /* SYCGuiderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8929FF1FC01CCB00558368 /* SYCGuiderViewController.m */; };
 		EE8B32AB1F41480100CC065D /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8B32AA1F41480100CC065D /* NotificationService.m */; };
 		EE8B32AF1F41480100CC065D /* SYCNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EE8B32A71F41480100CC065D /* SYCNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		EE8B32BD1F417A6D00CC065D /* libMiPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32BB1F417A6D00CC065D /* libMiPushSDK.a */; };
@@ -465,6 +466,8 @@
 		EE85CE4A1F2C706300485041 /* WXApiRequestHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiRequestHandler.m; sourceTree = "<group>"; };
 		EE85CE4C1F2C735900485041 /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
 		EE85CE4D1F2C735900485041 /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
+		EE8929FE1FC01CCB00558368 /* SYCGuiderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCGuiderViewController.h; sourceTree = "<group>"; };
+		EE8929FF1FC01CCB00558368 /* SYCGuiderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCGuiderViewController.m; sourceTree = "<group>"; };
 		EE8B32A71F41480100CC065D /* SYCNotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SYCNotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE8B32A91F41480100CC065D /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		EE8B32AA1F41480100CC065D /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
@@ -1615,6 +1618,8 @@
 				EED377241FB2DE7B007540D3 /* SYCNewLoadViewController.m */,
 				EE8265921FBEE0C800B702F3 /* SYCRegisterViewController.h */,
 				EE8265931FBEE0C800B702F3 /* SYCRegisterViewController.m */,
+				EE8929FE1FC01CCB00558368 /* SYCGuiderViewController.h */,
+				EE8929FF1FC01CCB00558368 /* SYCGuiderViewController.m */,
 				EE7458AC1FBD67240024DA75 /* SYCLoadTextField.h */,
 				EE7458AD1FBD67240024DA75 /* SYCLoadTextField.m */,
 				EE7458AF1FBD79490024DA75 /* UILabel+SYCFitWidthLable.h */,
@@ -1856,6 +1861,7 @@
 				EE79AD491F43D41600DFEDB1 /* SYCPushMessageViewController.m in Sources */,
 				EE95002D1E7F804A00C35C2A /* AFHTTPSessionManager.m in Sources */,
 				EE95003F1E7F804A00C35C2A /* MASCompositeConstraint.m in Sources */,
+				EE892A001FC01CCB00558368 /* SYCGuiderViewController.m in Sources */,
 				EE9500711E7F804A00C35C2A /* README.md in Sources */,
 				EED6FB671E94DCF60061B6AC /* SYIntroduceWLANView.m in Sources */,
 				EE7458AE1FBD67240024DA75 /* SYCLoadTextField.m in Sources */,

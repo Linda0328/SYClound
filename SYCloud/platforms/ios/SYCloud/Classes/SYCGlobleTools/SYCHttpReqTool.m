@@ -25,6 +25,7 @@ static NSString * const SYCPrePayInfo= @"/app/payment/app_pay_info.jhtml?";
 static NSString * const SYCGetVerfication = @"/app/common/getCaptcha.jhtml";
 static NSString * const SYCLoadWithPassw = @"/app/common/payment_login.jhtml";
 static NSString * const SYCLoadWithVerfication = @"/app/common/payment_checkcode.jhtml";
+static NSString * const SYCRegister = @"/app/common/register.jhtml";
 static NSString * const SYCToken = @"token";
 NSString * const SYCIndexJson = @"Index.json";
 NSString * const SYCIndexVersion = @"IndexVersion";
@@ -1041,7 +1042,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     }];
     [dataTask resume];
 }
-+(void)loadWithMobile:(NSString *)phoneNum verficationCode:(NSString *)captcha regID:(NSString*)regId fromTerminal:(NSString *)systemType completion:(void (^)(NSString *, NSMutableDictionary *))completionHandler{
++(void)loadWithMobile:(NSString *)phoneNum verficationCode:(NSString *)captcha regID:(NSString*)regId fromTerminal:(NSString *)systemType completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
     __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
     __block NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
@@ -1103,6 +1104,69 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         }
     }];
     [dataTask resume];
+}
++(void)registerWithMobile:(NSString *)phoneNum password:(NSString*)password verficationCode:(NSString *)captcha regID:(NSString*)regId fromTerminal:(NSString *)systemType QRCode:(NSString*)qrCode completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler {
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCRegister];
+    NSString *param = [[NSString alloc]init];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:phoneNum forKey:@"mobile"];
+    [paramDic setObject:captcha forKey:@"captcha"];
+    [paramDic setObject:[SYCSystem md5:password] forKey:@"password"];
+    [paramDic setObject:regId forKey:@"regId"];
+    [paramDic setObject:systemType forKey:@"systemType"];
+    [paramDic setObject:[SYCSystem judgeNSString:qrCode]?qrCode:@" " forKey:@"qrCode"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    for (NSString *key in [paramDic allKeys]) {
+        if ([[paramDic allKeys]indexOfObject:key] == [[paramDic allKeys] count]-1) {
+            param = [param stringByAppendingFormat:@"%@=%@",key,[paramDic objectForKey:key]];
+        }else{
+            param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
+        }
+    }
+    //URL无法对加号进行编码导致http请求时服务器端获取的内容中加号变成空格问题
+    param = [param stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@"$*^#<>[\\]^`{|}\"]+"].invertedSet];
+    NSURL *url = [NSURL URLWithString:reqUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    request.timeoutInterval = 10.0;
+    request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
+    NSURLSession *shareSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSDictionary *dic = nil;
+        if (data && (error == nil)) {
+            // 网络访问成功
+            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+            backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
+            NSLog(@"register : %@",backData);
+            NSError *err = nil;
+            dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                NSLog(@"---数据解析出错---%@",[err description]);
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                NSLog(@"----解析结果--- : %@",dic);
+                [result setObject:dic forKey:resultSuccessKey];
+            }
+        } else {
+            // 网络访问失败
+            NSLog(@"error=%@",error);
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+        }
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+    [dataTask resume];
+    
 }
 +(NSDictionary*)postRequestUrl:(NSString*)requestUrl withParam:(NSString*)param{
     NSMutableDictionary *result = [[NSMutableDictionary alloc]init];

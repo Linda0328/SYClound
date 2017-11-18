@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "MainViewController.h"
 @interface SYScanViewController : UIViewController
+@property (nonatomic,assign)BOOL isFromRegister;
 @property (nonatomic,strong)MainViewController *lastMain;
 @end
