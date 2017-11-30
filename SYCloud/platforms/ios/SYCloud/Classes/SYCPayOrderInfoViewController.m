@@ -78,7 +78,7 @@ static NSInteger infoCellNum = 2;
     _moneyAmountLablel = [[UILabel alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(lineView.frame)+15*[SYCSystem PointCoefficient], 200*[SYCSystem PointCoefficient], 27.5*[SYCSystem PointCoefficient])];
     _moneyAmountLablel.numberOfLines = 1;
     _moneyAmountLablel.font = [UIFont systemFontOfSize:27.5*[SYCSystem PointCoefficient]];
-    _moneyAmountLablel.textColor = [UIColor colorWithHexString:@"3B7BCB"];
+    _moneyAmountLablel.textColor = [UIColor colorWithHexString:@"CFAF72"];
     _moneyAmountLablel.center = CGPointMake(self.view.center.x, lineView.center.y+42.5*[SYCSystem PointCoefficient]);
     _moneyAmountLablel.text = [NSString stringWithFormat:@"¥%.2f",[_amount floatValue]];
     _moneyAmountLablel.textAlignment = NSTextAlignmentCenter;
@@ -98,7 +98,7 @@ static NSInteger infoCellNum = 2;
     
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
     _confirmBut = [[UIButton alloc]initWithFrame:CGRectMake(16*[SYCSystem PointCoefficient], 3*screenSize.height/5-16*[SYCSystem PointCoefficient]-50*[SYCSystem PointCoefficient], self.view.frame.size.width-32*[SYCSystem PointCoefficient], 50*[SYCSystem PointCoefficient])];
-    _confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+    _confirmBut.backgroundColor = [UIColor colorWithHexString:@"CFAF72"];
     [_confirmBut setTitle:@"立即付款" forState:UIControlStateNormal];
     [_confirmBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_confirmBut addTarget:self action:@selector(orderPayImmedately:) forControlEvents:UIControlEventTouchUpInside];

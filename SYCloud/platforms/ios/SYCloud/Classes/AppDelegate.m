@@ -57,6 +57,7 @@
 #import "MiPushSDK.h"
 #import "SYCPushMessageViewController.h"
 #import "SYCNewLoadViewController.h"
+#import "SYCNewGuiderViewController.h"
 @interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
@@ -73,8 +74,7 @@
     if (!ret) {
         NSLog(@"BaiduMap manager start failed");
     }
-    //    self.viewController = [[MainViewController alloc] init];
-    //    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     __weak __typeof(self)weakSelf = self;
     self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
@@ -86,42 +86,46 @@
     [MiPushSDK registerMiPush:self];
     //注册微信支付
     [WXApi registerApp:WeiXinAppID];
+    //拦截http请求
+    [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     //手机QQ权限注册
     [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
-    BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
-    [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
+//    BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
+    BOOL canShow = [SYCNewGuiderViewController canShowNewGuider];
     if(canShow){ // 初始化新特性界面
-        self.window.rootViewController = [XZMCoreNewFeatureVC newFeatureVCWithImageNames:[SYCSystem guiderImageS] enterBlock:^{
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if (strongSelf.isReachable) {
-                [strongSelf setRootViewController];
-            }else{
-                SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
-                rec.refreshB = ^(){
-                    __strong __typeof(weakSelf)strongSelf = weakSelf;
-                    if (strongSelf.isReachable) {
-                        [strongSelf setRootViewController];
-                    }else{
-                        MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
-                        [self.window addSubview:HUD];
-                        HUD.label.text = @"无网络连接，无法加载数据";
-                        [HUD showAnimated:YES ];
-                        [HUD hideAnimated:YES afterDelay:1.5f];
-                    }
-                };
-                UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
-                strongSelf.window.rootViewController = navC;
-            }
-        } configuration:^(UIButton *enterButton) { // 配置进入按钮
-            [enterButton setTitle:@"立即进入" forState:UIControlStateNormal];
-            [enterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            enterButton.layer.masksToBounds = YES;
-            enterButton.layer.cornerRadius = 10;
-            enterButton.layer.borderWidth = 1;
-            enterButton.layer.borderColor = [UIColor whiteColor].CGColor;
-            enterButton.bounds = CGRectMake(0, 0, 100, 40);
-            enterButton.center = CGPointMake(KScreenW * 0.8, KScreenH* 0.08);
-        }];
+        SYCNewGuiderViewController *newGuider = [[SYCNewGuiderViewController alloc]init];
+        self.window.rootViewController = newGuider;
+//        self.window.rootViewController = [XZMCoreNewFeatureVC newFeatureVCWithImageNames:[SYCSystem guiderImageS] enterBlock:^{
+//            __strong __typeof(weakSelf)strongSelf = weakSelf;
+//            if (strongSelf.isReachable) {
+//                [strongSelf setRootViewController];
+//            }else{
+//                SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
+//                rec.refreshB = ^(){
+//                    __strong __typeof(weakSelf)strongSelf = weakSelf;
+//                    if (strongSelf.isReachable) {
+//                        [strongSelf setRootViewController];
+//                    }else{
+//                        MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+//                        [self.window addSubview:HUD];
+//                        HUD.label.text = @"无网络连接，无法加载数据";
+//                        [HUD showAnimated:YES ];
+//                        [HUD hideAnimated:YES afterDelay:1.5f];
+//                    }
+//                };
+//                UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
+//                strongSelf.window.rootViewController = navC;
+//            }
+//        } configuration:^(UIButton *enterButton) { // 配置进入按钮
+//            [enterButton setTitle:@"立即进入" forState:UIControlStateNormal];
+//            [enterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            enterButton.layer.masksToBounds = YES;
+//            enterButton.layer.cornerRadius = 10;
+//            enterButton.layer.borderWidth = 1;
+//            enterButton.layer.borderColor = [UIColor whiteColor].CGColor;
+//            enterButton.bounds = CGRectMake(0, 0, 100, 40);
+//            enterButton.center = CGPointMake(KScreenW * 0.8, KScreenH* 0.08);
+//        }];
     }else{
         if ([SYCSystem connectedToNetwork]) {
             [self setRootViewController];
@@ -155,7 +159,7 @@
 -(void)setRootViewController{
     
     NSDictionary *versionResult = [SYCHttpReqTool VersionInfo];
-    BOOL isLogined = [[versionResult objectForKey:@"isLogined"] boolValue];
+    BOOL isLogined = [[[versionResult objectForKey:@"RequestSucsess"] objectForKey:@"isLogined"] boolValue];
     if (![[versionResult objectForKey:resultCodeKey]isEqualToString:resultCodeSuccess]) {
         [self ShowException];
         return;
@@ -168,6 +172,7 @@
     
 }
 -(void)setTabController{
+    [SYCSystem imagLoadURL];
     //并发队列使用全局并发队列，异步执行任务
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SYCCache *cache = [[SYCCache alloc]init];

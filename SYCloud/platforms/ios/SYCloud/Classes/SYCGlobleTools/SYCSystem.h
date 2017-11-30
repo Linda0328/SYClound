@@ -90,6 +90,7 @@ extern NSString *const defaultPhotoIndexKey;
 extern NSString *const SDKIDkey;
 extern NSString *const finishSDKPay;
 extern NSString *const pushMessageTypePage;
+extern NSString *const versionCode;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;
@@ -108,6 +109,7 @@ extern NSString *const pushMessageTypePage;
 +(CGFloat)deviceWidth;
 +(CGFloat)deviceHeigth;
 
++(NSMutableArray*)NewGuiderImageS;
 //分解url参数
 +(NSDictionary *)dealWithURL:(NSString*)url;
 

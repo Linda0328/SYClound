@@ -99,6 +99,8 @@ NSString *const finishSDKPay = @"finishSDKPay";
 //push message type
 NSString *const pushMessageTypePage = @"page";
 NSString *const pushNotify = @"pushNotify";
+
+NSString *const versionCode = @"versionCode";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
@@ -244,6 +246,23 @@ NSString *const pushNotify = @"pushNotify";
 +(CGFloat)deviceHeigth{
     CGFloat height = CGRectGetHeight([UIScreen mainScreen].bounds);
     return height;
+}
++(NSMutableArray*)NewGuiderImageS{
+    NSMutableArray *arr = [NSMutableArray array];
+    CGFloat width = [SYCSystem deviceWidth];
+    if ([SYCSystem deviceWidth]>375) {
+        width = 540;
+    }else if([SYCSystem deviceWidth]>320){
+        width = 375;
+    }else{
+        width = 320;
+    }
+    NSString *wh = [NSString stringWithFormat:@"yd%.f_",width];
+    for (NSInteger i = 1 ; i<6; i++) {
+        NSString *newWH = [wh stringByAppendingFormat:@"%zd.png",i];
+        [arr addObject:newWH];
+    }
+    return arr;
 }
 +(NSMutableArray*)guiderImageS{
     NSMutableArray *arr = [NSMutableArray array];

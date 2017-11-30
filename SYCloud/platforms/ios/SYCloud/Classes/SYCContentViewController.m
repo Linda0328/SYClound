@@ -368,14 +368,11 @@ static void *eventBarItem = @"eventBarItem";
 
 -(void)setNavigationBar:(SYCNavigationBarModel *)navBarModel{
     _isHiddenNavigationBar = NO;
-    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
-//    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"F9F9F9"];
-//    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithHexString:@"458DEF"];
-    UINavigationBar *bar = [UINavigationBar appearance];
-    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
-    UIImage *image = [imageOrigin image:imageOrigin withColor:color];
-    [bar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    [bar setShadowImage:[[UIImage alloc]init]];
+//    UINavigationBar *bar = [UINavigationBar appearance];
+//    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
+//    UIImage *image = [imageOrigin image:imageOrigin withColor:color];
+//    [bar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+//    [bar setShadowImage:[[UIImage alloc]init]];
 //    bar.barTintColor = [UIColor colorWithHexString:@"458DEF"];
     [SYCNavTitleModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"ID":@"id"};
@@ -383,7 +380,7 @@ static void *eventBarItem = @"eventBarItem";
     _titleModel = [SYCNavTitleModel mj_objectWithKeyValues:navBarModel.title];
     
     if ([_titleModel.type isEqualToString:titleType]) {
-        UILabel *titleLab = [UILabel navTitle:[_titleModel.value objectForKey:_titleModel.type] TitleColor:[UIColor colorWithHexString:@"ffffff"] titleFont:[UIFont systemFontOfSize:20]];
+        UILabel *titleLab = [UILabel navTitle:[_titleModel.value objectForKey:_titleModel.type] TitleColor:[UIColor blackColor] titleFont:[UIFont systemFontOfSize:20]];
         self.navigationItem.titleView = titleLab;
         titleLab.tag = [_titleModel.ID integerValue];
     }else if ([_titleModel.type isEqualToString:imageType]){

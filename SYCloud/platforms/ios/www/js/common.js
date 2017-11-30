@@ -91,10 +91,10 @@ Sy.ns('app.request');
         var cssref = document.createElement('link');
         cssref.setAttribute("rel", "stylesheet");
         cssref.setAttribute("type", "text/css");
-        cssref.setAttribute("href", app.version.remoteUrl + "/app_resources/style/base.css?v=" + app.version.pageVersion);
+        cssref.setAttribute("href", app.version.remoteUrl + "/app_resources/"+app.version.versionCode+"/style/base.css?v=" + app.version.pageVersion);
         document.getElementsByTagName("head")[0].appendChild(cssref);
  
-        $.getScript(app.version.remoteUrl + "/app_resources/js/common.js?v=" + app.version.pageVersion, function() {
+        $.getScript(app.version.remoteUrl + "/app_resources/"+app.version.versionCode+"/js/common.js?v=" + app.version.pageVersion, function() {
             // load remote page js
             var req = {};
         
@@ -109,7 +109,7 @@ Sy.ns('app.request');
                 filePath = req['pg'] + "/";
                 package = req['pg'] + ".";
             }
-            $.getScript(app.version.remoteUrl + "/app_resources/js/" + filePath + req['act'] + ".js?v=" + app.version.pageVersion, function() {
+            $.getScript(app.version.remoteUrl + "/app_resources/"+app.version.versionCode+"/js/" + filePath + req['act'] + ".js?v=" + app.version.pageVersion, function() {
                 eval('app.page.' + package + req['act'] + '.init(req)');
             });
         });

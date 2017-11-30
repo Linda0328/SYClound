@@ -192,7 +192,12 @@
     [_HUD hideAnimated:YES];
 }
 -(void)gotoLoad{
-
+    if(![SYCSystem connectedToNetwork]){
+        _HUD.label.text = @"网络不给力";
+        [_HUD showAnimated:YES];
+        [_HUD hideAnimated:YES afterDelay:2.0f];
+        return;
+    }
     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];;
     [appdelegate setTabController];
     if (![SYCSystem isMobilePhoneOrtelePhone:_acountTextF.text]) {

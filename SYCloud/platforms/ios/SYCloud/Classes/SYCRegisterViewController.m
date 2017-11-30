@@ -16,6 +16,7 @@
 #import "SYCShareVersionInfo.h"
 #import "AppDelegate.h"
 #import "SYScanViewController.h"
+#import <AVFoundation/AVFoundation.h>
 @interface SYCRegisterViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong)SYCLoadTextField *acountTextF;
 @property (nonatomic,strong)SYCLoadTextField *passWTextF;

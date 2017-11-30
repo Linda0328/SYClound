@@ -27,6 +27,7 @@ static NSString * const SYCLoadWithPassw = @"/app/common/payment_login.jhtml";
 static NSString * const SYCLoadWithVerfication = @"/app/common/payment_checkcode.jhtml";
 static NSString * const SYCRegister = @"/app/common/register.jhtml";
 static NSString * const SYCToken = @"token";
+static NSString * const SYCVersionCode = @"1.0.4";
 NSString * const SYCIndexJson = @"Index.json";
 NSString * const SYCIndexVersion = @"IndexVersion";
 NSString * const SYCChannel = @"02";
@@ -50,7 +51,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     [SYCSystem imagLoadURL];
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     NSString *token = [def objectForKey:loadToken];
-    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@&%@=%@",SYVersionParam,[SYCSystem secondsForNow],SYCToken,token];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@&%@=%@&%@=%@",SYVersionParam,[SYCSystem secondsForNow],SYCToken,token,versionCode,SYCVersionCode];
     NSURL *url = [NSURL URLWithString:reqUrl];
     reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
@@ -93,7 +94,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
     NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
-    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@",SYMainParam,[SYCSystem secondsForNow]];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"/app_resources/%@/app/index.json?_%@&%@=%@",SYCVersionCode,[SYCSystem secondsForNow],versionCode,SYCVersionCode];
 //    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYMainParam];
     NSURL *url = [NSURL URLWithString:reqUrl];
     reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -369,7 +370,9 @@ NSString * const resultCodeSuccess = @"SucsessCode";
 }
 +(NSMutableDictionary*)commonParam{
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:[SYCShareVersionInfo sharedVersion].token forKey:@"token"];
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]) {
+        [param setObject:[SYCShareVersionInfo sharedVersion].token forKey:@"token"];
+    }
     [param setObject:[SYCShareVersionInfo sharedVersion].appVersion forKey:@"_version"];
     [param setObject:SYCChannel forKey:@"_channel"];
     [param setObject:[SYCSystem getNetworkType] forKey:@"_network"];

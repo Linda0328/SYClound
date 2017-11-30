@@ -106,6 +106,12 @@
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
     
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].sharePluginID]) {
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].scanPluginID];
+        [SYCShareVersionInfo sharedVersion].shareResult = nil;
+        [SYCShareVersionInfo sharedVersion].sharePluginID = nil;
+    }
     //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 //    if (![SYCSystem connectedToNetwork]) {
 //        [self reachabilityChanged:nil];
@@ -460,12 +466,17 @@
 }
 - (void)managerDidRecvMessageResponse:(SendMessageToWXResp *)response{
     NSString *text = @"分享失败";
+    BOOL shareSuccess = NO;
     if (response.errCode == WXSuccess) {
         text = @"分享成功";
+        shareSuccess = YES;
     }
     if (response.errCode == WXErrCodeUserCancel){
         text = @"取消分享";
     }
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(shareSuccess),
+                                                        @"shareForm":[SYCShareVersionInfo sharedVersion].sharePlatform
+                                                        };
     _HUD.label.text = text;
     [_HUD showAnimated:YES];
     [_HUD hideAnimated:YES afterDelay:1.50f];
@@ -473,12 +484,17 @@
 -(void)managerDidRecvQQMessageResponse:(SendMessageToQQResp *)response{
     
     NSString *text = @"分享失败";
+    BOOL shareSuccess = NO;
     if ([[response result]isEqualToString:@"0"]) {
         text = @"分享成功";
+        shareSuccess = YES;
     }
     if([[response result]isEqualToString:@"-4"]) {
         text = @"取消分享";
     }
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(shareSuccess),
+                                                        @"shareForm":[SYCShareVersionInfo sharedVersion].sharePlatform
+                                                        };
     _HUD.label.text = text;
     [_HUD showAnimated:YES];
     [_HUD hideAnimated:YES afterDelay:1.50f];

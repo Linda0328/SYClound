@@ -59,14 +59,13 @@
     bgView.backgroundColor = [UIColor colorWithHexString:@"F9F9F9"];
     [self.tabBar insertSubview:bgView atIndex:0];
     self.tabBar.opaque = YES;
-    //    self.tabBarController.tabBar.barTintColor = [UIColor colorWithHexString:@"F9F9F9"];
-    //    self.tabBar.backgroundColor = [UIColor colorWithHexString:@"F9F9F9"];
 }
 -(void)viewDidLoad{
     [super viewDidLoad];
-    SYCCustomTabBar *customTabbar = [[SYCCustomTabBar alloc]init];
-    //利用KVC替换默认的Tabbar
-    [self setValue:customTabbar forKey:@"tabBar"];
+    self.delegate = self;
+//    SYCCustomTabBar *customTabbar = [[SYCCustomTabBar alloc]init];
+//    //利用KVC替换默认的Tabbar
+//    [self setValue:customTabbar forKey:@"tabBar"];
 }
 
 -(UITabBarItem *)tabBarItemWithModle:(SYCTabBarItemModel*)tabModel titleColor:(UIColor*)titleColor{
@@ -75,22 +74,22 @@
     UITabBarItem *tabBarItem = [[UITabBarItem alloc]initWithTitle:tabModel.name image:[self renderImageWithName:[tabModel.ico stringByAppendingString:@"Normal"]] selectedImage:[self renderImageWithName:[tabModel.ico stringByAppendingString:@"Selected"]]];
     tabBarItem.tag = [tabModel.ID integerValue];
     //改变tabBar字体颜色
-    [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor colorWithHexString:@"666666"],NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+    [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
     //    [tabBarItem setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:titleColor,NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
     return tabBarItem;
     
 }
-//-(void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated{
-//    [super setViewControllers:viewControllers animated:animated];
-//    [viewControllers enumerateObjectsUsingBlock:^(UIViewController * obj, NSUInteger idx, BOOL *stop) {
-//        obj.title = nil;
-//                if (idx == 1) {
-//                    obj.tabBarItem.imageInsets = UIEdgeInsetsMake(6.5 , 0, -6.5, 0);
-//                } else {
-//        obj.tabBarItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-//            }
-//    }];
-//}
+-(void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated{
+    [super setViewControllers:viewControllers animated:animated];
+    [viewControllers enumerateObjectsUsingBlock:^(UIViewController * obj, NSUInteger idx, BOOL *stop) {
+        obj.title = nil;
+            if (idx == 1) {
+                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(-6.5 , 0, 6.5, 0);
+            } else {
+                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+        }
+    }];
+}
 - (UIImage*)renderImageWithName:(NSString*)imageName {
     UIImage * image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     return image;

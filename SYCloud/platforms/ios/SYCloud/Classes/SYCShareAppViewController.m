@@ -14,6 +14,7 @@
 #import "UIButton+TitleImageCenter.h"
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
 #import <TencentOpenAPI/QQApiInterface.h>
+#import "SYCShareVersionInfo.h"
 static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
 @interface SYCShareAppViewController ()
 @property (nonatomic,strong)MBProgressHUD *HUD;
@@ -80,23 +81,25 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     BOOL isShared = YES;
     if ([title isEqualToString:@"微信"]) {
         isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneSession];
-        
+        [SYCShareVersionInfo sharedVersion].sharePlatform = @"weixin";
     }
     if ([title isEqualToString:@"朋友圈"]) {
         isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneTimeline];
-
+        [SYCShareVersionInfo sharedVersion].sharePlatform = @"wxpyq";
     }
     if ([title isEqualToString:@"QQ"]) {
         QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
         QQApiSendResultCode sent = [QQApiInterface sendReq:req];
         [self handleSentToQQresult:sent];
+        [SYCShareVersionInfo sharedVersion].sharePlatform = @"qq";
     }
     if ([title isEqualToString:@"QQ空间"]) {
         QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
         QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
         [self handleSentToQQresult:sent];
+        [SYCShareVersionInfo sharedVersion].sharePlatform = @"qzone";
     }
     if(!isShared){
         [_HUD showAnimated:YES];
