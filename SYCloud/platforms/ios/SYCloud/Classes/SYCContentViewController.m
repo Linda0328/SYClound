@@ -48,6 +48,8 @@ static void *eventBarItem = @"eventBarItem";
 @property (nonatomic,strong)NSMutableArray *groupArr;
 @property (nonatomic,strong)dispatch_source_t timer;
 @property (nonatomic,assign)CGRect presentedRect;
+@property (nonatomic,strong)NSArray *guidenceImages;
+@property (nonatomic,assign)NSInteger currentGuidenceImageIndex;
 @end
 
 @implementation SYCContentViewController
@@ -64,7 +66,7 @@ static void *eventBarItem = @"eventBarItem";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    _currentGuidenceImageIndex = 1;
     if (_isFirst&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]) {
         __weak __typeof(self)weakSelf = self;
         __block UIView *payloadingView = [self payLoading];
@@ -116,6 +118,8 @@ static void *eventBarItem = @"eventBarItem";
     [center addObserver:self selector:@selector(PayImmedately:) name:PayImmedateNotify object:nil];
     [center addObserver:self selector:@selector(shareApp:) name:shareNotify object:nil];
     [center addObserver:self selector:@selector(ShowPhotos:) name:showPhotoNotify object:nil];
+    [center addObserver:self selector:@selector(LoadAgain:) name:LoadAgainNotify object:nil];
+    [center addObserver:self selector:@selector(guidence:) name:guidenceNotify object:nil];
 }
 
 -(void)PushScanVC:(NSNotification*)notify{
@@ -276,14 +280,45 @@ static void *eventBarItem = @"eventBarItem";
     NSArray *imgs = [notify.userInfo objectForKey:photoArrkey];
     NSInteger index =[[notify.userInfo objectForKey:defaultPhotoIndexKey]integerValue];
     _presentedRect = [[UIScreen mainScreen]bounds];
-//    SYCScanPictureViewController *pic = [[SYCScanPictureViewController alloc]init];
-
     SYCScanImagesViewController *pic = [[SYCScanImagesViewController alloc]init];
     pic.imgs = imgs ;
     pic.index = index;
     pic.modalPresentationStyle = UIModalPresentationCustom;
     pic.transitioningDelegate = self;
     [self presentViewController:pic animated:YES completion:nil];
+}
+-(void)LoadAgain:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCNewLoadViewController *loadVC = [[SYCNewLoadViewController alloc]init];
+    loadVC.isLoadAgain = YES;
+    [self presentViewController:loadVC animated:YES completion:nil];
+}
+-(void)guidence:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    _guidenceImages = [notify.userInfo objectForKey:GuidenceImagesKey];
+    UIImageView *imageV = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    imageV.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ChangedImages:)];
+    NSString *imageName = [SYCSystem guidenceImageName:[_guidenceImages objectAtIndex:_currentGuidenceImageIndex-1]];
+    [imageV setImage:[UIImage imageNamed:imageName]];
+    [imageV addGestureRecognizer:tap];
+    [[[[UIApplication sharedApplication] windows] lastObject] addSubview:imageV];
+}
+-(void)ChangedImages:(UITapGestureRecognizer*)tap{
+    _currentGuidenceImageIndex ++;
+    UIImageView *imageV = (UIImageView *)tap.view;
+    if (_currentGuidenceImageIndex > [_guidenceImages count]) {
+        [imageV removeFromSuperview];
+    }else{
+        NSString *imageName = [SYCSystem guidenceImageName:[_guidenceImages objectAtIndex:_currentGuidenceImageIndex-1]];
+        [imageV setImage:[UIImage imageNamed:imageName]];
+    }
 }
 -(void)dealWithPayOrderInfoResultCode:(NSString*)resultCode result:(NSDictionary*)result paymentType:(NSString*)paymentType loadingView:(UIView*)payloadingView payOrderVC:(SYCPayOrderInfoViewController *)payOrderVC payCode:(id)payCode{
     __weak __typeof(self)weakSelf = self;
@@ -304,8 +339,7 @@ static void *eventBarItem = @"eventBarItem";
             strongSelf.view.userInteractionEnabled = YES;
             payOrderVC.modalPresentationStyle = UIModalPresentationCustom;
             payOrderVC.transitioningDelegate = strongSelf;
-                [strongSelf presentViewController:payOrderVC animated:YES completion:nil];});
-            
+            [strongSelf presentViewController:payOrderVC animated:YES completion:nil];});
         });
     }
     if ([resultCode isEqualToString:resultCodeSuccess]&&![result[resultSuccessKey][@"code"] isEqualToString:@"000000"]) {
@@ -335,7 +369,7 @@ static void *eventBarItem = @"eventBarItem";
             newLoad.payCode = payCode;
             newLoad.contentVC = self;
             newLoad.paymentType = paymentType;
-            [self.navigationController presentViewController:newLoad animated:YES completion:nil];
+            [self presentViewController:newLoad animated:YES completion:nil];
         }
         });
     }

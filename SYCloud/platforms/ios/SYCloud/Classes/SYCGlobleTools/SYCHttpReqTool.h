@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SYCPayOrderConfirmModel.h"
+
 extern NSString * const SYCIndexJson;
 extern NSString * const SYCIndexVersion;
 extern NSString * const resultRequestErrorKey;

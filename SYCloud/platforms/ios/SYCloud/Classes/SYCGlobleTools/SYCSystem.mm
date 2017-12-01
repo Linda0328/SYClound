@@ -92,6 +92,8 @@ NSString *const shareNotify = @"shareNotify";
 NSString *const dismissShareNotify = @"dismissShare";
 
 NSString *const showPhotoNotify = @"showPhoto";
+NSString *const LoadAgainNotify = @"loadAgain";
+NSString *const guidenceNotify = @"guidence";
 NSString *const photoArrkey = @"photoArr";
 NSString *const defaultPhotoIndexKey = @"defaultPhotoIndex";
 NSString *const SDKIDkey = @"SDKID";
@@ -99,13 +101,14 @@ NSString *const finishSDKPay = @"finishSDKPay";
 //push message type
 NSString *const pushMessageTypePage = @"page";
 NSString *const pushNotify = @"pushNotify";
-
+NSString * const SYCVersionCode = @"1.0.4";
 NSString *const versionCode = @"versionCode";
+NSString *const GuidenceImagesKey = @"GuidenceImages";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
     #ifdef DEBUG
-//      baseURL = SYCloudLocalBaseURLJW;
+//     baseURL = SYCloudLocalBaseURLJW;
 //      baseURL = SYCloudLocalBaseURLTH;
       baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
@@ -246,6 +249,19 @@ NSString *const versionCode = @"versionCode";
 +(CGFloat)deviceHeigth{
     CGFloat height = CGRectGetHeight([UIScreen mainScreen].bounds);
     return height;
+}
++(NSString*)guidenceImageName:(NSString*)iName{
+    
+    CGFloat width = [SYCSystem deviceWidth];
+    if ([SYCSystem deviceWidth]>375) {
+        width = 540;
+    }else if([SYCSystem deviceWidth]>320){
+        width = 375;
+    }else{
+        width = 320;
+    }
+    NSString *imageName = [NSString stringWithFormat:@"%@_%.f",iName,width];
+    return imageName;
 }
 +(NSMutableArray*)NewGuiderImageS{
     NSMutableArray *arr = [NSMutableArray array];

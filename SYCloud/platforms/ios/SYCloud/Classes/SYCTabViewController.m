@@ -22,7 +22,7 @@
         SYCNavigationBarModel *navBarModel = [navigationBars objectAtIndex:i];
         SYCContentViewController *viewC =[[SYCContentViewController alloc]init];
         if (i == 0) {
-            //            self.firstViewC = viewC;
+            self.firstViewC = viewC;
             viewC.isFirst = YES;
         }
         [viewC setNavigationBar:navBarModel];
@@ -79,17 +79,17 @@
     return tabBarItem;
     
 }
--(void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated{
-    [super setViewControllers:viewControllers animated:animated];
-    [viewControllers enumerateObjectsUsingBlock:^(UIViewController * obj, NSUInteger idx, BOOL *stop) {
-        obj.title = nil;
-            if (idx == 1) {
-                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(-6.5 , 0, 6.5, 0);
-            } else {
-                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-        }
-    }];
-}
+//-(void)setViewControllers:(NSArray<__kindof UIViewController *> *)viewControllers animated:(BOOL)animated{
+//    [super setViewControllers:viewControllers animated:animated];
+//    [viewControllers enumerateObjectsUsingBlock:^(UIViewController * obj, NSUInteger idx, BOOL *stop) {
+//        obj.title = nil;
+//            if (idx == 1) {
+//                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(-6.5 , 0, 6.5, 0);
+//            } else {
+//                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+//        }
+//    }];
+//}
 - (UIImage*)renderImageWithName:(NSString*)imageName {
     UIImage * image = [[UIImage imageNamed:imageName] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     return image;

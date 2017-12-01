@@ -121,6 +121,22 @@ module.exports = [
          ]
     },
     {
+      "id": "shengyuan-plugin-module.AuthPlugin",
+      "file": "plugins/shengyuan-plugin-module/www/AuthPlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+                   "syapp.auth"
+         ]
+    },
+    {
+      "id": "shengyuan-plugin-module.GuidencePlugin",
+      "file": "plugins/shengyuan-plugin-module/www/GuidencePlugin.js",
+      "pluginId": "shengyuan-plugin-module",
+      "clobbers": [
+                   "syapp.tips"
+                   ]
+    },
+    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",

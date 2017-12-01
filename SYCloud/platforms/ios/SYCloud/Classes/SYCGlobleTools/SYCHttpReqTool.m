@@ -27,7 +27,7 @@ static NSString * const SYCLoadWithPassw = @"/app/common/payment_login.jhtml";
 static NSString * const SYCLoadWithVerfication = @"/app/common/payment_checkcode.jhtml";
 static NSString * const SYCRegister = @"/app/common/register.jhtml";
 static NSString * const SYCToken = @"token";
-static NSString * const SYCVersionCode = @"1.0.4";
+
 NSString * const SYCIndexJson = @"Index.json";
 NSString * const SYCIndexVersion = @"IndexVersion";
 NSString * const SYCChannel = @"02";
@@ -991,7 +991,9 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSMutableDictionary *paramDic = [[self class] commonParam];
     [paramDic setObject:phoneNum forKey:@"mobile"];
     [paramDic setObject:[SYCSystem md5:password] forKey:@"password"];
-    [paramDic setObject:regId forKey:@"regId"];
+    if ([SYCSystem judgeNSString:regId]) {
+        [paramDic setObject:regId forKey:@"regId"];
+    }
     [paramDic setObject:systemType forKey:@"systemType"];
     NSString *signature = [SYCSystem sinagureForReq:paramDic];
     [paramDic setObject:signature forKey:@"_signdata"];

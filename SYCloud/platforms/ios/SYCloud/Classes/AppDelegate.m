@@ -35,7 +35,7 @@
 #import "SYCTabBarItemModel.h"
 #import "SYCNavigationBarModel.h"
 #import "SYCMainPageModel.h"
-#import "SYCTabViewController.h"
+
 #import "SYCShareVersionInfo.h"
 #import "NSString+Helper.h"
 #import "Reachability.h"
@@ -62,7 +62,7 @@
     BMKMapManager *_mapManager;
 }
 @property (nonatomic,strong)Reachability *hostReach;
-@property (nonatomic,strong)SYCTabViewController *tabVC ;
+
 @end
 @implementation AppDelegate
 
@@ -76,7 +76,7 @@
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    __weak __typeof(self)weakSelf = self;
+    
     self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
     [self.hostReach startNotifier];
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
@@ -90,63 +90,14 @@
     [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     //手机QQ权限注册
     [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
-//    BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
+
     BOOL canShow = [SYCNewGuiderViewController canShowNewGuider];
     if(canShow){ // 初始化新特性界面
         SYCNewGuiderViewController *newGuider = [[SYCNewGuiderViewController alloc]init];
         self.window.rootViewController = newGuider;
-//        self.window.rootViewController = [XZMCoreNewFeatureVC newFeatureVCWithImageNames:[SYCSystem guiderImageS] enterBlock:^{
-//            __strong __typeof(weakSelf)strongSelf = weakSelf;
-//            if (strongSelf.isReachable) {
-//                [strongSelf setRootViewController];
-//            }else{
-//                SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
-//                rec.refreshB = ^(){
-//                    __strong __typeof(weakSelf)strongSelf = weakSelf;
-//                    if (strongSelf.isReachable) {
-//                        [strongSelf setRootViewController];
-//                    }else{
-//                        MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
-//                        [self.window addSubview:HUD];
-//                        HUD.label.text = @"无网络连接，无法加载数据";
-//                        [HUD showAnimated:YES ];
-//                        [HUD hideAnimated:YES afterDelay:1.5f];
-//                    }
-//                };
-//                UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
-//                strongSelf.window.rootViewController = navC;
-//            }
-//        } configuration:^(UIButton *enterButton) { // 配置进入按钮
-//            [enterButton setTitle:@"立即进入" forState:UIControlStateNormal];
-//            [enterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//            enterButton.layer.masksToBounds = YES;
-//            enterButton.layer.cornerRadius = 10;
-//            enterButton.layer.borderWidth = 1;
-//            enterButton.layer.borderColor = [UIColor whiteColor].CGColor;
-//            enterButton.bounds = CGRectMake(0, 0, 100, 40);
-//            enterButton.center = CGPointMake(KScreenW * 0.8, KScreenH* 0.08);
-//        }];
     }else{
-        if ([SYCSystem connectedToNetwork]) {
-            [self setRootViewController];
-        }else{
-            SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
-            rec.refreshB = ^(){
-                __strong __typeof(weakSelf)strongSelf = weakSelf;
-                if (strongSelf.isReachable) {
-                    [strongSelf setRootViewController];
-                }else{
-                    MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
-                    [self.window addSubview:HUD];
-                    HUD.label.text = @"无网络连接，无法加载数据";
-                    [HUD showAnimated:YES ];
-                    [HUD hideAnimated:YES afterDelay:1.5f];
-                }
-            };
-            UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
-            self.window.rootViewController = navC;
-        }
-
+        [self setRootViewController];
+        
     }
     [self.window makeKeyAndVisible];
     //通过推送窗口启动程序
@@ -157,7 +108,25 @@
     return YES;
 }
 -(void)setRootViewController{
-    
+    if (![SYCSystem connectedToNetwork]) {
+        __weak __typeof(self)weakSelf = self;
+        SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
+        rec.refreshB = ^(){
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if (strongSelf.isReachable) {
+                [strongSelf setRootViewController];
+            }else{
+                MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+                [self.window addSubview:HUD];
+                HUD.label.text = @"无网络连接，无法加载数据";
+                [HUD showAnimated:YES ];
+                [HUD hideAnimated:YES afterDelay:1.5f];
+            }
+        };
+        UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
+        self.window.rootViewController = navC;
+        return;
+    }
     NSDictionary *versionResult = [SYCHttpReqTool VersionInfo];
     BOOL isLogined = [[[versionResult objectForKey:@"RequestSucsess"] objectForKey:@"isLogined"] boolValue];
     if (![[versionResult objectForKey:resultCodeKey]isEqualToString:resultCodeSuccess]) {
@@ -169,7 +138,6 @@
     }else{
        [self setTabController];
     }
-    
 }
 -(void)setTabController{
     [SYCSystem imagLoadURL];
@@ -190,7 +158,6 @@
         if (indexData) {
             dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
         }
-        
     }
     if (!dic) {
         NSDictionary *result = [SYCHttpReqTool MainData];
@@ -207,7 +174,6 @@
             return;
         }
     }
-    
     [SYCNavTitleModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"ID":@"id"};
     }];
@@ -294,7 +260,6 @@
     }];
    
     if ([comesURl hasPrefix:SYCPayKEY]) {
-        
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
@@ -305,14 +270,11 @@
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC,PreOrderPay:payMentTypeSDK}];
         }else{
-            self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
-//            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-//            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
-//            load.isFromSDK = YES;
-//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-//            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+            [navC presentViewController:newLoad animated:YES completion:nil];
         }
     }
     if ([comesURl hasPrefix:WeiXinAppID]) {
@@ -364,14 +326,15 @@
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC,PreOrderPay:payMentTypeSDK}];
         }else{
-            self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
-//            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-//            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
-//            load.isFromSDK = YES;
-//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-//            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+            newLoad.contentVC = _tabVC.firstViewC;
+            newLoad.paymentType = payMentTypeSDK;
+            newLoad.payCode = prePayID;
+            newLoad.isFromSDK = YES;
+            [navC presentViewController:newLoad animated:YES completion:nil];
         }
     }
     if ([comesURl hasPrefix:WeiXinAppID]) {

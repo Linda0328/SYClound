@@ -6,7 +6,7 @@
 //
 
 #import "SYCLoadTextField.h"
-
+#import "SYCSystem.h"
 @implementation SYCLoadTextField
 
 /*
@@ -22,6 +22,11 @@
 //    iconRect.origin.x +=16;
 //    return iconRect;
 //}
+-(CGRect)rightViewRectForBounds:(CGRect)bounds{
+    CGRect iconRect = [super rightViewRectForBounds:bounds];
+    iconRect.origin.x -=16*[SYCSystem PointCoefficient];
+    return iconRect;
+}
 //UItextfield 文字与输入框的距离
 -(CGRect)textRectForBounds:(CGRect)bounds{
     return CGRectInset(bounds,16.0 , 0);

@@ -26,6 +26,7 @@
     NSMutableDictionary *verDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:shareVerInfo.pageVersion,@"pageVersion",shareVerInfo.appVersion,@"appVersion",shareVerInfo.appVersionName,@"appVersionName",nil];
     [verDic setObject:shareVerInfo.remoteUrl forKey:@"remoteUrl"];
     [verDic setObject:shareVerInfo.imageUrl forKey:@"imageUrl"];
+    [verDic setObject:SYCVersionCode forKey:versionCode];
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     NSString *token = [def objectForKey:loadToken];
     [verDic setObject:[SYCSystem judgeNSString:token]?token:@"" forKey:@"token"];

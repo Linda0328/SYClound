@@ -12,14 +12,15 @@
 #import "SYCSystem.h"
 @implementation SYCResultPlugin
 -(void)reload:(CDVInvokedUrlCommand *)command{
-    
     MainViewController *main = (MainViewController*)self.viewController;
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:popNotify object:main];
+    BOOL isfinish = [[command.arguments firstObject] boolValue];
+    if (isfinish) {
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:popNotify object:main];
+    }
     if (main.lastViewController.reloadB) {
         main.lastViewController.reloadB(nil);
     }
-    
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"reload"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
@@ -27,8 +28,11 @@
 }
 -(void)finish:(CDVInvokedUrlCommand *)command{
     MainViewController *main = (MainViewController*)self.viewController;
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:popNotify object:main];
+    BOOL isfinish = [[command.arguments firstObject] boolValue];
+    if (isfinish) {
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:popNotify object:main];
+    }
     [self.commandDelegate runInBackground:^{
         
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"finish"];
@@ -38,9 +42,12 @@
 -(void)exec:(CDVInvokedUrlCommand *)command{
     NSString *function = [command.arguments firstObject];
     NSDictionary *data = [command.arguments objectAtIndex:1];
+    BOOL isfinish = [[command.arguments objectAtIndex:2] boolValue];
     MainViewController *main = (MainViewController*)self.viewController;
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:popNotify object:main];
+    if (isfinish) {
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        [center postNotificationName:popNotify object:main];
+    }
     if(main.lastViewController.execB){
         main.lastViewController.execB(function,data);
     }

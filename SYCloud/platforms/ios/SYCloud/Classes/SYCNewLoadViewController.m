@@ -48,7 +48,6 @@
     
     UIFont *lableFont = [UIFont systemFontOfSize:15.0*[SYCSystem PointCoefficient]];
     UIColor *textColor = [UIColor colorWithHexString:@"ffffff"];
-//    UILabel *leftLabel = [UILabel SingleLineCustomText:@"手机号码  " Font:lableFont Color:textColor];
     _acountTextF = [[SYCLoadTextField alloc]init];
     [self.view addSubview:_acountTextF];
     CGFloat left = 30*[SYCSystem PointCoefficient];
@@ -66,16 +65,17 @@
     _acountTextF.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
     _acountTextF.textColor = textColor;
     _acountTextF.font = lableFont;
-//    _acountTextF.leftView = leftLabel;
-//    //必须设置，否则默认不显示leftview
-//    _acountTextF.leftViewMode = UITextFieldViewModeAlways;
     _acountTextF.placeholder = @"手机号码/闪购手机号码";
     _acountTextF.keyboardType = UIKeyboardTypeNumberPad;
     //输入框光标的颜色为白色
     _acountTextF.tintColor = [UIColor whiteColor];
+//    _acountTextF.clearButtonMode = UITextFieldViewModeAlways;
     _acountTextF.delegate = self;
-    
-//    UILabel *leftLabel0 = [UILabel SingleLineCustomText:@"密码  " Font:lableFont Color:textColor];
+    UIButton *clearBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 15.0*[SYCSystem PointCoefficient], 15.0*[SYCSystem PointCoefficient])];
+    [clearBut setImage:[UIImage imageNamed:@"textClearBut"] forState:UIControlStateNormal];
+    _acountTextF.rightViewMode = UITextFieldViewModeAlways;
+    _acountTextF.rightView = clearBut;
+
     _passWordTextF = [[SYCLoadTextField alloc]init];
     [self.view addSubview:_passWordTextF];
     CGFloat gap0 = 26*[SYCSystem PointCoefficient];
@@ -91,28 +91,27 @@
     _passWordTextF.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.2];
     _passWordTextF.textColor = textColor;
     _passWordTextF.font = lableFont;
-//    _passWordTextF.leftView = leftLabel0;
-//    //必须设置，否则默认不显示leftview
-//    _passWordTextF.leftViewMode = UITextFieldViewModeAlways;
+    
     _passWordTextF.placeholder = @"密码";
     //输入框光标的颜色为白色
     _passWordTextF.tintColor = [UIColor whiteColor];
     _passWordTextF.secureTextEntry = YES;
     _passWordTextF.delegate = self;
-    
+    _passWordTextF.clearButtonMode = UITextFieldViewModeAlways;
     UIFont *font0 = [UIFont systemFontOfSize:12*[SYCSystem PointCoefficient]];
     NSString *Verfication = @"获取验证码";
     CGSize sizeV = [Verfication sizeWithAttributes:@{NSFontAttributeName:font0}];
     _getVerficationB = [[UIButton alloc]init];
     [_passWordTextF addSubview:_getVerficationB];
     CGFloat bHeight = 27.0*[SYCSystem PointCoefficient];
-    CGFloat verLeft = 16.0*[SYCSystem PointCoefficient];
+    CGFloat verLeft = 20.0*[SYCSystem PointCoefficient];
     [_getVerficationB mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_passWordTextF);
-        make.height.mas_equalTo(sizeV.height);
-        make.width.mas_equalTo(sizeV.width);
-        make.left.mas_equalTo(-verLeft);
+        make.height.mas_equalTo(bHeight);
+        make.width.mas_equalTo(sizeV.width+20*[SYCSystem PointCoefficient]);
+        make.right.mas_equalTo(-verLeft-16.0*[SYCSystem PointCoefficient]);
     }];
+    _getVerficationB.titleLabel.font = font0;
     [_getVerficationB setTitle:Verfication forState:UIControlStateNormal];
     [_getVerficationB setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _getVerficationB.backgroundColor = [UIColor colorWithHexString:@"c59d5f"];
@@ -121,6 +120,10 @@
     _getVerficationB.layer.masksToBounds = YES;
     _getVerficationB.hidden = YES;
     _isVerfication = NO;
+    UIButton *clearBut0 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 15.0*[SYCSystem PointCoefficient], 15.0*[SYCSystem PointCoefficient])];
+    [clearBut0 setImage:[UIImage imageNamed:@"textClearBut"] forState:UIControlStateNormal];
+    _passWordTextF.rightViewMode = UITextFieldViewModeAlways;
+    _passWordTextF.rightView = clearBut0;
     
     UIButton *laodButton = [[UIButton alloc]init];
     [self.view addSubview:laodButton];
@@ -235,11 +238,16 @@
                         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
                         [center postNotificationName:loadAppNotify object:nil];
                         [strongSelf dismissViewControllerAnimated:YES completion:^{
-                            if (_contentVC&&[SYCSystem judgeNSString:_paymentType]) {
-                                [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:_payCode userInfo:@{mainKey:strongSelf.contentVC,PreOrderPay:_paymentType}];
+                            if (_isLoadAgain) {
+                                [[NSNotificationCenter defaultCenter]postNotificationName:loadAppNotify object:nil];
                             }else{
-                                AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];;
-                                [appdelegate setTabController];
+                                if (_isFromSDK) {
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:_payCode userInfo:@{mainKey:_contentVC,PreOrderPay:payMentTypeSDK}];
+                                }else{
+                                    AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];;
+                                    [appdelegate setTabController];
+                                }
+                                
                             }
                         }];
                     }else{
@@ -274,11 +282,15 @@
                     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
                     [center postNotificationName:loadAppNotify object:nil];
                     [strongSelf dismissViewControllerAnimated:YES completion:^{
-                        if (_contentVC&&[SYCSystem judgeNSString:_paymentType]) {
-                            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:_payCode userInfo:@{mainKey:strongSelf.contentVC,PreOrderPay:_paymentType}];
+                        if (_isLoadAgain) {
+                            [[NSNotificationCenter defaultCenter]postNotificationName:loadAppNotify object:nil];
                         }else{
-                            AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];;
-                            [appdelegate setTabController];
+                            if (_isFromSDK) {
+                                [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:_payCode userInfo:@{mainKey:_contentVC,PreOrderPay:payMentTypeSDK}];
+                            }else{
+                                AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];;
+                                [appdelegate setTabController];
+                            }
                         }
                     }];
                 }else{
@@ -399,6 +411,11 @@
         return NO;
     }
     return YES;
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_acountTextF resignFirstResponder];
+    [_passWordTextF resignFirstResponder];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

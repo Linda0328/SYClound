@@ -127,4 +127,10 @@
     <feature name="PatternLockPlugin">
         <param name="ios-package" value="SYCPatternLockPlugin" />
     </feature>
+    <feature name="authPlugin">
+        <param name="ios-package" value="SYCAuthPlugin" />
+    </feature>
+    <feature name="GuidencePlugin">
+        <param name="ios-package" value="SYCGuidencePlugin" />
+    </feature>
 </widget>
