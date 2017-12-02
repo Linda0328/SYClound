@@ -328,7 +328,9 @@
         return;
     }
     SYScanViewController *scanVC = [[SYScanViewController alloc]init];
-    [self presentViewController:scanVC animated:YES completion:nil];
+    scanVC.isFromRegister = YES;
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:scanVC];
+    [self presentViewController:nav animated:YES completion:nil];
 }
 -(void)gotoRegister{
     if (![SYCSystem isMobilePhoneOrtelePhone:_acountTextF.text]) {
@@ -342,6 +344,21 @@
         [_HUD showAnimated:YES];
         [_HUD hideAnimated:YES afterDelay:2.0f];
         return;
+    }else{
+        BOOL isRight = YES;
+        NSString *str = [_passWTextF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if ([str length] == 0) {
+            isRight = NO;
+        }
+        if (_passWTextF.text.length < 6||_passWTextF.text.length > 20) {
+            isRight = NO;
+        }
+        if (!isRight) {
+            _HUD.label.text = @"不能包含特殊字符，长度在6-20字符之间";
+            [_HUD showAnimated:YES];
+            [_HUD hideAnimated:YES afterDelay:2.0f];
+            return;
+        }
     }
     if (![SYCSystem judgeNSString:_verficationTextF.text]) {
         _HUD.label.text = @"请输入验证码";

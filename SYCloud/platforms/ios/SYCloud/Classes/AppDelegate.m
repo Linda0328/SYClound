@@ -193,6 +193,9 @@
     _tabVC = [[SYCTabViewController alloc]init];
     [_tabVC InitTabBarWithtabbarItems:mainPageModel.bottomBtns navigationBars:mainModel.bottomBarConfig];
     self.window.rootViewController = _tabVC;
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]) {
+         [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+    }
 }
 //网络变化
 -(void)reachabilityChanged:(NSNotification*)notify{
@@ -208,7 +211,6 @@
     }
     if (status == ReachableViaWiFi||status == ReachableViaWWAN) {
         self.isReachable = YES;
-        
     }
     
 }
@@ -234,15 +236,15 @@
 }
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     //上次支付订单未完成，新的支付订单又来了
-    UIViewController *vc = _tabVC.firstViewC;
+    UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+    UIViewController *contentVC = [[navC viewControllers] lastObject];
     if (![[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
-        while (vc.presentedViewController) {
-            [vc dismissViewControllerAnimated:YES completion:nil];
-            vc = vc.presentedViewController;
+        while (contentVC.presentedViewController) {
+            [contentVC dismissViewControllerAnimated:YES completion:nil];
+            contentVC = contentVC.presentedViewController;
         }
     }
     NSString *comesURl = url.absoluteString;
-   
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         
@@ -270,13 +272,23 @@
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC,PreOrderPay:payMentTypeSDK}];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
         }else{
             UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
-            SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
-            [navC presentViewController:newLoad animated:YES completion:nil];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
+                SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+                newLoad.contentVC = contentVC ;
+                newLoad.paymentType = payMentTypeSDK;
+                newLoad.payCode = prePayID;
+                newLoad.isFromSDK = YES;
+                [navC presentViewController:newLoad animated:YES completion:nil];
+            }
         }
     }
+    
     if ([comesURl hasPrefix:WeiXinAppID]) {
         return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
     }
@@ -290,11 +302,12 @@
 //ios9之后废弃该方法
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     //上次支付订单未完成，新的支付订单又来了
-    UIViewController *vc = _tabVC.firstViewC;
+    UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+    UIViewController *contentVC = [[navC viewControllers] lastObject];
     if (![[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
-        while (vc.presentedViewController) {
-            [vc dismissViewControllerAnimated:YES completion:nil];
-            vc = vc.presentedViewController;
+        while (contentVC.presentedViewController) {
+            [contentVC dismissViewControllerAnimated:YES completion:nil];
+            contentVC = contentVC.presentedViewController;
         }
     }
     NSString *comesURl = url.absoluteString;
@@ -313,9 +326,7 @@
     }];
     
     //短信
-    
     if ([comesURl hasPrefix:SYCPayKEY]) {
-        
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
@@ -326,15 +337,20 @@
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC,PreOrderPay:payMentTypeSDK}];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
         }else{
             UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
-            SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
-            newLoad.contentVC = _tabVC.firstViewC;
-            newLoad.paymentType = payMentTypeSDK;
-            newLoad.payCode = prePayID;
-            newLoad.isFromSDK = YES;
-            [navC presentViewController:newLoad animated:YES completion:nil];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
+                SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+                newLoad.contentVC = contentVC ;
+                newLoad.paymentType = payMentTypeSDK;
+                newLoad.payCode = prePayID;
+                newLoad.isFromSDK = YES;
+                [navC presentViewController:newLoad animated:YES completion:nil];
+            }
         }
     }
     if ([comesURl hasPrefix:WeiXinAppID]) {

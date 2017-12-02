@@ -75,7 +75,7 @@
     [self.view addSubview:_YZMtextF];
     
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_YZMtextF.frame)+10, CGRectGetMaxY(lineView1.frame)+10, 110, CGRectGetHeight(_YZMtextF.frame)-20)];
-    button.backgroundColor =  [UIColor colorWithHexString:@"3B7BCB"];
+    button.backgroundColor =  [UIColor colorWithHexString:@"c59d5f"];
     [button setTitle:@"获取验证码" forState:UIControlStateNormal];
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     button.layer.masksToBounds = YES;
@@ -90,7 +90,7 @@
     
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
     UIButton *confirmBut = [[UIButton alloc]initWithFrame:CGRectMake(16*[SYCSystem PointCoefficient], 3*screenSize.height/5-16*[SYCSystem PointCoefficient]-50*[SYCSystem PointCoefficient], self.view.frame.size.width-32*[SYCSystem PointCoefficient], 50*[SYCSystem PointCoefficient])];
-    confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+    confirmBut.backgroundColor = [UIColor colorWithHexString:@"c59d5f"];
     [confirmBut setTitle:@"确定" forState:UIControlStateNormal];
     [confirmBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [confirmBut addTarget:self action:@selector(BlindConfirm:) forControlEvents:UIControlEventTouchUpInside];

@@ -50,6 +50,7 @@ static void *eventBarItem = @"eventBarItem";
 @property (nonatomic,assign)CGRect presentedRect;
 @property (nonatomic,strong)NSArray *guidenceImages;
 @property (nonatomic,assign)NSInteger currentGuidenceImageIndex;
+@property (nonatomic,strong)SYCPopoverGroupViewController *popOverVC;
 @end
 
 @implementation SYCContentViewController
@@ -250,7 +251,7 @@ static void *eventBarItem = @"eventBarItem";
         NSString *prePayID = (NSString*)notify.object;
         payOrderVC.prePayID = prePayID;
         [SYCHttpReqTool requestPayPluginInfoWithPrepareID:prePayID completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            NSLog(@"-------result===%@",result);
+            NSLog(@"-------result===%@",result[@"msg"]);
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf dealWithPayOrderInfoResultCode:resultCode result:result paymentType:payMentType loadingView:payloadingView payOrderVC:payOrderVC payCode:prePayID];
         }];
@@ -536,6 +537,9 @@ static void *eventBarItem = @"eventBarItem";
 -(void)EventAction:(SYCEventButton*)eventB{
     if ([eventB.model.type isEqualToString:backType]) {
         if (_isBackToLast) {
+            if (_popOverVC) {
+                [_popOverVC dismissViewControllerAnimated:YES completion:nil];
+            }
             [self.navigationController popViewControllerAnimated:YES];
         }else{
             NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
@@ -550,18 +554,19 @@ static void *eventBarItem = @"eventBarItem";
     }
     if ([eventB.model.type isEqualToString:groupType]) {
        UIBarButtonItem *item = objc_getAssociatedObject(eventB, eventBarItem);
-       SYCPopoverGroupViewController *popOverVC = [[SYCPopoverGroupViewController alloc]init];
-       popOverVC.groupArr = _groupArr;
-       popOverVC.PresentingVC = self.CurrentChildVC;
+       _popOverVC = [[SYCPopoverGroupViewController alloc]init];
+       _popOverVC.groupArr = _groupArr;
+       _popOverVC.PresentingVC = self.CurrentChildVC;
        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
        NSString *event = [userDef objectForKey:eventB.model.ID];
-       popOverVC.actionEvent = event;
-       popOverVC.modalPresentationStyle = UIModalPresentationPopover;
-       UIPopoverPresentationController *popoverC = [popOverVC popoverPresentationController];
+       _popOverVC.actionEvent = event;
+       _popOverVC.modalPresentationStyle = UIModalPresentationPopover;
+       UIPopoverPresentationController *popoverC = [_popOverVC popoverPresentationController];
        popoverC.barButtonItem = item;
        popoverC.delegate = self;
-       popOverVC.preferredContentSize = CGSizeMake(100*[SYCSystem PointCoefficient], [_groupArr count]*cellHeight*[SYCSystem PointCoefficient]);
-       [self presentViewController:popOverVC animated:YES
+       popoverC.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.85];
+       _popOverVC.preferredContentSize = CGSizeMake(105*[SYCSystem PointCoefficient], [_groupArr count]*cellHeight*[SYCSystem PointCoefficient]);
+       [self presentViewController:_popOverVC animated:YES
                          completion:nil];
        return;
     }
@@ -594,6 +599,9 @@ static void *eventBarItem = @"eventBarItem";
 - (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
     return YES;   //no点击蒙版popover不消失， 默认yes,点击蒙层dismiss
 }
+//-(void)popoverPresentationControllerDidDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
+//    [popoverPresentationController dismissalTransitionDidEnd:YES];
+//}
 -(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     NSString *selectedID =[NSString stringWithFormat:@"%ld",searchBar.tag];
     NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];

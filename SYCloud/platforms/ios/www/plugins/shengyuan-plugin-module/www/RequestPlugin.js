@@ -10,7 +10,9 @@ cordova.define("shengyuan-plugin-module.RequestPlugin", function(require, export
 					if (success && typeof success == "function") {
 						success(message.result);
 					}
-				} else {
+                 } else if (message.code == "300000") {
+                        syapp.auth.login();
+                 }else {
 					if (fail && typeof fail == "function") {
 						fail(message.code, message.msg);
 					}
@@ -24,14 +26,14 @@ cordova.define("shengyuan-plugin-module.RequestPlugin", function(require, export
 			}, "RequestPlugin", "ajax", [ url, type, params ]);
 		},
 		safeAjax : function(url, type, params, success, fail, error) {
-//               alert(url);
-//               alert(type);
 			exec(function(message) {
 				if (message.code == "000000") {
 					if (success && typeof success == "function") {
 						success(message.result);
 					}
-				} else {
+                 } else if (message.code == "300000") {
+                        syapp.auth.login();
+                 } else {
 					if (fail && typeof fail == "function") {
 						fail(message.code, message.msg);
 					}

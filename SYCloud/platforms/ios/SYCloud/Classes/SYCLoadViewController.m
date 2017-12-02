@@ -36,12 +36,12 @@
     _isEditing = NO;
     self.view.backgroundColor = [UIColor whiteColor];//[UIColor colorWithHexString:@"f5f5f5"];
     CGFloat width = [[UIScreen mainScreen]bounds].size.width;
-    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
-    UINavigationBar *bar = [UINavigationBar appearance];
-    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
-    UIImage *image = [imageOrigin image:imageOrigin withColor:color];
-    [bar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    [bar setShadowImage:[[UIImage alloc]init]];
+//    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
+//    UINavigationBar *bar = [UINavigationBar appearance];
+//    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
+//    UIImage *image = [imageOrigin image:imageOrigin withColor:color];
+//    [bar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+//    [bar setShadowImage:[[UIImage alloc]init]];
     UILabel *titleLab = [UILabel navTitle:@"登录" TitleColor:[UIColor colorWithHexString:@"ffffff"] titleFont:[UIFont systemFontOfSize:20]];
     self.navigationItem.titleView = titleLab;
    

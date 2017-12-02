@@ -222,7 +222,9 @@
     }
     NSURL *appURL = [SYCSystem appUrl:self];
     NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-    [self.webViewEngine loadRequest:appReq];
+    if (self.webViewEngine) {
+        [self.webViewEngine loadRequest:appReq];
+    }
 }
 -(void)hideProgress:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
@@ -244,6 +246,7 @@
 }
 
 -(void)ReloadAppState:(NSNotification*)notify{
+    
     MainViewController *main = (MainViewController*)notify.object;
     if ([main isEqual:self]) {
         return;

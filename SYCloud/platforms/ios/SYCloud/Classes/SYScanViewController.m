@@ -26,16 +26,16 @@
     [super viewDidLoad];
     
     // Do any additional setup after loading the view.
-    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
-    UINavigationBar *bar = [UINavigationBar appearance];
-    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
-    UIImage *imageBG = [imageOrigin image:imageOrigin withColor:color];
-    [bar setBackgroundImage:imageBG forBarMetrics:UIBarMetricsDefault];
-    [bar setShadowImage:[[UIImage alloc]init]];
-    UILabel *titleLab = [UILabel navTitle:@"扫一扫" TitleColor:[UIColor colorWithHexString:@"ffffff"] titleFont:[UIFont systemFontOfSize:20]];
+//    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
+//    UINavigationBar *bar = [UINavigationBar appearance];
+//    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
+//    UIImage *imageBG = [imageOrigin image:imageOrigin withColor:color];
+//    [bar setBackgroundImage:imageBG forBarMetrics:UIBarMetricsDefault];
+//    [bar setShadowImage:[[UIImage alloc]init]];
+    UILabel *titleLab = [UILabel navTitle:@"扫一扫" TitleColor:[UIColor blackColor] titleFont:[UIFont systemFontOfSize:20]];
     self.navigationItem.titleView = titleLab;
     
-    UIImage *image = [UIImage imageNamed:@"head_back"];
+    UIImage *image = [UIImage imageNamed:@"ps_left_back"];
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(backToLast) forControlEvents:UIControlEventTouchUpInside];
@@ -85,6 +85,10 @@
     [_session startRunning];
 }
 -(void)backToLast{
+    if (_isFromRegister) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
