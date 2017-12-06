@@ -39,9 +39,6 @@
 		EE4880C31EB4718D00D6A675 /* SYCPayTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880C21EB4718D00D6A675 /* SYCPayTypeModel.m */; };
 		EE62103F1EAB31D200F71DF7 /* SYCPassWordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE62103E1EAB31D200F71DF7 /* SYCPassWordModel.m */; };
 		EE6210421EAB4E5500F71DF7 /* SYCUUID.m in Sources */ = {isa = PBXBuildFile; fileRef = EE6210411EAB4E5500F71DF7 /* SYCUUID.m */; };
-		EE629ED51E95EA5500832C36 /* 750x1334-1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */; };
-		EE629ED61E95EA5500832C36 /* 750x1334-2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */; };
-		EE629ED71E95EA5500832C36 /* 750x1334-3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */; };
 		EE629EDA1E96209200832C36 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629ED91E96209200832C36 /* AlipaySDK.framework */; };
 		EE629EDC1E9624CA00832C36 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE629EDB1E9624CA00832C36 /* AlipaySDK.bundle */; };
 		EE629EDE1E96299E00832C36 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EDD1E96299E00832C36 /* OpenGLES.framework */; };
@@ -350,9 +347,6 @@
 		EE62103E1EAB31D200F71DF7 /* SYCPassWordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPassWordModel.m; sourceTree = "<group>"; };
 		EE6210401EAB4E5500F71DF7 /* SYCUUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCUUID.h; sourceTree = "<group>"; };
 		EE6210411EAB4E5500F71DF7 /* SYCUUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCUUID.m; sourceTree = "<group>"; };
-		EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-1@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-1@2x.png"; sourceTree = "<group>"; };
-		EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-2@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-2@2x.png"; sourceTree = "<group>"; };
-		EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "750x1334-3@2x.png"; path = "../../../../../../../ios云生源/云生源_assets/750x1334-3@2x.png"; sourceTree = "<group>"; };
 		EE629ED91E96209200832C36 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		EE629EDB1E9624CA00832C36 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = SOURCE_ROOT; };
 		EE629EDD1E96299E00832C36 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -1612,9 +1606,6 @@
 		EED6FB691E94E2430061B6AC /* launchpadImage */ = {
 			isa = PBXGroup;
 			children = (
-				EE629ED21E95EA5500832C36 /* 750x1334-1@2x.png */,
-				EE629ED31E95EA5500832C36 /* 750x1334-2@2x.png */,
-				EE629ED41E95EA5500832C36 /* 750x1334-3@2x.png */,
 				EED6FB6A1E94E2430061B6AC /* 1080x1920-1@3x.png */,
 				EED6FB6B1E94E2430061B6AC /* 1080x1920-2@3x.png */,
 				EED6FB6C1E94E2430061B6AC /* 1080x1920-3@3x.png */,
@@ -1739,7 +1730,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE95003E1E7F804A00C35C2A /* LICENSE in Resources */,
-				EE629ED61E95EA5500832C36 /* 750x1334-2@2x.png in Resources */,
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				EED6FB771E94E2430061B6AC /* 640x1136-2@2x.png in Resources */,
 				EE9FE4791F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
@@ -1755,7 +1745,6 @@
 				EE9500591E7F804A00C35C2A /* LICENSE in Resources */,
 				EE95006F1E7F804A00C35C2A /* LICENCE.txt in Resources */,
 				EE629EF21E962A8100832C36 /* mapapi.bundle in Resources */,
-				EE629ED51E95EA5500832C36 /* 750x1334-1@2x.png in Resources */,
 				4E7F4FE61C534CB280912E6C /* CDVNotification.bundle in Resources */,
 				EED6FB761E94E2430061B6AC /* 640x1136-1@2x.png in Resources */,
 				EED6FB741E94E2430061B6AC /* 1080x1920-2@3x.png in Resources */,
@@ -1763,7 +1752,6 @@
 				EED6FB751E94E2430061B6AC /* 1080x1920-3@3x.png in Resources */,
 				EE9500681E7F804A00C35C2A /* MJRefresh.bundle in Resources */,
 				EED6FB681E94DCF60061B6AC /* SYIntroduceWLANView.xib in Resources */,
-				EE629ED71E95EA5500832C36 /* 750x1334-3@2x.png in Resources */,
 				EED6FB791E94E2430061B6AC /* 640x960-1.png in Resources */,
 				EE9500331E7F804A00C35C2A /* LICENSE in Resources */,
 			);
