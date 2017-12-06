@@ -93,6 +93,9 @@ static void *eventBarItem = @"eventBarItem";
         NSString *url=[navModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         pushM.startPage = url;
         viewC.CurrentChildVC = pushM;
+        pushM.isHiddenNavBar = viewC.isHiddenNavigationBar;
+        pushM.navigationController.navigationBar.translucent = pushM.isHiddenNavBar;
+        pushM.navigationController.navigationBar.hidden = pushM.isHiddenNavBar;
         pushM.enableReload = reload;
         pushM.isChild = YES;
         pushM.isRoot = NO;
@@ -105,11 +108,11 @@ static void *eventBarItem = @"eventBarItem";
         strongSelf.navigationController.navigationBar.translucent = NO;
         strongSelf.navigationController.navigationBar.hidden = NO;
         [strongSelf.navigationController pushViewController:viewC animated:YES];
-        
         if (strongSelf.CurrentChildVC.isRoot) {
             strongSelf.hidesBottomBarWhenPushed = NO;
+        }else{
+            strongSelf.hidesBottomBarWhenPushed = YES;
         }
-        
     };
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -353,19 +356,14 @@ static void *eventBarItem = @"eventBarItem";
         [payloadingView removeFromSuperview];
         self.view.userInteractionEnabled = YES;
         MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
+        HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
         [self.view addSubview:HUD];
         HUD.label.text = result[@"msg"];
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
             //用户非登录状态
         if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
-//            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-//            load.mainVC = _CurrentChildVC;
-//            if ([paymentType isEqualToString:payMentTypeSDK]) {
-//                load.isFromSDK = YES;
-//            }
-//            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-//            [self.navigationController presentViewController:nav animated:YES completion:nil];
+
             SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
             newLoad.payCode = payCode;
             newLoad.contentVC = self;
@@ -382,6 +380,8 @@ static void *eventBarItem = @"eventBarItem";
         [payloadingView removeFromSuperview];
         self.view.userInteractionEnabled = YES;
         MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
+        HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
+        HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
         [self.view addSubview:HUD];
         HUD.label.text = @"请求失败，请检查网络";
         [HUD showAnimated:YES];
@@ -457,8 +457,7 @@ static void *eventBarItem = @"eventBarItem";
         [segMent addTarget:self action:@selector(clickedSegmented:) forControlEvents:UIControlEventValueChanged];
         segMent.tag = [_titleModel.ID integerValue];
         self.navigationItem.titleView = segMent;
-        self.navigationItem.titleView.tintColor = [UIColor whiteColor];
-        
+        self.navigationItem.titleView.tintColor = [UIColor blackColor];
     }else if ([_titleModel.type isEqualToString:noneType]) {
         _isHiddenNavigationBar = YES;
         return;

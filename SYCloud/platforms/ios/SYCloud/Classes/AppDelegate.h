@@ -32,5 +32,7 @@
 @property (nonatomic,assign)BOOL isReachable;
 @property (nonatomic,copy)NSString *paymentSDKID;
 @property (nonatomic,strong)SYCTabViewController *tabVC;
+@property (nonatomic,assign)BOOL isLogin;
+@property (nonatomic,assign)BOOL isUploadRegId;
 -(void)setTabController;
 @end

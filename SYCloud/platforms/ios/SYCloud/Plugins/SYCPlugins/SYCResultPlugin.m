@@ -28,13 +28,9 @@
 }
 -(void)finish:(CDVInvokedUrlCommand *)command{
     MainViewController *main = (MainViewController*)self.viewController;
-    BOOL isfinish = [[command.arguments firstObject] boolValue];
-    if (isfinish) {
-        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-        [center postNotificationName:popNotify object:main];
-    }
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:popNotify object:main];
     [self.commandDelegate runInBackground:^{
-        
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"finish"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
     }];

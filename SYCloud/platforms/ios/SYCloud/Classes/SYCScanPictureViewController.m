@@ -46,7 +46,7 @@
     _pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(60, screenSize.height-60, screenSize.width-120, 40)];
     _pageC.numberOfPages = [_imgs count];
     _pageC.currentPage = _index;
-    _pageC.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"45bdef"];
+    _pageC.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"c59d5f"];
     [self.view addSubview:_pageC];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(dismissVC:)];

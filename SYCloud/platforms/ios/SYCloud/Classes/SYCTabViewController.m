@@ -53,7 +53,6 @@
             navC.navigationBar.translucent = NO;
             navC.navigationBar.hidden = NO;
         }
- 
         UITabBarItem *tabItem = [self tabBarItemWithModle:tabModel titleColor:nil];
         navC.tabBarItem = tabItem;
         [controllers addObject:navC];

@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "SYScanViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import "SYCNewLoadViewController.h"
 @interface SYCRegisterViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong)SYCLoadTextField *acountTextF;
 @property (nonatomic,strong)SYCLoadTextField *passWTextF;
@@ -85,7 +86,7 @@
 //    _passWTextF.leftView = leftLabel0;
 //    _passWTextF.leftViewMode = UITextFieldViewModeAlways;
     _passWTextF.placeholder = @"密码";
-    _passWTextF.keyboardType = UIKeyboardTypeNumberPad;
+    _passWTextF.secureTextEntry = YES;
     //输入框光标的颜色为白色
     _passWTextF.tintColor = [UIColor whiteColor];
     _passWTextF.delegate = self;
@@ -160,10 +161,11 @@
     CGFloat sHeight = 24.0*[SYCSystem PointCoefficient];
     [scanB mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(_recommendTextF);
-        make.height.mas_equalTo(sHeight);
-        make.width.mas_equalTo(sHeight);
-        make.right.mas_equalTo(-height/2);
+        make.height.mas_equalTo(height);
+        make.width.mas_equalTo(height);
+        make.right.mas_equalTo(-sHeight/2);
     }];
+    
     [scanB setImage:[UIImage imageNamed:@"RecommendScan"] forState:UIControlStateNormal];
     [scanB addTarget:self action:@selector(scanRecommend:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -203,6 +205,7 @@
     
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
     _HUD.mode = MBProgressHUDModeText;
+    _HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     [self.view addSubview:_HUD];
     [_HUD hideAnimated:YES];
 }
@@ -294,8 +297,11 @@
     [textField resignFirstResponder];
 }
 -(BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    if ([textField isEqual:_acountTextF]&&textField.text.length > 11) {
-        return NO;
+    if ([textField isEqual:_acountTextF]&&textField.text.length>10) {
+        textField.text = [textField.text substringToIndex:10];
+    }
+    if ([textField isEqual:_passWTextF]&&textField.text.length>20) {
+        textField.text = [textField.text substringToIndex:20];
     }
     return YES;
 }
@@ -329,10 +335,17 @@
     }
     SYScanViewController *scanVC = [[SYScanViewController alloc]init];
     scanVC.isFromRegister = YES;
+    scanVC.block = ^(NSString *scanResult){
+        _recommendTextF.text = scanResult;
+    };
     UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:scanVC];
     [self presentViewController:nav animated:YES completion:nil];
 }
 -(void)gotoRegister{
+    [_acountTextF resignFirstResponder];
+    [_passWTextF resignFirstResponder];
+    [_recommendTextF resignFirstResponder];
+    
     if (![SYCSystem isMobilePhoneOrtelePhone:_acountTextF.text]) {
         _HUD.label.text = @"请输入正确的手机号码";
         [_HUD showAnimated:YES];
@@ -346,8 +359,8 @@
         return;
     }else{
         BOOL isRight = YES;
-        NSString *str = [_passWTextF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if ([str length] == 0) {
+        NSRange range = [_passWTextF.text rangeOfString:@" "];
+        if (range.location != NSNotFound) {
             isRight = NO;
         }
         if (_passWTextF.text.length < 6||_passWTextF.text.length > 20) {
@@ -385,10 +398,15 @@
                     strongSelf.HUD.label.text = @"注册成功";
                     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
                     [center postNotificationName:loadAppNotify object:nil];
-                    [strongSelf dismissViewControllerAnimated:YES completion:^{
-                        AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];;
-                        [appdelegate setTabController];
-                    }];
+                    AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+                    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
+                        appdelegate.isUploadRegId = YES;
+                    }
+                    [appdelegate setTabController];
+//                    [strongSelf dismissViewControllerAnimated:YES completion:^{
+//                        [appdelegate setTabController];
+//                    }];
+                    
                 }else{
                     strongSelf.HUD.label.text = [resultDic objectForKey:@"msg"];
                 }
@@ -401,7 +419,18 @@
     }];
 }
 -(void)gobackLoad{
+    if(_isFromGuider){
+        SYCNewLoadViewController *load = [[SYCNewLoadViewController alloc]init];
+        [self presentViewController:load animated:YES completion:nil];
+        return;
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [_acountTextF resignFirstResponder];
+    [_passWTextF resignFirstResponder];
+    [_recommendTextF resignFirstResponder];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

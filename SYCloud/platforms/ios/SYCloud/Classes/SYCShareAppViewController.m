@@ -32,7 +32,7 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     CGFloat width = [[UIScreen mainScreen]bounds].size.width;
     CGFloat gapRight = 17.0f*[SYCSystem PointCoefficient];
     CGFloat gapUp = 23.0*[SYCSystem PointCoefficient];
-    CGFloat buttonWidth = 54*[SYCSystem PointCoefficient];
+    CGFloat buttonWidth = 60*[SYCSystem PointCoefficient];
     CGFloat gap = (width-2*gapRight-shareArr.count*buttonWidth)/(shareArr.count-1);
     for (NSInteger i = 0;i < [shareArr count];i++) {
         UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(gapRight+i*(buttonWidth+gap), gapUp, buttonWidth, 59*[SYCSystem PointCoefficient])];
@@ -50,6 +50,7 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     }
     _HUD = [[MBProgressHUD alloc]initWithView:[UIApplication sharedApplication].keyWindow];
     _HUD.mode = MBProgressHUDModeText;
+    _HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     [[UIApplication sharedApplication].keyWindow addSubview:_HUD];
     [_HUD hideAnimated:YES];
 }
@@ -76,7 +77,8 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
         imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_shareModel.pic]];
         thumbImg = [UIImage imageWithData:imageData];
     });
-    
+    //处理中文字符
+    _shareModel.url = [_shareModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     _HUD.label.text = @"请求微信失败";
     BOOL isShared = YES;
     if ([title isEqualToString:@"微信"]) {
@@ -107,7 +109,7 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     }
 }
 -(void)handleSentToQQresult:(QQApiSendResultCode)code{
-
+    NSLog(@"QQ分享错误码----%@",@(code));
 }
 -(void)Dismiss{
     [self dismissViewControllerAnimated:YES completion:nil];

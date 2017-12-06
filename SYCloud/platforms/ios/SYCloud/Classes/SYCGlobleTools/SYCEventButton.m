@@ -23,19 +23,19 @@ static CGFloat font = 17.0f;
     _model = model;
     self.tag = [model.ID integerValue];
     if ([SYCSystem judgeNSString:model.name]&&![SYCSystem judgeNSString:model.ico]) {
-        
         CGSize size = [model.name sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:17.0f]}];
-        self.frame = CGRectMake(0, 0, size.width, size.height);
+        self.frame = CGRectMake(0, 0, size.width+10, size.height+5);
         self.titleLabel.font = [UIFont systemFontOfSize:font];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self setTitle:model.name forState:UIControlStateNormal];
+        
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     if (![SYCSystem judgeNSString:model.name]&&[SYCSystem judgeNSString:model.ico]) {
         UIImage *image = [UIImage imageNamed:model.ico];
         CGFloat width = image.size.width;
         CGFloat height = image.size.height;
-        self.frame = CGRectMake(0, 0, width, height);
+        self.frame = CGRectMake(0, 0, width+10*[SYCSystem PointCoefficient], height);
         [self setImage:image forState:UIControlStateNormal];
     }
 //    if ([SYCSystem judgeNSString:model.name]&&![SYCSystem judgeNSString:model.ico]) {

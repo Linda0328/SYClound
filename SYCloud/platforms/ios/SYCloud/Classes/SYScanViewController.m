@@ -9,10 +9,14 @@
 #import "SYScanViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "HexColor.h"
+#import "SYCSystem.h"
 #import "UILabel+SYCNavigationTitle.h"
 #import "SYCShareVersionInfo.h"
 #import "UIImage+SYColorExtension.h"
-@interface SYScanViewController ()<AVCaptureMetadataOutputObjectsDelegate>
+@interface SYScanViewController ()<AVCaptureMetadataOutputObjectsDelegate>{
+    CALayer *_scanLayer;
+    UIView *_boxView;
+}
 @property (strong,nonatomic)AVCaptureDevice *device;
 @property (strong,nonatomic)AVCaptureDeviceInput *input;
 @property (strong,nonatomic)AVCaptureMetadataOutput *output;
@@ -36,7 +40,7 @@
     self.navigationItem.titleView = titleLab;
     
     UIImage *image = [UIImage imageNamed:@"ps_left_back"];
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, image.size.width+10*[SYCSystem PointCoefficient], image.size.height)];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(backToLast) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:button];
@@ -53,10 +57,12 @@
     _output = [[AVCaptureMetadataOutput alloc]init];
     [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
 //    CGFloat width = CGRectGetWidth(self.view.frame);
-//    CGFloat heght = CGRectGetHeight(self.view.frame);
-    //CGrectmake()四个值都是0-1的范围，而且与一般的rect对应不同，x、y是互相的，width、height也会huxi
-     CGRect rect = CGRectMake(0.1*self.view.bounds.size.width, 0.15*self.view.bounds.size.height, self.view.bounds.size.width * 0.8f, self.view.bounds.size.height * 0.45f);
-    [_output setRectOfInterest:CGRectMake(0.15, 0.1, 0.45, 0.8)];
+//    CGFloat height = CGRectGetHeight(self.view.frame);
+    //CGrectmake()四个值都是0-1的范围，而且与一般的rect对应不同，x、y是互相的，width、height也会互相的
+    CGFloat width = [UIScreen mainScreen].bounds.size.width;
+    CGFloat height = [UIScreen mainScreen].bounds.size.height;
+    CGRect rect = CGRectMake(0.1*width, 0.15*height, width * 0.8f, height * 0.45f);
+    [_output setRectOfInterest:CGRectMake(0.15+64/height, 0.1, 0.45, 0.8)];
     _session = [[AVCaptureSession alloc] init];
     [_session setSessionPreset:AVCaptureSessionPresetHigh];
     //直接输入和输出
@@ -76,13 +82,33 @@
     [self.view.layer insertSublayer:_preview atIndex:0];
     
     //扫描框
-    UIView *boxView = [[UIView alloc] initWithFrame:rect];
-    boxView.center = self.view.center;
-    boxView.layer.borderColor = [UIColor whiteColor].CGColor;
-    boxView.layer.borderWidth = 1.0f;
-    [self.view addSubview:boxView];
+    _boxView = [[UIView alloc] initWithFrame:rect];
+    _boxView.center = self.view.center;
+    _boxView.layer.borderColor = [UIColor whiteColor].CGColor;
+    _boxView.layer.borderWidth = 1.0f;
+    [self.view addSubview:_boxView];
+    
+    _scanLayer = [[CALayer alloc] init];
+    _scanLayer.frame = CGRectMake(0, 0, _boxView.bounds.size.width, 1);
+    _scanLayer.backgroundColor = [UIColor colorWithHexString:@"c59d5f"].CGColor;
+    [_boxView.layer addSublayer:_scanLayer];
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:0.05f target:self selector:@selector(moveScanLayer:) userInfo:nil repeats:YES];
+    [timer fire];
     //开始扫描
     [_session startRunning];
+}
+- (void)moveScanLayer:(NSTimer *)timer
+{
+    CGRect frame = _scanLayer.frame;
+    if (_boxView.frame.size.height < _scanLayer.frame.origin.y) {
+        frame.origin.y = 0;
+        _scanLayer.frame = frame;
+    }else{
+        frame.origin.y += 5;
+        [UIView animateWithDuration:0.05f animations:^{
+            _scanLayer.frame = frame;
+        }];
+    }
 }
 -(void)backToLast{
     if (_isFromRegister) {
@@ -97,6 +123,9 @@
         [_session stopRunning];
         AVMetadataMachineReadableCodeObject *metadataObject = [metadataObjects objectAtIndex:0];
         stringValue = metadataObject.stringValue;
+        if (_block) {
+            _block(stringValue);
+        }
         _lastMain.scanResult = stringValue;
         [SYCShareVersionInfo sharedVersion].scanResult = stringValue;
         [self performSelector:@selector(backToLast) withObject:nil afterDelay:1.0];

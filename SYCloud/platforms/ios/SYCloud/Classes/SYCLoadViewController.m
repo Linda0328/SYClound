@@ -110,6 +110,7 @@
     loadButt.layer.masksToBounds = YES;
     [self.view addSubview:loadButt];
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
+    _HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     _HUD.mode = MBProgressHUDModeText;
     [self.view addSubview:_HUD];
     [_HUD hideAnimated:YES];

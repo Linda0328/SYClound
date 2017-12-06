@@ -163,6 +163,7 @@ static const NSInteger passWNum = 6;
                         [strongSelf completePay:textField];
                     }else{
                         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:strongSelf.presentationController.containerView animated:YES];
+                        hud.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
                         hud.label.text = @"支付密码设置失败";
                         [hud showAnimated:YES];
                         [hud hideAnimated:YES afterDelay:3.0];
@@ -172,6 +173,7 @@ static const NSInteger passWNum = 6;
             }];
         }else{
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.presentationController.containerView animated:YES];
+            hud.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
             hud.label.text = @"两次输入密码不一致";
             textField.text = nil;
             for (UIView *dotView in self.dotArr) {

@@ -99,6 +99,7 @@
     [self.view addSubview:confirmBut];
     
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
+    _HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     [self.view addSubview:_HUD];
     _HUD.mode = MBProgressHUDModeText;
     

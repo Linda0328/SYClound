@@ -117,6 +117,7 @@
                 [strongSelf setRootViewController];
             }else{
                 MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+                HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
                 [self.window addSubview:HUD];
                 HUD.label.text = @"无网络连接，无法加载数据";
                 [HUD showAnimated:YES ];
@@ -128,12 +129,12 @@
         return;
     }
     NSDictionary *versionResult = [SYCHttpReqTool VersionInfo];
-    BOOL isLogined = [[[versionResult objectForKey:@"RequestSucsess"] objectForKey:@"isLogined"] boolValue];
+    _isLogin = [[[versionResult objectForKey:@"RequestSucsess"] objectForKey:@"isLogined"] boolValue];
     if (![[versionResult objectForKey:resultCodeKey]isEqualToString:resultCodeSuccess]) {
         [self ShowException];
         return;
     }
-    if (!isLogined) {
+    if (!_isLogin) {
         self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
     }else{
        [self setTabController];
@@ -225,6 +226,7 @@
             [strongSelf setRootViewController];
         }else{
             MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+            HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
             [self.window addSubview:HUD];
             HUD.label.text = @"加载数据异常";
             [HUD showAnimated:YES ];
@@ -442,9 +444,7 @@
 -(void)miPushRequestSuccWithSelector:(NSString *)selector data:(NSDictionary *)data{
      NSLog(@"selector = %@,data = %@", selector,data);
    //请求成功，可在此获取regid
-    if ([selector isEqualToString:@"registerApp"]) {
-        // 获取regId
-        NSLog(@"regid = %@", data[@"regid"]);
+    if ([SYCSystem judgeNSString:data[@"regid"]]) {
         [SYCShareVersionInfo sharedVersion].regId = data[@"regid"];
     }
 }

@@ -8,5 +8,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SYCRegisterViewController : UIViewController
-
+@property (nonatomic,assign)BOOL isFromGuider;
 @end

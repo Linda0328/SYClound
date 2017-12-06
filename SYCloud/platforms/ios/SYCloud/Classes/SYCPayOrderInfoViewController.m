@@ -93,6 +93,7 @@ static NSInteger infoCellNum = 2;
     [self.view addSubview:_infoTable];
    
     _hud = [[MBProgressHUD alloc]initWithView:self.view];
+    _hud.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     _hud.mode = MBProgressHUDModeText;
     [self.view addSubview:_hud];
     
@@ -175,6 +176,13 @@ static NSInteger infoCellNum = 2;
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            if ([SYCSystem judgeNSString:_defaultPayType]) {
+                _confirmBut.backgroundColor = [UIColor colorWithHexString:@"CFAF72"];
+                _confirmBut.enabled = YES;
+            }else{
+                _confirmBut.enabled = NO;
+                _confirmBut.backgroundColor = [UIColor colorWithHexString:@"999999"];
+            }
            [_infoTable reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         });
     }
@@ -303,7 +311,7 @@ static NSInteger infoCellNum = 2;
     _defaultPayType = model.assetName;
     _selectedIndex = [notify.userInfo objectForKey:selectIndex];
     if (!_confirmBut.enabled) {
-        _confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+        _confirmBut.backgroundColor = [UIColor colorWithHexString:@"CFAF72"];
         _confirmBut.enabled = YES;
     }
     

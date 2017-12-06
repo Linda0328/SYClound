@@ -106,6 +106,7 @@ static NSString *versionKey = @"versionKey";
 }
 -(void)GotoRegister{
     SYCRegisterViewController *registerVC = [[SYCRegisterViewController alloc]init];
+    registerVC.isFromGuider = YES;
     [self presentViewController:registerVC animated:YES completion:nil];
 }
 -(void)gotoLoad{

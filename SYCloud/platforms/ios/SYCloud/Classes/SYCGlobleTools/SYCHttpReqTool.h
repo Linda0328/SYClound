@@ -43,4 +43,6 @@ extern NSString * const resultCodeSuccess;
 +(void)loadWithMobile:(NSString*)phoneNum verficationCode:(NSString*)code regID:(NSString*)regId fromTerminal:(NSString*)systemType completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //用户注册
 +(void)registerWithMobile:(NSString *)phoneNum password:(NSString*)password verficationCode:(NSString *)captcha regID:(NSString*)regId fromTerminal:(NSString *)systemType QRCode:(NSString*)qrCode completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
+//上传RegID
++(void)uploadRegId:(NSString*)regId withToken:(NSString*)token completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 @end

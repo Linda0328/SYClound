@@ -152,7 +152,7 @@
     [_phoneLoadBut mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(left);
         make.height.mas_equalTo(size.height);
-        make.width.mas_equalTo(size.width);
+        make.width.mas_equalTo(size.width+15*[SYCSystem PointCoefficient]);
         make.top.mas_equalTo(laodButton.mas_bottom).offset(gap1);
     }];
     [_phoneLoadBut setTitle:phoneL forState:UIControlStateNormal];
@@ -175,14 +175,14 @@
 //    forgetPasswBut.titleLabel.font = font0;
 //    [forgetPasswBut addTarget:self action:@selector(gotoFindPassw) forControlEvents:UIControlEventTouchUpInside];
     
-    NSString *registerL = @"  注册";
+    NSString *registerL = @"注册";
     CGSize size1 = [registerL sizeWithAttributes:@{NSFontAttributeName:font0}];
     UIButton *registerBut = [[UIButton alloc]init];
     [self.view addSubview:registerBut];
     [registerBut mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-left);
         make.height.mas_equalTo(size1.height);
-        make.width.mas_equalTo(size1.width);
+        make.width.mas_equalTo(size1.width+15*[SYCSystem PointCoefficient]);
         make.top.mas_equalTo(laodButton.mas_bottom).offset(gap1);
     }];
     [registerBut setTitle:registerL forState:UIControlStateNormal];
@@ -192,6 +192,7 @@
     
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
     _HUD.mode = MBProgressHUDModeText;
+    _HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     [self.view addSubview:_HUD];
     [_HUD hideAnimated:YES];
 }
@@ -202,6 +203,8 @@
     _passWordTextF.text = nil;
 }
 -(void)gotoLoad{
+    [_acountTextF resignFirstResponder];
+    [_passWordTextF resignFirstResponder];
     if(![SYCSystem connectedToNetwork]){
         _HUD.label.text = @"网络不给力";
         [_HUD showAnimated:YES];
@@ -214,22 +217,6 @@
         [_HUD hideAnimated:YES afterDelay:2.0f];
         return;
     }
-    if (!_isVerfication) {
-        BOOL isRight = YES;
-        NSString *str = [_passWordTextF.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        if ([str length] == 0) {
-            isRight = NO;
-        }
-        if (_passWordTextF.text.length < 6||_passWordTextF.text.length > 20) {
-            isRight = NO;
-        }
-        if (!isRight) {
-            _HUD.label.text = @"不能包含特殊字符，长度在6-20字符之间";
-            [_HUD showAnimated:YES];
-            [_HUD hideAnimated:YES afterDelay:2.0f];
-            return;
-        }
-    }
     if (![SYCSystem judgeNSString:_passWordTextF.text]) {
         _HUD.label.text = _isVerfication?@"请输入验证码":@"请输入密码";
         [_HUD showAnimated:YES];
@@ -239,7 +226,6 @@
     __weak __typeof(self)weakSelf = self;
     if (_isVerfication) {
         [SYCHttpReqTool loadWithMobile:_acountTextF.text verficationCode:_passWordTextF.text regID:[SYCShareVersionInfo sharedVersion].regId fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
-            
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
@@ -255,16 +241,22 @@
                         [def setObject:[nickName stringByAppendingFormat:@"|%@",portraitPath] forKey:memberInfo];
                         [def setObject:_acountTextF.text forKey:loginName];
                         [def synchronize];
+                        
                         strongSelf.HUD.label.text = @"登录成功";
                         AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+                        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
+                            appdelegate.isUploadRegId = YES;
+                        }
                         if ([appdelegate.window.rootViewController isKindOfClass:[SYCNewLoadViewController class]]) {
                             [appdelegate setTabController];
                         }else{
-                            NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-                            [center postNotificationName:loadAppNotify object:nil];
                             [strongSelf dismissViewControllerAnimated:YES completion:^{
                                 if (_isLoadAgain) {
-                                    [[NSNotificationCenter defaultCenter]postNotificationName:loadAppNotify object:nil];
+                                    [appdelegate setTabController];
+//                                    [[NSNotificationCenter defaultCenter]postNotificationName:loadAppNotify object:nil];
+                                    if ([SYCSystem judgeNSString:_payCode]) {
+                                        [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:_payCode userInfo:@{mainKey:_contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+                                    }
                                 }else{
                                     if (_isFromSDK) {
                                         [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:_payCode userInfo:@{mainKey:_contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
@@ -304,14 +296,16 @@
                     [def synchronize];
                     strongSelf.HUD.label.text = @"登录成功";
                     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+                    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
+                        appdelegate.isUploadRegId = YES;
+                    }
                     if ([appdelegate.window.rootViewController isKindOfClass:[SYCNewLoadViewController class]]) {
                         [appdelegate setTabController];
                     }else{
-                        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-                        [center postNotificationName:loadAppNotify object:nil];
                         [strongSelf dismissViewControllerAnimated:YES completion:^{
                             if (_isLoadAgain) {
-                                [[NSNotificationCenter defaultCenter]postNotificationName:loadAppNotify object:nil];
+//                                [[NSNotificationCenter defaultCenter]postNotificationName:loadAppNotify object:nil];
+                                 [appdelegate setTabController];
                                 if ([SYCSystem judgeNSString:_payCode]) {
                                     [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:_payCode userInfo:@{mainKey:_contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
                                 }
@@ -338,9 +332,10 @@
 }
 -(void)quickLoad{
     _isVerfication = !_isVerfication;
+    _passWordTextF.text = nil;
     _passWordTextF.placeholder = _isVerfication?@"验证码":@"密码";
     _passWordTextF.secureTextEntry = !_passWordTextF.secureTextEntry;
-    [_phoneLoadBut setTitle:_isVerfication?@"密码登录":@"验证码登录" forState:UIControlStateNormal];
+    [_phoneLoadBut setTitle:_isVerfication?@"密码登录":@"免密码登录" forState:UIControlStateNormal];
     UIFont *lableFont = [UIFont systemFontOfSize:15.0*[SYCSystem PointCoefficient]];
     UIColor *textColor = [UIColor colorWithHexString:@"ffffff"];
     UILabel *leftLabel = [UILabel SingleLineCustomText:_isVerfication?@"密码  ":@"验证码  " Font:lableFont Color:textColor];
