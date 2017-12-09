@@ -95,6 +95,7 @@ extern NSString *const pushMessageTypePage;
 extern NSString *const versionCode;
 extern NSString *const GuidenceImagesKey;
 extern NSString * const SYCVersionCode;
+extern NSString *const SYCRegIDKey;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;

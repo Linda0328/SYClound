@@ -132,7 +132,6 @@
 		EE892A001FC01CCB00558368 /* SYCGuiderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8929FF1FC01CCB00558368 /* SYCGuiderViewController.m */; };
 		EE8B32AB1F41480100CC065D /* NotificationService.m in Sources */ = {isa = PBXBuildFile; fileRef = EE8B32AA1F41480100CC065D /* NotificationService.m */; };
 		EE8B32AF1F41480100CC065D /* SYCNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = EE8B32A71F41480100CC065D /* SYCNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		EE8B32BD1F417A6D00CC065D /* libMiPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32BB1F417A6D00CC065D /* libMiPushSDK.a */; };
 		EE8B32BF1F4188A000CC065D /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32BE1F4188A000CC065D /* libresolv.tbd */; };
 		EE8B32C11F4188AB00CC065D /* libxml2.2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32C01F4188AB00CC065D /* libxml2.2.tbd */; };
 		EE8B32C31F4188C600CC065D /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE8B32C21F4188C600CC065D /* UserNotifications.framework */; };
@@ -252,6 +251,7 @@
 		EE9FE4791F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE9FE4781F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle */; };
 		EE9FE47B1F3C3EB400B1D67A /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */; };
 		EE9FE4811F3C429E00B1D67A /* QQManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9FE4801F3C429E00B1D67A /* QQManager.m */; };
+		EEB443641FDB7AB3005B9C54 /* libMiPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */; };
 		EEC060CC1EB8771000E3BDE3 /* SYCPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */; };
 		EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CE1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m */; };
 		EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */; };
@@ -522,8 +522,6 @@
 		EE8B32AC1F41480100CC065D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EE8B32B41F41506C00CC065D /* SYCNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SYCNotificationService.entitlements; sourceTree = "<group>"; };
 		EE8B32B51F4178A600CC065D /* SYCloud.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = SYCloud.entitlements; path = SYCloud/SYCloud.entitlements; sourceTree = "<group>"; };
-		EE8B32BB1F417A6D00CC065D /* libMiPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMiPushSDK.a; sourceTree = "<group>"; };
-		EE8B32BC1F417A6D00CC065D /* MiPushSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiPushSDK.h; sourceTree = "<group>"; };
 		EE8B32BE1F4188A000CC065D /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
 		EE8B32C01F4188AB00CC065D /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		EE8B32C21F4188C600CC065D /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -759,6 +757,11 @@
 		EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		EE9FE47F1F3C429E00B1D67A /* QQManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QQManager.h; sourceTree = "<group>"; };
 		EE9FE4801F3C429E00B1D67A /* QQManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QQManager.m; sourceTree = "<group>"; };
+		EEB443621FDB7AAF005B9C54 /* MiPushSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiPushSDK.h; sourceTree = "<group>"; };
+		EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMiPushSDK.a; sourceTree = "<group>"; };
+		EEB4436B1FDB7E81005B9C54 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
+		EEB4436C1FDB7E81005B9C54 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
+		EEB4436E1FDB7E81005B9C54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EEC060CA1EB8771000E3BDE3 /* SYCPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentViewController.h; sourceTree = "<group>"; };
 		EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentViewController.m; sourceTree = "<group>"; };
 		EEC060CD1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderConfirmModel.h; sourceTree = "<group>"; };
@@ -824,6 +827,7 @@
 				EE7AD8101E8F543500BCEB5F /* CFNetwork.framework in Frameworks */,
 				EE7AD80E1E8F542D00BCEB5F /* Foundation.framework in Frameworks */,
 				EE7AD80C1E8F541E00BCEB5F /* UIKit.framework in Frameworks */,
+				EEB443641FDB7AB3005B9C54 /* libMiPushSDK.a in Frameworks */,
 				EE9FE47B1F3C3EB400B1D67A /* TencentOpenAPI.framework in Frameworks */,
 				EE7AD80A1E8F541400BCEB5F /* CoreGraphics.framework in Frameworks */,
 				EE84165D1EEBE2930032B37F /* libWeChatSDK.a in Frameworks */,
@@ -836,7 +840,6 @@
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
 				F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */,
 				641E5B79DBB84C4AAFB24975 /* CoreLocation.framework in Frameworks */,
-				EE8B32BD1F417A6D00CC065D /* libMiPushSDK.a in Frameworks */,
 				CB7792794FF549449FE6E2A3 /* AVFoundation.framework in Frameworks */,
 				AD4BC4C29EF848E0B8A6BC3F /* AudioToolbox.framework in Frameworks */,
 				EE629EF81E962CC100832C36 /* libcrypto.a in Frameworks */,
@@ -904,6 +907,7 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				EE8B32A81F41480100CC065D /* SYCNotificationService */,
+				EEB4436A1FDB7E81005B9C54 /* SYCloudPush */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -1173,8 +1177,6 @@
 		EE8B32BA1F417A6D00CC065D /* MiPushSDK */ = {
 			isa = PBXGroup;
 			children = (
-				EE8B32BB1F417A6D00CC065D /* libMiPushSDK.a */,
-				EE8B32BC1F417A6D00CC065D /* MiPushSDK.h */,
 			);
 			name = MiPushSDK;
 			path = SDK;
@@ -1462,6 +1464,8 @@
 		EE95FF941E7F804A00C35C2A /* LIbs */ = {
 			isa = PBXGroup;
 			children = (
+				EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */,
+				EEB443621FDB7AAF005B9C54 /* MiPushSDK.h */,
 				EE8B32BA1F417A6D00CC065D /* MiPushSDK */,
 				EE915B1F1F2AD6DA0046E24B /* SSZipArchive */,
 				EE8416581EEBE2930032B37F /* WeiXin */,
@@ -1700,6 +1704,16 @@
 				EE9FE4801F3C429E00B1D67A /* QQManager.m */,
 			);
 			name = QQShare;
+			sourceTree = "<group>";
+		};
+		EEB4436A1FDB7E81005B9C54 /* SYCloudPush */ = {
+			isa = PBXGroup;
+			children = (
+				EEB4436B1FDB7E81005B9C54 /* NotificationService.h */,
+				EEB4436C1FDB7E81005B9C54 /* NotificationService.m */,
+				EEB4436E1FDB7E81005B9C54 /* Info.plist */,
+			);
+			path = SYCloudPush;
 			sourceTree = "<group>";
 		};
 		EED377221FB2DE20007540D3 /* newLoad */ = {
@@ -2193,7 +2207,7 @@
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/WeiXin",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/SDK",
 				);
-				MiSDKRun = debugs;
+				MiSDKRun = debug;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
 				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";

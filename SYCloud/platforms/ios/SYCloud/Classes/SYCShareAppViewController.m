@@ -40,10 +40,6 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
         [button setTitleColor:[UIColor colorWithHexString:@"888890"] forState:UIControlStateNormal];
         [button setTitle:[shareArr objectAtIndex:i] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-//        //设置文字偏移：向下偏移图片高度+向左偏移图片的宽度
-//        [button setTitleEdgeInsets:UIEdgeInsetsMake(button.imageView.frame.size.height+5,-button.imageView.frame.size.width, 0, 0)];
-//        //设置图片偏移:向上偏移文字的高度+向右偏移文字的宽度
-//        [button setImageEdgeInsets:UIEdgeInsetsMake(-button.titleLabel.frame.size.height-5, 0, 0, -button.titleLabel.frame.size.width)];
         [button verticalImageAndTitle:10.0f];
         [button addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
@@ -76,37 +72,43 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_shareModel.pic]];
         thumbImg = [UIImage imageWithData:imageData];
+        //处理中文字符
+        _shareModel.url = [_shareModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        _HUD.label.text = @"请求微信失败";
+        BOOL isShared = YES;
+        if ([title isEqualToString:@"微信"]) {
+            isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneSession];
+            [SYCShareVersionInfo sharedVersion].sharePlatform = @"weixin";
+        }
+        if ([title isEqualToString:@"朋友圈"]) {
+            isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneTimeline];
+            [SYCShareVersionInfo sharedVersion].sharePlatform = @"wxpyq";
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([title isEqualToString:@"QQ"]) {
+                QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
+                SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
+                QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+                [self handleSentToQQresult:sent];
+                [SYCShareVersionInfo sharedVersion].sharePlatform = @"qq";
+            }
+            if ([title isEqualToString:@"QQ空间"]) {
+                QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
+                SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
+                QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
+                [self handleSentToQQresult:sent];
+                [SYCShareVersionInfo sharedVersion].sharePlatform = @"qzone";
+            }
+            if(!isShared){
+                [_HUD showAnimated:YES];
+                [_HUD hideAnimated:YES afterDelay:1.5f];
+            }
+        });
+        
     });
-    //处理中文字符
-    _shareModel.url = [_shareModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    _HUD.label.text = @"请求微信失败";
-    BOOL isShared = YES;
-    if ([title isEqualToString:@"微信"]) {
-        isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneSession];
-        [SYCShareVersionInfo sharedVersion].sharePlatform = @"weixin";
-    }
-    if ([title isEqualToString:@"朋友圈"]) {
-        isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneTimeline];
-        [SYCShareVersionInfo sharedVersion].sharePlatform = @"wxpyq";
-    }
-    if ([title isEqualToString:@"QQ"]) {
-        QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
-        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
-        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
-        [self handleSentToQQresult:sent];
-        [SYCShareVersionInfo sharedVersion].sharePlatform = @"qq";
-    }
-    if ([title isEqualToString:@"QQ空间"]) {
-        QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
-        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
-        QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
-        [self handleSentToQQresult:sent];
-        [SYCShareVersionInfo sharedVersion].sharePlatform = @"qzone";
-    }
-    if(!isShared){
-        [_HUD showAnimated:YES];
-        [_HUD hideAnimated:YES afterDelay:1.5f];
-    }
+   
+    
+    
 }
 -(void)handleSentToQQresult:(QQApiSendResultCode)code{
     NSLog(@"QQ分享错误码----%@",@(code));

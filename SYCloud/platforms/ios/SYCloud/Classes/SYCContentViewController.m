@@ -356,14 +356,14 @@ static void *eventBarItem = @"eventBarItem";
         [payloadingView removeFromSuperview];
         self.view.userInteractionEnabled = YES;
         MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
+        HUD.mode = MBProgressHUDModeText;
         HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
+        HUD.label.text = result[resultSuccessKey][@"msg"];
         [self.view addSubview:HUD];
-        HUD.label.text = result[@"msg"];
         [HUD showAnimated:YES];
         [HUD hideAnimated:YES afterDelay:1.5f];
             //用户非登录状态
         if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
-
             SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
             newLoad.payCode = payCode;
             newLoad.contentVC = self;

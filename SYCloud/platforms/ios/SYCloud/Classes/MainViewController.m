@@ -109,7 +109,7 @@
     }
     
     
-     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     if (appdelegate.isLogin&&!appdelegate.isUploadRegId&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
         [SYCHttpReqTool uploadRegId:[SYCShareVersionInfo sharedVersion].regId withToken:[SYCShareVersionInfo sharedVersion].token completion:^(NSString *resultCode, NSMutableDictionary *result) {
             if ([resultCode isEqualToString:resultCodeSuccess]) {

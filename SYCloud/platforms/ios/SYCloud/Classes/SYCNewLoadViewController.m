@@ -244,6 +244,7 @@
                         
                         strongSelf.HUD.label.text = @"登录成功";
                         AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+                        appdelegate.isLogin = YES;
                         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
                             appdelegate.isUploadRegId = YES;
                         }
@@ -296,6 +297,7 @@
                     [def synchronize];
                     strongSelf.HUD.label.text = @"登录成功";
                     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+                    appdelegate.isLogin = YES;
                     if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
                         appdelegate.isUploadRegId = YES;
                     }

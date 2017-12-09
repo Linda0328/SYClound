@@ -35,7 +35,6 @@
 #import "SYCTabBarItemModel.h"
 #import "SYCNavigationBarModel.h"
 #import "SYCMainPageModel.h"
-
 #import "SYCShareVersionInfo.h"
 #import "NSString+Helper.h"
 #import "Reachability.h"
@@ -58,6 +57,7 @@
 #import "SYCPushMessageViewController.h"
 #import "SYCNewLoadViewController.h"
 #import "SYCNewGuiderViewController.h"
+#import <UserNotifications/UserNotifications.h>
 @interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
@@ -76,20 +76,33 @@
     }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    
     self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
     [self.hostReach startNotifier];
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
-    //小米推送
-    [MiPushSDK registerMiPush:self];
     //注册微信支付
     [WXApi registerApp:WeiXinAppID];
     //拦截http请求
     [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     //手机QQ权限注册
     [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
+    //小米推送
+    [MiPushSDK registerMiPush:self type:0 connect:YES];
+    if([[UIDevice currentDevice].systemVersion doubleValue]>= 10.0){
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+            if (granted) {
+                [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+                    NSLog(@"%@",settings);
+                }];
+            }
+        }];
+        [MiPushSDK registerMiPush:self type:0 connect:YES];
+        center.delegate = self;
+    }else{
+        [MiPushSDK registerMiPush:self type:0 connect:YES];
+    }
 
     BOOL canShow = [SYCNewGuiderViewController canShowNewGuider];
     if(canShow){ // 初始化新特性界面
@@ -236,6 +249,7 @@
     UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
     self.window.rootViewController = navC;
 }
+
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     //上次支付订单未完成，新的支付订单又来了
     UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
@@ -366,6 +380,11 @@
     return YES;
 }
 #pragma mark ---推送
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
+    [application registerForRemoteNotifications];
+    
+}
 //打开app推送信息数目归零
 -(void)applicationWillResignActive:(UIApplication *)application{
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -377,7 +396,7 @@
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-    //注册APNS失败
+    NSLog(@"注册APNS失败-------error-----%@",[error description]);
 }
 //应用在前台
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -432,25 +451,21 @@
         [self dealWithPushMessage:userInfo];
     }
 }
-// 点击通知进入应用
-//- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
-//    NSDictionary * userInfo = response.notification.request.content.userInfo;
-//    if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-//        [self dealWithPushMessage:userInfo];
-//    }
-//}
+
 
 #pragma mark --- MiPushSDKDelegate
 -(void)miPushRequestSuccWithSelector:(NSString *)selector data:(NSDictionary *)data{
      NSLog(@"selector = %@,data = %@", selector,data);
    //请求成功，可在此获取regid
     if ([SYCSystem judgeNSString:data[@"regid"]]) {
+        [[NSUserDefaults standardUserDefaults]setObject:data[@"regid"] forKey:SYCRegIDKey];
         [SYCShareVersionInfo sharedVersion].regId = data[@"regid"];
     }
 }
 
 -(void)miPushRequestErrWithSelector:(NSString *)selector error:(int)error data:(NSDictionary *)data{
    //请求失败
+    NSLog(@"小米推送请求失败------selector = %@,data = %@",selector,data);
 }
 -(void)dealWithPushMessage:(NSDictionary*)userInfo{
     NSString *title = [userInfo objectForKey:@"push_title"];

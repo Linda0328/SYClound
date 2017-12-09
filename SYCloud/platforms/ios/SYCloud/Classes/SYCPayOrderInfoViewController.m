@@ -361,7 +361,7 @@ static NSInteger infoCellNum = 2;
         NSString *text =@"订单优惠：";
         cell.textLabel.text = [text stringByAppendingFormat:@"¥%@",_couponDesc];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"3B7BCB"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
         cell.textLabel.attributedText = str;
     }
     cell.separatorInset = UIEdgeInsetsMake(0, 16*[SYCSystem PointCoefficient], 0, 0);

@@ -104,6 +104,7 @@ NSString *const pushNotify = @"pushNotify";
 NSString * const SYCVersionCode = @"1.0.4";
 NSString *const versionCode = @"versionCode";
 NSString *const GuidenceImagesKey = @"GuidenceImages";
+NSString *const SYCRegIDKey = @"RegIDKey";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
