@@ -2182,8 +2182,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCloud/SYCloud.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2210,8 +2210,8 @@
 				MiSDKRun = debug;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
-				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
+				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudDis;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2226,8 +2226,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCloud/SYCloud.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2252,8 +2252,8 @@
 				MiSDKRun = online;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
-				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
+				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudDis;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -2330,8 +2330,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCNotificationService/SYCNotificationService.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
@@ -2354,8 +2354,8 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sycloud.SYCloud.SYCNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35f8425f-945c-494e-9447-ecb581210939";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationService;
+				PROVISIONING_PROFILE = "6bab3498-b107-4bcd-8235-bc4634b9651b";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationDis;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -2375,8 +2375,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCNotificationService/SYCNotificationService.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8YHY633A9W;
@@ -2393,8 +2393,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sycloud.SYCloud.SYCNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "35f8425f-945c-494e-9447-ecb581210939";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationService;
+				PROVISIONING_PROFILE = "6bab3498-b107-4bcd-8235-bc4634b9651b";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationDis;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};
