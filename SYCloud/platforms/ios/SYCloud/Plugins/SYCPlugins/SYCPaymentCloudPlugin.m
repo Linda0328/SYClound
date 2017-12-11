@@ -71,8 +71,7 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:passwordNotify object:payModel userInfo:@{mainKey:main}];
     [self.commandDelegate runInBackground:^{
-       
-        [SYCShareVersionInfo sharedVersion].paymentID = command.callbackId;
+         [SYCShareVersionInfo sharedVersion].paymentID = command.callbackId;
     }];
 }
 @end

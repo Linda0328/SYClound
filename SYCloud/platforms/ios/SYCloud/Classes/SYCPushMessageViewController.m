@@ -20,11 +20,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     UIColor *color = [UIColor colorWithHexString:@"458DEF"];
-    UINavigationBar *bar = [UINavigationBar appearance];
-    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
-    UIImage *image = [imageOrigin image:imageOrigin withColor:color];
-    [bar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    [bar setShadowImage:[[UIImage alloc]init]];
+//    UINavigationBar *bar = [UINavigationBar appearance];
+//    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
+//    UIImage *image = [imageOrigin image:imageOrigin withColor:color];
+//    [bar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+//    [bar setShadowImage:[[UIImage alloc]init]];
     
     UILabel *titleLab = [UILabel navTitle:_navTitle TitleColor:[UIColor colorWithHexString:@"ffffff"] titleFont:[UIFont systemFontOfSize:20]];
     self.navigationItem.titleView = titleLab;

@@ -25,8 +25,10 @@
     if ([SYCSystem judgeNSString:pageVersionLocal]&&[pageVersion isEqualToString:pageVersionLocal]) {
         return NO;
     }else{
-        NSString *url = [[SYCSystem baseURL]stringByAppendingString:pagePackage];
-        [self downFileFromServer:url pageVersion:pageVersion];
+        if ([SYCSystem judgeNSString:pagePackage]) {
+            NSString *url = [[SYCSystem baseURL]stringByAppendingString:pagePackage];
+            [self downFileFromServer:url pageVersion:pageVersion];
+        }
     }
     return YES;
 }

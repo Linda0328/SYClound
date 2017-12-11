@@ -39,6 +39,9 @@
 @property (nonatomic,copy)NSString *listenPluginID;
 @property (nonatomic,copy)NSString *scanResult;
 
+@property (nonatomic,strong)NSDictionary *shareResult;
+@property (nonatomic,copy)NSString *sharePlatform;
+
 //定位坐标
 
 @property (nonatomic,copy)NSString *mLatitude;//纬度

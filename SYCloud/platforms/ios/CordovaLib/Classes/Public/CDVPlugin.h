@@ -57,7 +57,7 @@ extern NSString* const CDVRemoteNotificationError CDV_DEPRECATED(4.0, "Functiona
 @property (nonatomic, readonly, weak) UIView* webView;
 @property (nonatomic, readonly, weak) id <CDVWebViewEngineProtocol> webViewEngine;
 
-@property (nonatomic, weak) UIViewController* viewController;
+@property (nonatomic, strong) UIViewController* viewController;
 @property (nonatomic, weak) id <CDVCommandDelegate> commandDelegate;
 
 @property (readonly, assign) BOOL hasPendingOperation;

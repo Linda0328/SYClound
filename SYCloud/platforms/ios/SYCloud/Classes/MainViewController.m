@@ -46,6 +46,8 @@
 #import "SYCWXPayRequestModel.h"
 #import "WXApiManager.h"
 #import "QQManager.h"
+#import "SYCHttpReqTool.h"
+#import "NSObject+MJKeyValue.h"
 @interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate,WXApiManagerDelegate,QQManagerDelegate>{
     BMKLocationService *_locationService;
 }
@@ -106,11 +108,15 @@
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
     
-    //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-//    if (![SYCSystem connectedToNetwork]) {
-//        [self reachabilityChanged:nil];
-//    }
-     
+    
+    AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    if (appdelegate.isLogin&&!appdelegate.isUploadRegId&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
+        [SYCHttpReqTool uploadRegId:[SYCShareVersionInfo sharedVersion].regId withToken:[SYCShareVersionInfo sharedVersion].token completion:^(NSString *resultCode, NSMutableDictionary *result) {
+            if ([resultCode isEqualToString:resultCodeSuccess]) {
+                appdelegate.isUploadRegId = YES;
+            }
+        }];
+    }
     
 }
 
@@ -140,6 +146,7 @@
     }
     _HUD = [[MBProgressHUD alloc]initWithView:self.view];
     _HUD.mode = MBProgressHUDModeText;
+    _HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     [self.view addSubview:_HUD];
     
     self.reloadB = ^(NSString *url){
@@ -202,7 +209,9 @@
                rect.size.height = height -113;
             }
         }else{
-            rect.size.height = height - 64;
+            if (!_isHiddenNavBar) {
+                 rect.size.height = height - 64;
+            }
         }
         self.view.frame = rect;
         self.webView.frame = rect;
@@ -216,7 +225,9 @@
     }
     NSURL *appURL = [SYCSystem appUrl:self];
     NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-    [self.webViewEngine loadRequest:appReq];
+    if (self.webViewEngine) {
+        [self.webViewEngine loadRequest:appReq];
+    }
 }
 -(void)hideProgress:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
@@ -238,6 +249,7 @@
 }
 
 -(void)ReloadAppState:(NSNotification*)notify{
+    
     MainViewController *main = (MainViewController*)notify.object;
     if ([main isEqual:self]) {
         return;
@@ -334,7 +346,9 @@
 
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
-        
+        if ([resultStatus isEqualToString:@"6001"]&&![SYCSystem judgeNSString:resultContent]) {
+            resultContent = @"支付取消！";
+        }
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
         [dic setObject:AliPaySuccess forKey:@"resultCode"];
         if (![resultStatus isEqualToString:@"9000"]) {
@@ -460,28 +474,53 @@
 }
 - (void)managerDidRecvMessageResponse:(SendMessageToWXResp *)response{
     NSString *text = @"分享失败";
+    BOOL shareSuccess = NO;
     if (response.errCode == WXSuccess) {
         text = @"分享成功";
+        shareSuccess = YES;
     }
     if (response.errCode == WXErrCodeUserCancel){
         text = @"取消分享";
     }
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(shareSuccess),
+                                                        @"shareForm":[SYCShareVersionInfo sharedVersion].sharePlatform
+                                                        };
     _HUD.label.text = text;
     [_HUD showAnimated:YES];
     [_HUD hideAnimated:YES afterDelay:1.50f];
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].sharePluginID]) {
+//        NSString *jsonStr = [[SYCShareVersionInfo sharedVersion].shareResult ex_JSONString];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].sharePluginID];
+        [SYCShareVersionInfo sharedVersion].shareResult = nil;
+        [SYCShareVersionInfo sharedVersion].sharePluginID = nil;
+    }
 }
 -(void)managerDidRecvQQMessageResponse:(SendMessageToQQResp *)response{
     
     NSString *text = @"分享失败";
+    BOOL shareSuccess = NO;
     if ([[response result]isEqualToString:@"0"]) {
         text = @"分享成功";
+        shareSuccess = YES;
     }
     if([[response result]isEqualToString:@"-4"]) {
         text = @"取消分享";
     }
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(shareSuccess),
+                                                        @"shareForm":[SYCShareVersionInfo sharedVersion].sharePlatform
+                                                        };
     _HUD.label.text = text;
     [_HUD showAnimated:YES];
     [_HUD hideAnimated:YES afterDelay:1.50f];
+    
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].sharePluginID]) {
+        //        NSString *jsonStr = [[SYCShareVersionInfo sharedVersion].shareResult ex_JSONString];
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].sharePluginID];
+        [SYCShareVersionInfo sharedVersion].shareResult = nil;
+        [SYCShareVersionInfo sharedVersion].sharePluginID = nil;
+    }
 }
 
 //- (void)didFailToLocateUserWithError:(NSError *)error{

@@ -14,6 +14,7 @@
 #import "UIButton+TitleImageCenter.h"
 #import <TencentOpenAPI/QQApiInterfaceObject.h>
 #import <TencentOpenAPI/QQApiInterface.h>
+#import "SYCShareVersionInfo.h"
 static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
 @interface SYCShareAppViewController ()
 @property (nonatomic,strong)MBProgressHUD *HUD;
@@ -31,7 +32,7 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     CGFloat width = [[UIScreen mainScreen]bounds].size.width;
     CGFloat gapRight = 17.0f*[SYCSystem PointCoefficient];
     CGFloat gapUp = 23.0*[SYCSystem PointCoefficient];
-    CGFloat buttonWidth = 54*[SYCSystem PointCoefficient];
+    CGFloat buttonWidth = 60*[SYCSystem PointCoefficient];
     CGFloat gap = (width-2*gapRight-shareArr.count*buttonWidth)/(shareArr.count-1);
     for (NSInteger i = 0;i < [shareArr count];i++) {
         UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(gapRight+i*(buttonWidth+gap), gapUp, buttonWidth, 59*[SYCSystem PointCoefficient])];
@@ -39,16 +40,13 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
         [button setTitleColor:[UIColor colorWithHexString:@"888890"] forState:UIControlStateNormal];
         [button setTitle:[shareArr objectAtIndex:i] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-//        //设置文字偏移：向下偏移图片高度+向左偏移图片的宽度
-//        [button setTitleEdgeInsets:UIEdgeInsetsMake(button.imageView.frame.size.height+5,-button.imageView.frame.size.width, 0, 0)];
-//        //设置图片偏移:向上偏移文字的高度+向右偏移文字的宽度
-//        [button setImageEdgeInsets:UIEdgeInsetsMake(-button.titleLabel.frame.size.height-5, 0, 0, -button.titleLabel.frame.size.width)];
         [button verticalImageAndTitle:10.0f];
         [button addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
     }
     _HUD = [[MBProgressHUD alloc]initWithView:[UIApplication sharedApplication].keyWindow];
     _HUD.mode = MBProgressHUDModeText;
+    _HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     [[UIApplication sharedApplication].keyWindow addSubview:_HUD];
     [_HUD hideAnimated:YES];
 }
@@ -74,37 +72,46 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_shareModel.pic]];
         thumbImg = [UIImage imageWithData:imageData];
-    });
-    
-    _HUD.label.text = @"请求微信失败";
-    BOOL isShared = YES;
-    if ([title isEqualToString:@"微信"]) {
-        isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneSession];
+        //处理中文字符
+        _shareModel.url = [_shareModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        _HUD.label.text = @"请求微信失败";
+        BOOL isShared = YES;
+        if ([title isEqualToString:@"微信"]) {
+            isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneSession];
+            [SYCShareVersionInfo sharedVersion].sharePlatform = @"weixin";
+        }
+        if ([title isEqualToString:@"朋友圈"]) {
+            isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneTimeline];
+            [SYCShareVersionInfo sharedVersion].sharePlatform = @"wxpyq";
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([title isEqualToString:@"QQ"]) {
+                QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
+                SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
+                QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+                [self handleSentToQQresult:sent];
+                [SYCShareVersionInfo sharedVersion].sharePlatform = @"qq";
+            }
+            if ([title isEqualToString:@"QQ空间"]) {
+                QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
+                SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
+                QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
+                [self handleSentToQQresult:sent];
+                [SYCShareVersionInfo sharedVersion].sharePlatform = @"qzone";
+            }
+            if(!isShared){
+                [_HUD showAnimated:YES];
+                [_HUD hideAnimated:YES afterDelay:1.5f];
+            }
+        });
         
-    }
-    if ([title isEqualToString:@"朋友圈"]) {
-        isShared = [WXApiRequestHandler sendLinkURL:_shareModel.url TagName:kLinkTagName Title:_shareModel.title Description:_shareModel.describe ThumbImage:thumbImg InScene:WXSceneTimeline];
-
-    }
-    if ([title isEqualToString:@"QQ"]) {
-        QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
-        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
-        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
-        [self handleSentToQQresult:sent];
-    }
-    if ([title isEqualToString:@"QQ空间"]) {
-        QQApiNewsObject *qqNews = [QQApiNewsObject objectWithURL:[NSURL URLWithString:_shareModel.url] title:_shareModel.title description:_shareModel.describe previewImageData:imageData];
-        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqNews];
-        QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
-        [self handleSentToQQresult:sent];
-    }
-    if(!isShared){
-        [_HUD showAnimated:YES];
-        [_HUD hideAnimated:YES afterDelay:1.5f];
-    }
+    });
+   
+    
+    
 }
 -(void)handleSentToQQresult:(QQApiSendResultCode)code{
-
+    NSLog(@"QQ分享错误码----%@",@(code));
 }
 -(void)Dismiss{
     [self dismissViewControllerAnimated:YES completion:nil];

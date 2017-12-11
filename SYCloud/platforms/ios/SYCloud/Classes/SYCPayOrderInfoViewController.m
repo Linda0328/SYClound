@@ -78,7 +78,7 @@ static NSInteger infoCellNum = 2;
     _moneyAmountLablel = [[UILabel alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(lineView.frame)+15*[SYCSystem PointCoefficient], 200*[SYCSystem PointCoefficient], 27.5*[SYCSystem PointCoefficient])];
     _moneyAmountLablel.numberOfLines = 1;
     _moneyAmountLablel.font = [UIFont systemFontOfSize:27.5*[SYCSystem PointCoefficient]];
-    _moneyAmountLablel.textColor = [UIColor colorWithHexString:@"3B7BCB"];
+    _moneyAmountLablel.textColor = [UIColor colorWithHexString:@"CFAF72"];
     _moneyAmountLablel.center = CGPointMake(self.view.center.x, lineView.center.y+42.5*[SYCSystem PointCoefficient]);
     _moneyAmountLablel.text = [NSString stringWithFormat:@"¥%.2f",[_amount floatValue]];
     _moneyAmountLablel.textAlignment = NSTextAlignmentCenter;
@@ -93,12 +93,13 @@ static NSInteger infoCellNum = 2;
     [self.view addSubview:_infoTable];
    
     _hud = [[MBProgressHUD alloc]initWithView:self.view];
+    _hud.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
     _hud.mode = MBProgressHUDModeText;
     [self.view addSubview:_hud];
     
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
     _confirmBut = [[UIButton alloc]initWithFrame:CGRectMake(16*[SYCSystem PointCoefficient], 3*screenSize.height/5-16*[SYCSystem PointCoefficient]-50*[SYCSystem PointCoefficient], self.view.frame.size.width-32*[SYCSystem PointCoefficient], 50*[SYCSystem PointCoefficient])];
-    _confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+    _confirmBut.backgroundColor = [UIColor colorWithHexString:@"CFAF72"];
     [_confirmBut setTitle:@"立即付款" forState:UIControlStateNormal];
     [_confirmBut setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_confirmBut addTarget:self action:@selector(orderPayImmedately:) forControlEvents:UIControlEventTouchUpInside];
@@ -175,6 +176,13 @@ static NSInteger infoCellNum = 2;
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
+            if ([SYCSystem judgeNSString:_defaultPayType]) {
+                _confirmBut.backgroundColor = [UIColor colorWithHexString:@"CFAF72"];
+                _confirmBut.enabled = YES;
+            }else{
+                _confirmBut.enabled = NO;
+                _confirmBut.backgroundColor = [UIColor colorWithHexString:@"999999"];
+            }
            [_infoTable reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
         });
     }
@@ -303,7 +311,7 @@ static NSInteger infoCellNum = 2;
     _defaultPayType = model.assetName;
     _selectedIndex = [notify.userInfo objectForKey:selectIndex];
     if (!_confirmBut.enabled) {
-        _confirmBut.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];
+        _confirmBut.backgroundColor = [UIColor colorWithHexString:@"CFAF72"];
         _confirmBut.enabled = YES;
     }
     
@@ -353,7 +361,7 @@ static NSInteger infoCellNum = 2;
         NSString *text =@"订单优惠：";
         cell.textLabel.text = [text stringByAppendingFormat:@"¥%@",_couponDesc];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"3B7BCB"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
         cell.textLabel.attributedText = str;
     }
     cell.separatorInset = UIEdgeInsetsMake(0, 16*[SYCSystem PointCoefficient], 0, 0);

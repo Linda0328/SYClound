@@ -35,7 +35,6 @@
 #import "SYCTabBarItemModel.h"
 #import "SYCNavigationBarModel.h"
 #import "SYCMainPageModel.h"
-#import "SYCTabViewController.h"
 #import "SYCShareVersionInfo.h"
 #import "NSString+Helper.h"
 #import "Reachability.h"
@@ -56,11 +55,14 @@
 #import "QQManager.h"
 #import "MiPushSDK.h"
 #import "SYCPushMessageViewController.h"
+#import "SYCNewLoadViewController.h"
+#import "SYCNewGuiderViewController.h"
+#import <UserNotifications/UserNotifications.h>
 @interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
 @property (nonatomic,strong)Reachability *hostReach;
-@property (nonatomic,strong)SYCTabViewController *tabVC ;
+
 @end
 @implementation AppDelegate
 
@@ -72,76 +74,43 @@
     if (!ret) {
         NSLog(@"BaiduMap manager start failed");
     }
-    //    self.viewController = [[MainViewController alloc] init];
-    //    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
-    __weak __typeof(self)weakSelf = self;
     self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
     [self.hostReach startNotifier];
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     self.window = [[UIWindow alloc] initWithFrame:screenBounds];
     self.window.autoresizesSubviews = YES;
-    //小米推送
-    [MiPushSDK registerMiPush:self];
     //注册微信支付
     [WXApi registerApp:WeiXinAppID];
+    //拦截http请求
+    [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     //手机QQ权限注册
     [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
-    BOOL canShow = [XZMCoreNewFeatureVC canShowNewFeature];
-    [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
-    if(canShow){ // 初始化新特性界面
-        self.window.rootViewController = [XZMCoreNewFeatureVC newFeatureVCWithImageNames:[SYCSystem guiderImageS] enterBlock:^{
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            if (strongSelf.isReachable) {
-                [strongSelf setRootViewController];
-            }else{
-                SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
-                rec.refreshB = ^(){
-                    __strong __typeof(weakSelf)strongSelf = weakSelf;
-                    if (strongSelf.isReachable) {
-                        [strongSelf setRootViewController];
-                    }else{
-                        MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
-                        [self.window addSubview:HUD];
-                        HUD.label.text = @"无网络连接，无法加载数据";
-                        [HUD showAnimated:YES ];
-                        [HUD hideAnimated:YES afterDelay:1.5f];
-                    }
-                };
-                UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
-                strongSelf.window.rootViewController = navC;
+    //小米推送
+    [MiPushSDK registerMiPush:self type:0 connect:YES];
+    if([[UIDevice currentDevice].systemVersion doubleValue]>= 10.0){
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
+            if (granted) {
+                [center getNotificationSettingsWithCompletionHandler:^(UNNotificationSettings * _Nonnull settings) {
+                    NSLog(@"%@",settings);
+                }];
             }
-        } configuration:^(UIButton *enterButton) { // 配置进入按钮
-            [enterButton setTitle:@"立即进入" forState:UIControlStateNormal];
-            [enterButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            enterButton.layer.masksToBounds = YES;
-            enterButton.layer.cornerRadius = 10;
-            enterButton.layer.borderWidth = 1;
-            enterButton.layer.borderColor = [UIColor whiteColor].CGColor;
-            enterButton.bounds = CGRectMake(0, 0, 100, 40);
-            enterButton.center = CGPointMake(KScreenW * 0.8, KScreenH* 0.08);
         }];
+        [MiPushSDK registerMiPush:self type:0 connect:YES];
+        center.delegate = self;
     }else{
-        if ([SYCSystem connectedToNetwork]) {
-            [self setRootViewController];
-        }else{
-            SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
-            rec.refreshB = ^(){
-                __strong __typeof(weakSelf)strongSelf = weakSelf;
-                if (strongSelf.isReachable) {
-                    [strongSelf setRootViewController];
-                }else{
-                    MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
-                    [self.window addSubview:HUD];
-                    HUD.label.text = @"无网络连接，无法加载数据";
-                    [HUD showAnimated:YES ];
-                    [HUD hideAnimated:YES afterDelay:1.5f];
-                }
-            };
-            UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
-            self.window.rootViewController = navC;
-        }
+        [MiPushSDK registerMiPush:self type:0 connect:YES];
+    }
 
+    BOOL canShow = [SYCNewGuiderViewController canShowNewGuider];
+    if(canShow){ // 初始化新特性界面
+        SYCNewGuiderViewController *newGuider = [[SYCNewGuiderViewController alloc]init];
+        self.window.rootViewController = newGuider;
+    }else{
+        [self setRootViewController];
+        
     }
     [self.window makeKeyAndVisible];
     //通过推送窗口启动程序
@@ -152,11 +121,40 @@
     return YES;
 }
 -(void)setRootViewController{
+    if (![SYCSystem connectedToNetwork]) {
+        __weak __typeof(self)weakSelf = self;
+        SYReachableNotViewController *rec = [[SYReachableNotViewController alloc]init];
+        rec.refreshB = ^(){
+            __strong __typeof(weakSelf)strongSelf = weakSelf;
+            if (strongSelf.isReachable) {
+                [strongSelf setRootViewController];
+            }else{
+                MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+                HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
+                [self.window addSubview:HUD];
+                HUD.label.text = @"无网络连接，无法加载数据";
+                [HUD showAnimated:YES ];
+                [HUD hideAnimated:YES afterDelay:1.5f];
+            }
+        };
+        UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
+        self.window.rootViewController = navC;
+        return;
+    }
     NSDictionary *versionResult = [SYCHttpReqTool VersionInfo];
+    _isLogin = [[[versionResult objectForKey:@"RequestSucsess"] objectForKey:@"isLogined"] boolValue];
     if (![[versionResult objectForKey:resultCodeKey]isEqualToString:resultCodeSuccess]) {
         [self ShowException];
         return;
     }
+    if (!_isLogin) {
+        self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
+    }else{
+       [self setTabController];
+    }
+}
+-(void)setTabController{
+    [SYCSystem imagLoadURL];
     //并发队列使用全局并发队列，异步执行任务
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         SYCCache *cache = [[SYCCache alloc]init];
@@ -172,9 +170,8 @@
         NSData *indexData =[NSData dataWithContentsOfFile:jsonPath];
         NSError *error = nil;
         if (indexData) {
-             dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
+            dic = [NSJSONSerialization JSONObjectWithData:indexData options:NSJSONReadingAllowFragments error:&error];
         }
-       
     }
     if (!dic) {
         NSDictionary *result = [SYCHttpReqTool MainData];
@@ -191,7 +188,6 @@
             return;
         }
     }
-    
     [SYCNavTitleModel mj_setupReplacedKeyFromPropertyName:^NSDictionary *{
         return @{@"ID":@"id"};
     }];
@@ -211,6 +207,9 @@
     _tabVC = [[SYCTabViewController alloc]init];
     [_tabVC InitTabBarWithtabbarItems:mainPageModel.bottomBtns navigationBars:mainModel.bottomBarConfig];
     self.window.rootViewController = _tabVC;
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]) {
+         [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+    }
 }
 //网络变化
 -(void)reachabilityChanged:(NSNotification*)notify{
@@ -226,7 +225,6 @@
     }
     if (status == ReachableViaWiFi||status == ReachableViaWWAN) {
         self.isReachable = YES;
-        
     }
     
 }
@@ -241,6 +239,7 @@
             [strongSelf setRootViewController];
         }else{
             MBProgressHUD *HUD = [[MBProgressHUD alloc]initWithView:strongSelf.window];
+            HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
             [self.window addSubview:HUD];
             HUD.label.text = @"加载数据异常";
             [HUD showAnimated:YES ];
@@ -250,17 +249,18 @@
     UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
     self.window.rootViewController = navC;
 }
+
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     //上次支付订单未完成，新的支付订单又来了
-    UIViewController *vc = _tabVC.firstViewC;
+    UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+    UIViewController *contentVC = [[navC viewControllers] lastObject];
     if (![[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
-        while (vc.presentedViewController) {
-            [vc dismissViewControllerAnimated:YES completion:nil];
-            vc = vc.presentedViewController;
+        while (contentVC.presentedViewController) {
+            [contentVC dismissViewControllerAnimated:YES completion:nil];
+            contentVC = contentVC.presentedViewController;
         }
     }
     NSString *comesURl = url.absoluteString;
-   
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
         
@@ -278,7 +278,6 @@
     }];
    
     if ([comesURl hasPrefix:SYCPayKEY]) {
-        
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
@@ -289,15 +288,23 @@
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
         }else{
-            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
-            load.isFromSDK = YES;
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
+                SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+                newLoad.contentVC = contentVC ;
+                newLoad.paymentType = payMentTypeSDK;
+                newLoad.payCode = prePayID;
+                newLoad.isFromSDK = YES;
+                [navC presentViewController:newLoad animated:YES completion:nil];
+            }
         }
     }
+    
     if ([comesURl hasPrefix:WeiXinAppID]) {
         return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
     }
@@ -311,11 +318,12 @@
 //ios9之后废弃该方法
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
     //上次支付订单未完成，新的支付订单又来了
-    UIViewController *vc = _tabVC.firstViewC;
+    UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+    UIViewController *contentVC = [[navC viewControllers] lastObject];
     if (![[[NSUserDefaults standardUserDefaults]objectForKey:SDKIDkey]isEqualToString:finishSDKPay]) {
-        while (vc.presentedViewController) {
-            [vc dismissViewControllerAnimated:YES completion:nil];
-            vc = vc.presentedViewController;
+        while (contentVC.presentedViewController) {
+            [contentVC dismissViewControllerAnimated:YES completion:nil];
+            contentVC = contentVC.presentedViewController;
         }
     }
     NSString *comesURl = url.absoluteString;
@@ -334,9 +342,7 @@
     }];
     
     //短信
-    
     if ([comesURl hasPrefix:SYCPayKEY]) {
-        
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
         if ([SYCSystem judgeNSString:prePayID]) {
@@ -347,13 +353,20 @@
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
         if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:_tabVC.firstViewC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
         }else{
-            SYCLoadViewController *load = [[SYCLoadViewController alloc]init];
-            load.mainVC = _tabVC.firstViewC.CurrentChildVC;
-            load.isFromSDK = YES;
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:load];
-            [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+            if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
+                SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+                newLoad.contentVC = contentVC ;
+                newLoad.paymentType = payMentTypeSDK;
+                newLoad.payCode = prePayID;
+                newLoad.isFromSDK = YES;
+                [navC presentViewController:newLoad animated:YES completion:nil];
+            }
         }
     }
     if ([comesURl hasPrefix:WeiXinAppID]) {
@@ -367,6 +380,11 @@
     return YES;
 }
 #pragma mark ---推送
+
+- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings{
+    [application registerForRemoteNotifications];
+    
+}
 //打开app推送信息数目归零
 -(void)applicationWillResignActive:(UIApplication *)application{
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
@@ -378,7 +396,7 @@
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
-    //注册APNS失败
+    NSLog(@"注册APNS失败-------error-----%@",[error description]);
 }
 //应用在前台
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
@@ -427,28 +445,27 @@
     }
     
 }
-
-// 点击通知进入应用
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler {
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(nonnull UNNotificationResponse *)response withCompletionHandler:(nonnull void (^)(void))completionHandler{
     NSDictionary * userInfo = response.notification.request.content.userInfo;
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         [self dealWithPushMessage:userInfo];
     }
 }
 
+
 #pragma mark --- MiPushSDKDelegate
 -(void)miPushRequestSuccWithSelector:(NSString *)selector data:(NSDictionary *)data{
      NSLog(@"selector = %@,data = %@", selector,data);
    //请求成功，可在此获取regid
-    if ([selector isEqualToString:@"registerApp"]) {
-        // 获取regId
-        NSLog(@"regid = %@", data[@"regid"]);
+    if ([SYCSystem judgeNSString:data[@"regid"]]) {
+        [[NSUserDefaults standardUserDefaults]setObject:data[@"regid"] forKey:SYCRegIDKey];
         [SYCShareVersionInfo sharedVersion].regId = data[@"regid"];
     }
 }
 
 -(void)miPushRequestErrWithSelector:(NSString *)selector error:(int)error data:(NSDictionary *)data{
    //请求失败
+    NSLog(@"小米推送请求失败------selector = %@,data = %@",selector,data);
 }
 -(void)dealWithPushMessage:(NSDictionary*)userInfo{
     NSString *title = [userInfo objectForKey:@"push_title"];

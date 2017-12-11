@@ -85,11 +85,17 @@ extern NSString *const shareNotify;
 extern NSString *const dismissShareNotify;
 
 extern NSString *const showPhotoNotify;
+extern NSString *const LoadAgainNotify;
+extern NSString *const guidenceNotify;
 extern NSString *const photoArrkey;
 extern NSString *const defaultPhotoIndexKey;
 extern NSString *const SDKIDkey;
 extern NSString *const finishSDKPay;
 extern NSString *const pushMessageTypePage;
+extern NSString *const versionCode;
+extern NSString *const GuidenceImagesKey;
+extern NSString * const SYCVersionCode;
+extern NSString *const SYCRegIDKey;
 @interface SYCSystem : NSObject
 +(NSString*)baseURL;
 +(NSString*)imagLoadURL;
@@ -99,7 +105,7 @@ extern NSString *const pushMessageTypePage;
 +(BOOL)judgeNSString:(NSString*)str;
 +(NSURL*)appUrl:(CDVViewController*)CDV;
 +(NSString *)loaclResourcePath;
-+(NSMutableArray*)guiderImageS;
+
 +(BOOL)connectedToNetwork;
 +(NSString*)getNetworkType;
 
@@ -108,6 +114,9 @@ extern NSString *const pushMessageTypePage;
 +(CGFloat)deviceWidth;
 +(CGFloat)deviceHeigth;
 
++(NSString*)guidenceImageName:(NSString*)iName;
++(NSMutableArray*)guiderImageS;
++(NSMutableArray*)NewGuiderImageS;
 //分解url参数
 +(NSDictionary *)dealWithURL:(NSString*)url;
 
