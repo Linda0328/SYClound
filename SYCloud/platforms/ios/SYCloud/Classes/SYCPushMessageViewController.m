@@ -19,17 +19,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
+//    UIColor *color = [UIColor colorWithHexString:@"458DEF"];
 //    UINavigationBar *bar = [UINavigationBar appearance];
 //    UIImage *imageOrigin = [UIImage imageNamed:@"navBarBG"];
 //    UIImage *image = [imageOrigin image:imageOrigin withColor:color];
 //    [bar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
 //    [bar setShadowImage:[[UIImage alloc]init]];
     
-    UILabel *titleLab = [UILabel navTitle:_navTitle TitleColor:[UIColor colorWithHexString:@"ffffff"] titleFont:[UIFont systemFontOfSize:20]];
+    UILabel *titleLab = [UILabel navTitle:_navTitle TitleColor:[UIColor blackColor] titleFont:[UIFont systemFontOfSize:20]];
     self.navigationItem.titleView = titleLab;
     NSMutableArray *leftItems = [NSMutableArray array];
-    UIImage *backImg = [UIImage imageNamed:@"head_back"];
+    UIImage *backImg = [UIImage imageNamed:@"ps_left_back"];
     UIButton *backButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, backImg.size.width, backImg.size.height)];
     [backButton setImage:backImg forState:UIControlStateNormal];
     [backButton addTarget:self action:@selector(DismissPushMessage) forControlEvents:UIControlEventTouchUpInside];

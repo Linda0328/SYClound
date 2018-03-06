@@ -63,7 +63,9 @@ static void *eventBarItem = @"eventBarItem";
         self.navigationController.navigationBar.translucent = NO;
         self.navigationController.navigationBar.hidden = NO;
     }
+    
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -537,9 +539,12 @@ static void *eventBarItem = @"eventBarItem";
     if ([eventB.model.type isEqualToString:backType]) {
         if (_isBackToLast) {
             if (_popOverVC) {
-                [_popOverVC dismissViewControllerAnimated:YES completion:nil];
+                [_popOverVC dismissViewControllerAnimated:YES completion:^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
             }
             [self.navigationController popViewControllerAnimated:YES];
+            
         }else{
             NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
             if (index-2<0) {

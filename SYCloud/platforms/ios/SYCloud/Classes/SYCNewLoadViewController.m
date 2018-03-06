@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIImage *bgImage = [UIImage imageNamed:@"newLoadBg"];
+    UIImage *bgImage = isIphoneX?[UIImage imageNamed:@"loginBG1125@3x"]:[UIImage imageNamed:@"newLoadBg"];
     self.view.contentMode = UIViewContentModeScaleAspectFit;
     self.view.layer.contents = (__bridge id _Nullable)(bgImage.CGImage);
     UIImage *logo = [UIImage imageNamed:@"loadLogo"];
@@ -98,7 +98,7 @@
     _passWordTextF.secureTextEntry = YES;
     _passWordTextF.delegate = self;
    
-    UIFont *font0 = [UIFont systemFontOfSize:12*[SYCSystem PointCoefficient]];
+    UIFont *font0 = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
     NSString *Verfication = @"获取验证码";
     CGSize sizeV = [Verfication sizeWithAttributes:@{NSFontAttributeName:font0}];
     _getVerficationB = [[UIButton alloc]init];
@@ -223,11 +223,13 @@
         [_HUD hideAnimated:YES afterDelay:2.0f];
         return;
     }
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak __typeof(self)weakSelf = self;
     if (_isVerfication) {
         [SYCHttpReqTool loadWithMobile:_acountTextF.text verficationCode:_passWordTextF.text regID:[SYCShareVersionInfo sharedVersion].regId fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             dispatch_async(dispatch_get_main_queue(), ^{
+                [hud hideAnimated:YES];
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                     if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
@@ -271,7 +273,7 @@
                         strongSelf.HUD.label.text = [resultDic objectForKey:@"msg"];
                     }
                 }else{
-                    strongSelf.HUD.label.text = @"登录失败";
+                    strongSelf.HUD.label.text = @"请求超时，请检查网络";
                 }
                 [strongSelf.HUD showAnimated:YES];
                 [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];
@@ -283,6 +285,7 @@
     [SYCHttpReqTool loadWithMobile:_acountTextF.text password:_passWordTextF.text regID:[SYCShareVersionInfo sharedVersion].regId fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         dispatch_async(dispatch_get_main_queue(), ^{
+            [hud hideAnimated:YES];
             if ([resultCode isEqualToString:resultCodeSuccess]) {
                 NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                 if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
@@ -324,7 +327,7 @@
                     strongSelf.HUD.label.text = [resultDic objectForKey:@"msg"];
                 }
             }else{
-                strongSelf.HUD.label.text = @"登录失败";
+                strongSelf.HUD.label.text = @"请求超时，请检查网络";
             }
             [strongSelf.HUD showAnimated:YES];
             [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];
@@ -352,9 +355,12 @@
 -(void)getVerfication:(UIButton*)button{
     
     if ([SYCSystem isMobilePhoneOrtelePhone:_acountTextF.text]) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.label.text = @"正在发送验证码";
         __weak __typeof(self)weakSelf = self;
-        [SYCHttpReqTool getVerficationCodeWithMobile:_acountTextF.text forUseCode:[NSString stringWithFormat:@"%@",@(getCaptchaLoad)] fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        [SYCHttpReqTool newGetVerficationCodeWithMobile:_acountTextF.text forUseCode:[NSString stringWithFormat:@"%@",@(getCaptchaLoad)] fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
+             [hud hideAnimated:YES];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
@@ -365,7 +371,7 @@
                         strongSelf.HUD.label.text = [resultDic objectForKey:@"msg"];
                     }
                 }else{
-                    strongSelf.HUD.label.text = @"获取验证码失败";
+                     strongSelf.HUD.label.text = @"请求超时，请检查网络";
                 }
                 [strongSelf.HUD showAnimated:YES];
                 [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];

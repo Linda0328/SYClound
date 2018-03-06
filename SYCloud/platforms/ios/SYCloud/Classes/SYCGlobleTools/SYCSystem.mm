@@ -12,9 +12,12 @@
 #import "sys/utsname.h"
 #import <netinet/in.h>
 #import <SystemConfiguration/SystemConfiguration.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import "Reachability.h"
 static NSString * const SYCloudTestBaseURL = @"http://yun.test.shengyuan.cn:7360"; //测试服务器
 static NSString * const SYCloudLocalBaseURLJW = @"http://172.16.0.143:7360"; //本地服务器
 static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
+static NSString * const SYCloudLocalBaseURZP = @"http://192.168.0.100";
 //static NSString * const SYCloudFormalBaseURL = @"http://yun.shengyuan.cn"; //正式服务器
 static NSString * const SYCloudFormalBaseURL = @"http://www.yuanpay.xin"; //正式服务器
 //static NSString * const SYCloudImageLoadBaseURL = @"http://yun.img.shengyuan.cn"; //正式服务器
@@ -101,7 +104,7 @@ NSString *const finishSDKPay = @"finishSDKPay";
 //push message type
 NSString *const pushMessageTypePage = @"page";
 NSString *const pushNotify = @"pushNotify";
-NSString * const SYCVersionCode = @"1.0.4";
+NSString *const SYCVersionCode = @"1.0.4";
 NSString *const versionCode = @"versionCode";
 NSString *const GuidenceImagesKey = @"GuidenceImages";
 NSString *const SYCRegIDKey = @"RegIDKey";
@@ -111,6 +114,7 @@ NSString *const SYCRegIDKey = @"RegIDKey";
     #ifdef DEBUG
 //     baseURL = SYCloudLocalBaseURLJW;
 //      baseURL = SYCloudLocalBaseURLTH;
+//    baseURL = SYCloudLocalBaseURZP;
       baseURL = SYCloudTestBaseURL;
       [SYCShareVersionInfo sharedVersion].formal = NO;
     #else
@@ -318,6 +322,44 @@ NSString *const SYCRegIDKey = @"RegIDKey";
     BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
     return (isReachable && !needsConnection) ? YES : NO;
 }
++ (NSString *)getNetType
+{
+    Reachability *reachability   = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    NSString *net = @"当前无网路连接";
+    if ( ReachableViaWiFi ==internetStatus) {
+        net = @"WIFI";
+    }
+    if ( ReachableViaWWAN ==internetStatus) {
+        CTTelephonyNetworkInfo *info = [[CTTelephonyNetworkInfo alloc] init];
+        NSString *currentStatus = info.currentRadioAccessTechnology;
+        
+        if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyGPRS"]) {
+            net = @"GPRS";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyEdge"]) {
+            net = @"2.75G EDGE";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyWCDMA"]){
+            net = @"3G";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyHSDPA"]){
+            net = @"3.5G HSDPA";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyHSUPA"]){
+            net = @"3.5G HSUPA";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyCDMA1x"]){
+            net = @"2G";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyCDMAEVDORev0"]){
+            net = @"3G";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyCDMAEVDORevA"]){
+            net = @"3G";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyCDMAEVDORevB"]){
+            net = @"3G";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyeHRPD"]){
+            net = @"HRPD";
+        }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyLTE"]){
+            net = @"4G";
+        }
+    }
+    return net;
+}
 +(NSString*)getNetworkType{
     NSString *networkType = nil;
     
@@ -353,12 +395,13 @@ NSString *const SYCRegIDKey = @"RegIDKey";
     return networkType;
 }
 +(CGFloat)PointCoefficient{
-    if ([[self class]deviceHeigth]<heightForFivethSeries+1) {
+    if (([[self class]deviceHeigth]<heightForFivethSeries+1)||isIphoneX) {
         return 0.845;
     }
     if ([[self class]deviceHeigth]>heightForSixSeries) {
         return 1.104;
     }
+    
     return 1.0;
 }
 +(NSDictionary *)dealWithURL:(NSString*)url{

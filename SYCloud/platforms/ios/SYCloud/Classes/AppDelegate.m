@@ -52,12 +52,12 @@
 #import "WXApi.h"
 #import "WXApiManager.h"
 #import <TencentOpenAPI/TencentOAuth.h>
-#import "QQManager.h"
 #import "MiPushSDK.h"
 #import "SYCPushMessageViewController.h"
 #import "SYCNewLoadViewController.h"
 #import "SYCNewGuiderViewController.h"
 #import <UserNotifications/UserNotifications.h>
+#import "QQManager.h"
 @interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
@@ -74,7 +74,8 @@
     if (!ret) {
         NSLog(@"BaiduMap manager start failed");
     }
-
+    [[UINavigationBar appearance] setTranslucent:NO];
+    [UITabBar appearance].translucent = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
     self.hostReach = [Reachability reachabilityWithHostName:@"www.baidu.com"];
     [self.hostReach startNotifier];
@@ -87,8 +88,11 @@
     [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     //手机QQ权限注册
     [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
+   
     //小米推送
     [MiPushSDK registerMiPush:self type:0 connect:YES];
+    
+    
     if([[UIDevice currentDevice].systemVersion doubleValue]>= 10.0){
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
@@ -98,6 +102,7 @@
                 }];
             }
         }];
+       
         [MiPushSDK registerMiPush:self type:0 connect:YES];
         center.delegate = self;
     }else{
@@ -249,7 +254,9 @@
     UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:rec];
     self.window.rootViewController = navC;
 }
-
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(nullable UIWindow *)window{
+    return UIInterfaceOrientationMaskPortrait;
+}
 -(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options{
     //上次支付订单未完成，新的支付订单又来了
     UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
@@ -266,17 +273,16 @@
         
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
-        
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-        [dic setObject:AliPaySuccess forKey:paymentResultCodeKey];
+        [dic setObject:AliPaySuccess forKey:@"resultCode"];
         if (![resultStatus isEqualToString:@"9000"]) {
-            [dic setObject:AliPayFail forKey:paymentResultCodeKey];
+            [dic setObject:AliPayFail forKey:@"resultCode"];
         }
         [dic setObject:resultContent forKey:@"resultContent"];
         [[NSNotificationCenter defaultCenter]postNotificationName:AliPayResult object:dic];
-
     }];
-   
+    
+    //短信
     if ([comesURl hasPrefix:SYCPayKEY]) {
         NSDictionary * dic = [SYCSystem dealWithURL:url.absoluteString];
         NSString *prePayID = [dic objectForKey:SYCPrepayIDkey];
@@ -287,28 +293,35 @@
             [SYCShareVersionInfo sharedVersion].paymentSDKID = prePayID;
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
-        if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
-            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
-            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
-            [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+        if ([self.window.rootViewController isKindOfClass:[SYCNewLoadViewController class]]) {
+            SYCNewLoadViewController *newLoad = (SYCNewLoadViewController*)self.window.rootViewController;
+            newLoad.paymentType = payMentTypeSDK;
+            newLoad.payCode = prePayID;
+            newLoad.isFromSDK = YES;
         }else{
-            UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
-            SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
-            if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
-                SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
-                newLoad.contentVC = contentVC ;
-                newLoad.paymentType = payMentTypeSDK;
-                newLoad.payCode = prePayID;
-                newLoad.isFromSDK = YES;
-                [navC presentViewController:newLoad animated:YES completion:nil];
+            if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].token]&&![[SYCShareVersionInfo sharedVersion].token isEqualToString:@"unauthorized"]) {
+                UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+                SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+                [[NSNotificationCenter defaultCenter] postNotificationName:PayImmedateNotify object:[SYCShareVersionInfo sharedVersion].paymentSDKID userInfo:@{mainKey:contentVC.CurrentChildVC,PreOrderPay:payMentTypeSDK}];
+            }else{
+                UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
+                SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
+                if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
+                    SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+                    newLoad.contentVC = contentVC ;
+                    newLoad.paymentType = payMentTypeSDK;
+                    newLoad.payCode = prePayID;
+                    newLoad.isFromSDK = YES;
+                    [navC presentViewController:newLoad animated:YES completion:nil];
+                }
             }
         }
+        
     }
-    
     if ([comesURl hasPrefix:WeiXinAppID]) {
         return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
     }
-
+    
     if ([comesURl hasPrefix:[@"tencent" stringByAppendingString:QQAppID]])
     {
         return [QQApiInterface handleOpenURL:url delegate:[QQManager sharedManager]];;
@@ -474,10 +487,11 @@
     if ([type isEqualToString:pushMessageTypePage]) {
         SYCPushMessageViewController *viewC =[[SYCPushMessageViewController alloc]init];
         viewC.navTitle = title;
-        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-113);
+        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-49);
         viewC.view.frame =rect;
         MainViewController *mainViewC = [[MainViewController alloc]init];
         mainViewC.startPage = url;
+        mainViewC.isPush = YES;
         mainViewC.view.frame = rect;
         [viewC.view addSubview:mainViewC.view];
         [viewC addChildViewController:mainViewC];

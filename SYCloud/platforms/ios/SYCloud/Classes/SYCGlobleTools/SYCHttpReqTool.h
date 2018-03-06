@@ -25,6 +25,7 @@ extern NSString * const resultCodeSuccess;
 +(void)PswSetOrNot:(void (^)(NSString *resultCode,BOOL resetPsw))completionHandler;
 +(void)PswSet:(NSString*)psw completion:(void (^)(NSString *resultCode,BOOL resetPsw))completionHandler;
 +(void)PayPswResponseUrl:(NSString*)url pswParam:(NSString*)pswParam password:(NSString*)password parmaDic:(NSDictionary*)paramDic completion:(void (^)(NSString *resultCode,BOOL success,NSString *msg,NSDictionary *successDic))completionHandler;
++(void)newAjaxResponseUrl:(NSString*)url requestType:(NSString*)type isSignature:(BOOL)ISsignature parmaDic:(NSMutableDictionary*)params completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 +(void)ajaxResponseUrl:(NSString*)url requestType:(NSString*)type isSignature:(BOOL)ISsignature parmaDic:(NSDictionary*)params completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //面对面支付请求用户支付方式
 +(void)payImmediatelyInfoWithpayAmount:(NSString*)amount completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
@@ -35,6 +36,7 @@ extern NSString * const resultCodeSuccess;
 +(void)blindYKTwithCardNo:(NSString*)cardNo captcha:(NSString*)captcha prior:(NSString*)prior completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //获取到支付订单信息
 +(void)requestPayPluginInfoWithPrepareID:(NSString*)prepareId completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
++(void)newGetVerficationCodeWithMobile:(NSString*)phoneNum forUseCode:(NSString*)code fromTerminal:(NSString*)terminal completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //获取验证码
 +(void)getVerficationCodeWithMobile:(NSString*)phoneNum forUseCode:(NSString*)code fromTerminal:(NSString*)terminal completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler;
 //手机密码登录

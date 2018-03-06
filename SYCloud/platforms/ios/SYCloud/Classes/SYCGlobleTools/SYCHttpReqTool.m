@@ -11,6 +11,7 @@
 #import "SYCShareVersionInfo.h"
 #import "NSString+Helper.h"
 #import "SYCUUID.h"
+#import "AFNetworking.h"
 static NSString * const SYVersionParam = @"/app/common/version.jhtml?_";
 static NSString * const SYMainParam = @"/app_resources/app/index.json?_";
 static NSString * const SYCPswSetOrNot = @"/app/payment/member_pay_password.jhtml?";
@@ -38,6 +39,7 @@ NSString * const POSTRequest = @"POST";
 NSString * const resultRequestErrorKey = @"RequestError";
 NSString * const resultJsonErrorKey = @"JsonError";
 NSString * const resultSuccessKey = @"RequestSucsess";
+NSString * const resultErrorKey = @"RequestError";
 
 NSString * const resultCodeKey = @"RequestCode";
 NSString * const resultCodeRequestError = @"RequestErrorCode";
@@ -45,6 +47,46 @@ NSString * const resultCodeJsonError = @"JsonErrorCode";
 NSString * const resultCodeSuccess = @"SucsessCode";
 
 @implementation SYCHttpReqTool
++(void)newVersionInfo:(void (^)(NSString *resultCode,NSMutableDictionary *result ))completionHandler{
+    __block NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *baseURL = [SYCSystem baseURL];
+    [SYCSystem imagLoadURL];
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    NSString *token = [def objectForKey:loadToken];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@&%@=%@&%@=%@",SYVersionParam,[SYCSystem secondsForNow],SYCToken,token,@"vcode",SYCVersionCode];
+//    NSURL *url = [NSURL URLWithString:reqUrl];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager GET:reqUrl parameters:nil progress:^(NSProgress * _Nonnull downloadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSError *err = nil;
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&err];
+        if (err) {
+            [result setObject:[err description] forKey:resultJsonErrorKey];
+            resultCode = resultCodeJsonError;
+        }else{
+            [SYCShareVersionInfo sharedVersion].pageVersion = [NSString stringWithFormat:@"%@",[JSON objectForKey:@"pageVersion"]];
+            
+            [SYCShareVersionInfo sharedVersion].needUpdate = [[JSON objectForKey:@"needUpdate"] boolValue];
+            [SYCShareVersionInfo sharedVersion].indexVersion = [NSString stringWithFormat:@"%@",[JSON objectForKey:@"indexVersion"]];
+            [SYCShareVersionInfo sharedVersion].pagePackage = [JSON objectForKey:@"pagePackage"];
+            [result setObject:JSON forKey:resultSuccessKey];
+        }
+        [result setObject:resultCode forKey:resultCodeKey];
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        resultCode = resultCodeRequestError;
+        [result setObject:[error description] forKey:resultRequestErrorKey];
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+    
+}
 +(NSDictionary*)VersionInfo{
     NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
     NSString *resultCode = resultCodeSuccess;
@@ -52,7 +94,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     [SYCSystem imagLoadURL];
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
     NSString *token = [def objectForKey:loadToken];
-    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@&%@=%@&%@=%@",SYVersionParam,[SYCSystem secondsForNow],SYCToken,token,versionCode,SYCVersionCode];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@%@&%@=%@&%@=%@",SYVersionParam,[SYCSystem secondsForNow],SYCToken,token,@"vcode",SYCVersionCode];
     NSURL *url = [NSURL URLWithString:reqUrl];
     reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url];
@@ -63,20 +105,17 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     if (error) {
         [result setObject:[error description] forKey:resultRequestErrorKey];
         resultCode = resultCodeRequestError;
-        NSLog(@"---版本信息请求出错---%@",[error description]);
     }
     NSError *err = nil;
-    NSLog(@"responseMain : %@",response);
     NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
     backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-    NSLog(@"backDataMain : %@",backData);
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
     if (err) {
         [result setObject:[err description] forKey:resultJsonErrorKey];
         resultCode = resultCodeJsonError;
-        NSLog(@"---数据解析出错---%@",[err description]);
+        
     }else{
         [SYCShareVersionInfo sharedVersion].pageVersion = [NSString stringWithFormat:@"%@",[dic objectForKey:@"pageVersion"]];
         
@@ -84,7 +123,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         [SYCShareVersionInfo sharedVersion].indexVersion = [NSString stringWithFormat:@"%@",[dic objectForKey:@"indexVersion"]];
         [SYCShareVersionInfo sharedVersion].pagePackage = [dic objectForKey:@"pagePackage"];
         [result setObject:dic forKey:resultSuccessKey];
-        NSLog(@"----解析结果--- : %@",dic);
+        
     }
     [result setObject:resultCode forKey:resultCodeKey];
     
@@ -95,7 +134,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSMutableDictionary *result = [[NSMutableDictionary alloc]init];
     NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
-    NSString *reqUrl = [baseURL stringByAppendingFormat:@"/app_resources/%@/app/index.json?_%@&%@=%@",SYCVersionCode,[SYCSystem secondsForNow],versionCode,SYCVersionCode];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"/app_resources/%@/app/index.json?_%@",SYCVersionCode,[SYCSystem secondsForNow]];
 //    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYMainParam];
     NSURL *url = [NSURL URLWithString:reqUrl];
     reqUrl = [reqUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -230,32 +269,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPMethod = @"POST";
     request.timeoutInterval = 10.0;
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
-//    NSURLResponse *response = nil;
-//    NSError *error = nil;
-//    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-//    if (error) {
-//        NSLog(@"---支付密码请求出错---%@",[error description]);
-//    }
-//    NSError *err = nil;
-//    NSLog(@"responseMain : %@",response);
-//    
-//    NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-//    backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-//    NSLog(@"backDataMain : %@",backData);
-//    
-//    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
-//    if (err) {
-//        NSLog(@"---数据解析出错---%@",[err description]);
-//    }else{
-//        
-//        NSLog(@"----解析结果--- : %@",dic);
-//    }
-//    NSString *code = [dic objectForKey:@"code"];
-//    if ([code isEqualToString:@"000000"]) {
-//        return YES;
-//    }
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         // 网络请求完成之后就会执行，NSURLSession自动实现多线程
@@ -376,10 +389,69 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     }
     [param setObject:[SYCShareVersionInfo sharedVersion].appVersion forKey:@"_version"];
     [param setObject:SYCChannel forKey:@"_channel"];
-    [param setObject:[SYCSystem getNetworkType] forKey:@"_network"];
+    [param setObject:[SYCSystem getNetType] forKey:@"_network"];
     [param setObject:[[SYCUUID shareUUID] getUUID] forKey:@"_regid"];
     [param setObject:[SYCSystem secondsForNow] forKey:@"_timestanp"];
     return param;
+}
++(void)newAjaxResponseUrl:(NSString*)url requestType:(NSString*)type isSignature:(BOOL)ISsignature parmaDic:(NSMutableDictionary*)params completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",url];
+    if (ISsignature) {
+        NSString *signature = [SYCSystem sinagureForReq:params];
+        [params setObject:signature forKey:@"_signdata"];
+    }
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    if ([type isEqualToString:POSTRequest]) {
+        [manager POST:reqUrl parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSError *err = nil;
+            NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                [result setObject:JSON forKey:resultSuccessKey];
+            }
+            if (completionHandler) {
+                completionHandler(resultCode,result);
+            }
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+            if (completionHandler) {
+                completionHandler(resultCode,result);
+            }
+        }];
+    }
+    if([type isEqualToString:GETRequest]){
+        [manager GET:reqUrl parameters:params progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSError *err = nil;
+            NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&err];
+            if (err) {
+                resultCode = resultCodeJsonError;
+                [result setObject:[err description] forKey:resultJsonErrorKey];
+            }else{
+                [result setObject:JSON forKey:resultSuccessKey];
+            }
+            if (completionHandler) {
+                completionHandler(resultCode,result);
+            }
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            resultCode = resultCodeRequestError;
+            [result setObject:[error description] forKey:resultRequestErrorKey];
+            if (completionHandler) {
+                completionHandler(resultCode,result);
+            }
+        }];
+    }
 }
 +(void)ajaxResponseUrl:(NSString*)url requestType:(NSString*)type isSignature:(BOOL)ISsignature parmaDic:(NSMutableDictionary*)params completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
     __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
@@ -419,7 +491,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
             // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
@@ -437,7 +508,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
             }
         } else {
             // 网络访问失败
-            NSLog(@"error=%@",error);
+
             resultCode = resultCodeRequestError;
             [result setObject:[error description] forKey:resultRequestErrorKey];
         }
@@ -896,6 +967,41 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     }];
     [dataTask resume];
 }
++(void)newGetVerficationCodeWithMobile:(NSString*)phoneNum forUseCode:(NSString*)code fromTerminal:(NSString*)terminal completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
+    __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    __block NSString *resultCode = resultCodeSuccess;
+    NSString *baseURL = [SYCSystem baseURL];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCGetVerfication];
+    NSMutableDictionary *paramDic = [[self class] commonParam];
+    [paramDic setObject:phoneNum forKey:@"mobile"];
+    [paramDic setObject:code forKey:@"code"];
+    [paramDic setObject:terminal forKey:@"terminal"];
+    NSString *signature = [SYCSystem sinagureForReq:paramDic];
+    [paramDic setObject:signature forKey:@"_signdata"];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager POST:reqUrl parameters:paramDic progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSError *err = nil;
+        NSDictionary *JSON = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:&err];
+        if (err) {
+            resultCode = resultCodeJsonError;
+            [result setObject:[err description] forKey:resultJsonErrorKey];
+        }else{
+            [result setObject:JSON forKey:resultSuccessKey];
+        }
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        resultCode = resultCodeRequestError;
+        [result setObject:[error description] forKey:resultRequestErrorKey];
+        if (completionHandler) {
+            completionHandler(resultCode,result);
+        }
+    }];
+}
 +(void)getVerficationCodeWithMobile:(NSString*)phoneNum forUseCode:(NSString*)code fromTerminal:(NSString*)terminal completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
     __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
     __block NSString *resultCode = resultCodeSuccess;
@@ -915,7 +1021,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
             param = [param stringByAppendingFormat:@"%@=%@&",key,[paramDic objectForKey:key]];
         }
     }
-    
     NSURL *url = [NSURL URLWithString:reqUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -923,31 +1028,23 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
-        NSLog(@"%@",[NSThread currentThread]);
-        
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
+            NSLog(@"请求结果-----%@",backData);
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
                 resultCode = resultCodeJsonError;
                 [result setObject:[err description] forKey:resultJsonErrorKey];
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
                 [result setObject:dic forKey:resultSuccessKey];
             }
         } else {
             // 网络访问失败
-            NSLog(@"error=%@",error);
             resultCode = resultCodeRequestError;
             [result setObject:[error description] forKey:resultRequestErrorKey];
         }
@@ -956,7 +1053,6 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         }
     }];
     [dataTask resume];
-    
 }
 +(void)loadWithMobile:(NSString*)phoneNum password:(NSString*)password regID:(NSString*)regId fromTerminal:(NSString*)systemType completion:(void (^)(NSString *resultCode,NSMutableDictionary *result))completionHandler{
     __block NSMutableDictionary *result = [NSMutableDictionary dictionary];

@@ -11,7 +11,7 @@
 #import "HexColor.h"
 #import "SYCSystem.h"
 float const cellHeight = 46.0f;
-static float const cellNum = 3;
+//static float const cellNum = 3;
 
 @interface SYCPopoverGroupViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong)UITableView *groupTable;
@@ -23,7 +23,7 @@ static float const cellNum = 3;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.85];
-    _groupTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, cellNum*cellHeight*[SYCSystem PointCoefficient])];
+    _groupTable = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, [_groupArr count]*cellHeight*[SYCSystem PointCoefficient])];
     _groupTable.delegate = self;
     _groupTable.dataSource = self;
     _groupTable.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.85];

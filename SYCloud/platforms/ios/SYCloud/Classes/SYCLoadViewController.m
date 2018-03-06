@@ -144,9 +144,8 @@
     
     if ([SYCSystem isMobilePhoneOrtelePhone:_phoneTextF.text]) {
         __weak __typeof(self)weakSelf = self;
-        [SYCHttpReqTool getVerficationCodeWithMobile:_phoneTextF.text forUseCode:[NSString stringWithFormat:@"%@",@(getCaptchaLoad)] fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        [SYCHttpReqTool newGetVerficationCodeWithMobile:_phoneTextF.text forUseCode:[NSString stringWithFormat:@"%@",@(getCaptchaLoad)] fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
-            NSLog(@"------%@",result);
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];

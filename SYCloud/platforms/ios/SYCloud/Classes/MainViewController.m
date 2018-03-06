@@ -48,6 +48,7 @@
 #import "QQManager.h"
 #import "SYCHttpReqTool.h"
 #import "NSObject+MJKeyValue.h"
+#import <Foundation/Foundation.h>
 @interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate,WXApiManagerDelegate,QQManagerDelegate>{
     BMKLocationService *_locationService;
 }
@@ -119,13 +120,17 @@
     }
     
 }
-
+-(UIViewController*)childViewControllerForHomeIndicatorAutoHidden{
+    return nil;
+}
+-(BOOL)prefersHomeIndicatorAutoHidden{
+    return YES;
+}
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-
     _locationTime = 0;
     self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -199,25 +204,24 @@
 -(void)viewWillLayoutSubviews{
     if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
     {
-        CGFloat height = [UIScreen mainScreen].bounds.size.height;
-        CGRect rect = [UIScreen mainScreen].bounds;
-        
-        if (_isRoot) {
-            if (_isHiddenNavBar) {
-                rect.size.height = height - 49;
+            CGFloat height = [UIScreen mainScreen].bounds.size.height;
+            CGRect rect = [UIScreen mainScreen].bounds;
+            if (_isRoot) {
+                if (_isHiddenNavBar) {
+                    rect.size.height = height - (isIphoneX?69:49);
+                }else{
+                    rect.size.height = height - (isIphoneX?82:56);
+                }
             }else{
-               rect.size.height = height -113;
+                if (!_isPush) {
+                    rect.size.height = height - (isIphoneX?49:32);
+                }
             }
-        }else{
-            if (!_isHiddenNavBar) {
-                 rect.size.height = height - 64;
-            }
-        }
-        self.view.frame = rect;
-        self.webView.frame = rect;
+            self.webView.frame = rect;
+            self.view.frame = rect;
     }
-    
 }
+
 -(void)LoadURL:(NSString*)url{
     self.wwwFolderName = @"www";
     if ([SYCSystem judgeNSString:url]) {

@@ -23,7 +23,7 @@
 #import "NSDictionary+CordovaPreferences.h"
 
 #import <objc/message.h>
-
+//#define isIPhoneX   CGRectEqualToRect([UIScreen mainScreen].bounds, CGRectMake(0, 0, 375, 812))
 @interface CDVUIWebViewEngine ()
 
 @property (nonatomic, strong, readwrite) UIView* engineWebView;
@@ -40,7 +40,13 @@
 {
     self = [super init];
     if (self) {
-        self.engineWebView = [[UIWebView alloc] initWithFrame:frame];
+        UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];
+//        if (isIPhoneX) {
+//            if (@available(iOS 11.0, *)) {
+//                webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+//            }
+//        }
+        self.engineWebView = webView;
         NSLog(@"Using UIWebView");
     }
 

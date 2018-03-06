@@ -48,6 +48,7 @@ typedef void (^pushUnrechableBlock)();
 @property (nonatomic,assign)BOOL isChild;
 @property (nonatomic,assign)BOOL isHiddenNavBar;
 @property (nonatomic,assign)BOOL enableReload;
+@property (nonatomic,assign)BOOL isPush;
 @property (nonatomic,copy)NSString *scanResult;
 
 

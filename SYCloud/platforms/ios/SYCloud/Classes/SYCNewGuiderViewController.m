@@ -21,7 +21,7 @@ static NSString *versionKey = @"versionKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIImage *bgImage = [UIImage imageNamed:@"GuiderBg"];
+    UIImage *bgImage = isIphoneX?[UIImage imageNamed:@"ydBG1125"]:[UIImage imageNamed:@"GuiderBg"];
     self.view.contentMode = UIViewContentModeScaleAspectFit;
     self.view.layer.contents = (__bridge id _Nullable)(bgImage.CGImage);
     CGFloat ScreenHeight = [UIScreen mainScreen].bounds.size.height;

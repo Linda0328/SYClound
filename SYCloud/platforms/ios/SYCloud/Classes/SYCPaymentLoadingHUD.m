@@ -8,7 +8,7 @@
 
 #import "SYCPaymentLoadingHUD.h"
 static CGFloat lineWidth = 4.0f;
-#define BlueColor [UIColor colorWithRed:16/255.0 green:142/255.0 blue:233/255.0 alpha:1]
+#define BlueColor [UIColor colorWithRed:207/255.0 green:175/255.0 blue:114/255.0 alpha:1]
 @implementation SYCPaymentLoadingHUD
 {
     CADisplayLink *_link;

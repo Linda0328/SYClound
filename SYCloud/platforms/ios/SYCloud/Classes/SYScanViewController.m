@@ -40,7 +40,7 @@
     self.navigationItem.titleView = titleLab;
     
     UIImage *image = [UIImage imageNamed:@"ps_left_back"];
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, image.size.width+10*[SYCSystem PointCoefficient], image.size.height)];
+    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, image.size.width+20*[SYCSystem PointCoefficient], image.size.height+5*[SYCSystem PointCoefficient])];
     [button setImage:image forState:UIControlStateNormal];
     [button addTarget:self action:@selector(backToLast) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:button];
@@ -61,8 +61,8 @@
     //CGrectmake()四个值都是0-1的范围，而且与一般的rect对应不同，x、y是互相的，width、height也会互相的
     CGFloat width = [UIScreen mainScreen].bounds.size.width;
     CGFloat height = [UIScreen mainScreen].bounds.size.height;
-    CGRect rect = CGRectMake(0.1*width, 0.15*height, width * 0.8f, height * 0.45f);
-    [_output setRectOfInterest:CGRectMake(0.15+64/height, 0.1, 0.45, 0.8)];
+    CGRect rect = CGRectMake(0.1*width, 0.3*height-(isIphoneX?88:64), width * 0.8f, height * 0.4f);
+    [_output setRectOfInterest:CGRectMake(0.3-(isIphoneX?88:64)/height, 0.1, 0.4, 0.8)];
     _session = [[AVCaptureSession alloc] init];
     [_session setSessionPreset:AVCaptureSessionPresetHigh];
     //直接输入和输出
@@ -83,7 +83,7 @@
     
     //扫描框
     _boxView = [[UIView alloc] initWithFrame:rect];
-    _boxView.center = self.view.center;
+//    _boxView.center = self.view.center;
     _boxView.layer.borderColor = [UIColor whiteColor].CGColor;
     _boxView.layer.borderWidth = 1.0f;
     [self.view addSubview:_boxView];

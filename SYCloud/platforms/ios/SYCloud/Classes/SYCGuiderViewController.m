@@ -6,7 +6,7 @@
 //
 
 #import "SYCGuiderViewController.h"
-
+#import "SYCSystem.h"
 @interface SYCGuiderViewController ()
 
 @end
@@ -16,7 +16,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    UIImage *bgImage = [UIImage imageNamed:@"GuiderBg"];
+    UIImage *bgImage = isIphoneX?[UIImage imageNamed:@"ydBG1125"]:[UIImage imageNamed:@"GuiderBg"];
     self.view.contentMode = UIViewContentModeScaleAspectFit;
     self.view.layer.contents = (__bridge id _Nullable)(bgImage.CGImage);
     

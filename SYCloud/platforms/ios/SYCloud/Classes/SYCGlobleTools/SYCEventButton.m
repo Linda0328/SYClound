@@ -28,18 +28,14 @@ static CGFloat font = 17.0f;
         self.titleLabel.font = [UIFont systemFontOfSize:font];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self setTitle:model.name forState:UIControlStateNormal];
-        
         [self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     if (![SYCSystem judgeNSString:model.name]&&[SYCSystem judgeNSString:model.ico]) {
         UIImage *image = [UIImage imageNamed:model.ico];
         CGFloat width = image.size.width;
         CGFloat height = image.size.height;
-        self.frame = CGRectMake(0, 0, width+10*[SYCSystem PointCoefficient], height);
+        self.frame = CGRectMake(0, 0, width+20*[SYCSystem PointCoefficient], height+5*[SYCSystem PointCoefficient]);
         [self setImage:image forState:UIControlStateNormal];
     }
-//    if ([SYCSystem judgeNSString:model.name]&&![SYCSystem judgeNSString:model.ico]) {
-//        
-//    }
 }
 @end

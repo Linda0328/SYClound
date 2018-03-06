@@ -10,6 +10,7 @@
 #import "MRZoomScrollView.h"
 #import "UIImageView+AFNetworking.h"
 #import "HexColor.h"
+#import "SYCSystem.h"
 @interface SYCScanImagesViewController ()<UIScrollViewDelegate,MRZoomScrollViewDelegate>
 @property (nonatomic,strong)UIPageControl *pageC;
 
@@ -20,6 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    CGFloat pageHeight = 60*[SYCSystem PointCoefficient];
     CGSize screenSize = [[UIScreen mainScreen]bounds].size;
     UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     [scrollView setContentSize:CGSizeMake([_imgs count]*screenSize.width, screenSize.height)];
@@ -43,8 +45,22 @@
         NSURLRequest *request = [NSURLRequest requestWithURL:imgURL];
 //        [UIImage imageNamed:@"merchantDefaultImage"]
         __weak __typeof(scrollV.imageView)weakImg = scrollV.imageView;
+        
         [scrollV.imageView setImageWithURLRequest:request placeholderImage:nil success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+            CGFloat point = image.size.height/image.size.width;
+            CGFloat sPoint = (screenSize.height-2*pageHeight)/screenSize.width;
             __strong __typeof(weakImg)strongImg = weakImg;
+            CGRect frame = strongImg.frame;
+            CGFloat height = screenSize.height-2*pageHeight;
+            CGFloat width = screenSize.width;
+            if (point>sPoint) {
+                width = height*point>width?width:height*point;
+            }else{
+                height = width*point>height?height:width*point;
+            }
+            frame.size = CGSizeMake(width, height);
+            strongImg.frame = frame;
+            strongImg.center = CGPointMake(screenSize.width/2, screenSize.height/2);
             [strongImg setImage:image];
             [indicator stopAnimating];
         } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
@@ -54,7 +70,7 @@
         scrollV.customDelegate = self;
     }
     [scrollView setContentOffset:CGPointMake(_index*screenSize.width, 0)];
-    _pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(60, screenSize.height-60, screenSize.width-120, 40)];
+    _pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(pageHeight, screenSize.height-pageHeight, screenSize.width-2*pageHeight, pageHeight-20*[SYCSystem PointCoefficient])];
     _pageC.numberOfPages = [_imgs count];
     _pageC.currentPage = _index;
     _pageC.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"45bdef"];

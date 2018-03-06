@@ -35,7 +35,7 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     __weak __typeof(self)weakSelf = self;
     __block NSDictionary *successDic = nil;
     if([SYCSystem connectedToNetwork]){
-        [SYCHttpReqTool ajaxResponseUrl:url requestType:type isSignature:NO parmaDic:params completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        [SYCHttpReqTool newAjaxResponseUrl:url requestType:type isSignature:NO parmaDic:params completion:^(NSString *resultCode, NSMutableDictionary *result) {
              __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([resultCode isEqualToString:resultRequestErrorKey]) {
                 connect = NO;
@@ -74,7 +74,7 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     NSString *url= [command.arguments firstObject];
     NSString *type = [command.arguments objectAtIndex:1];
     NSMutableDictionary *params = [command.arguments objectAtIndex:2];
-    NSLog(@"safeAjax------%@---",params);
+    NSLog(@"safeAjax------%@---",url);
     if (![SYCSystem judgeNSString:url] || ![SYCSystem judgeNSString:type]) {
         Code = PARSE_ERROR_CODE;
         Msg = PARSE_ERROR_MSG;
@@ -86,7 +86,7 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     __block NSDictionary *successDic = nil;
     if([SYCSystem connectedToNetwork]){
         
-        [SYCHttpReqTool ajaxResponseUrl:url requestType:type isSignature:YES parmaDic:params completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        [SYCHttpReqTool newAjaxResponseUrl:url requestType:type isSignature:YES parmaDic:params completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([resultCode isEqualToString:resultCodeRequestError]) {
                 connect = NO;

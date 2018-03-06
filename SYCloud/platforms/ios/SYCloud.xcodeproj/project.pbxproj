@@ -34,6 +34,7 @@
 		D95291F9B81F44CD89DC98DF /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = A884C9C097864323869DE722 /* Toast+UIView.m */; };
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
+		EE04247E204D3D3F00C402D1 /* loginBG1125@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE04247D204D3D3F00C402D1 /* loginBG1125@3x.png */; };
 		EE4880BD1EB4435700D6A675 /* SYCPayInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880BC1EB4435700D6A675 /* SYCPayInfoModel.m */; };
 		EE4880C01EB46FE900D6A675 /* SYCPayOrderInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880BF1EB46FE900D6A675 /* SYCPayOrderInfoModel.m */; };
 		EE4880C31EB4718D00D6A675 /* SYCPayTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880C21EB4718D00D6A675 /* SYCPayTypeModel.m */; };
@@ -62,7 +63,6 @@
 		EE7149CA1FD0E15F00F891C1 /* SYCArcView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7149C91FD0E15F00F891C1 /* SYCArcView.m */; };
 		EE7149CD1FD0E6E200F891C1 /* SYCAuthPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7149CC1FD0E6E200F891C1 /* SYCAuthPlugin.m */; };
 		EE7149D01FD102E200F891C1 /* SYCGuidencePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7149CF1FD102E200F891C1 /* SYCGuidencePlugin.m */; };
-		EE7149D81FD108F600F891C1 /* guidence_2_320.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7149D21FD108F500F891C1 /* guidence_2_320.png */; };
 		EE7149D91FD108F600F891C1 /* guidence_2_375@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7149D31FD108F500F891C1 /* guidence_2_375@2x.png */; };
 		EE7149DA1FD108F600F891C1 /* guidence_1_540@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7149D41FD108F600F891C1 /* guidence_1_540@3x.png */; };
 		EE7149DB1FD108F600F891C1 /* guidence_2_540@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7149D51FD108F600F891C1 /* guidence_2_540@3x.png */; };
@@ -80,18 +80,14 @@
 		EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */; };
 		EE76924D1FCF95DE0066F007 /* SYCNewGuiderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE76924C1FCF95DE0066F007 /* SYCNewGuiderViewController.m */; };
 		EE76925E1FCF997B0066F007 /* yd320_2.png in Resources */ = {isa = PBXBuildFile; fileRef = EE76924F1FCF997A0066F007 /* yd320_2.png */; };
-		EE76925F1FCF997B0066F007 /* yd320_1.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692501FCF997A0066F007 /* yd320_1.png */; };
 		EE7692601FCF997B0066F007 /* yd375_4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692511FCF997A0066F007 /* yd375_4@2x.png */; };
 		EE7692611FCF997B0066F007 /* yd375_5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692521FCF997A0066F007 /* yd375_5@2x.png */; };
 		EE7692621FCF997B0066F007 /* yd320_5.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692531FCF997A0066F007 /* yd320_5.png */; };
 		EE7692631FCF997B0066F007 /* yd375_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692541FCF997A0066F007 /* yd375_3@2x.png */; };
-		EE7692641FCF997B0066F007 /* yd540_2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692551FCF997A0066F007 /* yd540_2@3x.png */; };
-		EE7692651FCF997B0066F007 /* yd320_3.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692561FCF997B0066F007 /* yd320_3.png */; };
 		EE7692661FCF997B0066F007 /* yd320_4.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692571FCF997B0066F007 /* yd320_4.png */; };
 		EE7692671FCF997B0066F007 /* yd540_3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692581FCF997B0066F007 /* yd540_3@3x.png */; };
 		EE7692681FCF997B0066F007 /* yd540_1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE7692591FCF997B0066F007 /* yd540_1@3x.png */; };
 		EE7692691FCF997B0066F007 /* yd375_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE76925A1FCF997B0066F007 /* yd375_2@2x.png */; };
-		EE76926A1FCF997B0066F007 /* yd540_4@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE76925B1FCF997B0066F007 /* yd540_4@3x.png */; };
 		EE76926B1FCF997B0066F007 /* yd540_5@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE76925C1FCF997B0066F007 /* yd540_5@3x.png */; };
 		EE76926C1FCF997B0066F007 /* yd375_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE76925D1FCF997B0066F007 /* yd375_1@2x.png */; };
 		EE7913CB1F3163A1002E4317 /* SYCSharePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7913CA1F3163A1002E4317 /* SYCSharePlugin.m */; };
@@ -273,6 +269,7 @@
 		EED6FB791E94E2430061B6AC /* 640x960-1.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB701E94E2430061B6AC /* 640x960-1.png */; };
 		EED6FB7A1E94E2430061B6AC /* 640x960-2.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB711E94E2430061B6AC /* 640x960-2.png */; };
 		EED6FB7B1E94E2430061B6AC /* 640x960-3.png in Resources */ = {isa = PBXBuildFile; fileRef = EED6FB721E94E2430061B6AC /* 640x960-3.png */; };
+		EEE18D88204E251C00308CD2 /* ydBG1125@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EEE18D87204E251C00308CD2 /* ydBG1125@3x.png */; };
 		EEEAC04D1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EEEAC04C1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m */; };
 		F20F5B654CD345A8B0DF0BFA /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CCD32EA3D984DFDBCA99FE2 /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -368,6 +365,7 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		EE04247D204D3D3F00C402D1 /* loginBG1125@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBG1125@3x.png"; sourceTree = "<group>"; };
 		EE4880BB1EB4435700D6A675 /* SYCPayInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayInfoModel.h; sourceTree = "<group>"; };
 		EE4880BC1EB4435700D6A675 /* SYCPayInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPayInfoModel.m; sourceTree = "<group>"; };
 		EE4880BE1EB46FE900D6A675 /* SYCPayOrderInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderInfoModel.h; sourceTree = "<group>"; };
@@ -794,6 +792,7 @@
 		EED6FB701E94E2430061B6AC /* 640x960-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x960-1.png"; sourceTree = "<group>"; };
 		EED6FB711E94E2430061B6AC /* 640x960-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x960-2.png"; sourceTree = "<group>"; };
 		EED6FB721E94E2430061B6AC /* 640x960-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "640x960-3.png"; sourceTree = "<group>"; };
+		EEE18D87204E251C00308CD2 /* ydBG1125@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ydBG1125@3x.png"; sourceTree = "<group>"; };
 		EEEAC04B1E9B358D00AB7183 /* SYCPaymentCloudPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentCloudPlugin.h; sourceTree = "<group>"; };
 		EEEAC04C1E9B358D00AB7183 /* SYCPaymentCloudPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentCloudPlugin.m; sourceTree = "<group>"; };
 		F4EE1BD21CB1415CB4C2AD40 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = "cordova-plugin-file/CDVLocalFilesystem.h"; sourceTree = "<group>"; };
@@ -928,6 +927,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EE04247C204D3D0700C402D1 /* iphonexBG */,
 				EE7149D11FD108DE00F891C1 /* guidenceImages */,
 				EE76924E1FCF99500066F007 /* launchPadNewImages */,
 				EE629EDB1E9624CA00832C36 /* AlipaySDK.bundle */,
@@ -1043,6 +1043,15 @@
 				301BF56E109A69640062928A /* www */,
 			);
 			name = Staging;
+			sourceTree = "<group>";
+		};
+		EE04247C204D3D0700C402D1 /* iphonexBG */ = {
+			isa = PBXGroup;
+			children = (
+				EEE18D87204E251C00308CD2 /* ydBG1125@3x.png */,
+				EE04247D204D3D3F00C402D1 /* loginBG1125@3x.png */,
+			);
+			path = iphonexBG;
 			sourceTree = "<group>";
 		};
 		EE629EF51E962CC100832C36 /* thirdlibs */ = {
@@ -1172,14 +1181,6 @@
 				EE8B32AC1F41480100CC065D /* Info.plist */,
 			);
 			path = SYCNotificationService;
-			sourceTree = "<group>";
-		};
-		EE8B32BA1F417A6D00CC065D /* MiPushSDK */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = MiPushSDK;
-			path = SDK;
 			sourceTree = "<group>";
 		};
 		EE8CCD821F3EA6CD000CD9A7 /* CustomViews */ = {
@@ -1466,7 +1467,6 @@
 			children = (
 				EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */,
 				EEB443621FDB7AAF005B9C54 /* MiPushSDK.h */,
-				EE8B32BA1F417A6D00CC065D /* MiPushSDK */,
 				EE915B1F1F2AD6DA0046E24B /* SSZipArchive */,
 				EE8416581EEBE2930032B37F /* WeiXin */,
 				EE629EF51E962CC100832C36 /* thirdlibs */,
@@ -1881,7 +1881,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EE95003E1E7F804A00C35C2A /* LICENSE in Resources */,
-
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				EED6FB771E94E2430061B6AC /* 640x1136-2@2x.png in Resources */,
 				EE7149DB1FD108F600F891C1 /* guidence_2_540@3x.png in Resources */,
@@ -1889,6 +1888,7 @@
 				EE95004D1E7F804A00C35C2A /* LICENSE in Resources */,
 				EE629EDC1E9624CA00832C36 /* AlipaySDK.bundle in Resources */,
 				EE7149DC1FD108F600F891C1 /* guidence_1_320.png in Resources */,
+				EE04247E204D3D3F00C402D1 /* loginBG1125@3x.png in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				EE95004A1E7F804A00C35C2A /* LICENSE in Resources */,
 				EE7692631FCF997B0066F007 /* yd375_3@2x.png in Resources */,
@@ -1902,6 +1902,7 @@
 				EE7149DA1FD108F600F891C1 /* guidence_1_540@3x.png in Resources */,
 				EE9500591E7F804A00C35C2A /* LICENSE in Resources */,
 				EE95006F1E7F804A00C35C2A /* LICENCE.txt in Resources */,
+				EEE18D88204E251C00308CD2 /* ydBG1125@3x.png in Resources */,
 				EE629EF21E962A8100832C36 /* mapapi.bundle in Resources */,
 				4E7F4FE61C534CB280912E6C /* CDVNotification.bundle in Resources */,
 				EED6FB761E94E2430061B6AC /* 640x1136-1@2x.png in Resources */,
@@ -1917,7 +1918,6 @@
 				EE7692661FCF997B0066F007 /* yd320_4.png in Resources */,
 				EE76925E1FCF997B0066F007 /* yd320_2.png in Resources */,
 				EED6FB681E94DCF60061B6AC /* SYIntroduceWLANView.xib in Resources */,
-
 				EED6FB791E94E2430061B6AC /* 640x960-1.png in Resources */,
 				EE76926B1FCF997B0066F007 /* yd540_5@3x.png in Resources */,
 				EE7692671FCF997B0066F007 /* yd540_3@3x.png in Resources */,
@@ -2179,8 +2179,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCloud/SYCloud.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2207,8 +2207,8 @@
 				MiSDKRun = debug;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
-				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudDis;
+				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2223,8 +2223,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCloud/SYCloud.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				COPY_PHASE_STRIP = YES;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2249,8 +2249,8 @@
 				MiSDKRun = online;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
 				PRODUCT_NAME = SYCloud;
-				PROVISIONING_PROFILE = "53995699-a9c4-419a-8295-446eb46b15b7";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudDis;
+				PROVISIONING_PROFILE = "89ff0ec4-9a46-42f1-bce1-c8bda457d6ab";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudIDev;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -2327,8 +2327,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCNotificationService/SYCNotificationService.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 8YHY633A9W;
@@ -2351,8 +2351,8 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sycloud.SYCloud.SYCNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6bab3498-b107-4bcd-8235-bc4634b9651b";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationDis;
+				PROVISIONING_PROFILE = "35f8425f-945c-494e-9447-ecb581210939";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationService;
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -2372,8 +2372,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = SYCNotificationService/SYCNotificationService.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Chenzhou Shengyuan Times Square Commercial Co., Ltd. (8YHY633A9W)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 清 文 (WV398C89VL)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: 清 文 (WV398C89VL)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 8YHY633A9W;
@@ -2390,8 +2390,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.sycloud.SYCloud.SYCNotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6bab3498-b107-4bcd-8235-bc4634b9651b";
-				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationDis;
+				PROVISIONING_PROFILE = "35f8425f-945c-494e-9447-ecb581210939";
+				PROVISIONING_PROFILE_SPECIFIER = SYCloudNotificationService;
 				SKIP_INSTALL = YES;
 				VALIDATE_PRODUCT = YES;
 			};

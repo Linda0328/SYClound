@@ -33,7 +33,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    UIImage *bgImage = [UIImage imageNamed:@"newLoadBg"];
+    UIImage *bgImage = isIphoneX?[UIImage imageNamed:@"loginBG1125@3x"]:[UIImage imageNamed:@"newLoadBg"];
     self.view.contentMode = UIViewContentModeScaleAspectFit;
     self.view.layer.contents = (__bridge id _Nullable)(bgImage.CGImage);
     
@@ -186,7 +186,7 @@
     laodButton.titleLabel.font = [UIFont systemFontOfSize:20*[SYCSystem PointCoefficient]];
     [laodButton addTarget:self action:@selector(gotoRegister) forControlEvents:UIControlEventTouchUpInside];
     
-    UIFont *fontLoad = [UIFont systemFontOfSize:12.0*[SYCSystem PointCoefficient]];
+    UIFont *fontLoad = [UIFont systemFontOfSize:15.0*[SYCSystem PointCoefficient]];
     CGFloat gap1 = 34.0*[SYCSystem PointCoefficient];
     NSString *loadL = @"已有账号，去登录";
     CGSize sizeL = [loadL sizeWithAttributes:@{NSFontAttributeName:fontLoad}];
@@ -210,12 +210,14 @@
     [_HUD hideAnimated:YES];
 }
 -(void)getVerfication:(UIButton*)button{
-    
     if ([SYCSystem isMobilePhoneOrtelePhone:_acountTextF.text]) {
         __weak __typeof(self)weakSelf = self;
-        [SYCHttpReqTool getVerficationCodeWithMobile:_acountTextF.text forUseCode:[NSString stringWithFormat:@"%@",@(getCaptchaRegister)] fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.label.text = @"正在发送验证码";
+        [SYCHttpReqTool newGetVerficationCodeWithMobile:_acountTextF.text forUseCode:[NSString stringWithFormat:@"%@",@(getCaptchaRegister)] fromTerminal:SYCSystemType completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             dispatch_async(dispatch_get_main_queue(), ^{
+                 [hud hideAnimated:YES];
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                     if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
@@ -225,7 +227,7 @@
                         strongSelf.HUD.label.text = [resultDic objectForKey:@"msg"];
                     }
                 }else{
-                    strongSelf.HUD.label.text = @"获取验证码失败";
+                    strongSelf.HUD.label.text = @"请求超时，请检查网络";
                 }
                 [strongSelf.HUD showAnimated:YES];
                 [strongSelf.HUD hideAnimated:YES afterDelay:2.0f];

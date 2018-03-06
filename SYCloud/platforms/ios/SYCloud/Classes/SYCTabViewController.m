@@ -76,11 +76,32 @@
     [self.tabBar insertSubview:[self drawTabbarBgImageView] atIndex:0];
     self.tabBar.opaque = YES;
 }
+//-(void)viewWillLayoutSubviews{
+//
+//    [super viewWillLayoutSubviews];
+//    if (isIphoneX) {
+//        CGRect frame = self.tabBar.frame;
+//        frame.size.height = 49;
+//        frame.origin.y = self.view.frame.size.height - frame.size.height;
+//        self.tabBar.frame = frame;
+//        //iPhoneX 底部虚拟区域高度为34px
+////        for (UITabBarItem *item in self.tabBar.items) {
+////            item.imageInsets = UIEdgeInsetsMake(17,0, -17, 0);
+////            [item setTitlePositionAdjustment:UIOffsetMake(0, 34)];
+////        }
+//    }
+//}
+//-(UIViewController*)childViewControllerForHomeIndicatorAutoHidden{
+//    return nil;
+//}
+//-(BOOL)prefersHomeIndicatorAutoHidden{
+//    return YES;
+//}
 // 画背景的方法，返回 Tabbar的背景
 - (UIImageView *)drawTabbarBgImageView
 {
 //    NSLog(@"tabBarHeight：  %f" , tabBarHeight);// 设备tabBar高度 一般49
-    CGFloat tabBarHeight = self.tabBar.bounds.size.height;
+    CGFloat tabBarHeight = isIphoneX?82:self.tabBar.bounds.size.height;
     CGFloat radius = 32*[SYCSystem PointCoefficient];// 圆半径
     CGFloat allFloat= (pow(radius, 2)-pow((radius-standOutHeight), 2));// standOutHeight 突出高度 12
     CGFloat ww = sqrtf(allFloat);
@@ -108,7 +129,7 @@
     layer.path = path.CGPath;
     layer.fillColor = [UIColor whiteColor].CGColor;// 整个背景的颜色
     layer.strokeColor = [UIColor colorWithWhite:0.765 alpha:1.000].CGColor;//边框线条的颜色
-    layer.lineWidth = 0.5;//边框线条的宽
+    layer.lineWidth = 1;//边框线条的宽
     // 在要画背景的view上 addSublayer:
     [imageView.layer addSublayer:layer];
     return imageView;
@@ -128,11 +149,21 @@
     [super setViewControllers:viewControllers animated:animated];
     [viewControllers enumerateObjectsUsingBlock:^(UIViewController * obj, NSUInteger idx, BOOL *stop) {
         obj.title = nil;
-            if (idx == 1) {
-                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(-7.5*[SYCSystem PointCoefficient] , 0, 7.5*[SYCSystem PointCoefficient], 0);
-            } else {
-                obj.tabBarItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-            }
+//        if (idx == 1) {
+//            obj.tabBarItem.imageInsets = UIEdgeInsetsMake(isIphoneX?10: -7.5*[SYCSystem PointCoefficient] , 0, isIphoneX?-10:7.5*[SYCSystem PointCoefficient], 0);
+//
+//        } else {
+//           obj.tabBarItem.imageInsets = UIEdgeInsetsMake(isIphoneX?17:0, 0, isIphoneX?-17:0, 0);
+//        }
+//        if (isIphoneX) {
+//            [obj.tabBarItem setTitlePositionAdjustment:UIOffsetMake(0, 34)];
+//        }
+        if (idx == 1) {
+            obj.tabBarItem.imageInsets = UIEdgeInsetsMake(-7.5*[SYCSystem PointCoefficient] , 0, 7.5*[SYCSystem PointCoefficient], 0);
+            
+        } else {
+            obj.tabBarItem.imageInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+        }
     }];
 }
 - (UIImage*)renderImageWithName:(NSString*)imageName {

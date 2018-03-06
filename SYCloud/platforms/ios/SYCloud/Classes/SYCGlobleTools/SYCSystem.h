@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <Cordova/CDVViewController.h>
+#define isIphoneX   CGRectEqualToRect([UIScreen mainScreen].bounds, CGRectMake(0, 0, 375, 812))
+
 typedef NS_ENUM(NSInteger,getCaptchaType){
     getCaptchaRegister = 0,
     getCaptchaLoad ,
@@ -107,7 +109,9 @@ extern NSString *const SYCRegIDKey;
 +(NSString *)loaclResourcePath;
 
 +(BOOL)connectedToNetwork;
-+(NSString*)getNetworkType;
++ (NSString *)getNetType;
+
+
 
 +(CGFloat)PointCoefficient;
 

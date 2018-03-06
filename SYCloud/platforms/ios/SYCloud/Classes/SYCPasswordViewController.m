@@ -56,7 +56,7 @@ static const NSInteger passWNum = 6;
     lineView.backgroundColor = [UIColor colorWithHexString:@"dddddd"];
     [self.view addSubview:lineView];
     if (_showAmount) {
-        UILabel *lable0 = [[UILabel alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(lineView.frame)+19*[SYCSystem PointCoefficient], 200*[SYCSystem PointCoefficient], 17*[SYCSystem PointCoefficient])];
+        UILabel *lable0 = [[UILabel alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(lineView.frame)+19*[SYCSystem PointCoefficient], 300*[SYCSystem PointCoefficient], 17*[SYCSystem PointCoefficient])];
         lable0.numberOfLines = 1;
         lable0.font = [UIFont systemFontOfSize:17.0*[SYCSystem PointCoefficient]];
         lable0.textColor = [UIColor colorWithHexString:@"444444"];

@@ -11,8 +11,8 @@
 #import "SYCSystem.h"
 #import "SYCShareVersionInfo.h"
 NSString * const kresource = @"/app_resources/";
-NSString * const kCacheJSPath = @"/app_resources/js";
-NSString * const kCacheStylePath = @"/app_resources/style";
+NSString * const kCacheJSPath = @"/app_resources/1.0.4/js";
+NSString * const kCacheStylePath = @"/app_resources/1.0.4/style";
 NSString * const requestMarked = @"requestMarked";
 @interface SYCCacheURLProtocol ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 @property (nonatomic, strong)NSURLConnection *connection;
@@ -22,10 +22,11 @@ NSString * const requestMarked = @"requestMarked";
 + (BOOL)canInitWithRequest:(NSURLRequest*)Request
 {
     //测试环境不做缓存处理
-    if (![SYCShareVersionInfo sharedVersion].formal) {
-        return NO;
-    }
+//    if (![SYCShareVersionInfo sharedVersion].formal) {
+//        return NO;
+//    }
     NSURL* theUrl = [Request URL];
+    NSLog(@"-------request url --------%@",theUrl);
     if ([[theUrl absoluteString] containsString:kCacheJSPath]||[[theUrl absoluteString] containsString:kCacheStylePath]) {
         if ([NSURLProtocol propertyForKey:requestMarked inRequest:Request])
             return NO;
@@ -48,7 +49,6 @@ NSString * const requestMarked = @"requestMarked";
     [NSURLProtocol setProperty:@YES forKey:requestMarked inRequest:mutableRequest];
     NSURL* url = [[self request] URL];
     if ([[url absoluteString] containsString:kCacheJSPath]||[[url absoluteString] containsString:kCacheStylePath]) {
-        NSLog(@"------请求从本地去资源文件--%@",[url absoluteString]);
         NSFileManager *fmanager = [NSFileManager defaultManager];
         NSString *filePath = [SYCCacheURLProtocol completePathForsource:[url absoluteString]];
         NSData *data = [fmanager contentsAtPath:filePath];
@@ -90,7 +90,6 @@ NSString * const requestMarked = @"requestMarked";
     if (mimeType == nil) {
         mimeType = @"text/plain";
     }
-    
     NSHTTPURLResponse* response = [[NSHTTPURLResponse alloc] initWithURL:[[self request] URL] statusCode:statusCode HTTPVersion:@"HTTP/1.1" headerFields:@{@"Content-Type" : mimeType}];
     
     [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
