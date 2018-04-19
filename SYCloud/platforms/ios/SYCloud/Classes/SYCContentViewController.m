@@ -63,7 +63,6 @@ static void *eventBarItem = @"eventBarItem";
         self.navigationController.navigationBar.translucent = NO;
         self.navigationController.navigationBar.hidden = NO;
     }
-    
 }
 
 - (void)viewDidLoad {

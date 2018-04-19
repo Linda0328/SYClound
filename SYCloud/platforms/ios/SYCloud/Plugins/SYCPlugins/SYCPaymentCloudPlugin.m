@@ -19,7 +19,7 @@
 @implementation SYCPaymentCloudPlugin
 //付款码支付
 -(void)paymentCode:(CDVInvokedUrlCommand *)command{
-    NSLog(@"----------%@",command.arguments);
+    
     MainViewController *main = (MainViewController*)self.viewController;
     NSString *paycode = [command.arguments firstObject];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -30,7 +30,7 @@
 }
 //扫码支付
 -(void)paymentScan:(CDVInvokedUrlCommand *)command{
-    NSLog(@"----------%@",command.arguments);
+   
     MainViewController *main = (MainViewController*)self.viewController;
     NSString *qrcode = [command.arguments firstObject];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -54,14 +54,11 @@
     [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:payMentTypeImme}];
     [self.commandDelegate runInBackground:^{
 
-        NSLog(@"----------%@",command.arguments);
-        
         [SYCShareVersionInfo sharedVersion].paymentImmedatelyID = command.callbackId;
     }];
 }
 //设置密码
 -(void)paymentPwd:(CDVInvokedUrlCommand *)command{
-    NSLog(@"----------%@",command.arguments);
     MainViewController *main = (MainViewController*)self.viewController;
     SYCPassWordModel *payModel = [[SYCPassWordModel alloc]init];
     payModel.title = [command.arguments firstObject];

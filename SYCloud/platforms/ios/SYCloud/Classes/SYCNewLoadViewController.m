@@ -415,8 +415,6 @@
                 
                 //设置界面的按钮显示 根据自己需求设置
                 
-                NSLog(@"____%@",strTime);
-                
                 [_getVerficationB setTitle:[NSString stringWithFormat:@"%@",strTime] forState:UIControlStateNormal];
                 
                 _getVerficationB.backgroundColor = [UIColor colorWithHexString:@"dddddd"];

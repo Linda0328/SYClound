@@ -40,6 +40,7 @@
     [verDic setObject:[SYCSystem judgeNSString:shareVerInfo.regId]?shareVerInfo.regId :@""forKey:@"regId"];
     [verDic setObject:@(shareVerInfo.formal) forKey:@"formal"];
     [verDic setObject:shareVerInfo.localPath forKey:@"localPath"];
+    [verDic setObject:@"" forKey:@"imei"];
     return verDic;
 }
 -(void)setToken:(CDVInvokedUrlCommand*)command{

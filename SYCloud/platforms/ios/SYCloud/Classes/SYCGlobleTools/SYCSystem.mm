@@ -310,7 +310,6 @@ NSString *const SYCRegIDKey = @"RegIDKey";
     bzero(&zeroAddress, sizeof(zeroAddress));
     zeroAddress.sin_len = sizeof(zeroAddress);
     zeroAddress.sin_family = AF_INET;
-    
     SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
     SCNetworkReachabilityFlags flags;
     BOOL didRetrieverFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);

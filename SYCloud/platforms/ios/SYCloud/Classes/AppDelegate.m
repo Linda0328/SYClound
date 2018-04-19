@@ -88,11 +88,34 @@
     [NSURLProtocol registerClass:[SYCCacheURLProtocol class]];
     //手机QQ权限注册
     [[TencentOAuth alloc]initWithAppId:QQAppID andDelegate:[QQManager sharedManager]];
-   
     //小米推送
     [MiPushSDK registerMiPush:self type:0 connect:YES];
     
-    
+//    CTCellularData *cellularData = [[CTCellularData alloc]init];
+//    CTCellularDataRestrictedState state =  cellularData.restrictedState;
+//    if (state == 0) {
+//        //是否有权限 0 关闭 1 仅wifi 2 流量+wifi
+//        NSString *message = [NSString stringWithFormat:@"您未打开生源闪购的网络访问权限，无法正常使用app，请前往设置"];
+//        UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            if ([[[[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."] objectAtIndex:0] intValue] >=8) {
+//                NSString *urlStr = [NSString stringWithFormat:@"prefs:root=%@",bundleID];
+//                NSURL *url =[NSURL URLWithString:urlStr];
+//                if( [[UIApplication sharedApplication]canOpenURL:url] ) {
+//                    [[UIApplication sharedApplication]openURL:url];
+//                }
+//            }
+//            if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_9_x_Max) {
+//                NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//                if( [[UIApplication sharedApplication]canOpenURL:url] ) {
+//                    [[UIApplication sharedApplication]openURL:url options:@{}completionHandler:^(BOOL        success) {
+//                    }];
+//                }
+//            }
+//        }];
+//        [alertC addAction:confirmAction];
+//        [self.window.rootViewController presentViewController:alertC animated:YES completion:nil];
+//    }
     if([[UIDevice currentDevice].systemVersion doubleValue]>= 10.0){
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error){
