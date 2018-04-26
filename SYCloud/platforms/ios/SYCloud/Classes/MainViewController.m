@@ -49,6 +49,7 @@
 #import "SYCHttpReqTool.h"
 #import "NSObject+MJKeyValue.h"
 #import <Foundation/Foundation.h>
+#import "SYCResultExecModel.h"
 @interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate,WXApiManagerDelegate,QQManagerDelegate>{
     BMKLocationService *_locationService;
 }
@@ -193,7 +194,8 @@
     [center addObserver:self selector:@selector(AlyPayResult:) name:AliPayResult object:nil];
     [center addObserver:self selector:@selector(WeixiPay:) name:WeixiPay object:nil];
     [center addObserver:self selector:@selector(WeixiPayResult:) name: WeixiPayResult object:nil];
-   
+    [center addObserver:self selector:@selector(resultExecNotify:) name: resultExecNotify object:nil];
+    
     //开始加载
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
     //加载完成
@@ -251,7 +253,16 @@
         [alert show];
     }
 }
-
+-(void)resultExecNotify:(NSNotification*)notify{
+    SYCResultExecModel *model = (SYCResultExecModel*)notify.object;
+    NSError *error = nil;
+    NSData *jsdata = [NSJSONSerialization dataWithJSONObject:model.data options:0 error:&error];
+    NSString *dataS = [[NSString alloc]initWithData:jsdata encoding:NSUTF8StringEncoding];
+    dataS = [dataS stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    NSString *js = [model.function stringByAppendingFormat:@"(%@)",dataS];
+    //        NSString *js = @"app.page.product.list.updatePulocationCallback()";
+    [self.commandDelegate evalJs:js];
+}
 -(void)ReloadAppState:(NSNotification*)notify{
     
     MainViewController *main = (MainViewController*)notify.object;
@@ -429,6 +440,7 @@
     }
     
 }
+
 #pragma mark --- 百度地图定位坐标更新
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
     CLLocation *location = userLocation.location;

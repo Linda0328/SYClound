@@ -546,32 +546,30 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
-        NSLog(@"%@",[NSThread currentThread]);
-        
+
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
             
             // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+           
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
+           
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+                
                 resultCode = resultCodeJsonError;
                 [result setObject:[err description] forKey:resultJsonErrorKey];
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+               
                 [result setObject:dic forKey:resultSuccessKey];
             }
         } else {
             // 网络访问失败
-            NSLog(@"error=%@",error);
+           
             resultCode = resultCodeRequestError;
             [result setObject:[error description] forKey:resultRequestErrorKey];
         }
@@ -715,6 +713,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     [paramDic setObject:payConfirm.assetType forKey:@"assetType"];
     [paramDic setObject:payConfirm.assetNo forKey:@"assetNo"];
     [paramDic setObject:payConfirm.payPassword forKey:@"payPassword"];
+    [paramDic setObject:payConfirm.redPacketId forKey:@"redPacketId"];
     if ([SYCSystem judgeNSString:payConfirm.couponId]) {
         [paramDic setObject:payConfirm.couponId forKey:@"couponId"];
     }

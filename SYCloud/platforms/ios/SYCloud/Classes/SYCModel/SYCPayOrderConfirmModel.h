@@ -24,4 +24,5 @@
 @property (nonatomic,copy)NSString *couponId;//优惠券ID
 @property (nonatomic,copy)NSString *exclAmount;
 @property (nonatomic,copy)NSString *amount;
+@property (nonatomic,copy)NSString *redPacketId;//红包ID
 @end

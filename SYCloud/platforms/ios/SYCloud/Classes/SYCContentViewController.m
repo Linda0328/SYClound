@@ -125,6 +125,7 @@ static void *eventBarItem = @"eventBarItem";
     [center addObserver:self selector:@selector(ShowPhotos:) name:showPhotoNotify object:nil];
     [center addObserver:self selector:@selector(LoadAgain:) name:LoadAgainNotify object:nil];
     [center addObserver:self selector:@selector(guidence:) name:guidenceNotify object:nil];
+    [center addObserver:self selector:@selector(shareImage:) name:shareIMGNotify object:nil];
 }
 
 -(void)PushScanVC:(NSNotification*)notify{
@@ -275,7 +276,27 @@ static void *eventBarItem = @"eventBarItem";
     shareVC.shareModel = shareM;
     shareVC.modalPresentationStyle = UIModalPresentationCustom;
     shareVC.transitioningDelegate = self;
-    [self presentViewController:shareVC animated:YES completion:nil];
+    [self presentViewController:shareVC animated:YES completion:^(void){
+        
+    }];
+}
+-(void)shareImage:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    NSString *pic = (NSString*)notify.object;
+    SYCShareAppViewController *shareVC = [[SYCShareAppViewController alloc]init];
+    shareVC.pic = pic;
+    shareVC.modalPresentationStyle = UIModalPresentationCustom;
+    shareVC.transitioningDelegate = self;
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(YES),
+                                                        @"shareForm":@"init"
+                                                        };
+    [self presentViewController:shareVC animated:YES completion:^(void){
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
+        [self.CurrentChildVC.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].sharePluginID];
+    }];
 }
 -(void)ShowPhotos:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
@@ -290,7 +311,13 @@ static void *eventBarItem = @"eventBarItem";
     pic.index = index;
     pic.modalPresentationStyle = UIModalPresentationCustom;
     pic.transitioningDelegate = self;
-    [self presentViewController:pic animated:YES completion:nil];
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(YES),
+                                                        @"shareForm":@"init"
+                                                        };
+    [self presentViewController:pic animated:YES completion:^(void){
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
+        [self.CurrentChildVC.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].sharePluginID];
+    }];
 }
 -(void)LoadAgain:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;

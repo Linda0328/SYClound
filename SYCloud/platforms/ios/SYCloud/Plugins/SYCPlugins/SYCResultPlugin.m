@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "SYCShareVersionInfo.h"
 #import "SYCSystem.h"
+#import "SYCResultExecModel.h"
 @implementation SYCResultPlugin
 -(void)reload:(CDVInvokedUrlCommand *)command{
     MainViewController *main = (MainViewController*)self.viewController;
@@ -38,15 +39,20 @@
 -(void)exec:(CDVInvokedUrlCommand *)command{
     NSString *function = [command.arguments firstObject];
     NSDictionary *data = [command.arguments objectAtIndex:1];
+    SYCResultExecModel *result = [[SYCResultExecModel alloc]init];
+    result.function = function;
+    result.data = data;
     BOOL isfinish = [[command.arguments objectAtIndex:2] boolValue];
     MainViewController *main = (MainViewController*)self.viewController;
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center postNotificationName:resultExecNotify object:result];
     if (isfinish) {
-        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
         [center postNotificationName:popNotify object:main];
     }
-    if(main.lastViewController.execB){
-        main.lastViewController.execB(function,data);
-    }
+//    if(main.lastViewController.execB){
+//        main.lastViewController.execB(function,data);
+//    }
+    
     [self.commandDelegate runInBackground:^{
         [SYCShareVersionInfo sharedVersion].listenPluginID = command.callbackId;
     }];

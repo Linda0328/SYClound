@@ -33,7 +33,7 @@ NSString *const loadToken = @"LoadToken";
 NSString *const memberInfo = @"memberInfo";
 NSString *const loginName = @"loginName";
 
-
+NSString *const resultExecNotify = @"resultExecNotify";
 NSString *const popNotify = @"PushVCandReload";
 NSString *const scanNotify = @"PushScanVC";
 NSString *const updateNotify = @"updateOrNot";
@@ -92,6 +92,7 @@ NSString *const paymentResultCodeKey = @"resultCode";
 NSString *const paymentDatakey = @"paymentmodelkey";
 
 NSString *const shareNotify = @"shareNotify";
+NSString *const shareIMGNotify = @"shareIMG";
 NSString *const dismissShareNotify = @"dismissShare";
 
 NSString *const showPhotoNotify = @"showPhoto";
@@ -104,7 +105,7 @@ NSString *const finishSDKPay = @"finishSDKPay";
 //push message type
 NSString *const pushMessageTypePage = @"page";
 NSString *const pushNotify = @"pushNotify";
-NSString *const SYCVersionCode = @"1.0.4";
+NSString *const SYCVersionCode = @"1.0.5";
 NSString *const versionCode = @"versionCode";
 NSString *const GuidenceImagesKey = @"GuidenceImages";
 NSString *const SYCRegIDKey = @"RegIDKey";

@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger,getCaptchaType){
 extern NSString *const loadToken;
 extern NSString *const memberInfo ;
 extern NSString *const loginName ;
-
+extern NSString *const resultExecNotify;
 extern NSString *const popNotify;
 extern NSString *const scanNotify;
 
@@ -84,6 +84,7 @@ extern NSString *const paymentResultCodeKey;
 extern NSString *const paymentDatakey;
 
 extern NSString *const shareNotify;
+extern NSString *const shareIMGNotify;
 extern NSString *const dismissShareNotify;
 
 extern NSString *const showPhotoNotify;

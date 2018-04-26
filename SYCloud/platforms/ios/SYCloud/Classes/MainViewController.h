@@ -34,7 +34,7 @@ typedef void (^reloadBlock)(NSString *url);
 typedef void(^showProgressBlock)(NSString *msg,double time);
 typedef void(^execBlock)(NSString *function,NSDictionary *data);
 typedef void(^pushViewControllerBlock)(NSString *contentUrl,BOOL isBackToLast,BOOL reload,SYCNavigationBarModel *navModel);
-typedef void (^pushUnrechableBlock)();
+typedef void (^pushUnrechableBlock)(void);
 @interface MainViewController : CDVViewController
 
 @property (nonatomic,copy)reloadBlock reloadB;

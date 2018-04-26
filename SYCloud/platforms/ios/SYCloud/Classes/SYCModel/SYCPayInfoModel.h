@@ -15,4 +15,5 @@
 @property (nonatomic,copy)NSString *coupon;//支付优惠券ID
 @property (nonatomic,copy)NSString *exclAmount;//不参与优惠的金额
 @property (nonatomic,copy)NSString *payAmount;//扣除优惠券金额之后实际支付金额
+@property (nonatomic,copy)NSString *prepayId;//预订单ID
 @end

@@ -17,4 +17,5 @@
         Description:(NSString *)description
          ThumbImage:(UIImage *)thumbImage
             InScene:(enum WXScene)scene;
++(BOOL)sendImage:(NSString*)image InScene:(enum WXScene)scene;
 @end

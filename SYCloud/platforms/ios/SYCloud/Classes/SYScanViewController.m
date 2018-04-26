@@ -13,7 +13,10 @@
 #import "UILabel+SYCNavigationTitle.h"
 #import "SYCShareVersionInfo.h"
 #import "UIImage+SYColorExtension.h"
-@interface SYScanViewController ()<AVCaptureMetadataOutputObjectsDelegate>{
+//#import "ZXingObjC.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import "MBProgressHUD.h"
+@interface SYScanViewController ()<AVCaptureMetadataOutputObjectsDelegate,CAAnimationDelegate,UITextFieldDelegate,UIViewControllerTransitioningDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVCaptureVideoDataOutputSampleBufferDelegate>{
     CALayer *_scanLayer;
     UIView *_boxView;
 }
@@ -46,11 +49,14 @@
     UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:button];
     
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
-    
     self.navigationItem.leftBarButtonItems = @[item,negativeSpacer];
-//    UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"btn_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backToLast)];
-//    self.navigationItem.leftBarButtonItem.tintColor = [UIColor whiteColor];
-//    self.navigationItem.leftBarButtonItem = item;
+
+    UIImage *Image = [UIImage imageNamed:@"scanImage"];
+    UIButton *ScanImageB = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40*[SYCSystem PointCoefficient], 40*[SYCSystem PointCoefficient])];
+    [ScanImageB setImage:Image forState:UIControlStateNormal];
+    [ScanImageB addTarget:self action:@selector(ScanPictureFromPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *ImageItem = [[UIBarButtonItem alloc]initWithCustomView:ScanImageB];
+    self.navigationItem.rightBarButtonItem = ImageItem;
     
     _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     _input = [AVCaptureDeviceInput deviceInputWithDevice:_device error:nil];
@@ -132,7 +138,67 @@
     }
 
 }
-
+-(void)ScanPictureFromPhotoAlbum{
+    MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.view];
+    hud.mode = MBProgressHUDModeText;
+    //判断是否已授权
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+        if (authStatus == ALAuthorizationStatusDenied) {
+            hud.label.text = @"请前往设置打开访问相册权限";
+            [hud showAnimated:YES];
+            [hud hideAnimated:NO afterDelay:1.2];
+            return;
+        }
+    }
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        
+        [self presentViewController:picker animated:YES completion:nil];
+    } else {
+        hud.label.text = @"您没有图片";
+        [hud showAnimated:YES];
+        [hud hideAnimated:NO afterDelay:1.2];
+    }
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+    UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self getInfoWithImage:newPhoto];
+    }];
+}
+-(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+-(CABasicAnimation *)moveYTime:(float)time fromY:(NSNumber *)fromY toY:(NSNumber *)toY rep:(int)rep
+{
+    CABasicAnimation *animationMove = [CABasicAnimation animationWithKeyPath:@"transform.translation.y"];
+    
+    [animationMove setFromValue:fromY];
+    
+    [animationMove setToValue:toY];
+    
+    animationMove.duration = time;
+    
+    animationMove.delegate = self;
+    
+    animationMove.repeatCount  = rep;
+    
+    animationMove.fillMode = kCAFillModeForwards;
+    
+    animationMove.removedOnCompletion = NO;
+    
+    animationMove.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    return animationMove;
+    
+}
+-(void)getInfoWithImage:(UIImage*)image{
+    
+ }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

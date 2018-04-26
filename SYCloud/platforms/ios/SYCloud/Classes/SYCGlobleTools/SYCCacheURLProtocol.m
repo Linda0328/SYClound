@@ -11,8 +11,8 @@
 #import "SYCSystem.h"
 #import "SYCShareVersionInfo.h"
 NSString * const kresource = @"/app_resources/";
-NSString * const kCacheJSPath = @"/app_resources/1.0.4/js";
-NSString * const kCacheStylePath = @"/app_resources/1.0.4/style";
+NSString * const kCacheJSPath = @"/app_resources/1.0.5/js";
+NSString * const kCacheStylePath = @"/app_resources/1.0.5/style";
 NSString * const requestMarked = @"requestMarked";
 @interface SYCCacheURLProtocol ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 @property (nonatomic, strong)NSURLConnection *connection;
