@@ -46,8 +46,6 @@
 		EE629EE01E9629BB00832C36 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EDF1E9629BB00832C36 /* libstdc++.6.0.9.tbd */; };
 		EE629EE21E9629CB00832C36 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EE11E9629CB00832C36 /* Security.framework */; };
 		EE629EF21E962A8100832C36 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE629EF11E962A8100832C36 /* mapapi.bundle */; };
-		EE629EF81E962CC100832C36 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EF61E962CC100832C36 /* libcrypto.a */; };
-		EE629EF91E962CC100832C36 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EF71E962CC100832C36 /* libssl.a */; };
 		EE629EFA1E962D1A00832C36 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EF31E962BC100832C36 /* BaiduMapAPI_Base.framework */; };
 		EE629EFC1E962E4400832C36 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EFB1E962E4400832C36 /* libsqlite3.0.tbd */; };
 		EE629F031E962E6600832C36 /* BaiduMapAPI_Cloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE629EFD1E962E6600832C36 /* BaiduMapAPI_Cloud.framework */; };
@@ -248,6 +246,8 @@
 		EE9FE47B1F3C3EB400B1D67A /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */; };
 		EE9FE4811F3C429E00B1D67A /* QQManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9FE4801F3C429E00B1D67A /* QQManager.m */; };
 		EEB443641FDB7AB3005B9C54 /* libMiPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */; };
+		EEBCFDE520A14FA300DEAD7B /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEBCFDE320A14FA300DEAD7B /* libcrypto.a */; };
+		EEBCFDE620A14FA300DEAD7B /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEBCFDE420A14FA300DEAD7B /* libssl.a */; };
 		EEC060CC1EB8771000E3BDE3 /* SYCPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */; };
 		EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CE1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m */; };
 		EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */; };
@@ -383,8 +383,6 @@
 		EE629EE11E9629CB00832C36 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		EE629EF11E962A8100832C36 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = SOURCE_ROOT; };
 		EE629EF31E962BC100832C36 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
-		EE629EF61E962CC100832C36 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		EE629EF71E962CC100832C36 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		EE629EFB1E962E4400832C36 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		EE629EFD1E962E6600832C36 /* BaiduMapAPI_Cloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Cloud.framework; sourceTree = "<group>"; };
 		EE629EFE1E962E6600832C36 /* BaiduMapAPI_Location.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Location.framework; sourceTree = "<group>"; };
@@ -760,6 +758,8 @@
 		EEB4436B1FDB7E81005B9C54 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		EEB4436C1FDB7E81005B9C54 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
 		EEB4436E1FDB7E81005B9C54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EEBCFDE320A14FA300DEAD7B /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		EEBCFDE420A14FA300DEAD7B /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		EEC060CA1EB8771000E3BDE3 /* SYCPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentViewController.h; sourceTree = "<group>"; };
 		EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentViewController.m; sourceTree = "<group>"; };
 		EEC060CD1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderConfirmModel.h; sourceTree = "<group>"; };
@@ -812,6 +812,7 @@
 				EE629F031E962E6600832C36 /* BaiduMapAPI_Cloud.framework in Frameworks */,
 				EE629F041E962E6600832C36 /* BaiduMapAPI_Location.framework in Frameworks */,
 				EE629F051E962E6600832C36 /* BaiduMapAPI_Map.framework in Frameworks */,
+				EEBCFDE520A14FA300DEAD7B /* libcrypto.a in Frameworks */,
 				EE629F061E962E6600832C36 /* BaiduMapAPI_Radar.framework in Frameworks */,
 				EE629F071E962E6600832C36 /* BaiduMapAPI_Search.framework in Frameworks */,
 				EE629F081E962E6600832C36 /* BaiduMapAPI_Utils.framework in Frameworks */,
@@ -819,13 +820,13 @@
 				EE629EFA1E962D1A00832C36 /* BaiduMapAPI_Base.framework in Frameworks */,
 				EE629EE21E9629CB00832C36 /* Security.framework in Frameworks */,
 				EE629EE01E9629BB00832C36 /* libstdc++.6.0.9.tbd in Frameworks */,
-				EE629EF91E962CC100832C36 /* libssl.a in Frameworks */,
 				EE629EDE1E96299E00832C36 /* OpenGLES.framework in Frameworks */,
 				EE629EDA1E96209200832C36 /* AlipaySDK.framework in Frameworks */,
 				EE7AD8121E8F543D00BCEB5F /* CoreMotion.framework in Frameworks */,
 				EE7AD8101E8F543500BCEB5F /* CFNetwork.framework in Frameworks */,
 				EE7AD80E1E8F542D00BCEB5F /* Foundation.framework in Frameworks */,
 				EE7AD80C1E8F541E00BCEB5F /* UIKit.framework in Frameworks */,
+				EEBCFDE620A14FA300DEAD7B /* libssl.a in Frameworks */,
 				EEB443641FDB7AB3005B9C54 /* libMiPushSDK.a in Frameworks */,
 				EE9FE47B1F3C3EB400B1D67A /* TencentOpenAPI.framework in Frameworks */,
 				EE7AD80A1E8F541400BCEB5F /* CoreGraphics.framework in Frameworks */,
@@ -841,7 +842,6 @@
 				641E5B79DBB84C4AAFB24975 /* CoreLocation.framework in Frameworks */,
 				CB7792794FF549449FE6E2A3 /* AVFoundation.framework in Frameworks */,
 				AD4BC4C29EF848E0B8A6BC3F /* AudioToolbox.framework in Frameworks */,
-				EE629EF81E962CC100832C36 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1053,15 +1053,6 @@
 			);
 			path = iphonexBG;
 			sourceTree = "<group>";
-		};
-		EE629EF51E962CC100832C36 /* thirdlibs */ = {
-			isa = PBXGroup;
-			children = (
-				EE629EF61E962CC100832C36 /* libcrypto.a */,
-				EE629EF71E962CC100832C36 /* libssl.a */,
-			);
-			path = thirdlibs;
-			sourceTree = SOURCE_ROOT;
 		};
 		EE7149D11FD108DE00F891C1 /* guidenceImages */ = {
 			isa = PBXGroup;
@@ -1465,11 +1456,11 @@
 		EE95FF941E7F804A00C35C2A /* LIbs */ = {
 			isa = PBXGroup;
 			children = (
+				EEBCFDE220A14FA300DEAD7B /* thirdlibs */,
 				EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */,
 				EEB443621FDB7AAF005B9C54 /* MiPushSDK.h */,
 				EE915B1F1F2AD6DA0046E24B /* SSZipArchive */,
 				EE8416581EEBE2930032B37F /* WeiXin */,
-				EE629EF51E962CC100832C36 /* thirdlibs */,
 				EED6FB551E94D9070061B6AC /* XZMCoreNewFeatureVC */,
 				EE95007B1E7FC1FC00C35C2A /* HexColor */,
 				EE95FF951E7F804A00C35C2A /* AFNetworking */,
@@ -1714,6 +1705,15 @@
 				EEB4436E1FDB7E81005B9C54 /* Info.plist */,
 			);
 			path = SYCloudPush;
+			sourceTree = "<group>";
+		};
+		EEBCFDE220A14FA300DEAD7B /* thirdlibs */ = {
+			isa = PBXGroup;
+			children = (
+				EEBCFDE320A14FA300DEAD7B /* libcrypto.a */,
+				EEBCFDE420A14FA300DEAD7B /* libssl.a */,
+			);
+			path = thirdlibs;
 			sourceTree = "<group>";
 		};
 		EED377221FB2DE20007540D3 /* newLoad */ = {
@@ -2186,7 +2186,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/BDMapFramework",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2203,6 +2202,7 @@
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/WeiXin",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/SDK",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/thirdlibs",
 				);
 				MiSDKRun = debug;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
@@ -2230,7 +2230,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					"$(PROJECT_DIR)/BDMapFramework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SYCloud/SYCloud-Prefix.pch";
@@ -2245,6 +2244,7 @@
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/WeiXin",
 					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/SDK",
+					"$(PROJECT_DIR)/SYCloud/Classes/LIbs/thirdlibs",
 				);
 				MiSDKRun = online;
 				OTHER_LIBTOOLFLAGS = "-ObjC -all_load";
