@@ -13,7 +13,7 @@
 #import "UILabel+SYCNavigationTitle.h"
 #import "SYCShareVersionInfo.h"
 #import "UIImage+SYColorExtension.h"
-//#import "ZXingObjC.h"
+#import "ZXingObjC.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "MBProgressHUD.h"
 @interface SYScanViewController ()<AVCaptureMetadataOutputObjectsDelegate,CAAnimationDelegate,UITextFieldDelegate,UIViewControllerTransitioningDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,AVCaptureVideoDataOutputSampleBufferDelegate>{
@@ -51,12 +51,14 @@
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithCustomView:[UIButton buttonWithType:UIButtonTypeCustom]];
     self.navigationItem.leftBarButtonItems = @[item,negativeSpacer];
 
-    UIImage *Image = [UIImage imageNamed:@"scanImage"];
+//    UIImage *Image = [UIImage imageNamed:@"scanImage"];
     UIButton *ScanImageB = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40*[SYCSystem PointCoefficient], 40*[SYCSystem PointCoefficient])];
-    [ScanImageB setImage:Image forState:UIControlStateNormal];
+//    [ScanImageB setImage:Image forState:UIControlStateNormal];
+    [ScanImageB setTitle:@"图片" forState:UIControlStateNormal];
+    [ScanImageB setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [ScanImageB addTarget:self action:@selector(ScanPictureFromPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *ImageItem = [[UIBarButtonItem alloc]initWithCustomView:ScanImageB];
-    self.navigationItem.rightBarButtonItem = ImageItem;
+    self.navigationItem.rightBarButtonItems = @[ImageItem];
     
     _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     _input = [AVCaptureDeviceInput deviceInputWithDevice:_device error:nil];
@@ -197,8 +199,30 @@
     
 }
 -(void)getInfoWithImage:(UIImage*)image{
-    
- }
+    UIImage *loadImage = image;
+    CGImageRef imageToDecode = loadImage.CGImage;
+    ZXLuminanceSource *source = [[ZXCGImageLuminanceSource alloc]initWithCGImage:imageToDecode];
+    ZXBinaryBitmap *bitMap = [ZXBinaryBitmap binaryBitmapWithBinarizer:[ZXHybridBinarizer binarizerWithSource:source]];
+    NSError *error = nil;
+    ZXDecodeHints *hints = [ZXDecodeHints hints];
+    ZXMultiFormatReader *reader = [ZXMultiFormatReader reader];
+    ZXResult *result = [reader decode:bitMap hints:hints error:&error];
+    if (result) {
+        NSString *contents = result.text;
+        if (_block) {
+            _block(contents);
+        }
+        _lastMain.scanResult = contents;
+        [SYCShareVersionInfo sharedVersion].scanResult = contents;
+        [self performSelector:@selector(backToLast) withObject:nil afterDelay:1.0];
+    }else{
+        MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.view];
+        hud.mode = MBProgressHUDModeText;
+        hud.label.text = @"图片解析失败";
+        [hud showAnimated:YES];
+        [hud hideAnimated:NO afterDelay:1.2];
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

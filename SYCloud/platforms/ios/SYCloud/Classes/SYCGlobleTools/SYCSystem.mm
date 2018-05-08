@@ -68,6 +68,7 @@ NSString *const payMentTypeSDK = @"SYCPaySDK";
 NSString *const paySuccessNotify = @"paySuccess";
 
 NSString *const PayImmedateNotify = @"PayImmedateNotify";
+NSString *const LoadSuccessRemoveAuthNotify = @"LoadSuccessRemoveAuthNotify";
 static CGFloat heightForSixSeries = 667;
 static CGFloat heightForFivethSeries = 568;
 NSString *const payAndShowNotify = @"showPayResult";

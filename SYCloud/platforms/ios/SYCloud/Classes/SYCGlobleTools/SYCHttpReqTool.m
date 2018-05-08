@@ -717,7 +717,9 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     if ([SYCSystem judgeNSString:payConfirm.couponId]) {
         [paramDic setObject:payConfirm.couponId forKey:@"couponId"];
     }
-    [paramDic setObject:payConfirm.prepayId forKey:@"prepayId"];
+    if ([SYCSystem judgeNSString:payConfirm.prepayId]) {
+        [paramDic setObject:payConfirm.prepayId forKey:@"prepayId"];
+    }
     if (isPreOrder) {
         [paramDic setObject:payConfirm.partner forKey:@"partner"];
     }else{

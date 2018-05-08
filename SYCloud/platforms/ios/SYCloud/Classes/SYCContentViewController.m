@@ -63,11 +63,17 @@ static void *eventBarItem = @"eventBarItem";
         self.navigationController.navigationBar.translucent = NO;
         self.navigationController.navigationBar.hidden = NO;
     }
+    
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:LoadAgainNotify object:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     _currentGuidenceImageIndex = 1;
     if (_isFirst&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]) {
         __weak __typeof(self)weakSelf = self;
@@ -88,7 +94,7 @@ static void *eventBarItem = @"eventBarItem";
         [viewC setNavigationBar:navModel];
         CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
         viewC.view.frame = rect;
-        viewC.isBackToLast = isBackToLast;
+        strongSelf.isBackToLast = isBackToLast;
         MainViewController *pushM = [[MainViewController alloc]init];
         //处理中文字符
         NSString *url=[navModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -117,6 +123,7 @@ static void *eventBarItem = @"eventBarItem";
     };
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+   
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
     [center addObserver:self selector:@selector(passwordSetting:) name:passwordNotify object:nil];
@@ -126,6 +133,7 @@ static void *eventBarItem = @"eventBarItem";
     [center addObserver:self selector:@selector(LoadAgain:) name:LoadAgainNotify object:nil];
     [center addObserver:self selector:@selector(guidence:) name:guidenceNotify object:nil];
     [center addObserver:self selector:@selector(shareImage:) name:shareIMGNotify object:nil];
+   
 }
 
 -(void)PushScanVC:(NSNotification*)notify{
@@ -175,7 +183,30 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+    SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:index-1];
+    if (contentVC.isBackToLast) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        NSInteger lastIndex = index;
+        while (lastIndex>0) {
+            lastIndex--;
+            SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:lastIndex];
+            if (!contentVC.isBackToLast) {
+                if (lastIndex > 0) {
+                    lastIndex --;
+                }
+            }else{
+                if (lastIndex < index-1) {
+                    lastIndex ++;
+                }
+                break;
+            }
+        }
+        UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:lastIndex];
+        [self.navigationController popToViewController:VC animated:YES];
+    }
+    
 }
 -(void)passwordSetting:(NSNotification*)notify{
     
@@ -285,6 +316,8 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
+    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    _presentedRect = CGRectMake(0, screenSize.height-105*[SYCSystem PointCoefficient], screenSize.width, 105*[SYCSystem PointCoefficient]);
     NSString *pic = (NSString*)notify.object;
     SYCShareAppViewController *shareVC = [[SYCShareAppViewController alloc]init];
     shareVC.pic = pic;
@@ -392,6 +425,7 @@ static void *eventBarItem = @"eventBarItem";
         [HUD hideAnimated:YES afterDelay:1.5f];
             //用户非登录状态
         if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
+           
             SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
             newLoad.payCode = payCode;
             newLoad.contentVC = self;
@@ -563,22 +597,40 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(void)EventAction:(SYCEventButton*)eventB{
     if ([eventB.model.type isEqualToString:backType]) {
-        if (_isBackToLast) {
+        NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+        SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:index-1];
+        if (contentVC.isBackToLast) {
             if (_popOverVC) {
                 [_popOverVC dismissViewControllerAnimated:YES completion:^{
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
             }
             [self.navigationController popViewControllerAnimated:YES];
-            
         }else{
-            NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
-            if (index-2<0) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                return;
+            NSInteger lastIndex = index;
+            while (lastIndex>0) {
+                lastIndex--;
+                SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:lastIndex];
+                if (!contentVC.isBackToLast) {
+                    if (lastIndex > 0) {
+                        lastIndex --;
+                    }
+                }else{
+                    if (lastIndex < index-1) {
+                        lastIndex ++;
+                    }
+                    break;
+                }
             }
-            UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:index-2];
+            UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:lastIndex];
             [self.navigationController popToViewController:VC animated:YES];
+//            NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+//            if (index-2<0) {
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//                return;
+//            }
+//            UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:index-2];
+//            [self.navigationController popToViewController:VC animated:YES];
         }
         return;
     }
@@ -741,9 +793,10 @@ static void *eventBarItem = @"eventBarItem";
     dispatch_source_set_event_handler(_timer, ^{
         i ++;
         i = i%3;
-        view = [loadingV viewWithTag:1000+i];
+       
         //执行事件
         dispatch_async(dispatch_get_main_queue(), ^{
+            view = [loadingV viewWithTag:1000+i];
             for (UIView *view in viewArr) {
                 if ([view.backgroundColor isEqual:[UIColor whiteColor]]) {
                     view.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];

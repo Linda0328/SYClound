@@ -16,6 +16,7 @@
 #import "SYCShareVersionInfo.h"
 #import "AppDelegate.h"
 #import "SYCRegisterViewController.h"
+
 @interface SYCNewLoadViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong)SYCLoadTextField *acountTextF;
 @property (nonatomic,strong)SYCLoadTextField *passWordTextF;
@@ -243,7 +244,6 @@
                         [def setObject:[nickName stringByAppendingFormat:@"|%@",portraitPath] forKey:memberInfo];
                         [def setObject:_acountTextF.text forKey:loginName];
                         [def synchronize];
-                        
                         strongSelf.HUD.label.text = @"登录成功";
                         AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
                         appdelegate.isLogin = YES;

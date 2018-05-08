@@ -317,6 +317,7 @@
             [SYCShareVersionInfo sharedVersion].thirdPartScheme = [dic objectForKey:SYCThirdPartSchemeKey];
         }
         if ([self.window.rootViewController isKindOfClass:[SYCNewLoadViewController class]]) {
+           
             SYCNewLoadViewController *newLoad = (SYCNewLoadViewController*)self.window.rootViewController;
             newLoad.paymentType = payMentTypeSDK;
             newLoad.payCode = prePayID;
@@ -330,6 +331,7 @@
                 UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
                 SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
                 if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
+                   
                     SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
                     newLoad.contentVC = contentVC ;
                     newLoad.paymentType = payMentTypeSDK;
@@ -396,6 +398,7 @@
             UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
             SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
             if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
+               
                 SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
                 newLoad.contentVC = contentVC ;
                 newLoad.paymentType = payMentTypeSDK;
@@ -513,6 +516,8 @@
         CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-49);
         viewC.view.frame =rect;
         MainViewController *mainViewC = [[MainViewController alloc]init];
+        //处理中文字符
+        url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         mainViewC.startPage = url;
         mainViewC.isPush = YES;
         mainViewC.view.frame = rect;

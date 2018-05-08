@@ -54,7 +54,6 @@
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:payMentTypeImme}];
     [self.commandDelegate runInBackground:^{
-
         [SYCShareVersionInfo sharedVersion].paymentImmedatelyID = command.callbackId;
     }];
 }

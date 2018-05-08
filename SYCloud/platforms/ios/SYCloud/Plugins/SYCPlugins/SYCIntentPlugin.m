@@ -21,7 +21,6 @@
     if (mainVC.reloadB) {
         mainVC.reloadB(loadUrl);
     }
-    
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:loadUrl];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];

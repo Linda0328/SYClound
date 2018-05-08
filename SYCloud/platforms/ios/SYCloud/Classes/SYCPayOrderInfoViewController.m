@@ -84,7 +84,7 @@ static NSInteger infoCellNum = 2;
     _moneyAmountLablel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:_moneyAmountLablel];
     
-    _infoTable = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_moneyAmountLablel.frame)+15*[SYCSystem PointCoefficient], self.view.frame.size.width,(infoCellNum+1)*infoCellHeight) style:UITableViewStylePlain];
+    _infoTable = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_moneyAmountLablel.frame)+15*[SYCSystem PointCoefficient], self.view.frame.size.width,(infoCellNum+2)*infoCellHeight) style:UITableViewStylePlain];
     _infoTable.tableFooterView = [[UIView alloc]init];
     _infoTable.delegate = self;
     _infoTable.dataSource = self;
@@ -244,7 +244,6 @@ static NSInteger infoCellNum = 2;
         }
     }
     _redPackegeAmount = [NSString stringWithFormat:@"%0.2f",[_payOrderInfo.redPacketAmount floatValue]];
-    
 }
 -(void)orderPayImmedately:(id)sender{
     if (_payOrderInfo.resetPayPassword) {
@@ -267,8 +266,11 @@ static NSInteger infoCellNum = 2;
     confirmPayModel.assetType = [NSString stringWithFormat:@"%ld",(long)_assetType];
     confirmPayModel.assetNo = _assetNo;
     passwVC.needSetPassword = _payOrderInfo.resetPayPassword;
-//    confirmPayModel.prepayId = _payOrderInfo.orderNo; 1.3.7版本之后从支付插件获取prePayID
-    confirmPayModel.prepayId = _payInfoModel.prepayId;
+    if ([_payMentType isEqualToString:payMentTypeImme]) {
+         confirmPayModel.prepayId = _payInfoModel.prepayId;//1.3.7版本之后面对面支付从支付插件获取prePayID
+    }else{
+        confirmPayModel.prepayId = _payOrderInfo.orderNo;
+    }
     if (_isPreOrderPay) {
         confirmPayModel.partner = _payOrderInfo.partner;
     }else{
@@ -321,15 +323,21 @@ static NSInteger infoCellNum = 2;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSInteger num = infoCellNum;
-    if ([_couponDesc floatValue]>0) {
-        num += 1;
-    }
-    if ([_redPackegeAmount floatValue]>0) {
-        num += 1;
-    }
-    return num;
+//    if ([SYCSystem judgeNSString:_couponDesc]&&[_couponDesc floatValue]>0) {
+//        num += 1;
+//    }
+//    if ([SYCSystem judgeNSString:_redPackegeAmount]&&[_redPackegeAmount floatValue]>0) {
+//        num += 1;
+//    }
+    return num+2;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (![SYCSystem judgeNSString:_couponDesc]&&indexPath.row == 2) {
+        return 0.0;
+    }
+    if (![SYCSystem judgeNSString:_redPackegeAmount]&&indexPath.row == 3) {
+        return 0.0;
+    }
     return infoCellHeight*[SYCSystem PointCoefficient];
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -368,12 +376,23 @@ static NSInteger infoCellNum = 2;
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
         [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
         cell.textLabel.attributedText = str;
+        if ([SYCSystem judgeNSString:_couponDesc]&&[_couponDesc floatValue]>0) {
+            cell.hidden = NO;
+        }else{
+            cell.hidden = YES;
+        }
+       
     }else if (indexPath.row == 3){
         NSString *text =@"红包：";
         cell.textLabel.text = [text stringByAppendingFormat:@"¥%@",_redPackegeAmount];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:_redPackegeAmount]];
         cell.textLabel.attributedText = str;
+        if ([SYCSystem judgeNSString:_redPackegeAmount]&&[_redPackegeAmount floatValue]>0) {
+            cell.hidden = NO;
+        }else{
+            cell.hidden = YES;
+        }
     }
     cell.separatorInset = UIEdgeInsetsMake(0, 16*[SYCSystem PointCoefficient], 0, 0);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

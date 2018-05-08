@@ -60,6 +60,7 @@ extern NSString *const payMentTypeSDK;//生源支付SDK
 
 extern NSString * const paySuccessNotify;
 extern NSString * const PayImmedateNotify;
+extern NSString * const LoadSuccessRemoveAuthNotify;
 extern NSString * const payAndShowNotify;
 extern NSString * const dismissPswNotify;
 extern NSString * const selectPaymentNotify;
