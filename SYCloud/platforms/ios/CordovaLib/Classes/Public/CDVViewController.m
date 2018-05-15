@@ -272,7 +272,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    
     // Load settings
     [self loadSettings];
 
@@ -291,7 +291,8 @@
     if (!self.webView) {
         [self createGapView];
     }
-
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     // /////////////////
 
     /*

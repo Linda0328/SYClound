@@ -123,7 +123,6 @@ static void *eventBarItem = @"eventBarItem";
     };
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-   
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
     [center addObserver:self selector:@selector(passwordSetting:) name:passwordNotify object:nil];
@@ -605,6 +604,9 @@ static void *eventBarItem = @"eventBarItem";
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
             }
+            if (contentVC.CurrentChildVC.isRoot) {
+                contentVC.CurrentChildVC.isBack = YES;
+            }
             [self.navigationController popViewControllerAnimated:YES];
         }else{
             NSInteger lastIndex = index;
@@ -621,6 +623,10 @@ static void *eventBarItem = @"eventBarItem";
                     }
                     break;
                 }
+            }
+            if (lastIndex == 0) {
+                SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:lastIndex];
+                contentVC.CurrentChildVC.isBack = YES;
             }
             UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:lastIndex];
             [self.navigationController popToViewController:VC animated:YES];

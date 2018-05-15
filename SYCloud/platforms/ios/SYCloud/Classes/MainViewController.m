@@ -121,21 +121,50 @@
     }
     
 }
+//-(void)viewWillLayoutSubviews{
+//    [super viewWillLayoutSubviews];
+//    if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
+//    {
+//        CGFloat height = [UIScreen mainScreen].bounds.size.height;
+//        CGRect rect = [UIScreen mainScreen].bounds;
+//        if (_isRoot) {
+//            if (self.isHiddenNavBar) {
+//                rect.size.height = height - (isIphoneX?69:49);
+//            }else{
+//                rect.size.height = height - (isIphoneX?82:56);
+//            }
+//        }else{
+//            if (!self.isPush) {
+//                rect.size.height = height - (isIphoneX?49:32);
+//            }
+//        }
+////        if (_isBack) {
+////            if (self.isHiddenNavBar) {
+////                rect.size.height = height - (isIphoneX?69:49);
+////            }else{
+////                rect.size.height = height - (isIphoneX?82:113);
+////            }
+////        }
+//        self.webView.frame = rect;
+//        self.view.frame = rect;
+//    }
+//}
 -(UIViewController*)childViewControllerForHomeIndicatorAutoHidden{
     return nil;
 }
 -(BOOL)prefersHomeIndicatorAutoHidden{
     return YES;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     _locationTime = 0;
-    self.navigationController.navigationBar.translucent = NO;
+//    self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.extendedLayoutIncludesOpaqueBars = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.extendedLayoutIncludesOpaqueBars = YES;
     _locationService = [[BMKLocationService alloc]init];
     _locationService.delegate = self;
     //启动locationService
@@ -146,6 +175,7 @@
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf LoadURL:strongSelf.startPage];
             [strongSelf.webView.scrollView.mj_header endRefreshing];
+            
         }];
         gifHeader.stateLabel.text = @"正在刷新...";
         self.webView.scrollView.mj_header = gifHeader;
@@ -205,26 +235,6 @@
     [QQManager sharedManager].delegate = self;
 }
 
--(void)viewWillLayoutSubviews{
-    if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
-    {
-            CGFloat height = [UIScreen mainScreen].bounds.size.height;
-            CGRect rect = [UIScreen mainScreen].bounds;
-            if (_isRoot) {
-                if (_isHiddenNavBar) {
-                    rect.size.height = height - (isIphoneX?69:49);
-                }else{
-                    rect.size.height = height - (isIphoneX?82:56);
-                }
-            }else{
-                if (!_isPush) {
-                    rect.size.height = height - (isIphoneX?49:32);
-                }
-            }
-            self.webView.frame = rect;
-            self.view.frame = rect;
-    }
-}
 
 -(void)LoadURL:(NSString*)url{
     self.wwwFolderName = @"www";
