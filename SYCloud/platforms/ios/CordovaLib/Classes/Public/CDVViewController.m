@@ -287,10 +287,10 @@
     [CDVLocalStorage __fixupDatabaseLocationsWithBackupType:backupWebStorageType];
 
     // // Instantiate the WebView ///////////////
-
-    if (!self.webView) {
-        [self createGapView];
-    }
+    
+//    if (!self.webView) {
+//        [self createGapView];
+//    }
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
     // /////////////////

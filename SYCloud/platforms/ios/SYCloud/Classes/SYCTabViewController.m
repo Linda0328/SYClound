@@ -7,14 +7,14 @@
 //
 
 #import "SYCTabViewController.h"
-#import "MainViewController.h"
+#import "SYCHomeViewController.h"
 #import "SYCContentViewController.h"
 #import "SYCNavigationBarModel.h"
 #import "SYCTabBarItemModel.h"
 #import "HexColor.h"
 #import "SYCCustomTabBar.h"
 #import "SYCSystem.h"
-
+#import "MainViewController.h"
 
 #define standOutHeight 16.0f*[SYCSystem PointCoefficient] // 中间突出部分的高度
 #define ScreenW  CGRectGetWidth([UIScreen mainScreen].bounds)
@@ -22,7 +22,7 @@
 @implementation SYCTabViewController
 -(void)InitTabBarWithtabbarItems:(NSArray*)tabbarItems navigationBars:(NSArray*)navigationBars{
     [self setDelegate:self];
-    NSMutableArray *controllers = [NSMutableArray array];
+     NSMutableArray *controllers = [NSMutableArray array];
     for (NSInteger i = 0; i < [tabbarItems count]; i++) {
         SYCTabBarItemModel *tabModel = [tabbarItems objectAtIndex:i];
         SYCNavigationBarModel *navBarModel = [navigationBars objectAtIndex:i];
@@ -32,19 +32,6 @@
             viewC.isFirst = YES;
         }
         [viewC setNavigationBar:navBarModel];
-        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-113);
-        viewC.view.frame =rect;
-        MainViewController *mainViewC = [[MainViewController alloc]init];
-        mainViewC.isChild = YES;
-        mainViewC.isRoot = YES;
-        mainViewC.enableReload = YES;
-        mainViewC.startPage = navBarModel.url;
-        mainViewC.isHiddenNavBar = viewC.isHiddenNavigationBar;
-        mainViewC.view.frame = rect;
-        [viewC.view addSubview:mainViewC.view];
-        [viewC addChildViewController:mainViewC];
-        [mainViewC didMoveToParentViewController:viewC];
-        viewC.CurrentChildVC = mainViewC;
         UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:viewC];
         if (viewC.isHiddenNavigationBar) {
             navC.navigationBar.translucent = YES;
@@ -54,8 +41,21 @@
             navC.navigationBar.hidden = NO;
         }
         UITabBarItem *tabItem = [self tabBarItemWithModle:tabModel titleColor:nil];
-        navC.tabBarItem = tabItem;
+        viewC.tabBarItem = tabItem;
         [controllers addObject:navC];
+        MainViewController *mainViewC = [[MainViewController alloc]init];
+        mainViewC.isChild = YES;
+        mainViewC.isRoot = YES;
+        mainViewC.enableReload = YES;
+        mainViewC.startPage = navBarModel.url;
+        mainViewC.isHiddenNavBar = viewC.isHiddenNavigationBar;
+        CGRect rect = [UIScreen mainScreen].bounds;
+        rect.size.height -= 113;
+        mainViewC.view.frame = rect;
+        mainViewC.webView.frame = rect;
+        [viewC addChildViewController:mainViewC];
+        [viewC.view addSubview:mainViewC.view];
+        viewC.CurrentChildVC = mainViewC;
     }
     self.viewControllers = controllers;
     self.tabBarController.tabBar.translucent = NO;

@@ -35,6 +35,8 @@
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
 		EE04247E204D3D3F00C402D1 /* loginBG1125@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE04247D204D3D3F00C402D1 /* loginBG1125@3x.png */; };
+		EE2163FC20A2E1B100DA0022 /* SYCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2163FB20A2E1B100DA0022 /* SYCHomeViewController.m */; };
+		EE2163FF20A2E2C200DA0022 /* SYCPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2163FE20A2E2C200DA0022 /* SYCPushViewController.m */; };
 		EE4880BD1EB4435700D6A675 /* SYCPayInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880BC1EB4435700D6A675 /* SYCPayInfoModel.m */; };
 		EE4880C01EB46FE900D6A675 /* SYCPayOrderInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880BF1EB46FE900D6A675 /* SYCPayOrderInfoModel.m */; };
 		EE4880C31EB4718D00D6A675 /* SYCPayTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880C21EB4718D00D6A675 /* SYCPayTypeModel.m */; };
@@ -590,6 +592,10 @@
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		EE04247D204D3D3F00C402D1 /* loginBG1125@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBG1125@3x.png"; sourceTree = "<group>"; };
+		EE2163FA20A2E1B100DA0022 /* SYCHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCHomeViewController.h; sourceTree = "<group>"; };
+		EE2163FB20A2E1B100DA0022 /* SYCHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCHomeViewController.m; sourceTree = "<group>"; };
+		EE2163FD20A2E2C200DA0022 /* SYCPushViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCPushViewController.h; sourceTree = "<group>"; };
+		EE2163FE20A2E2C200DA0022 /* SYCPushViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCPushViewController.m; sourceTree = "<group>"; };
 		EE4880BB1EB4435700D6A675 /* SYCPayInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayInfoModel.h; sourceTree = "<group>"; };
 		EE4880BC1EB4435700D6A675 /* SYCPayInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPayInfoModel.m; sourceTree = "<group>"; };
 		EE4880BE1EB46FE900D6A675 /* SYCPayOrderInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderInfoModel.h; sourceTree = "<group>"; };
@@ -1552,6 +1558,10 @@
 				302D95EE14D2391D003F00A1 /* MainViewController.h */,
 				302D95EF14D2391D003F00A1 /* MainViewController.m */,
 				302D95F014D2391D003F00A1 /* MainViewController.xib */,
+				EE2163FA20A2E1B100DA0022 /* SYCHomeViewController.h */,
+				EE2163FB20A2E1B100DA0022 /* SYCHomeViewController.m */,
+				EE2163FD20A2E2C200DA0022 /* SYCPushViewController.h */,
+				EE2163FE20A2E2C200DA0022 /* SYCPushViewController.m */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 				EE9500751E7FBF3E00C35C2A /* SYCTabViewController.h */,
@@ -3526,6 +3536,7 @@
 				EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */,
 				EE4880C01EB46FE900D6A675 /* SYCPayOrderInfoModel.m in Sources */,
 				EEBD023A20A04EE000020D95 /* ZXMaxiCodeBitMatrixParser.m in Sources */,
+				EE2163FC20A2E1B100DA0022 /* SYCHomeViewController.m in Sources */,
 				EEBD027620A04EE000020D95 /* ZXUPCEReader.m in Sources */,
 				EE9500301E7F804A00C35C2A /* AFURLRequestSerialization.m in Sources */,
 				EEBD020B20A04EE000020D95 /* ZXBitMatrix.m in Sources */,
@@ -3745,6 +3756,7 @@
 				EEBD02A920A04EE000020D95 /* ZXQRCodeReader.m in Sources */,
 				EEBD026E20A04EE000020D95 /* ZXOneDReader.m in Sources */,
 				EE95006B1E7F804A00C35C2A /* UIScrollView+MJExtension.m in Sources */,
+				EE2163FF20A2E2C200DA0022 /* SYCPushViewController.m in Sources */,
 				EE9500411E7F804A00C35C2A /* MASConstraintMaker.m in Sources */,
 				EEBD025B20A04EE000020D95 /* ZXRSSPair.m in Sources */,
 				EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */,

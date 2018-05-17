@@ -110,7 +110,6 @@
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
     
-    
     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     if (appdelegate.isLogin&&!appdelegate.isUploadRegId&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
         [SYCHttpReqTool uploadRegId:[SYCShareVersionInfo sharedVersion].regId withToken:[SYCShareVersionInfo sharedVersion].token completion:^(NSString *resultCode, NSMutableDictionary *result) {
@@ -159,12 +158,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view from its nib.
     _locationTime = 0;
-//    self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.extendedLayoutIncludesOpaqueBars = YES;
+    CGRect webViewBounds = self.view.bounds;
+    webViewBounds.origin = self.view.bounds.origin;
+    UIView *view = [self newCordovaViewWithFrame:webViewBounds];
+    [self.view addSubview:view];
+    [self LoadURL:self.startPage];
     _locationService = [[BMKLocationService alloc]init];
     _locationService.delegate = self;
     //启动locationService

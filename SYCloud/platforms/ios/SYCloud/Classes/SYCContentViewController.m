@@ -73,7 +73,8 @@ static void *eventBarItem = @"eventBarItem";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     _currentGuidenceImageIndex = 1;
     if (_isFirst&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]) {
         __weak __typeof(self)weakSelf = self;
@@ -92,8 +93,8 @@ static void *eventBarItem = @"eventBarItem";
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         SYCContentViewController *viewC =[[SYCContentViewController alloc]init];
         [viewC setNavigationBar:navModel];
-        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-        viewC.view.frame = rect;
+//        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
+//        viewC.view.frame = rect;
         strongSelf.isBackToLast = isBackToLast;
         MainViewController *pushM = [[MainViewController alloc]init];
         //处理中文字符
@@ -107,7 +108,10 @@ static void *eventBarItem = @"eventBarItem";
         pushM.isChild = YES;
         pushM.isRoot = NO;
         pushM.lastViewController = strongSelf.CurrentChildVC;
+        CGRect rect = [UIScreen mainScreen].bounds;
+        rect.size.height -= 64;
         pushM.view.frame = rect;
+        pushM.webView.frame = rect;
         [viewC addChildViewController:pushM];
         [viewC.view addSubview:pushM.view];
         [pushM didMoveToParentViewController:viewC];
@@ -121,7 +125,6 @@ static void *eventBarItem = @"eventBarItem";
             strongSelf.hidesBottomBarWhenPushed = YES;
         }
     };
-    
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
