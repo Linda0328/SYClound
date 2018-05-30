@@ -37,6 +37,8 @@
 #import "SYCScanPictureViewController.h"
 #import "SYCScanImagesViewController.h"
 #import "SYCNewLoadViewController.h"
+#import "SYCCreateLockViewController.h"
+#import "SYCUnlockViewController.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -109,7 +111,7 @@ static void *eventBarItem = @"eventBarItem";
         pushM.isRoot = NO;
         pushM.lastViewController = strongSelf.CurrentChildVC;
         CGRect rect = [UIScreen mainScreen].bounds;
-        rect.size.height -= 64;
+        rect.size.height -= isIphoneX?88:64;
         pushM.view.frame = rect;
         pushM.webView.frame = rect;
         [viewC addChildViewController:pushM];
@@ -135,7 +137,8 @@ static void *eventBarItem = @"eventBarItem";
     [center addObserver:self selector:@selector(LoadAgain:) name:LoadAgainNotify object:nil];
     [center addObserver:self selector:@selector(guidence:) name:guidenceNotify object:nil];
     [center addObserver:self selector:@selector(shareImage:) name:shareIMGNotify object:nil];
-   
+    [center addObserver:self selector:@selector(openLock:) name:openLockNotify object:nil];
+    [center addObserver:self selector:@selector(closeLock:) name:closeLockNotify object:nil];
 }
 
 -(void)PushScanVC:(NSNotification*)notify{
@@ -332,6 +335,29 @@ static void *eventBarItem = @"eventBarItem";
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
         [self.CurrentChildVC.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].sharePluginID];
     }];
+}
+-(void)openLock:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCCreateLockViewController *createLock = [[SYCCreateLockViewController alloc]init];
+    self.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:createLock animated:YES];
+}
+-(void)closeLock:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
+    self.hidesBottomBarWhenPushed = YES;
+    unlockVC.matchB = ^{
+        [self.navigationController popViewControllerAnimated:YES];
+        [SYCSystem setGesturePassword:@""];
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isLocked"];
+    };
+    [self.navigationController pushViewController:unlockVC animated:YES];
 }
 -(void)ShowPhotos:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;

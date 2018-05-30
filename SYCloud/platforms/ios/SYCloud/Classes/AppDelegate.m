@@ -58,6 +58,7 @@
 #import "SYCNewGuiderViewController.h"
 #import <UserNotifications/UserNotifications.h>
 #import "QQManager.h"
+#import "SYCUnlockViewController.h"
 @interface AppDelegate()<MiPushSDKDelegate,UNUserNotificationCenterDelegate>{
     BMKMapManager *_mapManager;
 }
@@ -125,7 +126,6 @@
                 }];
             }
         }];
-       
         [MiPushSDK registerMiPush:self type:0 connect:YES];
         center.delegate = self;
     }else{
@@ -137,8 +137,16 @@
         SYCNewGuiderViewController *newGuider = [[SYCNewGuiderViewController alloc]init];
         self.window.rootViewController = newGuider;
     }else{
-        [self setRootViewController];
-        
+        if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
+            SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
+            self.window.rootViewController = unlockVC;
+            unlockVC.matchB = ^{
+                [self setRootViewController];
+            };
+        }else{
+            [self setRootViewController];
+        }
+       
     }
     [self.window makeKeyAndVisible];
     //通过推送窗口启动程序
@@ -331,7 +339,6 @@
                 UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
                 SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
                 if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
-                   
                     SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
                     newLoad.contentVC = contentVC ;
                     newLoad.paymentType = payMentTypeSDK;

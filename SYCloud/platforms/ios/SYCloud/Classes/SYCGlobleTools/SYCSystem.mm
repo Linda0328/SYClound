@@ -95,7 +95,8 @@ NSString *const paymentDatakey = @"paymentmodelkey";
 NSString *const shareNotify = @"shareNotify";
 NSString *const shareIMGNotify = @"shareIMG";
 NSString *const dismissShareNotify = @"dismissShare";
-
+NSString *const closeLockNotify = @"closeLock";
+NSString *const openLockNotify = @"openLock";
 NSString *const showPhotoNotify = @"showPhoto";
 NSString *const LoadAgainNotify = @"loadAgain";
 NSString *const guidenceNotify = @"guidence";
@@ -110,6 +111,8 @@ NSString *const SYCVersionCode = @"1.0.5";
 NSString *const versionCode = @"versionCode";
 NSString *const GuidenceImagesKey = @"GuidenceImages";
 NSString *const SYCRegIDKey = @"RegIDKey";
+
+NSString *const SYCGesturePassword = @"GesturePassword";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
@@ -467,5 +470,14 @@ NSString *const SYCRegIDKey = @"RegIDKey";
         return NO;
     }
 }
-
++(void)setGesturePassword:(NSString*)password{
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    [userdefault setObject:password forKey:SYCGesturePassword];
+    [userdefault synchronize];
+}
++(NSString*)getGesturePassword{
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSString *password = [userdefault objectForKey:SYCGesturePassword];
+    return password;
+}
 @end

@@ -30,7 +30,8 @@ extern NSString *const WeiXinAppID;
 extern NSString *const BDAppKay;
 extern NSString * const QQAppID;
 extern NSString * const QQAppkey;
-
+extern NSString *const closeLockNotify ;
+extern NSString *const openLockNotify ;
 extern NSString *const updateNotify;
 extern NSString *const hideNotify;
 extern NSString *const loadAppNotify;
@@ -113,6 +114,8 @@ extern NSString *const SYCRegIDKey;
 +(BOOL)connectedToNetwork;
 + (NSString *)getNetType;
 
++(void)setGesturePassword:(NSString*)password;
++(NSString*)getGesturePassword;
 
 
 +(CGFloat)PointCoefficient;

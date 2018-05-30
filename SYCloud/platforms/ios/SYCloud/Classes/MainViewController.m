@@ -109,7 +109,15 @@
         [SYCShareVersionInfo sharedVersion].scanResult = nil;
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
-    
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].lockPluginID]) {
+        NSString *lockOrNot = @"unlock";
+        if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
+            lockOrNot = @"lock";
+        }
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:lockOrNot];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].lockPluginID];
+        [SYCShareVersionInfo sharedVersion].lockPluginID = nil;
+    }
     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     if (appdelegate.isLogin&&!appdelegate.isUploadRegId&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
         [SYCHttpReqTool uploadRegId:[SYCShareVersionInfo sharedVersion].regId withToken:[SYCShareVersionInfo sharedVersion].token completion:^(NSString *resultCode, NSMutableDictionary *result) {

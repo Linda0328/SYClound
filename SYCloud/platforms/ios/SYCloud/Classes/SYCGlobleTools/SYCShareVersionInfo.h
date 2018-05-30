@@ -68,6 +68,7 @@
 
 @property (nonatomic,copy)NSString *sharePluginID;
 
+@property (nonatomic,copy)NSString *lockPluginID;
 + (instancetype)sharedVersion;
 
 @end

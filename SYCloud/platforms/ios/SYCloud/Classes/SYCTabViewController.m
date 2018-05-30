@@ -7,7 +7,7 @@
 //
 
 #import "SYCTabViewController.h"
-#import "SYCHomeViewController.h"
+
 #import "SYCContentViewController.h"
 #import "SYCNavigationBarModel.h"
 #import "SYCTabBarItemModel.h"
@@ -50,7 +50,7 @@
         mainViewC.startPage = navBarModel.url;
         mainViewC.isHiddenNavBar = viewC.isHiddenNavigationBar;
         CGRect rect = [UIScreen mainScreen].bounds;
-        rect.size.height -= 113;
+        rect.size.height -= isIphoneX?(88+49+34):113;
         mainViewC.view.frame = rect;
         mainViewC.webView.frame = rect;
         [viewC addChildViewController:mainViewC];

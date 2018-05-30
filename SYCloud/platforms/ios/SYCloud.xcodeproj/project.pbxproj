@@ -35,8 +35,6 @@
 		DBC65EC655A642D6A416E34A /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = DED62237FFF04F37A6BCEB5A /* CDVAssetLibraryFilesystem.m */; };
 		E0BDB45460CB4EFF9EB64860 /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = E9BB08BA76644656B87043E8 /* CDVNotification.m */; };
 		EE04247E204D3D3F00C402D1 /* loginBG1125@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EE04247D204D3D3F00C402D1 /* loginBG1125@3x.png */; };
-		EE2163FC20A2E1B100DA0022 /* SYCHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2163FB20A2E1B100DA0022 /* SYCHomeViewController.m */; };
-		EE2163FF20A2E2C200DA0022 /* SYCPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE2163FE20A2E2C200DA0022 /* SYCPushViewController.m */; };
 		EE4880BD1EB4435700D6A675 /* SYCPayInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880BC1EB4435700D6A675 /* SYCPayInfoModel.m */; };
 		EE4880C01EB46FE900D6A675 /* SYCPayOrderInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880BF1EB46FE900D6A675 /* SYCPayOrderInfoModel.m */; };
 		EE4880C31EB4718D00D6A675 /* SYCPayTypeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE4880C21EB4718D00D6A675 /* SYCPayTypeModel.m */; };
@@ -77,6 +75,7 @@
 		EE742AC31F1F350C00EB4BC9 /* SYCustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = EE742AC21F1F350C00EB4BC9 /* SYCustomTextField.m */; };
 		EE7458AE1FBD67240024DA75 /* SYCLoadTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7458AD1FBD67240024DA75 /* SYCLoadTextField.m */; };
 		EE7458B11FBD79490024DA75 /* UILabel+SYCFitWidthLable.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7458B01FBD79490024DA75 /* UILabel+SYCFitWidthLable.m */; };
+		EE74799520BB998A003DB51B /* SYCShowPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = EE74799420BB998A003DB51B /* SYCShowPasswordView.m */; };
 		EE7489521EB038B20039ADB8 /* SYCRequestPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */; };
 		EE76924D1FCF95DE0066F007 /* SYCNewGuiderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE76924C1FCF95DE0066F007 /* SYCNewGuiderViewController.m */; };
 		EE76925E1FCF997B0066F007 /* yd320_2.png in Resources */ = {isa = PBXBuildFile; fileRef = EE76924F1FCF997A0066F007 /* yd320_2.png */; };
@@ -229,6 +228,7 @@
 		EE9500871E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9500861E7FD39A00C35C2A /* UILabel+SYCNavigationTitle.m */; };
 		EE95008B1E7FDCAC00C35C2A /* SYCSearchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */; };
 		EE9575101F3B0669000F2D5E /* UIButton+TitleImageCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95750F1F3B0669000F2D5E /* UIButton+TitleImageCenter.m */; };
+		EE9588F020BE7CE900DB8DA5 /* SYCUnlockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9588EF20BE7CE900DB8DA5 /* SYCUnlockViewController.m */; };
 		EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */; };
 		EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF5E1E7F7DAB00C35C2A /* SYCEventPlugin.m */; };
 		EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE95FF601E7F7DAB00C35C2A /* SYCIntentPlugin.m */; };
@@ -250,6 +250,9 @@
 		EE9FE4791F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EE9FE4781F3C3EA600B1D67A /* TencentOpenApi_IOS_Bundle.bundle */; };
 		EE9FE47B1F3C3EB400B1D67A /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */; };
 		EE9FE4811F3C429E00B1D67A /* QQManager.m in Sources */ = {isa = PBXBuildFile; fileRef = EE9FE4801F3C429E00B1D67A /* QQManager.m */; };
+		EEA8273B20B3A5BC00E23F36 /* SYCLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA8273A20B3A5BC00E23F36 /* SYCLockViewController.m */; };
+		EEA8273E20B3A5DD00E23F36 /* SYCPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA8273D20B3A5DD00E23F36 /* SYCPassWordView.m */; };
+		EEA8274120B3B4BF00E23F36 /* SYCCreateLockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEA8274020B3B4BF00E23F36 /* SYCCreateLockViewController.m */; };
 		EEB443641FDB7AB3005B9C54 /* libMiPushSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */; };
 		EEBD01D020A04EE000020D95 /* ZXAztecDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBDFFE820A04EDE00020D95 /* ZXAztecDecoder.m */; };
 		EEBD01D120A04EE000020D95 /* ZXAztecDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBDFFEB20A04EDE00020D95 /* ZXAztecDetector.m */; };
@@ -592,10 +595,6 @@
 		ECA346DEF87E4992B1ADF380 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = "cordova-plugin-statusbar/CDVStatusBar.m"; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		EE04247D204D3D3F00C402D1 /* loginBG1125@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "loginBG1125@3x.png"; sourceTree = "<group>"; };
-		EE2163FA20A2E1B100DA0022 /* SYCHomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCHomeViewController.h; sourceTree = "<group>"; };
-		EE2163FB20A2E1B100DA0022 /* SYCHomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCHomeViewController.m; sourceTree = "<group>"; };
-		EE2163FD20A2E2C200DA0022 /* SYCPushViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCPushViewController.h; sourceTree = "<group>"; };
-		EE2163FE20A2E2C200DA0022 /* SYCPushViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCPushViewController.m; sourceTree = "<group>"; };
 		EE4880BB1EB4435700D6A675 /* SYCPayInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayInfoModel.h; sourceTree = "<group>"; };
 		EE4880BC1EB4435700D6A675 /* SYCPayInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPayInfoModel.m; sourceTree = "<group>"; };
 		EE4880BE1EB46FE900D6A675 /* SYCPayOrderInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderInfoModel.h; sourceTree = "<group>"; };
@@ -658,6 +657,8 @@
 		EE7458AD1FBD67240024DA75 /* SYCLoadTextField.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCLoadTextField.m; sourceTree = "<group>"; };
 		EE7458AF1FBD79490024DA75 /* UILabel+SYCFitWidthLable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UILabel+SYCFitWidthLable.h"; sourceTree = "<group>"; };
 		EE7458B01FBD79490024DA75 /* UILabel+SYCFitWidthLable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UILabel+SYCFitWidthLable.m"; sourceTree = "<group>"; };
+		EE74799320BB998A003DB51B /* SYCShowPasswordView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCShowPasswordView.h; sourceTree = "<group>"; };
+		EE74799420BB998A003DB51B /* SYCShowPasswordView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCShowPasswordView.m; sourceTree = "<group>"; };
 		EE7489501EB038B20039ADB8 /* SYCRequestPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCRequestPlugin.h; sourceTree = "<group>"; };
 		EE7489511EB038B20039ADB8 /* SYCRequestPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCRequestPlugin.m; sourceTree = "<group>"; };
 		EE76924B1FCF95DE0066F007 /* SYCNewGuiderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCNewGuiderViewController.h; sourceTree = "<group>"; };
@@ -853,6 +854,8 @@
 		EE95008A1E7FDCAC00C35C2A /* SYCSearchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCSearchModel.m; sourceTree = "<group>"; };
 		EE95750E1F3B0669000F2D5E /* UIButton+TitleImageCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+TitleImageCenter.h"; sourceTree = "<group>"; };
 		EE95750F1F3B0669000F2D5E /* UIButton+TitleImageCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+TitleImageCenter.m"; sourceTree = "<group>"; };
+		EE9588EE20BE7CE900DB8DA5 /* SYCUnlockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCUnlockViewController.h; sourceTree = "<group>"; };
+		EE9588EF20BE7CE900DB8DA5 /* SYCUnlockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCUnlockViewController.m; sourceTree = "<group>"; };
 		EE95FF5B1E7F7DAB00C35C2A /* SYCCachePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCCachePlugin.h; sourceTree = "<group>"; };
 		EE95FF5C1E7F7DAB00C35C2A /* SYCCachePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCCachePlugin.m; sourceTree = "<group>"; };
 		EE95FF5D1E7F7DAB00C35C2A /* SYCEventPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCEventPlugin.h; sourceTree = "<group>"; };
@@ -989,6 +992,12 @@
 		EE9FE47A1F3C3EB400B1D67A /* TencentOpenAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TencentOpenAPI.framework; sourceTree = "<group>"; };
 		EE9FE47F1F3C429E00B1D67A /* QQManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QQManager.h; sourceTree = "<group>"; };
 		EE9FE4801F3C429E00B1D67A /* QQManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QQManager.m; sourceTree = "<group>"; };
+		EEA8273920B3A5BC00E23F36 /* SYCLockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCLockViewController.h; sourceTree = "<group>"; };
+		EEA8273A20B3A5BC00E23F36 /* SYCLockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCLockViewController.m; sourceTree = "<group>"; };
+		EEA8273C20B3A5DD00E23F36 /* SYCPassWordView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCPassWordView.h; sourceTree = "<group>"; };
+		EEA8273D20B3A5DD00E23F36 /* SYCPassWordView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCPassWordView.m; sourceTree = "<group>"; };
+		EEA8273F20B3B4BF00E23F36 /* SYCCreateLockViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SYCCreateLockViewController.h; sourceTree = "<group>"; };
+		EEA8274020B3B4BF00E23F36 /* SYCCreateLockViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SYCCreateLockViewController.m; sourceTree = "<group>"; };
 		EEB443621FDB7AAF005B9C54 /* MiPushSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MiPushSDK.h; sourceTree = "<group>"; };
 		EEB443631FDB7AB2005B9C54 /* libMiPushSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMiPushSDK.a; sourceTree = "<group>"; };
 		EEB4436B1FDB7E81005B9C54 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
@@ -1558,10 +1567,6 @@
 				302D95EE14D2391D003F00A1 /* MainViewController.h */,
 				302D95EF14D2391D003F00A1 /* MainViewController.m */,
 				302D95F014D2391D003F00A1 /* MainViewController.xib */,
-				EE2163FA20A2E1B100DA0022 /* SYCHomeViewController.h */,
-				EE2163FB20A2E1B100DA0022 /* SYCHomeViewController.m */,
-				EE2163FD20A2E2C200DA0022 /* SYCPushViewController.h */,
-				EE2163FE20A2E2C200DA0022 /* SYCPushViewController.m */,
 				1D3623240D0F684500981E51 /* AppDelegate.h */,
 				1D3623250D0F684500981E51 /* AppDelegate.m */,
 				EE9500751E7FBF3E00C35C2A /* SYCTabViewController.h */,
@@ -2391,6 +2396,7 @@
 		EE9E68291E73F6C600723A2C /* SYClasses */ = {
 			isa = PBXGroup;
 			children = (
+				EEA8273820B3A56A00E23F36 /* lock */,
 				EED377221FB2DE20007540D3 /* newLoad */,
 				EE8CCD821F3EA6CD000CD9A7 /* CustomViews */,
 				EE9FE47E1F3C427600B1D67A /* QQShare */,
@@ -2412,6 +2418,23 @@
 				EE9FE4801F3C429E00B1D67A /* QQManager.m */,
 			);
 			name = QQShare;
+			sourceTree = "<group>";
+		};
+		EEA8273820B3A56A00E23F36 /* lock */ = {
+			isa = PBXGroup;
+			children = (
+				EEA8273920B3A5BC00E23F36 /* SYCLockViewController.h */,
+				EEA8273A20B3A5BC00E23F36 /* SYCLockViewController.m */,
+				EEA8273C20B3A5DD00E23F36 /* SYCPassWordView.h */,
+				EEA8273D20B3A5DD00E23F36 /* SYCPassWordView.m */,
+				EE74799320BB998A003DB51B /* SYCShowPasswordView.h */,
+				EE74799420BB998A003DB51B /* SYCShowPasswordView.m */,
+				EEA8273F20B3B4BF00E23F36 /* SYCCreateLockViewController.h */,
+				EEA8274020B3B4BF00E23F36 /* SYCCreateLockViewController.m */,
+				EE9588EE20BE7CE900DB8DA5 /* SYCUnlockViewController.h */,
+				EE9588EF20BE7CE900DB8DA5 /* SYCUnlockViewController.m */,
+			);
+			name = lock;
 			sourceTree = "<group>";
 		};
 		EEB4436A1FDB7E81005B9C54 /* SYCloudPush */ = {
@@ -3470,6 +3493,7 @@
 				EED6FB671E94DCF60061B6AC /* SYIntroduceWLANView.m in Sources */,
 				EE7458AE1FBD67240024DA75 /* SYCLoadTextField.m in Sources */,
 				EE92F3CC1F1E0D75001C25F0 /* SYCLoadViewController.m in Sources */,
+				EEA8274120B3B4BF00E23F36 /* SYCCreateLockViewController.m in Sources */,
 				EEBD024E20A04EE000020D95 /* ZXRSSExpandedDecodedInformation.m in Sources */,
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				EE9500461E7F804A00C35C2A /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
@@ -3478,6 +3502,7 @@
 				EE6DF19A1EBC622700AF15E4 /* SYCPopoverGroupViewController.m in Sources */,
 				EEBD022320A04EE000020D95 /* ZXResult.m in Sources */,
 				EEBD024420A04EE000020D95 /* ZXAI01393xDecoder.m in Sources */,
+				EE9588F020BE7CE900DB8DA5 /* SYCUnlockViewController.m in Sources */,
 				EEBD01EB20A04EE000020D95 /* ZXISBNResultParser.m in Sources */,
 				EEBD027920A04EE000020D95 /* ZXModulusPoly.m in Sources */,
 				EE915B491F2AD6DA0046E24B /* entropy.c in Sources */,
@@ -3536,7 +3561,6 @@
 				EE7BE7051E812DFE0080D625 /* UIImage+SYColorExtension.m in Sources */,
 				EE4880C01EB46FE900D6A675 /* SYCPayOrderInfoModel.m in Sources */,
 				EEBD023A20A04EE000020D95 /* ZXMaxiCodeBitMatrixParser.m in Sources */,
-				EE2163FC20A2E1B100DA0022 /* SYCHomeViewController.m in Sources */,
 				EEBD027620A04EE000020D95 /* ZXUPCEReader.m in Sources */,
 				EE9500301E7F804A00C35C2A /* AFURLRequestSerialization.m in Sources */,
 				EEBD020B20A04EE000020D95 /* ZXBitMatrix.m in Sources */,
@@ -3660,6 +3684,7 @@
 				EE72D2F31EA9F35100AFBD9E /* SYCPasswordViewController.m in Sources */,
 				EE9500611E7F804A00C35C2A /* MJRefreshAutoStateFooter.m in Sources */,
 				EE8265941FBEE0C800B702F3 /* SYCRegisterViewController.m in Sources */,
+				EE74799520BB998A003DB51B /* SYCShowPasswordView.m in Sources */,
 				EEBD01E220A04EE000020D95 /* ZXCalendarParsedResult.m in Sources */,
 				EE9500391E7F804A00C35C2A /* UIButton+AFNetworking.m in Sources */,
 				EEBD01DF20A04EE000020D95 /* ZXAddressBookParsedResult.m in Sources */,
@@ -3710,6 +3735,7 @@
 				EEBD026520A04EE000020D95 /* ZXEAN13Writer.m in Sources */,
 				EE95FF6E1E7F7DAB00C35C2A /* SYCEventPlugin.m in Sources */,
 				EEBD020920A04EE000020D95 /* ZXReedSolomonEncoder.m in Sources */,
+				EEA8273E20B3A5DD00E23F36 /* SYCPassWordView.m in Sources */,
 				EE6210421EAB4E5500F71DF7 /* SYCUUID.m in Sources */,
 				C18824F19B5E455885AB351C /* CDVLocalFilesystem.m in Sources */,
 				EEBD026020A04EE000020D95 /* ZXCode128Writer.m in Sources */,
@@ -3734,6 +3760,7 @@
 				EEBD021220A04EE000020D95 /* ZXDetectorResult.m in Sources */,
 				BA9275EC41D34D44B45741AF /* CDVLocation.m in Sources */,
 				C3C575E09E47446381BCDEEF /* CDVStatusBar.m in Sources */,
+				EEA8273B20B3A5BC00E23F36 /* SYCLockViewController.m in Sources */,
 				EEBD01F820A04EE000020D95 /* ZXURIResultParser.m in Sources */,
 				EE95FF6D1E7F7DAB00C35C2A /* SYCCachePlugin.m in Sources */,
 				EE9500481E7F804A00C35C2A /* ViewController+MASAdditions.m in Sources */,
@@ -3756,7 +3783,6 @@
 				EEBD02A920A04EE000020D95 /* ZXQRCodeReader.m in Sources */,
 				EEBD026E20A04EE000020D95 /* ZXOneDReader.m in Sources */,
 				EE95006B1E7F804A00C35C2A /* UIScrollView+MJExtension.m in Sources */,
-				EE2163FF20A2E2C200DA0022 /* SYCPushViewController.m in Sources */,
 				EE9500411E7F804A00C35C2A /* MASConstraintMaker.m in Sources */,
 				EEBD025B20A04EE000020D95 /* ZXRSSPair.m in Sources */,
 				EE95FF6F1E7F7DAB00C35C2A /* SYCIntentPlugin.m in Sources */,
