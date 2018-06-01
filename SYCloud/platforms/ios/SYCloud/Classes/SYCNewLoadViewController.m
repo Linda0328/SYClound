@@ -234,7 +234,7 @@
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                     if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
-                        
+                        [SYCSystem setGestureCount:5];
                         NSString *token = [[resultDic objectForKey:@"result"] objectForKey:@"token"];
                         NSString *nickName = [[resultDic objectForKey:@"result"] objectForKey:@"nickName"];
                         NSString *portraitPath = [[resultDic objectForKey:@"result"] objectForKey:@"portraitPath"];
@@ -289,6 +289,7 @@
             if ([resultCode isEqualToString:resultCodeSuccess]) {
                 NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                 if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
+                     [SYCSystem setGestureCount:5];
                     NSString *token = [[resultDic objectForKey:@"result"] objectForKey:@"token"];
                     NSString *nickName = [[resultDic objectForKey:@"result"] objectForKey:@"nickName"];
                     NSString *portraitPath = [[resultDic objectForKey:@"result"] objectForKey:@"portraitPath"];

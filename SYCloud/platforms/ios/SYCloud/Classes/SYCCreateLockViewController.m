@@ -55,7 +55,7 @@
     noticeLabel.numberOfLines = 0;
     noticeLabel.font = [UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]];
     noticeLabel.textColor = [UIColor blackColor];
-    NSString *notice = @"你可以创建一个生源支付解锁图案，这样他人在借用你的手机时，将无法打开生源支付";
+    NSString *notice = @"你可以创建一个生源支付解锁图案，这样他人在使用你的手机时，将无法打开生源支付";
     noticeLabel.text = notice;
     
     UIButton *createButton = [[UIButton alloc]init];

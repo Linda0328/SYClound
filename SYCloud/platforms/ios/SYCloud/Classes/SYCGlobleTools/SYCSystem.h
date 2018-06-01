@@ -116,6 +116,10 @@ extern NSString *const SYCRegIDKey;
 
 +(void)setGesturePassword:(NSString*)password;
 +(NSString*)getGesturePassword;
++(void)setGestureCount:(NSInteger)count;
++(NSInteger)getGestureCount;
++(void)setGestureLock;
++(void)setGestureUnlock;
 
 
 +(CGFloat)PointCoefficient;

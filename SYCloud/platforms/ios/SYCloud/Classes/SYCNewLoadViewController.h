@@ -13,4 +13,5 @@
 @property (nonatomic,strong)SYCContentViewController *contentVC;
 @property (nonatomic,assign)id payCode;
 @property (nonatomic,assign)BOOL isLoadAgain;
+@property (nonatomic,assign)BOOL forgetGesture;
 @end

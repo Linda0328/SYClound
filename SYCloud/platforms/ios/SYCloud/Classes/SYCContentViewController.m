@@ -67,8 +67,8 @@ static void *eventBarItem = @"eventBarItem";
     }
     
 }
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
+
+-(void)dealloc{
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center removeObserver:self name:LoadAgainNotify object:nil];
 }
@@ -355,7 +355,7 @@ static void *eventBarItem = @"eventBarItem";
     unlockVC.matchB = ^{
         [self.navigationController popViewControllerAnimated:YES];
         [SYCSystem setGesturePassword:@""];
-        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isLocked"];
+        [SYCSystem setGestureUnlock];
     };
     [self.navigationController pushViewController:unlockVC animated:YES];
 }

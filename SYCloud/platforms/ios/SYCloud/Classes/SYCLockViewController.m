@@ -78,7 +78,7 @@
     myline.backgroundColor = [UIColor colorWithHexString:@"f5f5f5"];
     [self.view addSubview: myline];
     [myline mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_noticeL.mas_bottom).mas_offset(100*[SYCSystem PointCoefficient]);
+        make.top.mas_equalTo(_noticeL.mas_bottom).mas_offset(60*[SYCSystem PointCoefficient]);
         make.centerX.equalTo(self.view);
         make.width.mas_equalTo(292*[SYCSystem PointCoefficient]);
         make.height.mas_equalTo(292*[SYCSystem PointCoefficient]);
@@ -86,12 +86,9 @@
     [myline error:^{
          imageV.hidden = NO;
         if (_firstDraw) {
-          
            _noticeL.text = @"密码太短，请至少链接4个点";
            _noticeL.textColor = [UIColor colorWithHexString:@"FF4D4D"];
-          
         }else{
-
             _noticeL.text = @"与上次绘制不一致，请重试";
             _noticeL.textColor = [UIColor colorWithHexString:@"FF4D4D"];
         }
@@ -114,7 +111,7 @@
                 imageV.hidden = YES;
                 _noticeL.textColor = [UIColor colorWithHexString:@"CFAF72"];
                 [SYCSystem setGesturePassword:str];
-                [[NSUserDefaults standardUserDefaults]setBool:YES forKey:@"isLocked"];
+                [SYCSystem setGestureLock];
                 [self performSelector:@selector(backToRoot) withObject:nil afterDelay:1.0];
             }
         }
@@ -123,7 +120,9 @@
     
 }
 -(void)backToRoot{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+    UIViewController *vc = [self.navigationController.viewControllers objectAtIndex:index-2];
+    [self.navigationController popToViewController:vc animated:YES];
 }
 -(void)backToLast{
     [self.navigationController popViewControllerAnimated:YES];

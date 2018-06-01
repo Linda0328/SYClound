@@ -131,22 +131,14 @@
     }else{
         [MiPushSDK registerMiPush:self type:0 connect:YES];
     }
-
+    //进入app初始化5次输入手势密码
+    [SYCSystem setGestureCount:5];
     BOOL canShow = [SYCNewGuiderViewController canShowNewGuider];
     if(canShow){ // 初始化新特性界面
         SYCNewGuiderViewController *newGuider = [[SYCNewGuiderViewController alloc]init];
         self.window.rootViewController = newGuider;
     }else{
-        if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
-            SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
-            self.window.rootViewController = unlockVC;
-            unlockVC.matchB = ^{
-                [self setRootViewController];
-            };
-        }else{
-            [self setRootViewController];
-        }
-       
+       [self setRootViewController];
     }
     [self.window makeKeyAndVisible];
     //通过推送窗口启动程序
@@ -155,6 +147,26 @@
         [self dealWithPushMessage:userInfo];
     }
     return YES;
+}
+-(void)applicationDidBecomeActive:(UIApplication *)application{
+    if (_isLogin&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
+        CGFloat intetval = [[NSUserDefaults standardUserDefaults]floatForKey:@"nowInterval"];
+        NSDate *date = [NSDate date];
+        NSTimeInterval time = [date timeIntervalSince1970]*1000;
+        if (time-intetval>30*1000) {
+            SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
+            unlockVC.matchB = ^{
+                [self setTabController];
+            };
+            self.window.rootViewController = unlockVC;
+        }
+    }
+}
+-(void)applicationDidEnterBackground:(UIApplication *)application{
+    NSDate *date = [NSDate date];
+    NSTimeInterval time = [date timeIntervalSince1970]*1000;
+//    NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
+    [[NSUserDefaults standardUserDefaults]setFloat:time forKey:@"nowInterval"];
 }
 -(void)setRootViewController{
     if (![SYCSystem connectedToNetwork]) {
@@ -186,7 +198,15 @@
     if (!_isLogin) {
         self.window.rootViewController = [[SYCNewLoadViewController alloc]init];
     }else{
-       [self setTabController];
+        if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
+            SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
+            unlockVC.matchB = ^{
+                [self setTabController];
+            };
+            self.window.rootViewController = unlockVC;
+        }else{
+            [self setTabController];
+        }
     }
 }
 -(void)setTabController{
@@ -520,8 +540,9 @@
     if ([type isEqualToString:pushMessageTypePage]) {
         SYCPushMessageViewController *viewC =[[SYCPushMessageViewController alloc]init];
         viewC.navTitle = title;
-        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-49);
-        viewC.view.frame =rect;
+        CGRect rect = [UIScreen mainScreen].bounds;
+        rect.size.height -= isIphoneX?88:64;
+        viewC.view.frame = rect;
         MainViewController *mainViewC = [[MainViewController alloc]init];
         //处理中文字符
         url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

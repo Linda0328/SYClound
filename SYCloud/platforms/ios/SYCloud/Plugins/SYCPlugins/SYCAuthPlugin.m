@@ -13,12 +13,14 @@
 @implementation SYCAuthPlugin
 -(void)login:(CDVInvokedUrlCommand *)command{
     MainViewController *main = (MainViewController*)self.viewController;
-    [SYCShareVersionInfo sharedVersion].token = nil;
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    [def setObject:@""forKey:loadToken];
     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     appdelegate.isUploadRegId = NO;
     [[NSNotificationCenter defaultCenter]postNotificationName:LoadAgainNotify object:main userInfo:nil];
+    [SYCShareVersionInfo sharedVersion].token = @"";
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [def setObject:@""forKey:loadToken];
+    [SYCSystem setGesturePassword:@""];
+    [SYCSystem setGestureUnlock];
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"load"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];

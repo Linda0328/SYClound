@@ -113,6 +113,7 @@ NSString *const GuidenceImagesKey = @"GuidenceImages";
 NSString *const SYCRegIDKey = @"RegIDKey";
 
 NSString *const SYCGesturePassword = @"GesturePassword";
+NSString *const SYCGestureCount = @"GestureCount";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
@@ -480,4 +481,21 @@ NSString *const SYCGesturePassword = @"GesturePassword";
     NSString *password = [userdefault objectForKey:SYCGesturePassword];
     return password;
 }
++(void)setGestureCount:(NSInteger)count{
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    [userdefault setInteger:count forKey:SYCGestureCount];
+    [userdefault synchronize];
+}
++(NSInteger)getGestureCount{
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSInteger count = [userdefault integerForKey:SYCGestureCount];
+    return count;
+}
++(void)setGestureLock{
+    [[NSUserDefaults standardUserDefaults]setValue:@"lock" forKey:@"isLocked"];
+}
++(void)setGestureUnlock{
+    [[NSUserDefaults standardUserDefaults]setValue:@"unlock" forKey:@"isLocked"];
+}
+
 @end
