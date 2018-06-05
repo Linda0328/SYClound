@@ -63,7 +63,7 @@
     BMKMapManager *_mapManager;
 }
 @property (nonatomic,strong)Reachability *hostReach;
-
+@property (nonatomic,strong)NSDictionary *userInfo;
 @end
 @implementation AppDelegate
 
@@ -141,10 +141,16 @@
        [self setRootViewController];
     }
     [self.window makeKeyAndVisible];
+    BOOL show = YES;
+    if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]&&_isLogin) {
+        show = NO;
+    }
+    
     //通过推送窗口启动程序
     NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     if(userInfo){
-        [self dealWithPushMessage:userInfo];
+        self.userInfo = userInfo;
+        [self dealWithPushMessage:userInfo show:show];
     }
     return YES;
 }
@@ -156,11 +162,24 @@
         if (time-intetval>30*1000) {
             SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
             unlockVC.matchB = ^{
-                [self setTabController];
+                if (!self.window.rootViewController){
+                    [self setTabController];
+                }
+                if (self.userInfo) {
+                    [self dealWithPushMessage:self.userInfo show:YES];
+                    self.userInfo = nil;
+                }
             };
-            self.window.rootViewController = unlockVC;
+            if (self.window.rootViewController&&![self.window.rootViewController isKindOfClass:[SYCUnlockViewController class]]) {
+                [self.window.rootViewController presentViewController:unlockVC animated:YES completion:nil];
+            }
+            if (!self.window.rootViewController) {
+                self.window.rootViewController = unlockVC;
+            }
+            
         }
     }
+    
 }
 -(void)applicationDidEnterBackground:(UIApplication *)application{
     NSDate *date = [NSDate date];
@@ -203,7 +222,11 @@
             unlockVC.matchB = ^{
                 [self setTabController];
             };
-            self.window.rootViewController = unlockVC;
+            if (self.window.rootViewController) {
+                [self.window.rootViewController presentViewController:unlockVC animated:YES completion:nil];
+            }else{
+                self.window.rootViewController = unlockVC;
+            }
         }else{
             [self setTabController];
         }
@@ -394,7 +417,6 @@
     NSString *comesURl = url.absoluteString;
     //跳转支付宝钱包进行支付，处理支付结果
     [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
-        
         NSString *resultContent = resultDic[@"memo"];
         NSString *resultStatus = resultDic[@"resultStatus"];
         NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
@@ -425,7 +447,6 @@
             UINavigationController *navC = (UINavigationController*)[_tabVC selectedViewController];
             SYCContentViewController *contentVC = (SYCContentViewController*)[[navC viewControllers] lastObject];
             if ([self.window.rootViewController isKindOfClass:[SYCTabViewController class]]) {
-               
                 SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
                 newLoad.contentVC = contentVC ;
                 newLoad.paymentType = payMentTypeSDK;
@@ -467,7 +488,14 @@
 //应用在前台
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    
+    _userInfo = userInfo;
+    BOOL show = YES;
+    CGFloat intetval = [[NSUserDefaults standardUserDefaults]floatForKey:@"nowInterval"];
+    NSDate *date = [NSDate date];
+    NSTimeInterval time = [date timeIntervalSince1970]*1000;
+    if (time-intetval>30*1000&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]&&_isLogin) {
+        show = NO;
+    }
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -476,7 +504,7 @@
                                      ];
             [alertC addAction:action];
             UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"去看看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self dealWithPushMessage:userInfo];
+                [self dealWithPushMessage:userInfo show:show];
             }];
             [alertC addAction:action0];
             [self.window.rootViewController presentViewController:alertC animated:YES completion:nil];
@@ -484,7 +512,7 @@
     }else if ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive){
         dispatch_async(dispatch_get_main_queue(), ^{
         
-            [self dealWithPushMessage:userInfo];
+            [self dealWithPushMessage:userInfo show:show];
         });
     }
     
@@ -493,6 +521,8 @@
 // 应用在前台收到通知
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler {
     NSDictionary * userInfo = notification.request.content.userInfo;
+    _userInfo = userInfo;
+
     if([notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             
@@ -501,7 +531,7 @@
                                      ];
             [alertC addAction:action];
             UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"去看看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self dealWithPushMessage:userInfo];
+                [self dealWithPushMessage:userInfo show:YES];
             }];
             [alertC addAction:action0];
             [self.window.rootViewController presentViewController:alertC animated:YES completion:nil];
@@ -512,9 +542,17 @@
     
 }
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(nonnull UNNotificationResponse *)response withCompletionHandler:(nonnull void (^)(void))completionHandler{
-    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    NSDictionary *userInfo = response.notification.request.content.userInfo;
+    _userInfo = userInfo;
+    BOOL show = YES;
+    CGFloat intetval = [[NSUserDefaults standardUserDefaults]floatForKey:@"nowInterval"];
+    NSDate *date = [NSDate date];
+    NSTimeInterval time = [date timeIntervalSince1970]*1000;
+    if (time-intetval>30*1000&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]&&_isLogin) {
+        show = NO;
+    }
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        [self dealWithPushMessage:userInfo];
+        [self dealWithPushMessage:userInfo show:show];
     }
 }
 
@@ -533,28 +571,27 @@
    //请求失败
     NSLog(@"小米推送请求失败------selector = %@,data = %@",selector,data);
 }
--(void)dealWithPushMessage:(NSDictionary*)userInfo{
+-(void)dealWithPushMessage:(NSDictionary*)userInfo show:(BOOL)show{
     NSString *title = [userInfo objectForKey:@"push_title"];
     NSString *type = [userInfo objectForKey:@"push_type"];
     NSString *url = [userInfo objectForKey:@"push_url"];
-    if ([type isEqualToString:pushMessageTypePage]) {
+    if ([type isEqualToString:pushMessageTypePage]&&show) {
         SYCPushMessageViewController *viewC =[[SYCPushMessageViewController alloc]init];
         viewC.navTitle = title;
-        CGRect rect = [UIScreen mainScreen].bounds;
-        rect.size.height -= isIphoneX?88:64;
-        viewC.view.frame = rect;
         MainViewController *mainViewC = [[MainViewController alloc]init];
         //处理中文字符
         url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         mainViewC.startPage = url;
         mainViewC.isPush = YES;
+        CGRect rect = [UIScreen mainScreen].bounds;
+        rect.size.height -= isIphoneX?88:64;
         mainViewC.view.frame = rect;
+        mainViewC.webView.frame = rect;
         [viewC.view addSubview:mainViewC.view];
         [viewC addChildViewController:mainViewC];
         [mainViewC didMoveToParentViewController:viewC];
         UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:viewC];
         [self.window.rootViewController presentViewController:navC animated:YES completion:nil];
     }
-    
 }
 @end

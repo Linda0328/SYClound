@@ -95,9 +95,7 @@ static void *eventBarItem = @"eventBarItem";
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         SYCContentViewController *viewC =[[SYCContentViewController alloc]init];
         [viewC setNavigationBar:navModel];
-//        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-//        viewC.view.frame = rect;
-        strongSelf.isBackToLast = isBackToLast;
+        viewC.isBackToLast = isBackToLast;
         MainViewController *pushM = [[MainViewController alloc]init];
         //处理中文字符
         NSString *url=[navModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -123,8 +121,10 @@ static void *eventBarItem = @"eventBarItem";
         [strongSelf.navigationController pushViewController:viewC animated:YES];
         if (strongSelf.CurrentChildVC.isRoot) {
             strongSelf.hidesBottomBarWhenPushed = NO;
+            viewC.hidesBottomBarWhenPushed = YES;
         }else{
             strongSelf.hidesBottomBarWhenPushed = YES;
+            viewC.hidesBottomBarWhenPushed = NO;
         }
     };
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];

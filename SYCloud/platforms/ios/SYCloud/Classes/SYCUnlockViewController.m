@@ -103,6 +103,7 @@
     [myline chuanZhi:^(NSString *str) {
         if ([str isEqualToString:[SYCSystem getGesturePassword]]) {
             [SYCSystem setGestureCount:5];
+            [self dismissViewControllerAnimated:YES completion:nil];
             if (self.matchB) {
                 self.matchB();
             }

@@ -54,7 +54,7 @@
 //    UIImage *Image = [UIImage imageNamed:@"scanImage"];
     UIButton *ScanImageB = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40*[SYCSystem PointCoefficient], 40*[SYCSystem PointCoefficient])];
 //    [ScanImageB setImage:Image forState:UIControlStateNormal];
-    [ScanImageB setTitle:@"图片" forState:UIControlStateNormal];
+    [ScanImageB setTitle:@"相册" forState:UIControlStateNormal];
     [ScanImageB setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [ScanImageB addTarget:self action:@selector(ScanPictureFromPhotoAlbum) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *ImageItem = [[UIBarButtonItem alloc]initWithCustomView:ScanImageB];
@@ -217,6 +217,7 @@
         [self performSelector:@selector(backToLast) withObject:nil afterDelay:1.0];
     }else{
         MBProgressHUD *hud = [[MBProgressHUD alloc]initWithView:self.view];
+        [self.view addSubview:hud];
         hud.mode = MBProgressHUDModeText;
         hud.label.text = @"图片解析失败";
         [hud showAnimated:YES];

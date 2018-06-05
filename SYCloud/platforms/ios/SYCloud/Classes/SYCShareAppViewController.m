@@ -157,7 +157,7 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
 }
 -(void)handleSentToQQresult:(QQApiSendResultCode)code{
     NSLog(@"QQ分享错误码----%@",@(code));
-    if (code == 10002) {
+    if (code == EQQAPIVERSIONNEEDUPDATE) {
 //        当前QQ版本太低，需要更新至新版本才可以支持
         _HUD.label.text = @"当前QQ版本太低，需要更新至新版本才可以支持";
         [_HUD showAnimated:YES];
