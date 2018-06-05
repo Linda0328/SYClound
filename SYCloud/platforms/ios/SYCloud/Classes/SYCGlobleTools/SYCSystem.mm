@@ -114,6 +114,10 @@ NSString *const SYCRegIDKey = @"RegIDKey";
 
 NSString *const SYCGesturePassword = @"GesturePassword";
 NSString *const SYCGestureCount = @"GestureCount";
+
+NSString *const SYCLoadInfo = @"LoadInfo";
+NSString *const SYCLoadMember = @"LoadMember";
+NSString *const SYCLockStatus = @"isLocked";
 @implementation SYCSystem
 +(NSString*)baseURL{
     NSString *baseURL = nil;
@@ -472,9 +476,37 @@ NSString *const SYCGestureCount = @"GestureCount";
     }
 }
 +(void)setGesturePassword:(NSString*)password{
+    if (![SYCSystem judgeNSString:password]) {
+        password = @"";
+    }
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *dic = nil;
+    NSDictionary *Mdic = [userdefault objectForKey:SYCLoadInfo];
+    if (Mdic) {
+        dic = [[NSMutableDictionary alloc]initWithDictionary:Mdic];
+    }else{
+        dic = [[NSMutableDictionary alloc]init];
+    }
+    if (dic) {
+        if ([[dic allKeys]containsObject:[SYCSystem getLoadMember]]) {
+            
+            NSMutableDictionary *userDic = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:[SYCSystem getLoadMember]]];
+            if (userDic) {
+                [userDic setObject:password forKey:SYCGesturePassword];
+            }
+            [dic setObject:userDic forKey:[SYCSystem getLoadMember]];
+        }
+    }
+    [userdefault setObject:dic forKey:SYCLoadInfo];
     [userdefault setObject:password forKey:SYCGesturePassword];
     [userdefault synchronize];
+    
+}
++(void)unload{
+    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [def setObject:@""forKey:loadToken];
+    [def setObject:@"" forKey:SYCGesturePassword];
+    [def setObject:@"unlock" forKey:SYCLockStatus];
 }
 +(NSString*)getGesturePassword{
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
@@ -491,11 +523,84 @@ NSString *const SYCGestureCount = @"GestureCount";
     NSInteger count = [userdefault integerForKey:SYCGestureCount];
     return count;
 }
++(void)LoadMember:(NSString*)memberName{
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    [userdefault setObject:memberName forKey:SYCLoadMember];
+    [userdefault synchronize];
+}
++(NSString*)getLoadMember{
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSString *member = [userdefault objectForKey:SYCLoadMember];
+    return member;
+}
 +(void)setGestureLock{
-    [[NSUserDefaults standardUserDefaults]setValue:@"lock" forKey:@"isLocked"];
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *dic = nil;
+    NSDictionary *Mdic = [userdefault objectForKey:SYCLoadInfo];
+    if (Mdic) {
+        dic = [[NSMutableDictionary alloc]initWithDictionary:Mdic];
+    }else{
+        dic = [[NSMutableDictionary alloc]init];
+    }
+   
+    if (dic&&[[dic allKeys]containsObject:[SYCSystem getLoadMember]]) {
+        NSMutableDictionary *userDic = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:[SYCSystem getLoadMember]]];
+        if (userDic) {
+            [userDic setObject:@"lock" forKey:SYCLockStatus];
+        }
+        [dic setObject:userDic forKey:[SYCSystem getLoadMember]];
+    }
+    [userdefault setObject:dic forKey:SYCLoadInfo];
+    [userdefault setValue:@"lock" forKey:SYCLockStatus];
+    [userdefault synchronize];
+   
+  
 }
 +(void)setGestureUnlock{
-    [[NSUserDefaults standardUserDefaults]setValue:@"unlock" forKey:@"isLocked"];
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *dic = nil;
+    NSDictionary *Mdic = [userdefault objectForKey:SYCLoadInfo];
+    if (Mdic) {
+        dic = [[NSMutableDictionary alloc]initWithDictionary:Mdic];
+    }else{
+        dic = [[NSMutableDictionary alloc]init];
+    }
+    
+    if (dic&&[[dic allKeys]containsObject:[SYCSystem getLoadMember]]) {
+        NSMutableDictionary *userDic = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:[SYCSystem getLoadMember]]];
+        if (userDic) {
+            [userDic setObject:@"unlock" forKey:SYCLockStatus];
+        }
+        [dic setObject:userDic forKey:[SYCSystem getLoadMember]];
+    }
+    [userdefault setObject:dic forKey:SYCLoadInfo];
+    [userdefault setValue:@"unlock" forKey:SYCLockStatus];
+    [userdefault synchronize];
 }
-
++(void)setUserInfo:(NSString *)userName{
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *Mdic = nil;
+    NSDictionary *dic = [userdefault objectForKey:SYCLoadInfo];
+    if (dic) {
+        Mdic = [[NSMutableDictionary alloc]initWithDictionary:dic];
+    }else{
+        Mdic = [[NSMutableDictionary alloc]init];
+    }
+    if (![[Mdic allKeys]containsObject:userName]) {
+        NSMutableDictionary *userDic = [[NSMutableDictionary alloc]init];
+        [userDic setObject:@"" forKey:SYCGesturePassword];
+        [userDic setObject:@"unlock" forKey:SYCLockStatus];
+        [Mdic setObject:userDic forKey:userName];
+        [SYCSystem setGesturePassword:@""];
+        [userdefault setValue:@"unlock" forKey:SYCLockStatus];
+    }else{
+        NSMutableDictionary *userDic = [dic objectForKey:userName];
+        NSString *lockstatus = [userDic objectForKey:SYCLockStatus];
+        [userdefault setValue:lockstatus forKey:SYCLockStatus];
+        NSString *password = [userDic objectForKey:SYCGesturePassword];
+        [SYCSystem setGesturePassword:password];
+    }
+    [userdefault setObject:Mdic forKey:SYCLoadInfo];
+    [userdefault synchronize];
+}
 @end

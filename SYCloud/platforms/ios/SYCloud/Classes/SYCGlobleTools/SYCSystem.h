@@ -120,7 +120,8 @@ extern NSString *const SYCRegIDKey;
 +(NSInteger)getGestureCount;
 +(void)setGestureLock;
 +(void)setGestureUnlock;
-
+//退出登录清理数据
++(void)unload;
 
 +(CGFloat)PointCoefficient;
 
@@ -133,6 +134,8 @@ extern NSString *const SYCRegIDKey;
 //分解url参数
 +(NSDictionary *)dealWithURL:(NSString*)url;
 
++(void)LoadMember:(NSString*)memberName;
++(void)setUserInfo:(NSString *)userName;
 //是否是手机号码
 + (BOOL)isMobilePhoneOrtelePhone:(NSString *)mobileNum;
 @end

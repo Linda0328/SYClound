@@ -17,10 +17,7 @@
     appdelegate.isUploadRegId = NO;
     [[NSNotificationCenter defaultCenter]postNotificationName:LoadAgainNotify object:main userInfo:nil];
     [SYCShareVersionInfo sharedVersion].token = @"";
-    NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    [def setObject:@""forKey:loadToken];
-    [SYCSystem setGesturePassword:@""];
-    [SYCSystem setGestureUnlock];
+    [SYCSystem unload];
     [self.commandDelegate runInBackground:^{
         CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"load"];
         [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
