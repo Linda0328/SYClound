@@ -14,6 +14,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
 #import "Reachability.h"
+#import "AppDelegate.h"
 static NSString * const SYCloudTestBaseURL = @"http://yun.test.shengyuan.cn:7360"; //测试服务器
 static NSString * const SYCloudLocalBaseURLJW = @"http://172.16.0.143:7360"; //本地服务器
 static NSString * const SYCloudLocalBaseURLTH = @"http://172.16.0.140:7360";
@@ -504,9 +505,13 @@ NSString *const SYCLockStatus = @"isLocked";
 }
 +(void)unload{
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
-    [def setObject:@""forKey:loadToken];
+    [def setObject:@"" forKey:loadToken];
     [def setObject:@"" forKey:SYCGesturePassword];
     [def setObject:@"unlock" forKey:SYCLockStatus];
+    [def synchronize];
+    [SYCShareVersionInfo sharedVersion].token = @"";
+    AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    appdelegate.isUploadRegId = NO;
 }
 +(NSString*)getGesturePassword{
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
@@ -577,7 +582,7 @@ NSString *const SYCLockStatus = @"isLocked";
     [userdefault setValue:@"unlock" forKey:SYCLockStatus];
     [userdefault synchronize];
 }
-+(void)setUserInfo:(NSString *)userName{
++(void)setUserInfo:(NSString *)userName forgetPassword:(BOOL)forget{
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *Mdic = nil;
     NSDictionary *dic = [userdefault objectForKey:SYCLoadInfo];
@@ -594,11 +599,20 @@ NSString *const SYCLockStatus = @"isLocked";
         [SYCSystem setGesturePassword:@""];
         [userdefault setValue:@"unlock" forKey:SYCLockStatus];
     }else{
-        NSMutableDictionary *userDic = [dic objectForKey:userName];
-        NSString *lockstatus = [userDic objectForKey:SYCLockStatus];
-        [userdefault setValue:lockstatus forKey:SYCLockStatus];
-        NSString *password = [userDic objectForKey:SYCGesturePassword];
-        [SYCSystem setGesturePassword:password];
+        if (forget) {
+            NSMutableDictionary *userDic = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:userName]];
+            [userDic setObject:@"unlock" forKey:SYCLockStatus];
+            [userDic setObject:@"" forKey:SYCGesturePassword];
+            [Mdic setObject:userDic forKey:userName];
+            [SYCSystem setGesturePassword:@""];
+            [userdefault setValue:@"unlock" forKey:SYCLockStatus];
+        }else{
+            NSMutableDictionary *userDic = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:userName]];
+            NSString *lockstatus = [userDic objectForKey:SYCLockStatus];
+            [userdefault setValue:lockstatus forKey:SYCLockStatus];
+            NSString *password = [userDic objectForKey:SYCGesturePassword];
+            [SYCSystem setGesturePassword:password];
+        }
     }
     [userdefault setObject:Mdic forKey:SYCLoadInfo];
     [userdefault synchronize];

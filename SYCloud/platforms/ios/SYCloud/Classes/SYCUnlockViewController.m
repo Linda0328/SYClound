@@ -15,6 +15,7 @@
 #import "MBProgressHUD.h"
 #import "UILabel+SYCNavigationTitle.h"
 #import "AppDelegate.h"
+
 @interface SYCUnlockViewController ()
 
 @end
@@ -81,12 +82,15 @@
     }];
     [myline error:^{
         count --;
+        if (count<0) {
+            count = 0;
+        }
         [SYCSystem setGestureCount:count];
         if (count>0) {
-            noticeL.text = [NSString stringWithFormat:@"密码错误，还可以在输入%@次",[NSNumber numberWithInteger:count]];
+            noticeL.text = [NSString stringWithFormat:@"密码错误，还可以再输入%@次",[NSNumber numberWithInteger:count]];
             noticeL.textColor = [UIColor colorWithHexString:@"FF4D4D"];
         }else{
-            noticeL.text = [NSString stringWithFormat:@"密码错误，还可以在输入0次"];
+            noticeL.text = [NSString stringWithFormat:@"密码错误，还可以再输入0次"];
             noticeL.textColor = [UIColor colorWithHexString:@"FF4D4D"];
             MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
             HUD.mode = MBProgressHUDModeText;
@@ -95,8 +99,7 @@
             [self.view addSubview:HUD];
             [HUD showAnimated:YES];
             [HUD hideAnimated:YES afterDelay:1.5f];
-            [SYCSystem setGesturePassword:@""];
-            [SYCSystem setGestureUnlock];
+            [SYCSystem unload];
             [self performSelector:@selector(gotoLoad) withObject:nil afterDelay:1.5f];
         }
     }];
@@ -109,12 +112,15 @@
             }
         }else{
             count --;
+            if (count<0) {
+                count = 0;
+            }
             [SYCSystem setGestureCount:count];
             if (count>0) {
-                noticeL.text = [NSString stringWithFormat:@"密码错误，还可以在输入%@次",[NSNumber numberWithInteger:count]];
+                noticeL.text = [NSString stringWithFormat:@"密码错误，还可以再输入%@次",[NSNumber numberWithInteger:count]];
                 noticeL.textColor = [UIColor colorWithHexString:@"FF4D4D"];
             }else{
-                noticeL.text = [NSString stringWithFormat:@"密码错误，还可以在输入0次"];
+                noticeL.text = [NSString stringWithFormat:@"密码错误，还可以再输入0次"];
                 noticeL.textColor = [UIColor colorWithHexString:@"FF4D4D"];
                 MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
                 HUD.mode = MBProgressHUDModeText;
@@ -123,8 +129,7 @@
                 [self.view addSubview:HUD];
                 [HUD showAnimated:YES];
                 [HUD hideAnimated:YES afterDelay:1.5f];
-                [SYCSystem setGesturePassword:@""];
-                [SYCSystem setGestureUnlock];
+                [SYCSystem unload];
                 [self performSelector:@selector(gotoLoad) withObject:nil afterDelay:1.5f];
             }
         }
@@ -146,6 +151,7 @@
 }
 -(void)gotoLoad{
     SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
+    newLoad.forgetGesture = YES;
     [self presentViewController:newLoad animated:YES completion:nil];
     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     appdelegate.window.rootViewController = newLoad;
@@ -156,9 +162,7 @@
                              ];
     [alertC addAction:action];
     UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"重新登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[NSUserDefaults standardUserDefaults]setValue:@"unlock" forKey:@"isLocked"];
-        [SYCSystem setGesturePassword:@""];
-        [SYCSystem setGestureUnlock];
+        [SYCSystem unload];
         [self gotoLoad];
     }];
     [alertC addAction:action0];

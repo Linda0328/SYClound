@@ -135,7 +135,7 @@ extern NSString *const SYCRegIDKey;
 +(NSDictionary *)dealWithURL:(NSString*)url;
 
 +(void)LoadMember:(NSString*)memberName;
-+(void)setUserInfo:(NSString *)userName;
++(void)setUserInfo:(NSString *)userName forgetPassword:(BOOL)forget;
 //是否是手机号码
 + (BOOL)isMobilePhoneOrtelePhone:(NSString *)mobileNum;
 @end

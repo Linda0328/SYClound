@@ -132,7 +132,7 @@
         [MiPushSDK registerMiPush:self type:0 connect:YES];
     }
     //进入app初始化5次输入手势密码
-    [SYCSystem setGestureCount:5];
+
     BOOL canShow = [SYCNewGuiderViewController canShowNewGuider];
     if(canShow){ // 初始化新特性界面
         SYCNewGuiderViewController *newGuider = [[SYCNewGuiderViewController alloc]init];
@@ -142,10 +142,9 @@
     }
     [self.window makeKeyAndVisible];
     BOOL show = YES;
-    if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]&&_isLogin) {
+    if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
         show = NO;
     }
-    
     //通过推送窗口启动程序
     NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     if(userInfo){
@@ -154,22 +153,28 @@
     }
     return YES;
 }
--(void)applicationDidBecomeActive:(UIApplication *)application{
+//回到前台
+-(void)applicationWillEnterForeground:(UIApplication *)application{
     if (_isLogin&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
-        CGFloat intetval = [[NSUserDefaults standardUserDefaults]floatForKey:@"nowInterval"];
-        NSDate *date = [NSDate date];
-        NSTimeInterval time = [date timeIntervalSince1970]*1000;
-        if (time-intetval>30*1000) {
+        __weak __typeof(self) weakSelf = self;
+        NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+        CGFloat intetval = [userDef floatForKey:@"nowInterval"];
+        NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSTimeInterval time = [date timeIntervalSince1970];
+        if (time-intetval > 30&&intetval != 0) {
             SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
             unlockVC.matchB = ^{
-                if (!self.window.rootViewController){
-                    [self setTabController];
+                 __strong __typeof(weakSelf)strongSelf = weakSelf;
+                if (!strongSelf.window.rootViewController){
+                    [strongSelf setTabController];
                 }
-                if (self.userInfo) {
-                    [self dealWithPushMessage:self.userInfo show:YES];
-                    self.userInfo = nil;
+                if (strongSelf.userInfo) {
+                    [strongSelf dealWithPushMessage:strongSelf.userInfo show:YES];
+                    strongSelf.userInfo = nil;
                 }
             };
+            [userDef setFloat:0 forKey:@"nowInterval"];
+            [userDef synchronize];
             if (self.window.rootViewController&&![self.window.rootViewController isKindOfClass:[SYCUnlockViewController class]]) {
                 [self.window.rootViewController presentViewController:unlockVC animated:YES completion:nil];
             }
@@ -181,11 +186,14 @@
     }
     
 }
+//进到后台
 -(void)applicationDidEnterBackground:(UIApplication *)application{
-    NSDate *date = [NSDate date];
-    NSTimeInterval time = [date timeIntervalSince1970]*1000;
+    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
+    NSTimeInterval time = [date timeIntervalSince1970];
 //    NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
-    [[NSUserDefaults standardUserDefaults]setFloat:time forKey:@"nowInterval"];
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setFloat:time forKey:@"nowInterval"];
+    [userDefault synchronize];
 }
 -(void)setRootViewController{
     if (![SYCSystem connectedToNetwork]) {
@@ -219,12 +227,19 @@
     }else{
         if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
             SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
+             __weak __typeof(self) weakSelf = self;
             unlockVC.matchB = ^{
+                  __strong __typeof(weakSelf)strongSelf = weakSelf;
                 [self setTabController];
+                if (strongSelf.userInfo) {
+                    [strongSelf dealWithPushMessage:strongSelf.userInfo show:YES];
+                    strongSelf.userInfo = nil;
+                }
             };
-            if (self.window.rootViewController) {
+            if (self.window.rootViewController&&![self.window.rootViewController isKindOfClass:[SYCUnlockViewController class]]) {
                 [self.window.rootViewController presentViewController:unlockVC animated:YES completion:nil];
-            }else{
+            }
+            if(!self.window.rootViewController){
                 self.window.rootViewController = unlockVC;
             }
         }else{

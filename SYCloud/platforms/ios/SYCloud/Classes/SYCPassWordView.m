@@ -177,7 +177,7 @@
         }
     }
     [self setNeedsDisplay];
-    [self performSelector:@selector(clearUI) withObject:nil afterDelay:1.5f];
+    [self performSelector:@selector(clearUI) withObject:nil afterDelay:1.0f];
 }
 -(void)clearUI{
     [_selectArray removeAllObjects];

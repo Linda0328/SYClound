@@ -372,9 +372,10 @@ static NSInteger infoCellNum = 2;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }else if (indexPath.row == 2){
         NSString *text =@"订单优惠：";
-        cell.textLabel.text = [text stringByAppendingFormat:@"¥%@",_couponDesc];
+        NSString *money = [NSString stringWithFormat:@"¥%@",_couponDesc];
+        cell.textLabel.text = [text stringByAppendingString:money];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:_couponDesc]];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:money]];
         cell.textLabel.attributedText = str;
         if ([SYCSystem judgeNSString:_couponDesc]&&[_couponDesc floatValue]>0) {
             cell.hidden = NO;
@@ -384,9 +385,10 @@ static NSInteger infoCellNum = 2;
        
     }else if (indexPath.row == 3){
         NSString *text =@"红包：";
-        cell.textLabel.text = [text stringByAppendingFormat:@"¥%@",_redPackegeAmount];
+        NSString *money = [NSString stringWithFormat:@"¥%@",_redPackegeAmount];
+        cell.textLabel.text = [text stringByAppendingString:money];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:_redPackegeAmount]];
+        [str addAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15*[SYCSystem PointCoefficient]],NSForegroundColorAttributeName:[UIColor colorWithHexString:@"CFAF72"]} range:[cell.textLabel.text rangeOfString:money]];
         cell.textLabel.attributedText = str;
         if ([SYCSystem judgeNSString:_redPackegeAmount]&&[_redPackegeAmount floatValue]>0) {
             cell.hidden = NO;

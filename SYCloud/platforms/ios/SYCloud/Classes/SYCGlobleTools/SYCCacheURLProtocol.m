@@ -26,7 +26,6 @@ NSString * const requestMarked = @"requestMarked";
 //        return NO;
 //    }
     NSURL* theUrl = [Request URL];
-    NSLog(@"-------request url --------%@",theUrl);
     if ([[theUrl absoluteString] containsString:kCacheJSPath]||[[theUrl absoluteString] containsString:kCacheStylePath]) {
         if ([NSURLProtocol propertyForKey:requestMarked inRequest:Request])
             return NO;

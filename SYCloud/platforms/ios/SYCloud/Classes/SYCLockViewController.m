@@ -112,6 +112,7 @@
                 _noticeL.textColor = [UIColor colorWithHexString:@"CFAF72"];
                 [SYCSystem setGesturePassword:str];
                 [SYCSystem setGestureLock];
+                [SYCSystem setGestureCount:5];
                 [self performSelector:@selector(backToRoot) withObject:nil afterDelay:1.0];
             }
         }
