@@ -116,7 +116,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SYCloud/Classes/SYCGlobleTools/SYCHttpReqTool.m"
-            timestampString = "550050450.175405"
+            timestampString = "550053582.518155"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1217"
@@ -148,12 +148,12 @@
                   moduleName = "SYCloud"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bunsei/Desktop/SYCloud/SYCloud/platforms/ios/SYCloud/Classes/SYCRegisterViewController.m"
-                  timestampString = "550050450.299126"
+                  timestampString = "550053582.640448"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "385"
                   endingLineNumber = "385"
-                  offsetFromSymbolStart = "632">
+                  offsetFromSymbolStart = "1800">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -163,12 +163,12 @@
                   moduleName = "SYCloud"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bunsei/Desktop/SYCloud/SYCloud/platforms/ios/SYCloud/Classes/SYCRegisterViewController.m"
-                  timestampString = "550050450.301067"
+                  timestampString = "550053582.64232"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "386"
-                  endingLineNumber = "386"
-                  offsetFromSymbolStart = "52">
+                  startingLineNumber = "385"
+                  endingLineNumber = "385"
+                  offsetFromSymbolStart = "24">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -178,7 +178,7 @@
                   moduleName = "SYCloud"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/bunsei/Desktop/SYCloud/SYCloud/platforms/ios/SYCloud/Classes/SYCRegisterViewController.m"
-                  timestampString = "550050450.302911"
+                  timestampString = "550053582.644164"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "385"
