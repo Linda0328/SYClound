@@ -141,14 +141,12 @@
        [self setRootViewController];
     }
     [self.window makeKeyAndVisible];
-    BOOL show = YES;
-    if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
-        show = NO;
-    }
+   
     //通过推送窗口启动程序
     NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     if(userInfo){
         self.userInfo = userInfo;
+        BOOL show = ![SYCSystem judgeNSString:[SYCSystem getGesturePassword]];
         [self dealWithPushMessage:userInfo show:show];
     }
     return YES;
@@ -158,10 +156,13 @@
     if (_isLogin&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
         __weak __typeof(self) weakSelf = self;
         NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
-        CGFloat intetval = [userDef floatForKey:@"nowInterval"];
-        NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
-        NSTimeInterval time = [date timeIntervalSince1970];
-        if (time-intetval > 30&&intetval != 0) {
+        NSDate *bgDate = [userDef objectForKey:@"nowTime"];
+        NSDate *date = [NSDate date];
+        NSTimeInterval interval = [date timeIntervalSinceDate:bgDate];
+        NSLog(@"------后台----%@",bgDate);
+        NSLog(@"------前台----%@",date);
+        NSLog(@"------时间差----%f",interval);
+        if (interval > 30) {
             SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
             unlockVC.matchB = ^{
                  __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -173,8 +174,6 @@
                     strongSelf.userInfo = nil;
                 }
             };
-            [userDef setFloat:0 forKey:@"nowInterval"];
-            [userDef synchronize];
             if (self.window.rootViewController&&![self.window.rootViewController isKindOfClass:[SYCUnlockViewController class]]) {
                 [self.window.rootViewController presentViewController:unlockVC animated:YES completion:nil];
             }
@@ -188,12 +187,13 @@
 }
 //进到后台
 -(void)applicationDidEnterBackground:(UIApplication *)application{
-    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
-    NSTimeInterval time = [date timeIntervalSince1970];
-//    NSString *timeString = [NSString stringWithFormat:@"%.0f", time];
+//    NSDate* date = [NSDate dateWithTimeIntervalSinceNow:0];
+//    NSTimeInterval time = [date timeIntervalSince1970];
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
-    [userDefault setFloat:time forKey:@"nowInterval"];
+    NSDate *date = [NSDate date];
+    [userDefault setObject:date forKey:@"nowTime"];
     [userDefault synchronize];
+    NSLog(@"------后台----%@",date);
 }
 -(void)setRootViewController{
     if (![SYCSystem connectedToNetwork]) {
@@ -230,7 +230,7 @@
              __weak __typeof(self) weakSelf = self;
             unlockVC.matchB = ^{
                   __strong __typeof(weakSelf)strongSelf = weakSelf;
-                [self setTabController];
+                [strongSelf setTabController];
                 if (strongSelf.userInfo) {
                     [strongSelf dealWithPushMessage:strongSelf.userInfo show:YES];
                     strongSelf.userInfo = nil;
@@ -505,10 +505,11 @@
 {
     _userInfo = userInfo;
     BOOL show = YES;
-    CGFloat intetval = [[NSUserDefaults standardUserDefaults]floatForKey:@"nowInterval"];
+    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+    NSDate *bgDate = [userDef objectForKey:@"nowTime"];
     NSDate *date = [NSDate date];
-    NSTimeInterval time = [date timeIntervalSince1970]*1000;
-    if (time-intetval>30*1000&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]&&_isLogin) {
+    NSTimeInterval interval = [date timeIntervalSinceDate:bgDate];
+    if (interval>30&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
         show = NO;
     }
     if ([UIApplication sharedApplication].applicationState == UIApplicationStateActive) {
@@ -556,18 +557,20 @@
     }
     
 }
+//点击推送消息唤起app
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(nonnull UNNotificationResponse *)response withCompletionHandler:(nonnull void (^)(void))completionHandler{
     NSDictionary *userInfo = response.notification.request.content.userInfo;
     _userInfo = userInfo;
-    BOOL show = YES;
-    CGFloat intetval = [[NSUserDefaults standardUserDefaults]floatForKey:@"nowInterval"];
-    NSDate *date = [NSDate date];
-    NSTimeInterval time = [date timeIntervalSince1970]*1000;
-    if (time-intetval>30*1000&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]&&_isLogin) {
-        show = NO;
-    }
+//    BOOL show = YES;
+//    NSUserDefaults *userDef = [NSUserDefaults standardUserDefaults];
+//    NSDate *bgDate = [userDef objectForKey:@"nowTime"];
+//    NSDate *date = [NSDate date];
+//    NSTimeInterval interval = [date timeIntervalSinceDate:bgDate];
+//    if (interval>30&&[SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
+//        show = NO;
+//    }
     if([response.notification.request.trigger isKindOfClass:[UNPushNotificationTrigger class]]) {
-        [self dealWithPushMessage:userInfo show:show];
+        [self dealWithPushMessage:userInfo show:![SYCSystem judgeNSString:[SYCSystem getGesturePassword]]];
     }
 }
 
@@ -607,6 +610,7 @@
         [mainViewC didMoveToParentViewController:viewC];
         UINavigationController *navC = [[UINavigationController alloc]initWithRootViewController:viewC];
         [self.window.rootViewController presentViewController:navC animated:YES completion:nil];
+        self.userInfo = nil;
     }
 }
 @end

@@ -166,15 +166,14 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    // Do any additional setup after loading the view from its nib.
-    _locationTime = 0;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.automaticallyAdjustsScrollViewInsets = NO;
     CGRect webViewBounds = self.view.bounds;
     webViewBounds.origin = self.view.bounds.origin;
     UIView *view = [self newCordovaViewWithFrame:webViewBounds];
     [self.view addSubview:view];
+    // Do any additional setup after loading the view from its nib.
+    _locationTime = 0;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     [self LoadURL:self.startPage];
     _locationService = [[BMKLocationService alloc]init];
     _locationService.delegate = self;
@@ -468,7 +467,7 @@
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
     CLLocation *location = userLocation.location;
 //    CLLocationCoordinate2D coordiante = userLocation.location.coordinate;
-    NSLog(@"user location lat = %f,long = %f",location.coordinate.latitude,location.coordinate.latitude);
+  
     NSTimeInterval time = 0.0;
     if (_locationTime > 0){
         time = 60.0;
@@ -477,7 +476,7 @@
     if (_locationTime%60 == 0) {
         dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time* NSEC_PER_SEC));
         dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-            NSLog(@"location error :%ld",_locationTime);
+            
             //保留小数点后六位
             NSString *mLatitude = [NSString stringWithFormat:@"%.6f",location.coordinate.latitude];
             NSString *mLongitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
@@ -495,7 +494,7 @@
                     [SYCShareVersionInfo sharedVersion].mDistrict = placeMark.subLocality;//地区
                     [SYCShareVersionInfo sharedVersion].mStreet = placeMark.thoroughfare;//街道
                     [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.subThoroughfare;//地址信息
-                    NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",city,placeMark.subLocality,placeMark.thoroughfare,placeMark.subThoroughfare);
+//                    NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",city,placeMark.subLocality,placeMark.thoroughfare,placeMark.subThoroughfare);
                     //            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.name;
                 }else if (!error&&placemarks.count == 0){
                     NSLog(@"No location and error return");

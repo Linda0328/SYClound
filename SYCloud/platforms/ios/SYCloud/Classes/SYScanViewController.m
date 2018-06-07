@@ -52,7 +52,7 @@
     self.navigationItem.leftBarButtonItems = @[item,negativeSpacer];
 
 //    UIImage *Image = [UIImage imageNamed:@"scanImage"];
-    UIButton *ScanImageB = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40*[SYCSystem PointCoefficient], 40*[SYCSystem PointCoefficient])];
+    UIButton *ScanImageB = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 60*[SYCSystem PointCoefficient], 40*[SYCSystem PointCoefficient])];
 //    [ScanImageB setImage:Image forState:UIControlStateNormal];
     [ScanImageB setTitle:@"相册" forState:UIControlStateNormal];
     [ScanImageB setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];

@@ -211,25 +211,21 @@ NSString * const resultCodeSuccess = @"SucsessCode";
 //    NSLog(@"pswSet : %@",response);
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
-        NSLog(@"%@",[NSThread currentThread]);
+       
         BOOL need_reset = NO;
         if (data && (error == nil)) {
-            
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
             NSError *err = nil;
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+               NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 need_reset = [[[dic objectForKey:@"result"] objectForKey:@"need_reset"] boolValue];
             }
         } else {
@@ -271,24 +267,20 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     request.HTTPBody = [param dataUsingEncoding:NSUTF8StringEncoding];
     NSURLSession *shareSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        // 网络请求完成之后就会执行，NSURLSession自动实现多线程
-        NSLog(@"%@",[NSThread currentThread]);
+        
          BOOL success = NO;
         if (data && (error == nil)) {
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
             NSError *err = nil;
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+                NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 NSString *code = [dic objectForKey:@"code"];
                 if ([code isEqualToString:@"000000"]) {
                    success = YES;
@@ -346,20 +338,19 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         NSString *message = nil;
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+           
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
+           
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+                NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 NSString *code = [dic objectForKey:@"code"];
                 if ([code isEqualToString:@"000000"]) {
                     success = YES;
@@ -613,26 +604,21 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
             
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+                NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
                 [result setObject:[err description] forKey:resultJsonErrorKey];
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 [result setObject:dic forKey:resultSuccessKey];
             }
         } else {
-            // 网络访问失败
-            NSLog(@"error=%@",error);
             resultCode = resultCodeRequestError;
             [result setObject:[error description] forKey:resultRequestErrorKey];
         }
@@ -674,26 +660,24 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
             
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
+           
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+                NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
                 [result setObject:[err description] forKey:resultJsonErrorKey];
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 [result setObject:dic forKey:resultSuccessKey];
             }
         } else {
-            // 网络访问失败
-            NSLog(@"error=%@",error);
+            
             resultCode = resultCodeRequestError;
             [result setObject:[error description] forKey:resultRequestErrorKey];
         }
@@ -753,21 +737,19 @@ NSString * const resultCodeSuccess = @"SucsessCode";
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
             
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"pswset : %@",backData);
+           
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+               NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
                 [result setObject:[err description] forKey:resultJsonErrorKey];
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 [result setObject:dic forKey:resultSuccessKey];
             }
         } else {
@@ -1219,21 +1201,20 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+           
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"register : %@",backData);
+            
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+                NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
                 [result setObject:[err description] forKey:resultJsonErrorKey];
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 [result setObject:dic forKey:resultSuccessKey];
             }
         } else {
@@ -1252,7 +1233,7 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     __block NSMutableDictionary *result = [NSMutableDictionary dictionary];
     __block NSString *resultCode = resultCodeSuccess;
     NSString *baseURL = [SYCSystem baseURL];
-    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCRegister];
+    NSString *reqUrl = [baseURL stringByAppendingFormat:@"%@",SYCUploadRegId];
     NSString *param = [[NSString alloc]init];
     NSMutableDictionary *paramDic = [[self class] commonParam];
     [paramDic setObject:regId forKey:@"regId"];
@@ -1277,26 +1258,24 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSURLSessionDataTask *dataTask = [shareSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *dic = nil;
         if (data && (error == nil)) {
-            // 网络访问成功
-            NSLog(@"data=%@",[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+            
             NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
             backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
             backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-            NSLog(@"register : %@",backData);
+           
             NSError *err = nil;
             dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
             if (err) {
-                NSLog(@"---数据解析出错---%@",[err description]);
+                NSLog(@"url----%@---数据解析出错---:%@",url,[err description]);
                 resultCode = resultCodeJsonError;
                 [result setObject:[err description] forKey:resultJsonErrorKey];
             }else{
-                NSLog(@"----解析结果--- : %@",dic);
+                NSLog(@"url----%@----解析结果--- :%@",url,dic);
                 [result setObject:dic forKey:resultSuccessKey];
             }
         } else {
-            // 网络访问失败
-            NSLog(@"error=%@",error);
+           
             resultCode = resultCodeRequestError;
             [result setObject:[error description] forKey:resultRequestErrorKey];
         }
@@ -1319,19 +1298,19 @@ NSString * const resultCodeSuccess = @"SucsessCode";
     NSError *error = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) {
-        NSLog(@"---a确出错---%@",[error description]);
+        
         [result setObject:[error description] forKey:resultRequestErrorKey];
         resultCode = resultCodeRequestError;
         return nil;
     }
     NSError *err = nil;
-    NSLog(@"responseMain : %@",response);
+   
     
     NSString *backData = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
     backData = [backData stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     backData = [backData stringByReplacingOccurrencesOfString:@"\r" withString:@""];
     backData = [backData stringByReplacingOccurrencesOfString:@"\t" withString:@""];
-    NSLog(@"backDataMain : %@",backData);
+   
     
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:[backData dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&err];
     if (err) {

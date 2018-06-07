@@ -505,13 +505,30 @@ NSString *const SYCLockStatus = @"isLocked";
 }
 +(void)unload{
     NSUserDefaults *def = [NSUserDefaults standardUserDefaults];
+    [SYCShareVersionInfo sharedVersion].token = @"";
+    AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
+    appdelegate.isUploadRegId = NO;
+    NSMutableDictionary *dic = nil;
+    NSDictionary *Mdic = [def objectForKey:SYCLoadInfo];
+    if (Mdic) {
+        dic = [[NSMutableDictionary alloc]initWithDictionary:Mdic];
+    }else{
+        dic = [[NSMutableDictionary alloc]init];
+    }
+    NSString *userName = [SYCSystem getLoadMember];
+    if (dic&&[[dic allKeys]containsObject:userName]){
+        NSMutableDictionary *userDic = [[NSMutableDictionary alloc]initWithDictionary:[dic objectForKey:[SYCSystem getLoadMember]]];
+        [userDic setObject:@"unlock" forKey:SYCLockStatus];
+        [userDic setObject:@"" forKey:SYCGesturePassword];
+        [dic setObject:userDic forKey:userName];
+    }
+    [def setObject:dic forKey:SYCLoadInfo];
+    [SYCSystem LoadMember:@""];
+    [SYCSystem setGesturePassword:@""];
     [def setObject:@"" forKey:loadToken];
     [def setObject:@"" forKey:SYCGesturePassword];
     [def setObject:@"unlock" forKey:SYCLockStatus];
     [def synchronize];
-    [SYCShareVersionInfo sharedVersion].token = @"";
-    AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
-    appdelegate.isUploadRegId = NO;
 }
 +(NSString*)getGesturePassword{
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
@@ -558,8 +575,6 @@ NSString *const SYCLockStatus = @"isLocked";
     [userdefault setObject:dic forKey:SYCLoadInfo];
     [userdefault setValue:@"lock" forKey:SYCLockStatus];
     [userdefault synchronize];
-   
-  
 }
 +(void)setGestureUnlock{
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];

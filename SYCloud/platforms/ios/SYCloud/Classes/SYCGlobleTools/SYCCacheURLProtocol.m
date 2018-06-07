@@ -22,9 +22,9 @@ NSString * const requestMarked = @"requestMarked";
 + (BOOL)canInitWithRequest:(NSURLRequest*)Request
 {
     //测试环境不做缓存处理
-//    if (![SYCShareVersionInfo sharedVersion].formal) {
-//        return NO;
-//    }
+    if (![SYCShareVersionInfo sharedVersion].formal) {
+        return NO;
+    }
     NSURL* theUrl = [Request URL];
     if ([[theUrl absoluteString] containsString:kCacheJSPath]||[[theUrl absoluteString] containsString:kCacheStylePath]) {
         if ([NSURLProtocol propertyForKey:requestMarked inRequest:Request])

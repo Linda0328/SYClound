@@ -324,10 +324,13 @@
     [CDVUserAgentUtil acquireLock:^(NSInteger lockToken) {
         _userAgentLockToken = lockToken;
         [CDVUserAgentUtil setUserAgent:self.userAgent lockToken:lockToken];
-        if (appURL) {
-            NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
-            [self.webViewEngine loadRequest:appReq];
-        } else {
+        //自定义cordova webview 大小，子类mainViewcontroller中添加cordova webview ,加载页面，注册父类相应代码，规避bug---Failed to load webpage with error:（“NSURLErrorDomain”错误 -999。）。原因：在未加载完成第一个url，即进行第二个url的加载
+        
+//        if (appURL) {
+//            NSURLRequest* appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
+//            [self.webViewEngine loadRequest:appReq];
+//        } else {
+        if (!appURL) {
             NSString* loadErr = [NSString stringWithFormat:@"ERROR: Start Page at '%@/%@' was not found.", self.wwwFolderName, self.startPage];
             NSLog(@"%@", loadErr);
 
