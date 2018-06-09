@@ -9,6 +9,8 @@
 #import "SYCRequestPlugin.h"
 #import "SYCHttpReqTool.h"
 #import "SYCSystem.h"
+#import "MainViewController.h"
+#import "MBProgressHUD.h"
 static NSString * const NETWORK_ERROR_CODE = @"1000";
 static NSString * const REQUEST_FAILURE_ERROR_CODE = @"2000";
 static NSString * const PARSE_ERROR_CODE = @"3000";
@@ -19,6 +21,7 @@ static NSString * const PARSE_ERROR_MSG = @"请求参数解析异常";
 static NSString * const OTHER_ERROR_MSG = @"其他错误码";
 @implementation SYCRequestPlugin
 -(void)ajax:(CDVInvokedUrlCommand *)command{
+//    MainViewController *main = (MainViewController*)self.viewController;
     __block BOOL connect = NO;
     __block NSString *Code = NETWORK_ERROR_CODE;
     __block NSString *Msg = NETWORK_ERROR_MSG;
@@ -65,16 +68,25 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
         }];
         
     }
+//    else{
+//        MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:main.view];
+//        HUD.mode = MBProgressHUDModeText;
+//        HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
+//        HUD.label.text = @"网络连接失败，请检查网络连接";
+//        [main.view addSubview:HUD];
+//        [HUD showAnimated:YES];
+//        [HUD hideAnimated:YES afterDelay:1.5f];
+//    }
     
 }
 -(void)safeAjax:(CDVInvokedUrlCommand *)command{
+//    MainViewController *main = (MainViewController*)self.viewController;
     __block BOOL connect = NO;
     __block NSString *Code = NETWORK_ERROR_CODE;
     __block NSString *Msg = NETWORK_ERROR_MSG;
     NSString *url= [command.arguments firstObject];
     NSString *type = [command.arguments objectAtIndex:1];
     NSMutableDictionary *params = [command.arguments objectAtIndex:2];
-    NSLog(@"safeAjax------%@---",url);
     if (![SYCSystem judgeNSString:url] || ![SYCSystem judgeNSString:type]) {
         Code = PARSE_ERROR_CODE;
         Msg = PARSE_ERROR_MSG;
@@ -85,7 +97,6 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
     __weak __typeof(self)weakSelf = self;
     __block NSDictionary *successDic = nil;
     if([SYCSystem connectedToNetwork]){
-        
         [SYCHttpReqTool newAjaxResponseUrl:url requestType:type isSignature:YES parmaDic:params completion:^(NSString *resultCode, NSMutableDictionary *result) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([resultCode isEqualToString:resultCodeRequestError]) {
@@ -117,6 +128,15 @@ static NSString * const OTHER_ERROR_MSG = @"其他错误码";
         }];
         
     }
+//    else{
+//        MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:main.view];
+//        HUD.mode = MBProgressHUDModeText;
+//        HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
+//        HUD.label.text = @"网络连接失败，请检查网络连接";
+//        [main.view addSubview:HUD];
+//        [HUD showAnimated:YES];
+//        [HUD hideAnimated:YES afterDelay:1.5f];
+//    }
    
 }
 @end

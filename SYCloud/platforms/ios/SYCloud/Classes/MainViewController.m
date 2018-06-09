@@ -247,6 +247,15 @@
 
 
 -(void)LoadURL:(NSString*)url{
+    if(![SYCSystem connectedToNetwork]){
+        MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
+        HUD.mode = MBProgressHUDModeText;
+        HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
+        HUD.label.text = @"网络连接失败，请检查网络连接";
+        [self.view addSubview:HUD];
+        [HUD showAnimated:YES];
+        [HUD hideAnimated:YES afterDelay:1.5f];
+    }
     self.wwwFolderName = @"www";
     if ([SYCSystem judgeNSString:url]) {
         self.startPage = url;

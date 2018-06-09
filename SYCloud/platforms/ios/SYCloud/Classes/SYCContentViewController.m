@@ -399,6 +399,9 @@ static void *eventBarItem = @"eventBarItem";
     imageV.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ChangedImages:)];
     NSString *imageName = [SYCSystem guidenceImageName:[_guidenceImages objectAtIndex:_currentGuidenceImageIndex-1]];
+    if (isIphoneX) {
+        imageName = [SYCSystem guidenceImageName:@"guidence1125"];
+    }
     [imageV setImage:[UIImage imageNamed:imageName]];
     [imageV addGestureRecognizer:tap];
     [[[[UIApplication sharedApplication] windows] lastObject] addSubview:imageV];
