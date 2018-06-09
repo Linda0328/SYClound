@@ -480,7 +480,7 @@
 		EEBD02AA20A04EE000020D95 /* ZXQRCodeWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBD01CA20A04EDF00020D95 /* ZXQRCodeWriter.m */; };
 		EEBD02AB20A04EE000020D95 /* ZXMultiFormatReader.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBD01CD20A04EDF00020D95 /* ZXMultiFormatReader.m */; };
 		EEBD02AC20A04EE000020D95 /* ZXMultiFormatWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = EEBD01CF20A04EDF00020D95 /* ZXMultiFormatWriter.m */; };
->>>>>>> 1.1.0
+
 		EEC060CC1EB8771000E3BDE3 /* SYCPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */; };
 		EEC060CF1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC060CE1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.m */; };
 		EEC8290B1F34072100D828B0 /* SYCShareAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EEC8290A1F34072100D828B0 /* SYCShareAppViewController.m */; };
@@ -1473,7 +1473,7 @@
 		EEBDFFFD20A04EDE00020D95 /* ZXAztecReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXAztecReader.h; sourceTree = "<group>"; };
 		EEBDFFFE20A04EDE00020D95 /* ZXAztecReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXAztecReader.m; sourceTree = "<group>"; };
 		EEBDFFFF20A04EDE00020D95 /* ZXAztecWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXAztecWriter.h; sourceTree = "<group>"; };
->>>>>>> 1.1.0
+
 		EEC060CA1EB8771000E3BDE3 /* SYCPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPaymentViewController.h; sourceTree = "<group>"; };
 		EEC060CB1EB8771000E3BDE3 /* SYCPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYCPaymentViewController.m; sourceTree = "<group>"; };
 		EEC060CD1EB8810F00E3BDE3 /* SYCPayOrderConfirmModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYCPayOrderConfirmModel.h; sourceTree = "<group>"; };
@@ -3188,7 +3188,7 @@
 				EEBDFFFA20A04EDE00020D95 /* ZXAztecToken.m */,
 			);
 			path = encoder;
->>>>>>> 1.1.0
+
 			sourceTree = "<group>";
 		};
 		EED377221FB2DE20007540D3 /* newLoad */ = {
