@@ -50,10 +50,10 @@
     payModel.coupon = [command.arguments objectAtIndex:3];
     payModel.exclAmount = [command.arguments objectAtIndex:4];
     payModel.payAmount = [command.arguments objectAtIndex:5];
+    payModel.prepayId = [command.arguments objectAtIndex:6];
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center postNotificationName:PayImmedateNotify object:payModel userInfo:@{mainKey:main,PreOrderPay:payMentTypeImme}];
     [self.commandDelegate runInBackground:^{
-
         [SYCShareVersionInfo sharedVersion].paymentImmedatelyID = command.callbackId;
     }];
 }

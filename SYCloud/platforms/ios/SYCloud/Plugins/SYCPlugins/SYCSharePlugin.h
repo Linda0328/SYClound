@@ -11,4 +11,5 @@
 
 @interface SYCSharePlugin : CDVPlugin
 -(void)share:(CDVInvokedUrlCommand *)command;
+-(void)image:(CDVInvokedUrlCommand *)command;
 @end

@@ -18,4 +18,6 @@
 @property (nonatomic,assign)BOOL resetPayPassword;//是否需要设置支付密码
 @property (nonatomic,copy) NSString *couponId;//优惠券ID
 @property (nonatomic,copy) NSString *counponAmount;//优惠券金额
+@property (nonatomic,copy)NSString *redPacketId;//红包ID
+@property (nonatomic,copy)NSString *redPacketAmount;//红包金额
 @end

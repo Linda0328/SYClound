@@ -41,11 +41,6 @@
     self = [super init];
     if (self) {
         UIWebView *webView = [[UIWebView alloc] initWithFrame:frame];
-//        if (isIPhoneX) {
-//            if (@available(iOS 11.0, *)) {
-//                webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
-//            }
-//        }
         self.engineWebView = webView;
         NSLog(@"Using UIWebView");
     }

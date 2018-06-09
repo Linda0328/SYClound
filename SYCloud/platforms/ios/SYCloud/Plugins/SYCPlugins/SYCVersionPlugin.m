@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "SYCShareVersionInfo.h"
 #import "SYCSystem.h"
+#import "SYCUUID.h"
 @implementation SYCVersionPlugin
 -(void)getInfo:(CDVInvokedUrlCommand*)command{
     
@@ -40,7 +41,7 @@
     [verDic setObject:[SYCSystem judgeNSString:shareVerInfo.regId]?shareVerInfo.regId :@""forKey:@"regId"];
     [verDic setObject:@(shareVerInfo.formal) forKey:@"formal"];
     [verDic setObject:shareVerInfo.localPath forKey:@"localPath"];
-    [verDic setObject:@"" forKey:@"imei"];
+    [verDic setObject:[[SYCUUID shareUUID] getUUID] forKey:@"imei"];
     return verDic;
 }
 -(void)setToken:(CDVInvokedUrlCommand*)command{

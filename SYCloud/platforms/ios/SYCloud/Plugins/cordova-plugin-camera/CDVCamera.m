@@ -764,7 +764,6 @@ static NSString* toBase64(NSData* data) {
         NSArray* mediaArray = @[(NSString*)(pictureOptions.mediaType == MediaTypeVideo ? kUTTypeMovie : kUTTypeImage)];
         cameraPicker.mediaTypes = mediaArray;
     }
-    
     return cameraPicker;
 }
 

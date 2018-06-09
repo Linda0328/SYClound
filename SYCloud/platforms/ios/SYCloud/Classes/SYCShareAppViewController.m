@@ -64,8 +64,16 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
         [_HUD hideAnimated:YES afterDelay:1.5f];
         return;
     }
+   
+    if (_shareModel) {
+        [self shareWithShareModel:title];
+    }
+    if ([SYCSystem judgeNSString:_pic]) {
+        [self shareWithImage:title];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
-    
+}
+-(void)shareWithShareModel:(NSString*)title{
     __block UIImage *thumbImg = nil;
     __block NSData *imageData = nil;
     //并发队列使用全局并发队列，异步执行任务
@@ -106,12 +114,55 @@ static NSString *kLinkTagName = @"WECHAT_TAG_JUMP_SHOWRANK";
         });
         
     });
-   
-    
-    
+}
+-(void)shareWithImage:(NSString*)title{
+     _HUD.label.text = @"请求微信失败";
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //处理中文字符
+        _shareModel.url = [_shareModel.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+       
+        BOOL isShared = YES;
+        if ([title isEqualToString:@"微信"]) {
+            isShared = [WXApiRequestHandler sendImage:_pic InScene:WXSceneSession];
+            [SYCShareVersionInfo sharedVersion].sharePlatform = @"weixin";
+        }
+        if ([title isEqualToString:@"朋友圈"]) {
+            isShared = [WXApiRequestHandler sendImage:_pic InScene:WXSceneTimeline];
+            [SYCShareVersionInfo sharedVersion].sharePlatform = @"wxpyq";
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:_pic]];
+            if ([title isEqualToString:@"QQ"]) {
+                QQApiImageObject *qqImage = [[QQApiImageObject alloc]initWithData:imageData previewImageData:imageData title:nil description:nil];
+                SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqImage];
+                QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+                [self handleSentToQQresult:sent];
+                [SYCShareVersionInfo sharedVersion].sharePlatform = @"qq";
+            }
+            if ([title isEqualToString:@"QQ空间"]) {
+                QQApiImageArrayForQZoneObject *qqImageZone = [[QQApiImageArrayForQZoneObject alloc]initWithImageArrayData:@[imageData] title:nil extMap:nil];
+                SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:qqImageZone];
+                QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
+                [self handleSentToQQresult:sent];
+                [SYCShareVersionInfo sharedVersion].sharePlatform = @"qzone";
+            }
+            if(!isShared){
+                [_HUD showAnimated:YES];
+                [_HUD hideAnimated:YES afterDelay:1.5f];
+            }
+            
+        });
+        
+    });
 }
 -(void)handleSentToQQresult:(QQApiSendResultCode)code{
     NSLog(@"QQ分享错误码----%@",@(code));
+    if (code == EQQAPIVERSIONNEEDUPDATE) {
+//        当前QQ版本太低，需要更新至新版本才可以支持
+        _HUD.label.text = @"当前QQ版本太低，需要更新至新版本才可以支持";
+        [_HUD showAnimated:YES];
+        [_HUD hideAnimated:YES afterDelay:3.0f];
+    }
 }
 -(void)Dismiss{
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -49,6 +49,7 @@
 #import "SYCHttpReqTool.h"
 #import "NSObject+MJKeyValue.h"
 #import <Foundation/Foundation.h>
+#import "SYCResultExecModel.h"
 @interface MainViewController()<UIAlertViewDelegate,BMKLocationServiceDelegate,WXApiManagerDelegate,QQManagerDelegate>{
     BMKLocationService *_locationService;
 }
@@ -108,8 +109,15 @@
         [SYCShareVersionInfo sharedVersion].scanResult = nil;
         [SYCShareVersionInfo sharedVersion].scanPluginID = nil;
     }
-    
-    
+    if ([SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].lockPluginID]) {
+        NSString *lockOrNot = @"unlock";
+        if ([SYCSystem judgeNSString:[SYCSystem getGesturePassword]]) {
+            lockOrNot = @"lock";
+        }
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:lockOrNot];
+        [self.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].lockPluginID];
+        [SYCShareVersionInfo sharedVersion].lockPluginID = nil;
+    }
     AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
     if (appdelegate.isLogin&&!appdelegate.isUploadRegId&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].regId]) {
         [SYCHttpReqTool uploadRegId:[SYCShareVersionInfo sharedVersion].regId withToken:[SYCShareVersionInfo sharedVersion].token completion:^(NSString *resultCode, NSMutableDictionary *result) {
@@ -120,21 +128,53 @@
     }
     
 }
+//-(void)viewWillLayoutSubviews{
+//    [super viewWillLayoutSubviews];
+//    if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
+//    {
+//        CGFloat height = [UIScreen mainScreen].bounds.size.height;
+//        CGRect rect = [UIScreen mainScreen].bounds;
+//        if (_isRoot) {
+//            if (self.isHiddenNavBar) {
+//                rect.size.height = height - (isIphoneX?69:49);
+//            }else{
+//                rect.size.height = height - (isIphoneX?82:56);
+//            }
+//        }else{
+//            if (!self.isPush) {
+//                rect.size.height = height - (isIphoneX?49:32);
+//            }
+//        }
+////        if (_isBack) {
+////            if (self.isHiddenNavBar) {
+////                rect.size.height = height - (isIphoneX?69:49);
+////            }else{
+////                rect.size.height = height - (isIphoneX?82:113);
+////            }
+////        }
+//        self.webView.frame = rect;
+//        self.view.frame = rect;
+//    }
+//}
 -(UIViewController*)childViewControllerForHomeIndicatorAutoHidden{
     return nil;
 }
 -(BOOL)prefersHomeIndicatorAutoHidden{
     return YES;
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    CGRect webViewBounds = self.view.bounds;
+    webViewBounds.origin = self.view.bounds.origin;
+    UIView *view = [self newCordovaViewWithFrame:webViewBounds];
+    [self.view addSubview:view];
     // Do any additional setup after loading the view from its nib.
-    
     _locationTime = 0;
-    self.navigationController.navigationBar.translucent = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.extendedLayoutIncludesOpaqueBars = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self LoadURL:self.startPage];
     _locationService = [[BMKLocationService alloc]init];
     _locationService.delegate = self;
     //启动locationService
@@ -145,6 +185,7 @@
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             [strongSelf LoadURL:strongSelf.startPage];
             [strongSelf.webView.scrollView.mj_header endRefreshing];
+            
         }];
         gifHeader.stateLabel.text = @"正在刷新...";
         self.webView.scrollView.mj_header = gifHeader;
@@ -193,36 +234,28 @@
     [center addObserver:self selector:@selector(AlyPayResult:) name:AliPayResult object:nil];
     [center addObserver:self selector:@selector(WeixiPay:) name:WeixiPay object:nil];
     [center addObserver:self selector:@selector(WeixiPayResult:) name: WeixiPayResult object:nil];
-   
+    [center addObserver:self selector:@selector(resultExecNotify:) name: resultExecNotify object:nil];
+    
     //开始加载
     [center addObserver:self selector:@selector(onloadNotification:) name:CDVPluginResetNotification object:nil];
     //加载完成
     [center addObserver:self selector:@selector(loadedNotification:) name:CDVPageDidLoadNotification object:nil];
+    
     [WXApiManager sharedManager].delegate = self;
     [QQManager sharedManager].delegate = self;
 }
--(void)viewWillLayoutSubviews{
-    if([[[UIDevice currentDevice]systemVersion ] floatValue]>=7)
-    {
-            CGFloat height = [UIScreen mainScreen].bounds.size.height;
-            CGRect rect = [UIScreen mainScreen].bounds;
-            if (_isRoot) {
-                if (_isHiddenNavBar) {
-                    rect.size.height = height - (isIphoneX?69:49);
-                }else{
-                    rect.size.height = height - (isIphoneX?82:56);
-                }
-            }else{
-                if (!_isPush) {
-                    rect.size.height = height - (isIphoneX?49:32);
-                }
-            }
-            self.webView.frame = rect;
-            self.view.frame = rect;
-    }
-}
+
 
 -(void)LoadURL:(NSString*)url{
+    if(![SYCSystem connectedToNetwork]){
+        MBProgressHUD*HUD = [[MBProgressHUD alloc]initWithView:self.view];
+        HUD.mode = MBProgressHUDModeText;
+        HUD.label.font = [UIFont systemFontOfSize:14*[SYCSystem PointCoefficient]];
+        HUD.label.text = @"网络连接失败，请检查网络连接";
+        [self.view addSubview:HUD];
+        [HUD showAnimated:YES];
+        [HUD hideAnimated:YES afterDelay:1.5f];
+    }
     self.wwwFolderName = @"www";
     if ([SYCSystem judgeNSString:url]) {
         self.startPage = url;
@@ -251,7 +284,16 @@
         [alert show];
     }
 }
-
+-(void)resultExecNotify:(NSNotification*)notify{
+    SYCResultExecModel *model = (SYCResultExecModel*)notify.object;
+    NSError *error = nil;
+    NSData *jsdata = [NSJSONSerialization dataWithJSONObject:model.data options:0 error:&error];
+    NSString *dataS = [[NSString alloc]initWithData:jsdata encoding:NSUTF8StringEncoding];
+    dataS = [dataS stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    NSString *js = [model.function stringByAppendingFormat:@"(%@)",dataS];
+    //        NSString *js = @"app.page.product.list.updatePulocationCallback()";
+    [self.commandDelegate evalJs:js];
+}
 -(void)ReloadAppState:(NSNotification*)notify{
     
     MainViewController *main = (MainViewController*)notify.object;
@@ -429,11 +471,12 @@
     }
     
 }
+
 #pragma mark --- 百度地图定位坐标更新
 -(void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
     CLLocation *location = userLocation.location;
 //    CLLocationCoordinate2D coordiante = userLocation.location.coordinate;
-    NSLog(@"user location lat = %f,long = %f",location.coordinate.latitude,location.coordinate.latitude);
+  
     NSTimeInterval time = 0.0;
     if (_locationTime > 0){
         time = 60.0;
@@ -442,7 +485,7 @@
     if (_locationTime%60 == 0) {
         dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(time* NSEC_PER_SEC));
         dispatch_after(delayTime, dispatch_get_main_queue(), ^{
-            NSLog(@"location error :%ld",_locationTime);
+            
             //保留小数点后六位
             NSString *mLatitude = [NSString stringWithFormat:@"%.6f",location.coordinate.latitude];
             NSString *mLongitude = [NSString stringWithFormat:@"%.6f",location.coordinate.longitude];
@@ -460,7 +503,7 @@
                     [SYCShareVersionInfo sharedVersion].mDistrict = placeMark.subLocality;//地区
                     [SYCShareVersionInfo sharedVersion].mStreet = placeMark.thoroughfare;//街道
                     [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.subThoroughfare;//地址信息
-                    NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",city,placeMark.subLocality,placeMark.thoroughfare,placeMark.subThoroughfare);
+//                    NSLog(@"user location mCity = %@,mDistrict = %@,mStreet = %@,mAddrStr = %@",city,placeMark.subLocality,placeMark.thoroughfare,placeMark.subThoroughfare);
                     //            [SYCShareVersionInfo sharedVersion].mAddrStr = placeMark.name;
                 }else if (!error&&placemarks.count == 0){
                     NSLog(@"No location and error return");

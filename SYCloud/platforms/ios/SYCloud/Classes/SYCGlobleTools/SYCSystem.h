@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger,getCaptchaType){
 extern NSString *const loadToken;
 extern NSString *const memberInfo ;
 extern NSString *const loginName ;
-
+extern NSString *const resultExecNotify;
 extern NSString *const popNotify;
 extern NSString *const scanNotify;
 
@@ -30,7 +30,8 @@ extern NSString *const WeiXinAppID;
 extern NSString *const BDAppKay;
 extern NSString * const QQAppID;
 extern NSString * const QQAppkey;
-
+extern NSString *const closeLockNotify ;
+extern NSString *const openLockNotify ;
 extern NSString *const updateNotify;
 extern NSString *const hideNotify;
 extern NSString *const loadAppNotify;
@@ -60,6 +61,7 @@ extern NSString *const payMentTypeSDK;//生源支付SDK
 
 extern NSString * const paySuccessNotify;
 extern NSString * const PayImmedateNotify;
+extern NSString * const LoadSuccessRemoveAuthNotify;
 extern NSString * const payAndShowNotify;
 extern NSString * const dismissPswNotify;
 extern NSString * const selectPaymentNotify;
@@ -84,6 +86,7 @@ extern NSString *const paymentResultCodeKey;
 extern NSString *const paymentDatakey;
 
 extern NSString *const shareNotify;
+extern NSString *const shareIMGNotify;
 extern NSString *const dismissShareNotify;
 
 extern NSString *const showPhotoNotify;
@@ -111,7 +114,14 @@ extern NSString *const SYCRegIDKey;
 +(BOOL)connectedToNetwork;
 + (NSString *)getNetType;
 
-
++(void)setGesturePassword:(NSString*)password;
++(NSString*)getGesturePassword;
++(void)setGestureCount:(NSInteger)count;
++(NSInteger)getGestureCount;
++(void)setGestureLock;
++(void)setGestureUnlock;
+//退出登录清理数据
++(void)unload;
 
 +(CGFloat)PointCoefficient;
 
@@ -124,6 +134,8 @@ extern NSString *const SYCRegIDKey;
 //分解url参数
 +(NSDictionary *)dealWithURL:(NSString*)url;
 
++(void)LoadMember:(NSString*)memberName;
++(void)setUserInfo:(NSString *)userName forgetPassword:(BOOL)forget;
 //是否是手机号码
 + (BOOL)isMobilePhoneOrtelePhone:(NSString *)mobileNum;
 @end

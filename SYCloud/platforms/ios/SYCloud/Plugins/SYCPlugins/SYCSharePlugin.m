@@ -1,4 +1,4 @@
-//
+ //
 //  SYCSharePlugin.m
 //  SYCloud
 //
@@ -24,5 +24,14 @@
     [self.commandDelegate runInBackground:^{
         [SYCShareVersionInfo sharedVersion].sharePluginID = command.callbackId;
     }];
+}
+-(void)image:(CDVInvokedUrlCommand *)command{
+     MainViewController *main = (MainViewController*)self.viewController;
+     NSString *pic = [command.arguments firstObject];
+     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+     [center postNotificationName:shareIMGNotify object:pic userInfo:@{mainKey:main}];
+     [self.commandDelegate runInBackground:^{
+         [SYCShareVersionInfo sharedVersion].sharePluginID = command.callbackId;
+     }];
 }
 @end

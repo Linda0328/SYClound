@@ -44,4 +44,12 @@
     return [WXApi sendReq:req];
 
 }
++(BOOL)sendImage:(NSString*)image InScene:(enum WXScene)scene{
+    WXImageObject *imageO = [WXImageObject object];
+    imageO.imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:image]];
+    WXMediaMessage *message = [WXMediaMessage message];
+    message.mediaObject = imageO;
+    SendMessageToWXReq *req = [SendMessageToWXReq requestWithText:nil OrMediaMessage:message bText:NO InScene:scene];
+    return [WXApi sendReq:req];
+}
 @end

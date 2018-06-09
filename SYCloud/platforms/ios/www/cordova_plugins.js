@@ -117,7 +117,7 @@ module.exports = [
       "file": "plugins/shengyuan-plugin-module/www/PatternLockPlugin.js",
       "pluginId": "shengyuan-plugin-module",
       "clobbers": [
-                   "syapp.patternlock"
+                   "syapp.lock"
          ]
     },
     {

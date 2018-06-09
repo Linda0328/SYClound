@@ -16,6 +16,7 @@
 #import "SYCShareVersionInfo.h"
 #import "AppDelegate.h"
 #import "SYCRegisterViewController.h"
+
 @interface SYCNewLoadViewController ()<UITextFieldDelegate>
 @property (nonatomic,strong)SYCLoadTextField *acountTextF;
 @property (nonatomic,strong)SYCLoadTextField *passWordTextF;
@@ -233,7 +234,9 @@
                 if ([resultCode isEqualToString:resultCodeSuccess]) {
                     NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                     if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
-                        
+                        [SYCSystem setGestureCount:5];
+                        [SYCSystem LoadMember:_acountTextF.text];
+                        [SYCSystem setUserInfo:_acountTextF.text forgetPassword:_forgetGesture];
                         NSString *token = [[resultDic objectForKey:@"result"] objectForKey:@"token"];
                         NSString *nickName = [[resultDic objectForKey:@"result"] objectForKey:@"nickName"];
                         NSString *portraitPath = [[resultDic objectForKey:@"result"] objectForKey:@"portraitPath"];
@@ -243,7 +246,6 @@
                         [def setObject:[nickName stringByAppendingFormat:@"|%@",portraitPath] forKey:memberInfo];
                         [def setObject:_acountTextF.text forKey:loginName];
                         [def synchronize];
-                        
                         strongSelf.HUD.label.text = @"登录成功";
                         AppDelegate *appdelegate = (AppDelegate*)[[UIApplication sharedApplication]delegate];
                         appdelegate.isLogin = YES;
@@ -289,6 +291,9 @@
             if ([resultCode isEqualToString:resultCodeSuccess]) {
                 NSDictionary *resultDic = [result objectForKey:resultSuccessKey];
                 if ([[resultDic objectForKey:@"code"]isEqualToString:@"000000"]) {
+                     [SYCSystem setGestureCount:5];
+                    [SYCSystem LoadMember:_acountTextF.text];
+                    [SYCSystem setUserInfo:_acountTextF.text forgetPassword:_forgetGesture];
                     NSString *token = [[resultDic objectForKey:@"result"] objectForKey:@"token"];
                     NSString *nickName = [[resultDic objectForKey:@"result"] objectForKey:@"nickName"];
                     NSString *portraitPath = [[resultDic objectForKey:@"result"] objectForKey:@"portraitPath"];

@@ -37,6 +37,8 @@
 #import "SYCScanPictureViewController.h"
 #import "SYCScanImagesViewController.h"
 #import "SYCNewLoadViewController.h"
+#import "SYCCreateLockViewController.h"
+#import "SYCUnlockViewController.h"
 //static float const tableWidth = 130.0f;
 static NSString *const searchBarCilck = @"click";
 static NSString *const searchBarChange = @"change";
@@ -63,11 +65,18 @@ static void *eventBarItem = @"eventBarItem";
         self.navigationController.navigationBar.translucent = NO;
         self.navigationController.navigationBar.hidden = NO;
     }
+    
 }
 
+-(void)dealloc{
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:LoadAgainNotify object:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     _currentGuidenceImageIndex = 1;
     if (_isFirst&&[SYCSystem judgeNSString:[SYCShareVersionInfo sharedVersion].paymentSDKID]) {
         __weak __typeof(self)weakSelf = self;
@@ -86,8 +95,6 @@ static void *eventBarItem = @"eventBarItem";
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         SYCContentViewController *viewC =[[SYCContentViewController alloc]init];
         [viewC setNavigationBar:navModel];
-        CGRect rect = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-64);
-        viewC.view.frame = rect;
         viewC.isBackToLast = isBackToLast;
         MainViewController *pushM = [[MainViewController alloc]init];
         //处理中文字符
@@ -101,7 +108,10 @@ static void *eventBarItem = @"eventBarItem";
         pushM.isChild = YES;
         pushM.isRoot = NO;
         pushM.lastViewController = strongSelf.CurrentChildVC;
+        CGRect rect = [UIScreen mainScreen].bounds;
+        rect.size.height -= isIphoneX?88:64;
         pushM.view.frame = rect;
+        pushM.webView.frame = rect;
         [viewC addChildViewController:pushM];
         [viewC.view addSubview:pushM.view];
         [pushM didMoveToParentViewController:viewC];
@@ -111,11 +121,12 @@ static void *eventBarItem = @"eventBarItem";
         [strongSelf.navigationController pushViewController:viewC animated:YES];
         if (strongSelf.CurrentChildVC.isRoot) {
             strongSelf.hidesBottomBarWhenPushed = NO;
+            viewC.hidesBottomBarWhenPushed = YES;
         }else{
             strongSelf.hidesBottomBarWhenPushed = YES;
+            viewC.hidesBottomBarWhenPushed = NO;
         }
     };
-    
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(PushScanVC:) name:scanNotify object:nil];
     [center addObserver:self selector:@selector(popVC:) name:popNotify object:nil];
@@ -125,6 +136,9 @@ static void *eventBarItem = @"eventBarItem";
     [center addObserver:self selector:@selector(ShowPhotos:) name:showPhotoNotify object:nil];
     [center addObserver:self selector:@selector(LoadAgain:) name:LoadAgainNotify object:nil];
     [center addObserver:self selector:@selector(guidence:) name:guidenceNotify object:nil];
+    [center addObserver:self selector:@selector(shareImage:) name:shareIMGNotify object:nil];
+    [center addObserver:self selector:@selector(openLock:) name:openLockNotify object:nil];
+    [center addObserver:self selector:@selector(closeLock:) name:closeLockNotify object:nil];
 }
 
 -(void)PushScanVC:(NSNotification*)notify{
@@ -174,7 +188,30 @@ static void *eventBarItem = @"eventBarItem";
     if (![main isEqual:_CurrentChildVC]) {
         return;
     }
-    [self.navigationController popViewControllerAnimated:YES];
+    NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+    SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:index-1];
+    if (contentVC.isBackToLast) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        NSInteger lastIndex = index;
+        while (lastIndex>0) {
+            lastIndex--;
+            SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:lastIndex];
+            if (!contentVC.isBackToLast) {
+                if (lastIndex > 0) {
+                    lastIndex --;
+                }
+            }else{
+                if (lastIndex < index-1) {
+                    lastIndex ++;
+                }
+                break;
+            }
+        }
+        UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:lastIndex];
+        [self.navigationController popToViewController:VC animated:YES];
+    }
+    
 }
 -(void)passwordSetting:(NSNotification*)notify{
     
@@ -275,7 +312,52 @@ static void *eventBarItem = @"eventBarItem";
     shareVC.shareModel = shareM;
     shareVC.modalPresentationStyle = UIModalPresentationCustom;
     shareVC.transitioningDelegate = self;
-    [self presentViewController:shareVC animated:YES completion:nil];
+    [self presentViewController:shareVC animated:YES completion:^(void){
+        
+    }];
+}
+-(void)shareImage:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)[notify.userInfo objectForKey:mainKey];
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    CGSize screenSize = [[UIScreen mainScreen]bounds].size;
+    _presentedRect = CGRectMake(0, screenSize.height-105*[SYCSystem PointCoefficient], screenSize.width, 105*[SYCSystem PointCoefficient]);
+    NSString *pic = (NSString*)notify.object;
+    SYCShareAppViewController *shareVC = [[SYCShareAppViewController alloc]init];
+    shareVC.pic = pic;
+    shareVC.modalPresentationStyle = UIModalPresentationCustom;
+    shareVC.transitioningDelegate = self;
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(YES),
+                                                        @"shareForm":@"init"
+                                                        };
+    [self presentViewController:shareVC animated:YES completion:^(void){
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
+        [self.CurrentChildVC.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].sharePluginID];
+    }];
+}
+-(void)openLock:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCCreateLockViewController *createLock = [[SYCCreateLockViewController alloc]init];
+    self.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:createLock animated:YES];
+}
+-(void)closeLock:(NSNotification*)notify{
+    MainViewController *main = (MainViewController*)notify.object;
+    if (![main isEqual:_CurrentChildVC]) {
+        return;
+    }
+    SYCUnlockViewController *unlockVC = [[SYCUnlockViewController alloc]init];
+    self.hidesBottomBarWhenPushed = YES;
+    unlockVC.matchB = ^{
+        [self.navigationController popViewControllerAnimated:YES];
+        [SYCSystem setGesturePassword:@""];
+        [SYCSystem setGestureUnlock];
+    };
+    [self.navigationController pushViewController:unlockVC animated:YES];
 }
 -(void)ShowPhotos:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
@@ -290,7 +372,13 @@ static void *eventBarItem = @"eventBarItem";
     pic.index = index;
     pic.modalPresentationStyle = UIModalPresentationCustom;
     pic.transitioningDelegate = self;
-    [self presentViewController:pic animated:YES completion:nil];
+    [SYCShareVersionInfo sharedVersion].shareResult = @{@"shareResult":@(YES),
+                                                        @"shareForm":@"init"
+                                                        };
+    [self presentViewController:pic animated:YES completion:^(void){
+        CDVPluginResult *result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:[SYCShareVersionInfo sharedVersion].shareResult];
+        [self.CurrentChildVC.commandDelegate sendPluginResult:result callbackId:[SYCShareVersionInfo sharedVersion].sharePluginID];
+    }];
 }
 -(void)LoadAgain:(NSNotification*)notify{
     MainViewController *main = (MainViewController*)notify.object;
@@ -311,6 +399,9 @@ static void *eventBarItem = @"eventBarItem";
     imageV.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ChangedImages:)];
     NSString *imageName = [SYCSystem guidenceImageName:[_guidenceImages objectAtIndex:_currentGuidenceImageIndex-1]];
+    if (isIphoneX) {
+        imageName = [SYCSystem guidenceImageName:@"guidence1125"];
+    }
     [imageV setImage:[UIImage imageNamed:imageName]];
     [imageV addGestureRecognizer:tap];
     [[[[UIApplication sharedApplication] windows] lastObject] addSubview:imageV];
@@ -365,6 +456,7 @@ static void *eventBarItem = @"eventBarItem";
         [HUD hideAnimated:YES afterDelay:1.5f];
             //用户非登录状态
         if([result[resultSuccessKey][@"code"] isEqualToString:@"300000"]){
+           
             SYCNewLoadViewController *newLoad = [[SYCNewLoadViewController alloc]init];
             newLoad.payCode = payCode;
             newLoad.contentVC = self;
@@ -536,22 +628,47 @@ static void *eventBarItem = @"eventBarItem";
 }
 -(void)EventAction:(SYCEventButton*)eventB{
     if ([eventB.model.type isEqualToString:backType]) {
-        if (_isBackToLast) {
+        NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+        SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:index-1];
+        if (contentVC.isBackToLast) {
             if (_popOverVC) {
                 [_popOverVC dismissViewControllerAnimated:YES completion:^{
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
             }
-            [self.navigationController popViewControllerAnimated:YES];
-            
-        }else{
-            NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
-            if (index-2<0) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                return;
+            if (contentVC.CurrentChildVC.isRoot) {
+                contentVC.CurrentChildVC.isBack = YES;
             }
-            UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:index-2];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            NSInteger lastIndex = index;
+            while (lastIndex>0) {
+                lastIndex--;
+                SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:lastIndex];
+                if (!contentVC.isBackToLast) {
+                    if (lastIndex > 0) {
+                        lastIndex --;
+                    }
+                }else{
+                    if (lastIndex < index-1) {
+                        lastIndex ++;
+                    }
+                    break;
+                }
+            }
+            if (lastIndex == 0) {
+                SYCContentViewController *contentVC = (SYCContentViewController *)[self.navigationController.viewControllers objectAtIndex:lastIndex];
+                contentVC.CurrentChildVC.isBack = YES;
+            }
+            UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:lastIndex];
             [self.navigationController popToViewController:VC animated:YES];
+//            NSInteger index = [self.navigationController.viewControllers indexOfObject:self];
+//            if (index-2<0) {
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//                return;
+//            }
+//            UIViewController *VC =[self.navigationController.viewControllers objectAtIndex:index-2];
+//            [self.navigationController popToViewController:VC animated:YES];
         }
         return;
     }
@@ -714,9 +831,10 @@ static void *eventBarItem = @"eventBarItem";
     dispatch_source_set_event_handler(_timer, ^{
         i ++;
         i = i%3;
-        view = [loadingV viewWithTag:1000+i];
+       
         //执行事件
         dispatch_async(dispatch_get_main_queue(), ^{
+            view = [loadingV viewWithTag:1000+i];
             for (UIView *view in viewArr) {
                 if ([view.backgroundColor isEqual:[UIColor whiteColor]]) {
                     view.backgroundColor = [UIColor colorWithHexString:@"3B7BCB"];

@@ -10,4 +10,5 @@
 #import "SYCShareModel.h"
 @interface SYCShareAppViewController : UIViewController
 @property (nonatomic,strong)SYCShareModel *shareModel;
+@property (nonatomic,strong)NSString *pic;
 @end

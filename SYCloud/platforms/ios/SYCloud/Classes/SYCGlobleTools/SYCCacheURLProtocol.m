@@ -11,8 +11,8 @@
 #import "SYCSystem.h"
 #import "SYCShareVersionInfo.h"
 NSString * const kresource = @"/app_resources/";
-NSString * const kCacheJSPath = @"/app_resources/1.0.4/js";
-NSString * const kCacheStylePath = @"/app_resources/1.0.4/style";
+NSString * const kCacheJSPath = @"/app_resources/1.0.5/js";
+NSString * const kCacheStylePath = @"/app_resources/1.0.5/style";
 NSString * const requestMarked = @"requestMarked";
 @interface SYCCacheURLProtocol ()<NSURLConnectionDelegate,NSURLConnectionDataDelegate>
 @property (nonatomic, strong)NSURLConnection *connection;
@@ -22,11 +22,10 @@ NSString * const requestMarked = @"requestMarked";
 + (BOOL)canInitWithRequest:(NSURLRequest*)Request
 {
     //测试环境不做缓存处理
-//    if (![SYCShareVersionInfo sharedVersion].formal) {
-//        return NO;
-//    }
+    if (![SYCShareVersionInfo sharedVersion].formal) {
+        return NO;
+    }
     NSURL* theUrl = [Request URL];
-    NSLog(@"-------request url --------%@",theUrl);
     if ([[theUrl absoluteString] containsString:kCacheJSPath]||[[theUrl absoluteString] containsString:kCacheStylePath]) {
         if ([NSURLProtocol propertyForKey:requestMarked inRequest:Request])
             return NO;
